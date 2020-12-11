@@ -1,0 +1,422 @@
+from starling_sim.basemodel.agent.agent import Agent
+from starling_sim.basemodel.agent.requests import TripRequest, StopPoint
+from starling_sim.basemodel.agent.stations.station import Station
+from starling_sim.utils.utils import geopandas_polygon_from_points, points_in_zone, json_load, validate_against_schema
+from starling_sim.utils.paths import GTFS_FEEDS_FOLDER, SCHEMA_FOLDER
+from starling_sim.utils.constants import STOP_POINT_POPULATION
+from collections import OrderedDict
+
+import pandas as pd
+
+
+class Operator(Agent):
+    """
+    Class describing an operator of a transport service.
+
+    Operators manage a fleet of vehicle, and receive requests for the service
+    they provide.
+
+    The assignment of these requests is managed by a Dispatcher object.
+    """
+
+    OPERATION_PARAMETERS_SCHEMA = None
+
+    def __init__(self, simulation_model, agent_id, fleet_dict, staff_dict=None, depot_points=None,
+                 zone_polygon=None, network_file=None, operation_parameters=None, parent_operator_id=None, **kwargs):
+        """
+        Initialise the service operator with the relevant properties.
+
+        The operator class present many different attributes. All are not
+        necessarily used when when describing a transport system operator.
+
+        :param simulation_model: SimulationModel object
+        :param agent_id: operator's id
+        :param fleet_dict: name of the population that contains the operator's fleet
+        :param staff_dict: name of the population that contains the operator's staff
+        :param depot_points: list of coordinates of the operator depot points
+        :param zone_polygon: list of GPS points delimiting the service zone
+        :param network_file: file describing a topology specific to the service
+        :param operation_parameters: additional parameters used for service operation
+        :param parent_operator_id: id of the parent operator, if there is one
+        :param kwargs:
+        """
+
+        Agent.__init__(self, simulation_model, agent_id, **kwargs)
+
+        # data structures containing the service information
+
+        # parent operator id
+        self.parentOperatorId = parent_operator_id
+
+        # parameters determining the service operation
+        self.operationParameters = None
+        self.init_operation_parameters(operation_parameters)
+
+        # set the fleet population (agents that provide the main transport service)
+        self.fleet_name = fleet_dict
+        self.fleet = self.sim.agentPopulation.new_population(fleet_dict)
+
+        # set the staff population (agents that manage the fleet and operations)
+        self.staff_dict_name = staff_dict
+        self.staff = self.sim.agentPopulation.new_population(staff_dict)
+
+        # set the dict containing the depot points of the service
+        self.depotPoints = dict()
+        self.init_depot_points(depot_points)
+
+        # data structure containing the main service structure, if there is one
+        self.service_info = None
+        self.init_service_info()
+
+        # DataFrame containing the shapes of the service lines with columns
+        # stop_id_A	stop_name_A	stop_id_B stop_name_B lon lat sequence distance distance_proportion
+        self.line_shapes = None
+        self.init_line_shapes()
+
+        # GeoDataFrame representing the service zone of the operator
+        self.serviceZone = None
+        self.init_zone(zone_polygon)
+
+        # a Topology object specific to this operator (smaller graph)
+        self.serviceTopology = None
+        self.init_topology(network_file)
+
+        # a dict of the service stop points {id: StopPoint}
+        self.stopPoints = dict()
+        self.init_stops()
+
+        # a dict of service trips
+        self.trips = OrderedDict()
+        self.init_trips()
+
+        # trip count, used when generating trips
+        self.tripCount = 0
+
+        # requests management
+
+        # request count
+        self.requestCount = 0
+        # request dict
+        self.requests = dict()
+        # fulfilled requests
+        self.fulfilled = dict()
+        # left out requests
+        self.leftOutRequests = []
+        # minimum horizon for booking a trip
+        self.bookingDeadline = 0
+
+        # request dispatcher called punctually
+        self.punctual_dispatcher = None
+
+        # dispatcher called to handle requests online
+        self.online_dispatcher = None
+
+        self.init_dispatchers()
+
+    # attributes initialisation methods
+
+    def init_operation_parameters(self, operation_parameters):
+        """
+        Initialise the operation parameters of the operator.
+
+        If the class attribute OPERATION_PARAMETERS_SCHEMA is provided, it is
+        used to validate the given parameters and set default values if needed.
+
+        :param operation_parameters: dict of operational parameters
+        """
+
+        self.operationParameters = operation_parameters
+
+        if self.operationParameters is None:
+            self.operationParameters = dict()
+
+        if self.OPERATION_PARAMETERS_SCHEMA is not None:
+
+            # validate given dict against schema
+            operation_param_schema = json_load(SCHEMA_FOLDER + self.OPERATION_PARAMETERS_SCHEMA)
+            validate_against_schema(self.operationParameters, self.OPERATION_PARAMETERS_SCHEMA)
+
+            # complete the parameters with the schema default values
+            for param in operation_param_schema["properties"].keys():
+                if param not in self.operationParameters:
+                    self.operationParameters[param] = operation_param_schema["properties"][param]["default"]
+
+    def init_service_info(self):
+        """
+        Import and initialise the data structures containing
+        service information and line shapes.
+        """
+
+    def init_line_shapes(self):
+        """
+        Set the service lines shapes file according to the dedicated parameter.
+        """
+
+        if "line_shapes_file" in self.sim.parameters and self.sim.parameters["line_shapes_file"] is not None:
+            line_shapes_path = GTFS_FEEDS_FOLDER + self.sim.parameters["line_shapes_file"]
+            self.line_shapes = pd.read_csv(line_shapes_path, sep=";")
+            self.line_shapes = self.line_shapes.astype({"stop_id_A": str, "stop_id_B": str})
+
+    def init_zone(self, zone_polygon):
+        """
+        Set the operator service zone according to the given polygon.
+
+        The service zone is described by a GeoDataFrame containing a
+        shapely Polygon.
+
+        :param zone_polygon: list of points describing a polygon
+        """
+
+        if zone_polygon is not None:
+            self.serviceZone = geopandas_polygon_from_points(zone_polygon)
+
+    def init_topology(self, network_file):
+        """
+        Set a topology for the operator if a file is provided.
+
+        The topology will be used by the operator to compute paths
+        and distances in its service zone. Its smaller size should
+        reduce computation times.
+
+        If network_file is None, use the fleet (or staff ?) topology.
+
+        :param network_file: init file for the topology, or None
+        """
+
+    def init_depot_points(self, depot_points_coord):
+        """
+        Initialise the depotPoints attribute using the given coordinates.
+
+        :param depot_points_coord:
+        :return:
+        """
+
+        if depot_points_coord is not None and isinstance(depot_points_coord, list):
+
+            for i, coord in enumerate(depot_points_coord):
+                depot_id = "depot-" + str(i)
+                if self.mode is None:
+                    depot_modes = list(self.sim.environment.topologies.values())
+                else:
+                    depot_modes = list(self.mode.values())
+                position = self.sim.environment.nearest_node_in_modes(coord, depot_modes)
+                depot = Station(self.sim, depot_id, position)
+                self.depotPoints[depot_id] = depot
+
+    def init_stops(self):
+        """
+        Initialise the stopPoints attribute with using simulation data.
+        """
+
+    def add_stops(self, stops_table, id_prefix=""):
+        """
+        Add the sequence of stops to the stopPoints dict.
+
+        The stops table is a gtfs-like DataFrame, with the columns
+        "stop_id" and "stop_name". The method also uses the
+        'stop_correspondence_file", which links service stops
+        to topology positions.
+
+        :param stops_table: gtfs-like DataFrame
+        :param id_prefix: prefix to add to stop ids
+        """
+
+        # build the dict of correspondence between stops and topologies
+
+        # TODO : this choice of modes is arbitrary, do better
+        correspondence_modes = ["walk", self.mode["fleet"]]
+        correspondence = self.sim.environment.build_gtfs_correspondence(
+            self.service_info, correspondence_modes)
+        # extend graph with stop nodes if asked
+        extend_graph = self.sim.parameters["extend_graph_with_gtfs"]
+        if extend_graph:
+            self.sim.environment.extend_graph_with_gtfs(stops_table, correspondence, correspondence_modes)
+
+        # browse stops and add StopPoint objects to stopPoints
+        for index, row in stops_table.iterrows():
+
+            info = correspondence[row["stop_id"]]
+
+            # get the position of the environment corresponding to the stop localisation
+            if extend_graph:
+                if info[1] is None:
+                    position = info[0]
+                else:
+                    position = row["stop_id"]
+            else:
+                position = info[0]
+
+            # get the stop point id and name
+            stop_point_id = id_prefix + row["stop_id"]
+            stop_point_name = row["stop_name"]
+
+            # initialise the StopPoint object
+            stop_point = StopPoint(position, stop_point_id, stop_point_name)
+
+            # add the stop point to the stop points population
+            self.sim.agentPopulation.new_population(STOP_POINT_POPULATION)
+            self.sim.agentPopulation.new_agent_in(stop_point, STOP_POINT_POPULATION)
+
+            # add the stop point to the operator stop points dict
+            self.stopPoints[stop_point.id] = stop_point
+
+    def init_trips(self):
+        """
+        Initialise the trips attribute using simulation data.
+        """
+
+    def position_in_zone(self, position):
+        """
+        Test if the given position belongs to the service zone.
+
+        The method returns <self> (the operator) if the position
+        is in the service zone, and None otherwise.
+
+        :param position: topology node
+
+        :return: either self (operator), if in zone, or None otherwise
+        """
+
+        # if no service zone, all is in service zone
+        if self.serviceZone is None:
+            return None
+
+        # get position GPS localisation from global environment
+        position_localisation = self.sim.environment.get_localisation(position)
+
+        # test if localisation is in service zone
+        in_zone = points_in_zone(position_localisation, self.serviceZone)
+
+        # return self if in zone
+        if in_zone:
+            return self
+        else:
+            return None
+
+    def init_dispatchers(self):
+        """
+        Initialise the punctual_dispatcher and online_dispatcher attributes.
+        """
+
+    # new requests management
+
+    def new_request(self, agent):
+        """
+        Create a new request object to the operator, and return it to the requesting agent.
+
+        In the basic Operator's method, the request object is a TripRequest,
+        the event is a simple SimPy event, and the request id looks like "R$self.request_count$"
+
+        :param agent: requesting agent
+        :return: Request object
+        """
+
+        # generate a new request id
+        request_id = "R" + str(self.requestCount)
+
+        # initialise a new Request object
+        request = TripRequest(agent, self.sim.scheduler.now(), self, request_id)
+        request.set_request_event()
+
+        # add it to the request list and increment the request count
+        self.requestCount += 1
+        self.requests[request_id] = request
+
+        # return the request
+        return request
+
+    def assign_request(self, request):
+        """
+        Assign the given request to an agent of the fleet
+
+        Call the dispatch algorithm in order to assign a vehicle
+        to the given request, and signal the schedule change to
+        the chosen vehicle.
+
+        :param request:
+        """
+
+        if self.online_dispatcher is None:
+            self.leftOutRequests.append(request)
+        else:
+            self.online_dispatcher.online_dispatch(request)
+
+    # idle service vehicles management
+
+    def idle_behaviour_(self, agent):
+        """
+        Perform an idle behaviour.
+
+        This method is called when an agent of the
+        operator's fleet is idle. The agent then executes
+        the behaviour until it is interrupted. The default
+        behaviour is to wait indefinitely.
+
+        :param agent: Agent object
+        :return: yield a process describing an idle behaviour
+        """
+
+        yield agent.execute_process(agent.spend_time_())
+
+    # creation of new service vehicles
+    def new_service_vehicle(self, feature):
+        """
+        Create and initialise a new service vehicle using the model's dynamic input
+
+        :param feature: dictionary containing the service vehicle information
+        :return: newly generated ServiceVehicle
+        """
+
+        if "operator" not in feature["properties"] or feature["properties"]["operator"] != self:
+            self.log_message("Error in the 'operator' field for the generation of "
+                             "a service vehicle : {}".format(feature), 30)
+            return
+
+        new_service_vehicle = self.sim.dynamicInput.new_agent_input(feature)
+
+        return new_service_vehicle
+
+    def new_trip(self, value):
+        """
+        Create a new entry in the trips dict.
+
+        The trip id built as operatorId-tripCount.
+
+        :param value: entry value for the trips dict
+
+        :return: id of the newly generated trip
+        """
+        trip_id = self.id + "-" + str(self.tripCount)
+
+        self.trips[trip_id] = value
+
+        self.tripCount += 1
+
+        return trip_id
+
+    # evaluation of a set of user journeys using operator service
+
+    def user_journeys(self, origin, destination, parameters,
+                      objective_time, objective_type="start_after"):
+        """
+        Compute a list of journeys using the operator's transport system.
+
+        Journeys from origin to destination are computed according to the
+        operator service, using routers or other itinerary tools.
+
+        The parameters are also used to adjust the journeys characteristics.
+
+        The objective type is either "start_after" or "arrive_before", which correspond
+        to the way the journeys will be computed. The objective time specifies the value
+        of this start or arrival time.
+
+        A journey is represented as a DataFrame (see journeys.py).
+
+        :param origin: origin position
+        :param destination: destination position
+        :param parameters: dict of parameters.
+        :param objective_time: value of the start or arrival time
+        :param objective_type: way of computing journeys, either "start_after" or "arrive_before"
+            Default is "start_after".
+        :return: a list of journeys represented by DataFrames
+        """

@@ -1,0 +1,127 @@
+"""
+This module contains functions for the creation of the data folder tree and
+the import of example scenarios from Tellae's Google Drive.
+"""
+
+import logging
+import os
+
+from starling_sim.utils.constants import example_scenarios, OSM_GRAPHS_ID, GRAPH_SPEEDS_ID, google_drive_download_format
+from starling_sim.utils.paths import DATA_FOLDER, ENVIRONMENT_FOLDER, OSM_GRAPHS_FOLDER, GRAPH_SPEEDS_FOLDER, \
+    GTFS_FEEDS_FOLDER, MODELS_FOLDER
+from starling_sim.utils.utils import create_if_not_exists
+
+
+# data tree generation
+
+def create_data_tree():
+    """
+    Create the data tree according to the paths stored in paths.py.
+    """
+
+    logging.info("Creating data tree as described in simulator_sim.utils.paths\n")
+
+    # data folder
+    logging.info("Creating folder {}".format(DATA_FOLDER))
+    create_if_not_exists(DATA_FOLDER)
+
+    # environment folder
+    logging.info("Creating folder {}".format(ENVIRONMENT_FOLDER))
+    create_if_not_exists(ENVIRONMENT_FOLDER)
+
+    # OSM graphs folder
+    logging.info("Creating folder {}".format(OSM_GRAPHS_FOLDER))
+    create_if_not_exists(OSM_GRAPHS_FOLDER)
+
+    # graph speeds folder
+    logging.info("Creating folder {}".format(GRAPH_SPEEDS_FOLDER))
+    create_if_not_exists(GRAPH_SPEEDS_FOLDER)
+
+    # GTFS feeds folder
+    logging.info("Creating folder {}".format(GTFS_FEEDS_FOLDER))
+    create_if_not_exists(GTFS_FEEDS_FOLDER)
+
+    # models folder
+    logging.info("Creating folder {}".format(MODELS_FOLDER))
+    create_if_not_exists(MODELS_FOLDER)
+
+
+# example scenarios import functions
+
+def import_example_scenario(model_code):
+    """
+    Import example scenarios of the model from the remote server.
+
+    :param model_code: code of the model to import
+    """
+
+    # check the existence of the data folder
+    if not os.path.exists(DATA_FOLDER):
+        raise ModuleNotFoundError("The data folder tree must be created before importing example scenarios")
+
+    # import example scenarios of the model
+    if model_code not in example_scenarios:
+        logging.info("No example scenario is available for model {} yet".format(model_code))
+        return
+    else:
+        logging.info("Importing example scenarios for model {}".format(model_code))
+
+    # get the link of the examples archive file
+    file_id = example_scenarios[model_code]
+
+    # import and unzip the archive
+    import_folder_from_file_id(file_id, model_code, MODELS_FOLDER)
+
+
+def import_example_environment():
+    """
+    Import the examples environment data from the remote server.
+    """
+
+    logging.info("Importing environment for example scenarios")
+
+    # import osm graphs for examples
+    import_folder_from_file_id(OSM_GRAPHS_ID, "osmGraph", OSM_GRAPHS_FOLDER, files_only=True)
+
+    # import graph speeds for examples
+    import_folder_from_file_id(GRAPH_SPEEDS_ID, "graphSpeeds", GRAPH_SPEEDS_FOLDER, files_only=True)
+
+    # import gtfs feeds for example
+    pass
+
+
+def import_folder_from_file_id(file_id, folder_name, destination_path, files_only=False):
+    """
+    Download files from the given link and delete the archive.
+
+    This method is implemented for use with dropbox links leading to folders.
+
+    :param file_id: id of the file to download
+    :param folder_name: name of the downloaded folder
+    :param destination_path: path to download destination
+    :param files_only: only import files and not the folder tree
+    """
+
+    archive_name = folder_name + ".zip"
+    archive_path = destination_path + archive_name
+
+    # build the download link from file id
+    dl_link = google_drive_download_format.format(file_id)
+
+    logging.info("Downloading files from {} in {}\n".format(dl_link, destination_path))
+
+    # download files from the link
+
+    os.system("wget --no-check-certificate -O {} '{}'".format(archive_path, dl_link))
+
+    # extract the archive. If files_only, ignore the folder tree (-j option of unzip)
+    if files_only:
+        os.system("unzip -u -j -d {} {}".format(destination_path, archive_path))
+    else:
+        os.system("unzip -u -d {} {}".format(destination_path, archive_path))
+
+    # delete the archive
+    os.system("rm {}".format(archive_path))
+
+    # add a newline
+    print()

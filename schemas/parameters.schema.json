@@ -1,0 +1,163 @@
+
+
+
+{
+  "title": "parameters",
+  "description": "parameters of a simulation run",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "title": "Model code",
+      "description": "Code of the simulation model to be run"
+    },
+    "scenario": {
+      "type": "string",
+      "title": "Simulation scenario",
+      "description": "Name of the scenario simulated",
+      "example": "C2G",
+      "default": "TEST"
+    },
+    "limit": {
+      "type": "integer",
+      "title": "Simulation time limit",
+      "description": "Number of simulation steps to execute",
+      "minimum": 1,
+      "example": 4000
+    },
+    "make_static": {
+      "type": "string",
+      "title": "Make inputs static",
+      "description": "Make certain inputs static, ie generate them at the beginning of the simulation. ",
+      "oneOf": [
+        {"const":  "all", "description":  "Make all inputs static."},
+        {"const":  "prebooked", "description":  "Make static the inputs with prebooked==True."},
+        {"const":  "prebooked_only", "description":  "Make static the inputs with prebooked==True and don't generate the others."},
+        {"const":  "ghosts", "description":  "Make all inputs static for the resolution, then remove prebooked from solution and insert them dynamically."}
+      ]
+    },
+    "early_dynamic_input": {
+      "type": ["integer", "null"],
+      "title": "Early dynamic input offset",
+      "description": "Offset applied to the users origin time to make them enter the simulation earlier, in seconds",
+      "example": 3600,
+      "default": 0
+    },
+    "seed": {
+      "type": "number",
+      "title": "Random seed",
+      "description": "Random seed used for the generation of random events",
+      "example": "42"
+    },
+    "date": {
+      "type": "string",
+      "title": "Simulation date",
+      "description": "Date of the simulation, used for filtering services. Format YYYY-MM-DD",
+      "format": "date",
+      "example": "2019-10-28"
+    },
+    "time_log": {
+      "type": "boolean",
+      "title": "Simulation time log",
+      "description": "Boolean indicating if simulation time should be logged",
+      "default": false
+    },
+    "display_traces": {
+      "type": "boolean",
+      "title": "Display traces",
+      "description": "Boolean indicating if agent traces should be displayed",
+      "default": false
+    },
+    "generate_summary": {
+      "title": "Generate run summary",
+      "description": "Boolean indicating if run summary should be generated.",
+      "type": "boolean",
+      "default": false
+    },
+    "geojson_output": {
+      "type": "boolean",
+      "title": "Geojson output",
+      "description": "Boolean indicating if a geojson file should be created"
+    },
+    "geojson_format": {
+      "type": "string",
+      "title": "Geojson filename format",
+      "description": "Format of the geojson output filename. Formatted with the 'scenario' placeholder.",
+      "pattern": "^.geojson"
+    },
+    "geojson_version": {
+      "title": "Geojson output version",
+      "type" : "integer",
+      "description": "Version of the geojson output format to use. If not provided, the version specified in geojson_output.py is used."
+    },
+    "kpi_output": {
+      "type": "boolean",
+      "title": "KPI output",
+      "description": "Boolean indicating if a KPI file should be created"
+    },
+    "kpi_format": {
+      "title": "KPIs filename format",
+      "description": "Format of the KPI outputs filename. Formatted with the 'scenario' and 'kpi_output' placeholders.",
+      "type": "string",
+      "pattern": "^.csv.bz2"
+    },
+    "simulate_routes": {
+      "type": "boolean",
+      "title": "Route steps simulation",
+      "description": "Boolean indicating if route steps should be simulated"
+    },
+    "dynamic_input_file": {
+      "type": ["string", "null"],
+      "title": "Dynamic input file",
+      "description": "Name of the file containing the dynamic input",
+      "example": "CS_SB_dynamic_input.json"
+    },
+    "init_input_file": {
+      "type": ["string", "null"],
+      "title": "Initialisation input file",
+      "description": "Name of the file containing the initialisation input",
+      "example": "CS_SB_init_input.json"
+    },
+    "topologies": {
+      "type": "object",
+      "title": "Topologies",
+      "description": "Files for initialising the topologies",
+      "properties": {
+        "additional_properties": {
+          "description": "Array of two string items, the network file and the speeds file",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "required": ["walk"]
+    },
+    "gtfs_timetables": {
+      "type": ["string", "null"],
+      "title": "GTFS timetables archive",
+      "description": "Name of the archive containing the gtfs timetables, placed in the gtfs_feeds data folder",
+      "pattern": "(.)*(.zip)",
+      "example": "GTFS_nantes.zip"
+    },
+    "line_shapes_file": {
+      "type": ["string", "null"],
+      "title": "Line shapes file",
+      "description": "Name of the file containing shapes of public transport lines",
+      "pattern": "(.)*(.csv)",
+      "example": "rennes_line_shapes.csv"
+    },
+    "routes": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string"
+      },
+      "title": "Routes to keep in the public transport simulation",
+      "description": "List of routes that should be present in the simulation. If null, keep all routes."
+    }
+  },
+  "required": ["code", "scenario", "limit", "seed", "date", "display_traces", "geojson_output", "kpi_output",
+    "simulate_routes", "dynamic_input_file", "init_input_file", "topologies"]
+}

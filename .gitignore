@@ -1,0 +1,34 @@
+# simulation data folder
+data/
+
+# sphinx apidoc output
+docs/src/
+
+# documentation build
+docs/_build/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyCharm IDE idea files
+.idea/
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg

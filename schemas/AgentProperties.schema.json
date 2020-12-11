@@ -1,0 +1,36 @@
+{
+  "title": "Agent properties",
+  "description": "Properties of a simulation agent",
+  "type": "object",
+  "required": ["agent_type", "agent_id"],
+  "properties": {
+    "agent_type": {
+      "description": "Type of the agent, used to define its attributes and behaviour",
+      "type":  "string"},
+    "agent_id": {
+      "description": "Unique identifier",
+      "type":  ["string", "number"]},
+    "icon": {
+      "description": "Icon used for the visualisation",
+      "type":  "string"
+    },
+    "mode": {
+      "description": "Main mode, used for origin placement and trips",
+      "type":  ["string", "object"]
+    },
+    "origin_time" : {
+      "description": "Time-step of introduction in the simulation",
+      "type":  "integer",
+      "minimum":  0
+    },
+    "origin_day": {"type": "string", "format": "date"},
+    "origin_stop_point": {"type":  "string"},
+    "origin_lat": {"type":  "number"},
+    "origin_lon": {"type":  "number"},
+    "origin": {"type":  ["string","number"]},
+    "destination_stop_point": {"type":  "string"},
+    "destination_lat": {"type":  "number"},
+    "destination_lon": {"type":  "number"},
+    "destination": {"type":  ["string","number"]}
+  }
+}

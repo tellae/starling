@@ -1,0 +1,191 @@
+from starling_sim.basemodel.agent.persons.person import Person
+from starling_sim.basemodel.trace.events import LeaveSystemEvent
+from starling_sim.utils.constants import DEFAULT_PATIENCE
+
+
+class User(Person):
+    """
+    This class describes a simple station-based vehicle-sharing user
+    """
+
+    PROPERTIES = {
+        "has_station_info": {"description": "indicate if user has access to vehicle availability of the stations",
+                             "type": "boolean"},
+        "patience": {"description": "user patience while waiting for a request. Caution, None means infinite patience",
+                     "type": ["integer", "null"], "minimum": 0, "default": DEFAULT_PATIENCE}
+    }
+
+    def __init__(self, simulation_model, agent_id, origin, destination, **kwargs):
+
+        super().__init__(simulation_model, agent_id, origin, destination, **kwargs)
+
+    def loop_(self):
+        """
+        Main loop of a station-based vehicle-sharing user
+        """
+
+        # loop on trying to get vehicle at closest station
+        yield self.execute_process(self.request_loop_())
+
+        if self.vehicle is None:
+            # if failed to get a vehicle, leave the system
+            self.trace_event(LeaveSystemEvent(self.sim.scheduler.now()))
+            return
+        else:
+            # loop on trying to leave vehicle at station closest to dest
+            yield self.execute_process(self.request_loop_())
+
+            # should not have a vehicle
+            if self.vehicle is not None:
+                self.log_message("Did not return its vehicle", 30)
+                self.trace_event(LeaveSystemEvent(self.sim.scheduler.now()))
+            else:
+                # end trip
+                yield self.execute_process(self.walk_to_destination_())
+
+            return
+
+    def try_new_request_(self):
+        """
+        Try to request the best station according to user's state.
+
+        The best station is the closest to agent. According to their
+        has_station_info attribute, users may ignore the stations that can't
+        offer them the service they look for. If no station is found, they wait
+        30 seconds and try again.
+
+        :return: StationRequest object, completed according to request result
+        """
+
+        # find the best station according to current state
+        best_station = self.best_station_for()
+
+        while best_station is None:
+            yield self.execute_process(self.spend_time_(30))
+            best_station = self.best_station_for()
+
+        # go to chosen station and request it
+        self.tempDestination = best_station.position
+
+        if self.vehicle is None:
+            # GET request
+            yield self.execute_process(self.move_())
+            request = self.station_get_request(best_station)
+            yield self.execute_process(self.request_tries(request))
+
+            if request.success:
+                self.get_vehicle(request.result)
+
+        else:
+            # PUT request
+            yield self.execute_process(self.move_shortest_with_vehicle_())
+            request = self.station_put_request(best_station)
+            yield self.execute_process(self.request_tries(request))
+
+            if request.success:
+                self.leave_vehicle()
+
+        # return request to loop
+        self.sim.scheduler.env.exit(request)
+
+    def request_tries(self, station_request):
+        """
+        Execute a sequence of attempts for the given request.
+
+        Each time the waiting time exceeds the agent's patience,
+        they reevaluate their decision of staying in the queue.
+        This evaluation is done by the quit_decision method.
+        This results in a Request with a sequence of waiting times
+
+        :param station_request: StationRequest object
+        """
+
+        # request event
+        wait_sequence = []
+
+        # quit boolean
+        quitting = False
+
+        while not quitting:
+            start = self.sim.scheduler.now()
+            result = yield self.execute_process(
+                self.wait_for_request_(station_request, self.profile["patience"]))
+
+            # trace wait event
+            wait_sequence += [self.sim.scheduler.now() - start]
+
+            # result of the request
+            if station_request.event_ in result:
+                # complete request
+                station_request.waitSequence = wait_sequence
+                station_request.success = True
+                station_request.result = result[station_request.event_]
+
+                # end request
+                station_request.event_.cancel()
+
+                # return result of request
+                return
+                # self.sim.scheduler.env.exit(result[station_request.event_])
+            else:
+                quitting = self.quit_decision(station_request)
+
+        if quitting:
+            # complete request
+            station_request.waitSequence = wait_sequence
+            station_request.success = False
+
+            # end request
+            station_request.event_.cancel()
+
+            # return 0 in case of failed request
+            # self.sim.scheduler.env.exit(0)
+
+    def best_station_for(self):
+        """
+        Return the best station according to the agent's state.
+
+        It corresponds to the closest station to either current position
+        or destination, depending on the agent having a vehicle or not.
+        Some stations may be ignored (e.g. empty stations), depending on the information
+        detained by the agent
+
+        :return: Station object, or None if no station is found
+        """
+
+        # compute stations to consider for closest search
+        considered_stations = []
+
+        for station in self.sim.agentPopulation["station"].values():
+            # don't consider current position as it should have been tried already
+            if station.position == self.position:
+                continue
+
+            if self.profile["has_station_info"]:
+                # don't consider empty stations if looking for a vehicle, and vice-versa
+                if (self.vehicle is None and station.nb_products() == 0) or \
+                        (self.vehicle is not None and station.nb_products() == station.capacity):
+                    continue
+
+            considered_stations.append(station)
+
+        # compute closest station to either current position or destination
+        # TODO : return path and use it
+        if self.vehicle is None:
+            best_station = self.sim.environment.closest_object(self.position, considered_stations,
+                                                               True, "walk", dimension="time", n=3)
+        else:
+            best_station = self.sim.environment.closest_object(self.destination, considered_stations,
+                                                               False, "walk", dimension="time", n=3)
+
+        return best_station
+
+    def quit_decision(self, request):
+        """
+        Decide if user should quit after exceeding its request patience
+
+        :param request: StationRequest object
+        :return: boolean, True for quitting the request queue
+        """
+
+        return True

@@ -1,0 +1,34 @@
+from starling_sim.basemodel.input.dynamic_input import DynamicInput
+
+
+class Input(DynamicInput):
+
+    def new_agent_input(self, feature):
+
+        new_agent = super().new_agent_input(feature)
+
+        input_dict = feature["properties"]
+
+        if input_dict["agent_type"] == "vehicle":
+            if "station" in input_dict:
+                vehicle_station = self.sim.agentPopulation["station"][input_dict["station"]]
+            else:
+                vehicle_station = self.sim.environment.get_agent_at(new_agent.position,
+                                                                    self.sim.agentPopulation["station"].values())
+                if vehicle_station is None:
+                    self.log_message("No station found for vehicle {}".format(new_agent), 40)
+                    exit(1)
+            vehicle_station.store.items.append(new_agent)
+            vehicle_station.initial_stock += 1
+
+    def pre_process_input_dict(self, input_dict):
+
+        if input_dict["agent_type"] == "station":
+
+            # add station position (drive network)
+            self.add_key_position_with_mode(input_dict, "origin",
+                                            ["walk", input_dict["mode"]])
+
+        elif input_dict["agent_type"] == "vehicle":
+            vehicle_station = self.sim.agentPopulation["station"][input_dict["station"]]
+            input_dict["origin"] = vehicle_station.position
