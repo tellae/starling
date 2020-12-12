@@ -37,7 +37,7 @@ else:
 # call setup
 setuptools.setup(
     name="starling-sim-tellae",
-    version="0.1.1",
+    version="0.1.0",
     license="CECILL-B",
     author="Tellae",
     author_email="starling@tellae.fr",
