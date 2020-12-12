@@ -1,4 +1,6 @@
 """
+[Even though this setup script is displayed here, Starling is not distributed on PyPi yet]
+
 Starling setup script.
 
 See license in LICENSE.txt.
@@ -11,8 +13,9 @@ import os
 DESC = "Agent-based framework for mobility simulation"
 
 # get long description from README.md
-with open("README.md", "r") as fh:
-    LONG_DESC = fh.read()
+# with open("README.md", "r") as fh:
+#     LONG_DESC = fh.read()
+LONG_DESC = "Long description of the Starling project (TODO)"
 
 # list of classifiers from the PyPI classifiers trove
 CLASSIFIERS = [
@@ -36,7 +39,7 @@ else:
 
 # call setup
 setuptools.setup(
-    name="starling-sim-tellae",
+    name="starling-sim",
     version="0.1.0",
     license="CECILL-B",
     author="Tellae",
