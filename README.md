@@ -5,6 +5,8 @@ Starling is an agent-based simulation framework for urban mobility.
 It provides generic classes to build transport models such as station-based sharing system,
 public transport or shared taxis.
 
+![](./docs/images/starling-viz.gif)
+
 ## Installation
 
 Starling project must be cloned locally in order to be run.
