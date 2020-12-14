@@ -9,6 +9,9 @@ class RepositioningVehicle(ServiceVehicle):
         if stop.type == stop.REPOSITIONING:
             yield self.execute_process(self.process_repositioning_(stop))
             self.planning.remove(stop)
+        elif stop.type is None:
+            self.planning.remove(stop)
+            return
         else:
             self.log_message("Unsupported stop type to process {}".format(stop.type), 30)
 
