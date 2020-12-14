@@ -8,6 +8,7 @@ See license in LICENSE.txt.
 
 import setuptools
 import os
+from starling_sim.version import __version__
 
 # short description of the project
 DESC = "Agent-based framework for mobility simulation"
@@ -40,7 +41,7 @@ else:
 # call setup
 setuptools.setup(
     name="starling-sim",
-    version="0.1.0",
+    version=__version__,
     license="CECILL-B",
     author="Tellae",
     author_email="starling@tellae.fr",

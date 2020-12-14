@@ -5,6 +5,7 @@ from starling_sim.basemodel.parameters.simulation_parameters import parameters_f
 from starling_sim.utils.paths import MODEL_IMPORT_PATH
 from starling_sim.utils.simulation_logging import setup_logging, DEFAULT_LOGGER_LEVEL
 from starling_sim.utils.data_tree import create_data_tree, import_example_scenario, import_example_environment
+from starling_sim.version import __version__
 
 import argparse
 import os
@@ -19,8 +20,6 @@ models_dict = {
 }
 
 model_codes = list(models_dict.keys())
-
-VERSION = "0.1.0"
 
 
 class ModelSimulator:
@@ -146,7 +145,7 @@ def run_main():
 
     parser.add_argument("-v", "--version",
                         action="version",
-                        version=VERSION)
+                        version=__version__)
 
     # parse the command line
 
@@ -187,7 +186,7 @@ def run_main():
         exit(0)
 
     # launch simulation
-    logging.info("Launching the program Starling {}\n".format(VERSION))
+    logging.info("Launching the program Starling {}\n".format(__version__))
     launch_simulation(input_args.param_path, input_args.package)
 
 
