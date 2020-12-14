@@ -31,6 +31,9 @@ def main():
     # example scenarios
     if input_args.examples is not None:
 
+        # make sure the data tree is setup
+        create_data_tree()
+
         # import examples environment
         import_example_environment()
 
@@ -72,7 +75,8 @@ if __name__ == "__main__":
 
     parser.add_argument("-e", "--examples",
                         help="import example scenarios of the given model codes from the Google Drive of Tellae "
-                             "and exit. If no model code is provided, import example scenarios for all public models.",
+                             "and exit. If no model code is provided, import example scenarios for all public models."
+                             "Generate the data tree folders if they don't exist.",
                         nargs="*",
                         metavar=("MODEL_CODE_1", "MODEL_CODE_2"),
                         default=None)

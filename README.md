@@ -40,9 +40,6 @@ pip3 install -r requirements.txt
 You can now build the data structure and download example scenarios.
 
 ```bash
-# build data structure
-python3 main.py -D
-# download all example scenarios
 python3 main.py -e
 ```
 
@@ -161,6 +158,8 @@ docker run -d -v "$(pwd)":/starling/ --name init starling \
 
 If no model code is provided, example scenarios for all available models are
 downloaded.
+
+The data folders are created if necessary.
 
 ## Visualisation
 
