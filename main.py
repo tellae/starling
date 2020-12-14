@@ -48,7 +48,7 @@ def main():
 
     # launch simulation
     logging.info("Launching the program Starling {}\n".format(VERSION))
-    launch_simulation(input_args.param_path)
+    launch_simulation(input_args.param_path, input_args.package)
 
 
 if __name__ == "__main__":
@@ -80,6 +80,12 @@ if __name__ == "__main__":
     parser.add_argument("-S", "--sphinx",
                         action="store_true",
                         help="generate the project documentation using Sphinx and exit.")
+
+    parser.add_argument('-p', '--package',
+                        help="indicate an alternative name for the base package of starling",
+                        type=str,
+                        action="store",
+                        default="starling_sim")
 
     parser.add_argument("-v", "--version",
                         action="version",
