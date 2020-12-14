@@ -28,9 +28,12 @@ sudo apt-get install -yy -q libcurl4-gnutls-dev \
     build-essential libspatialindex-dev python3-rtree
 ```
 
-Then install the Python libraries using pip3
+Then, install the Python libraries using pip3
 
 ```bash
+# upgrade pip
+python3 -m pip install --upgrade pip
+# install the project requirements
 pip3 install -r requirements.txt
 ```
 
