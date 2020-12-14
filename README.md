@@ -65,7 +65,7 @@ You can now build the data structure and download example scenarios.
 
 ```bash
 docker run -d -v "$(pwd)":/starling/ --name init starling\
-    bash -c "python3 main.py -D;python3 main.py -e"
+    bash -c "python3 main.py -e"
 ```
 
 You can then run an example scenario.
