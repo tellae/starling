@@ -19,7 +19,5 @@ WORKDIR /starling
 
 # Python packages
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
-
 RUN python3 -m pip install --upgrade pip
-RUN pip3 install numba==0.51.2
+RUN pip3 install -r requirements.txt
