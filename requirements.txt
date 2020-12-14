@@ -1,7 +1,7 @@
 numpy==1.19.2
 Rtree==0.9.4
 geopandas==0.7.0
-pandas==0.25.3
+pandas
 Flask==1.1.2
 flasgger==0.9.4
 Flask-Cors==3.0.8
@@ -18,7 +18,8 @@ networkx==2.4
 osmnx==0.11.4
 sphinx==2.4.4
 sphinx-rtd-theme==0.4.3
-gtfs-kit==4.0.0
+gtfs-kit==5.0.2
 waitress==1.4.3
 mpu==0.22.0
 alns==1.2.5
+numba==0.51.2

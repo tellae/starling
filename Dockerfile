@@ -12,6 +12,7 @@ RUN apt-get install -yy -q libcurl4-gnutls-dev \
     libcairo2-dev gdal-bin python-gdal python3-gdal libudunits2-dev \
     libgdal-dev libgeos-dev libproj-dev python3-pip python3-dev \
     build-essential libspatialindex-dev python3-rtree
+RUN apt-get install -yy -q wget unzip
 
 # Directory
 RUN mkdir starling
@@ -19,7 +20,5 @@ WORKDIR /starling
 
 # Python packages
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
-
 RUN python3 -m pip install --upgrade pip
-RUN pip3 install numba==0.51.2
+RUN pip3 install -r requirements.txt

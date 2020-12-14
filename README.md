@@ -15,11 +15,11 @@ We recommend the Linux installation for development and the Docker installation 
 
 ### Linux (Ubuntu)
 
-This procedure is described for a Linux Ubuntu 18.04 with Python 3.6 or 3.7 already installed.
+This procedure is described for a Linux Ubuntu 18.04 with Python 3.6 or 3.7 already installed. Running Starling with Python 3.8 will lead to execution errors.
 
 First, install the necessary Linux packages with
 
-```
+```bash
 sudo apt-get install -yy -q libcurl4-gnutls-dev \
     libssl-dev libproj-dev libgdal-dev gdal-bin python-gdal python3-gdal \
     libgdal-dev libudunits2-dev pkg-config libnlopt-dev libxml2-dev \
@@ -28,60 +28,68 @@ sudo apt-get install -yy -q libcurl4-gnutls-dev \
     build-essential libspatialindex-dev python3-rtree
 ```
 
-Then install the Python libraries using pip3
+Then, install the Python libraries using pip3
 
-```
+```bash
+# upgrade pip
+python3 -m pip install --upgrade pip
+# install the project requirements
 pip3 install -r requirements.txt
+```
+
+You can now build the data structure and download example scenarios.
+
+```bash
+python3 main.py -e
+```
+
+You can then run an example scenario.
+
+```bash
+python3 main.py data/models/SB_VS/example_nantes/inputs/Params.json
 ```
 
 ### Docker
 
-#### Docker installation
-
-For installing Docker on a linux Ubuntu, you should refer to the [official documentation](https://docs.docker.com/engine/install/ubuntu/).
-
-Then you should configure your linux so that you don’t need to use sudo.
-
-Add the docker group if it doesn't already exist:
-
-```
-sudo groupadd docker
-```
-Add the connected user "$USER" to the docker group. Change the user name to match your preferred user if you do not want to use your current user:
-
- ```
-sudo gpasswd -a $USER docker
-```
-Either do a newgrp docker or log out/in to activate the changes to groups.
-
-
-
-#### Docker image creation
-
 Run the following command
-to create a Docker image named starling.
+to create a Docker image named starling
+containing python and all requirements.
 
-```
+```bash
 docker build . --tag="starling"
+```
+
+You can now build the data structure and download example scenarios.
+
+```bash
+docker run -d -v "$(pwd)":/starling/ --name init starling\
+    bash -c "python3 main.py -D;python3 main.py -e"
+```
+
+You can then run an example scenario.
+
+```bash
+docker run -d -v "$(pwd)":/starling/ --name example_nantes starling\
+    bash -c "python3 main.py 'data/models/SB_VS/example_nantes/inputs/Params.json'"
 ```
 
 ## Usage
 
-Simulation scenarios are launched from a file that contains the the
+Simulation scenarios are launched from a file that contains
 global parameters of the simulation.
 
 Simulation data must be placed in data/models/<model_code>/<scenario_name>/inputs
-(see # Repository architecture and paths).
+(see [data repository](#data-folder)).
 
-Once the data is prepared, a scenario can be run from the project
+Once data are prepared, a scenario can be run from the project
 root by running main.py with the path to the scenario parameters.
 
 ### Usage with linux
 
 In a terminal, use Python3 to execute main.py followed by the parameter file
 
-```
-python3 main.py data/models/SB_VS/example_nantes/inputs/Params.json
+```bash
+python3 main.py $path_to_param_file
 ```
 
 For more information about the options of main.py, run it the option -h or --help.
@@ -90,9 +98,9 @@ For more information about the options of main.py, run it the option -h or --hel
 
 With starling Docker image, a scenario can be executed with the following command
 
-```
-docker run -d -v "$(pwd)":/starling/ --name example_nantes starling\
-    bash -c "python3 main.py 'data/models/SB_VS/example_nantes/inputs/Params.json'"
+```bash
+docker run -d -v "$(pwd)":/starling/ --name $scenario_name starling\
+    bash -c "python3 main.py $path_to_param_file"
 ```
 
 ## Data repository and examples
@@ -103,7 +111,7 @@ The *data* folder and its sub-folders are not included in the git repository.
 
 They can be generated using the -D option of main.py.
 
-```
+```bash
 python3 main.py -D
 ```
 
@@ -135,18 +143,28 @@ data
 
 Data for example scenarios can be downloaded from Tellae Google Drive after
 building the data structure. To do so, use the -e option of main.py with
-the codes of the models to import to download the example environment and scenario
+the codes of the models to import and download the example environment and scenario.
 
-```
+```bash
 python3 main.py -e SB_VS
 ```
 
-If no model code is provided, example scenarios for all public models are
+With Docker.
+
+```bash
+docker run -d -v "$(pwd)":/starling/ --name init starling \
+    bash -c "python3 main.py -e SB_VS"
+```
+
+If no model code is provided, example scenarios for all available models are
 downloaded.
+
+The data folders are created if necessary.
 
 ## Visualisation
 
-Simulations can be visualised using the web application [Kite](https://kite.tellae.fr/).
+Simulations can be visualised using the web application [Kite](https://kite.tellae.fr/)
+which is a web application developped by Tellae and opened to everyone.
 
 To do so, upload the .geojson file from the simulation outputs.
 It traces the agents actions and movements.
@@ -155,13 +173,20 @@ It traces the agents actions and movements.
 
 The documentation of the project and its code can be generated locally with the following command
 
-```
+```bash
 python3 main.py -S
+```
+
+With Docker.
+
+```bash
+docker run -d -v "$(pwd)":/starling/ --name doc starling \
+    bash -c "python3 main.py -S"
 ```
 
 Then the index file can be opened in your navigator. For instance
 
-```
+```bash
 firefox ./docs/_build/html/index.html
 ```
 
