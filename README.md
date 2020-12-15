@@ -23,9 +23,9 @@ First, install the necessary Linux packages with
 
 ```bash
 sudo apt-get install -yy -q libcurl4-gnutls-dev \
-    libssl-dev libproj-dev libgdal-dev gdal-bin python-gdal python3-gdal \
+    libssl-dev libproj-dev libgdal-dev gdal-bin python3-gdal \
     libgdal-dev libudunits2-dev pkg-config libnlopt-dev libxml2-dev \
-    libcairo2-dev gdal-bin python-gdal python3-gdal libudunits2-dev \
+    libcairo2-dev libudunits2-dev \
     libgdal-dev libgeos-dev libproj-dev python3-pip python3-dev \
     build-essential libspatialindex-dev python3-rtree
 ```
