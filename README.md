@@ -17,7 +17,7 @@ We recommend the Linux installation for development and the Docker installation 
 
 ### Linux (Ubuntu)
 
-This procedure is described for a Linux Ubuntu 18.04 with Python 3.6 or 3.7 already installed. Running Starling with Python 3.8 will lead to execution errors.
+This procedure is described for a Linux Ubuntu 18.04 with Python 3.6 or higher already installed.
 
 First, install the necessary Linux packages with
 
