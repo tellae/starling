@@ -64,15 +64,22 @@ docker build . --tag="starling"
 You can now build the data structure and download example scenarios.
 
 ```bash
-docker run -d -v "$(pwd)":/starling/ --name init starling\
+docker run -d -v "$(pwd)":/starling_dir/ --name init starling\
     bash -c "python3 main.py -e"
 ```
 
 You can then run an example scenario.
 
 ```bash
-docker run -d -v "$(pwd)":/starling/ --name example_nantes starling\
+docker run -d -v "$(pwd)":/starling_dir/ --name example_nantes starling\
     bash -c "python3 main.py 'data/models/SB_VS/example_nantes/inputs/Params.json'"
+```
+
+You can also execute simulations from the Docker container by running it
+in interactive mode
+
+```bash
+docker run -it -v "$(pwd)":/starling_dir/ --name example_nantes starling
 ```
 
 ## Usage
