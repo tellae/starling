@@ -5,6 +5,7 @@ OSM graphs are used in the simulation to represent the networks where agents wil
 They must be provided in the parameters file in the "topologies" field.
 
 The imports are realised using the import_osm_graph function from starling_sim.utils.utils.
+Graphs are saved directly in :data:`~starling_sim.utils.paths.OSM_GRAPHS_FOLDER`.
 
 Run the script with ``-h`` (or ``--help``) to see the execution options.
 The user must at least provide coordinates of the center point and a distance from this point.
