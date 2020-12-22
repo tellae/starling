@@ -1,17 +1,142 @@
 .. _inout:
 
+##################
 Inputs and outputs
-******************
+##################
 
-TODO : explain the input files system
+Simulations are run using input data and generate output data. These files are stored in
+:data:`~starling_sim.utils.paths.DATA_FOLDER` (see :ref:`repository-structure`).
 
-Format of the input and output files
-====================================
+************
+JSON schemas
+************
 
-The input and output files are stored using the JSON format.
+We use use `JSON Schema <https://json-schema.org/>`_ to describe the format of some of the files
+and validate the inputs before running simulations.
 
-The data they contain is described using a `JSON Schema <https://json-schema.org/>`_ :
+Some of these schemas are displayed in this page, but you can also find them in
+:data:`~starling_sim.utils.paths.SCHEMA_FOLDER`.
 
-The parameters file follows the following JSON Schema :
+**********
+Input data
+**********
+
+Inputs consist in environment data, that can be common to several simulation runs,
+and in scenario inputs, that describe a specific simulation scenario.
+
+Environment data
+----------------
+
+Environment data is stored in sub-folders of :data:`~starling_sim.utils.paths.ENVIRONMENT_FOLDER`.
+Such data can be common to several scenarios, for instance OSM graphs.
+
+OSM graphs
+++++++++++
+
+OSM graphs files are stored in :data:`~starling_sim.utils.paths.OSM_GRAPHS_FOLDER`.
+
+They are .graphml files that contain OSM graphs imported using :mod:`tools.generate_osm_graph`.
+These files represent the networks used by the agents to evolve in the simulation and are used to
+setup the :class:`~starling_sim.basemodel.topology.osm_network` using the *osmnx* library.
+
+Graph speeds
+++++++++++++
+
+Graph speeds files are stored in :data:`~starling_sim.utils.paths.GRAPH_SPEEDS_FOLDER`.
+
+They are .json files that associate speeds to graph arcs based on their "highway" attribute.
+If this attribute does not match the fields of the graph speeds, the default value is fetched in the "other" field.
+
+GTFS feeds
+++++++++++
+
+GTFS feeds are stored in :data:`~starling_sim.utils.paths.GTFS_FEEDS_FOLDER`.
+
+They are .zip files that describe a public transport timetable.
+See `Google's GTFS Static overview <https://developers.google.com/transit/gtfs>`_ for more information.
+These files can be read using the *gtfs-kit* library.
+
+Simulation scenario data
+------------------------
+
+For each scenario, the specific input data must be stored in the input folder
+(see :data:`~starling_sim.utils.paths.INPUT_FOLDER_NAME)`.
+
+Parameters file
++++++++++++++++
+
+The parameters file is a .json file that contains values for several simulation parameters.
+
+Among other things, it contains the simulation model code and the scenario name, which must be consistent with
+where the parameters file is stored. It also contains the paths or filename of the other input files of the scenario.
+
+For a complete description of the format of the parameters file, see its JSON schema:
 
 .. literalinclude:: ../../schemas/parameters.schema.json
+    :language: json
+
+Dynamic input file
+++++++++++++++++++
+
+The dynamic input file is a .geojson file that contains a representation of the dynamic agents of the simulation.
+
+Here, dynamic means that agents are introduced in the course of the simulation, according to their "origin_time" key.
+For now, this file is dedicated to the description of the transport users.
+
+The JSON schema describing these agents is:
+
+.. literalinclude:: ../../schemas/AgentFeature.schema.json
+    :language: json
+
+As you can see, agents are described using `Geojson <https://geojson.org/>`_ Feature objects
+with additional properties. These properties are described by this second JSON schema:
+
+.. literalinclude:: ../../schemas/AgentProperties.schema.json
+    :language: json
+
+The agent features are fetched by :class:`~starling_sim.basemodel.input.dynamic_input.DynamicInput` (or any class
+that inherits from it) in order to initialise simulation agents.
+
+Initialisation input file
++++++++++++++++++++++++++
+
+The initialisation input file is a .geojson file that contains a representation of the initial agents of the simulation.
+
+This file is similar to the dynamic input file, but here the agents are initialised before the start of the simulation.
+It can describe, for instance, stations and their vehicles, or a transport operator.
+
+The initialisation file is subject to the same JSON schema than the dynamic input file, initial agents
+are described with the same specification.
+
+***********
+Output data
+***********
+
+For each scenario, the output data should be stored in the output folder
+(see :data:`~starling_sim.utils.paths.OUTPUT_FOLDER_NAME)`.
+
+The main outputs of the simulation are the visualisation file and the KPI tables.
+The specification of what they exactly contain is made by the model developer in the class
+extending :class:`~starling_sim.basemodel.output.output_factory.OutputFactory`.
+
+Visualisation file
+------------------
+
+The visualisation file is a .geojson file generated by a subclass of
+:class:`~starling_sim.basemodel.output.geojson_output.GeojsonOutput`.
+
+It contains the traces of the simulation agents represented as `Geojson <https://geojson.org/>`_ Feature objects,
+with additional simulation information.
+
+For the file visualisation, see the :ref:`visualisation` section.
+
+KPI tables
+----------
+
+The KPI (Key Indicator of Performance) tables are .csv.bz2 files, each one generated by an instance of the
+:class:`~starling_sim.basemodel.output.kpi_output.KpiOutput` class.
+
+Each file corresponds to an agent population and contains specific metrics. For instance,
+it can contain the total distance walked by the transport users, or the number of uses of a vehicle.
+
+The tables can be extracted and used as any .csv file with relevant software and libraries.
