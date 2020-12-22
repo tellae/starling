@@ -12,11 +12,9 @@ incremental method was especially relevant for
 the construction of a coherent and robust architecture
 for the framework.
 
-For now, the following simulation models have been
-developed within the scope of this project (in
-chronological order). Each model has a code used
-in his class namespace and for project execution
-via command line:
+For now, the following simulation models are available.
+Each model has a code corresponding to its package name and used
+for project execution via command line:
 
 
 - :ref:`SB_VS`: Car rental system in which users can pickup a vehicle at specific

@@ -1,13 +1,20 @@
 """
 This python script imports OSM graphs from the given arguments.
 
+OSM graphs are used in the simulation to represent the networks where agents will evolve.
+They must be provided in the parameters file in the "topologies" field.
+
 The imports are realised using the import_osm_graph function from starling_sim.utils.utils.
 
-This script must then be run with the -m option of python in order to allow the import of utils. For instance:
+Run the script with ``-h`` (or ``--help``) to see the execution options.
+The user must at least provide coordinates of the center point and a distance from this point.
 
-```
-python3 -m tools.generate_osm_graph -p -1.2 47.4 -d 3000
-```
+Example of command line:
+
+.. code-block:: bash
+
+    python3 -m tools.generate_osm_graph -p -1.2 47.4 -d 3000
+
 """
 
 from starling_sim.utils.utils import import_osm_graph

@@ -1,5 +1,5 @@
-Documentation for RD-EM-MOVE
-============================
+Documentation of Starling
+=========================
 
 
 .. toctree::
@@ -7,9 +7,12 @@ Documentation for RD-EM-MOVE
    :caption: Contents:
 
    overview
-   io
+   run/running_simulations
    models/models_introduction
+   understanding_starling
+   create_models
    apiref
+   about
 
 
 Indices and tables

@@ -3,6 +3,8 @@
 Inputs and outputs
 ******************
 
+TODO : explain the input files system
+
 Format of the input and output files
 ====================================
 
@@ -12,4 +14,4 @@ The data they contain is described using a `JSON Schema <https://json-schema.org
 
 The parameters file follows the following JSON Schema :
 
-.. literalinclude:: ../starling_sim/utils/schemas/parameters.schema.json
+.. literalinclude:: ../../schemas/parameters.schema.json

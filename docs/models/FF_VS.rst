@@ -1,7 +1,7 @@
 .. _FF_VS:
 
-Free-floating vehicle-sharing
-*****************************
+Free-floating vehicle-sharing [FF_VS]
+*************************************
 
 This model describes a rental transport system in which users can pick-up
 and leave vehicles anywhere in the network environment. Indigo Wheel is an example of this system.
