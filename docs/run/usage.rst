@@ -18,8 +18,8 @@ Simulation data must be placed in data/models/<model_code>/<scenario_name>/input
 Simulation run
 **************
 
-Once you have setup your execution environment (either on your device or with Docker)
-and your simulation data, you can run your scenario.
+Once you have setup your execution environment (either on your device or with Docker, see :ref:`installation`)
+and your simulation data (see :ref:`inout`), you can run your scenario.
 
 Simulations are run by executing the script main.py from the project root
 with a path to the parameters file of the scenario. For instance:

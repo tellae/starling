@@ -4,7 +4,8 @@ Station-based vehicle-sharing [SB_VS]
 *************************************
 
 This model describes a rental transport system in which users can pick-up a vehicle at specific locations (called stations),
-and realise a one-way trip: the vehicle can be dropped at any station of the system. Former parisian Autolib is an example of this system.
+and realise a one-way trip: the vehicle can be dropped at any station of the system.
+Existing parisian Velib' is an example of this system for bike vehicles.
 
 
 Stations

@@ -33,7 +33,6 @@ Global structure of the repository
     ├── schemas                 # json schemas
     ├── tests                   # testing scripts (TODO)
     ├── docs                    # documentation files and scripts
-    ├── docker                  # docker files
     ├── main.py
     ├── requirements.txt
     ├── .gitignore
