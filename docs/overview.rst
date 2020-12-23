@@ -2,7 +2,7 @@ Overview
 ********
 
 Starling is a spatial, agent-based simulation framework
-aimed towards transportation, especially urban mobility.
+aimed towards transportation and mobility.
 
 The goal of this framework is to provide a base for
 the development of computer models for the simulation
