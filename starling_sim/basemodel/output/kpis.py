@@ -11,6 +11,7 @@ class KPI:
     from given events
     """
 
+    #: **agentId**: id of the agent
     KEY_ID = "agentId"
 
     def __init__(self):
@@ -59,7 +60,9 @@ class MoveKPI(KPI):
     This KPI evaluates the distance and spent time for each one of the simulation modes
     """
 
+    #: **{mode}Distance**: distance travelled in <mode>
     SUFFIX_KEY_DISTANCE = "{mode}Distance"
+    #: **{mode}Time**: time travelled in <mode>
     SUFFIX_KEY_TIME = "{mode}Time"
 
     def __init__(self):
@@ -113,6 +116,7 @@ class WaitKPI(KPI):
     This KPI evaluates the time spent waiting
     """
 
+    #: **waitTime**: total traced wait time
     KEY_WAIT = "waitTime"
 
     def __init__(self):
@@ -145,9 +149,11 @@ class OdtWaitsKPI(KPI):
     This KPI evaluates the lateness in ODT requests.
     """
 
+    #: **odtPickupWait**: series of wait times at ODT pickups
     KEY_PICKUP_WAIT = "odtPickupWait"
-    #: odtDetour: series of ODT detour times
+    #: **odtDetour**: series of ODT detour times
     KEY_DETOUR = "odtDetour"
+    #: **odtDirectTrip**: series of ODT direct trip times
     KEY_DIRECT_TRIP = "odtDirectTrip"
 
     def __init__(self):
@@ -192,6 +198,7 @@ class GetVehicleKPI(KPI):
     This KPI evaluates the number of vehicle uses
     """
 
+    #: **nbGetVehicle**: number of uses of the vehicle
     KEY_GET_VEHICLE = "nbGetVehicle"
 
     def __init__(self):
@@ -220,11 +227,17 @@ class SuccessKPI(KPI):
     This KPI evaluates the number of failed/successful requests
     """
 
+    #: **nbFailedGet**: number of failed get requests
     KEY_FAILED_GET = "nbFailedGet"
+    #: **nbSuccessGet**: number successful get requests
     KEY_SUCCESS_GET = "nbSuccessGet"
+    #: **nbFailedPut**: number of failed put requests
     KEY_FAILED_PUT = "nbFailedPut"
+    #: **nbSuccessPut**: number of successful put requests
     KEY_SUCCESS_PUT = "nbSuccessPut"
+    #: **nbFailedRequest**: number of failed requests
     KEY_FAILED_REQUEST = "nbFailedRequest"
+    #: **nbSuccessRequest**: number of successful requests
     KEY_SUCCESS_REQUEST = "nbSuccessRequest"
 
     def __init__(self, indicator_selection):
@@ -271,9 +284,13 @@ class StaffOperationKPI(KPI):
     This KPI evaluates the number of staff operations
     """
 
+    #: **nbFailedGetStaff**: number of failed gets by staff
     KEY_FAILED_GET_STAFF = "nbFailedGetStaff"
-    KEY_FAILED_PUT_STAFF = "nbFailedPutStaff"
+    #: **nbSuccessGetStaff**: number of successful gets by staff
     KEY_SUCCESS_GET_STAFF = "nbSuccessGetStaff"
+    #: **nbFailedPutStaff**: number of failed puts by staff
+    KEY_FAILED_PUT_STAFF = "nbFailedPutStaff"
+    #: **nbSuccessPutStaff**: number of successful puts by staff
     KEY_SUCCESS_PUT_STAFF = "nbSuccessPutStaff"
 
     def __init__(self):
@@ -317,12 +334,19 @@ class OccupationKPI(KPI):
 
     def __init__(self):
 
+        #: **emptyTime**: time spent empty
         self.KEY_EMPTY_TIME = "emptyTime"
+        #: **emptyDistance**: distance travelled empty
         self.KEY_EMPTY_DISTANCE = "emptyDistance"
+        #: **fullTime**: time spend full
         self.KEY_FULL_TIME = "fullTime"
+        #: **fullDistance**: distance travelled full
         self.KEY_FULL_DISTANCE = "fullDistance"
+        #: **stockTime**: stock relative time (stock*time)
         self.KEY_STOCK_TIME = "stockTime"
+        #: **stockDistance**: stock relative distance (stock*distance)
         self.KEY_STOCK_DISTANCE = "stockDistance"
+        #: **maxStock**: maximum stock
         self.KEY_MAX_STOCK = "maxStock"
 
         super().__init__()
@@ -513,15 +537,22 @@ class VehicleOccupationKPI(OccupationKPI):
 
 class ChargeKPI(KPI):
     """
-    This KPI evaluates the trips's boards and unboards
+    This KPI evaluates the trips's boards and un-boards
     """
 
+    #: **routeId**: gtfs route id
     KEY_ROUTE_ID = "routeId"
+    #: **tripId**: gtfs trip id
     KEY_TRIP_ID = "tripId"
+    #: **tripDirection**: gtfs trip direction
     KEY_TRIP_DIRECTION = "tripDirection"
+    #: **time**: simulation timestamp of board/un-board
     KEY_TIME = "time"
+    #: **stopId**: stop id of board/un-board
     KEY_STOP_ID = "stopId"
+    #: **boardType**: (+1) for boards, (-1) for un-boards
     KEY_BOARD_TYPE = "boardType"
+    #: **value**: numeric value of the charge change
     KEY_VALUE = "value"
 
     def __init__(self):
@@ -587,14 +618,23 @@ class TransferKPI(KPI):
     wait duration, from/to trip/stop
     """
 
+    #: **walkDistance**: walk distance of transfer
     KEY_WALK_DIST = "walkDistance"
+    #: **walkTime**: walk time of transfer
     KEY_WALK_DURATION = "walkDuration"
+    #: **waitTime**: wait time of transfer
     KEY_WAIT_TIME = "waitTime"
+    #: **fromRoute**: origin route of transfer
     KEY_FROM_ROUTE = "fromRoute"
+    #: **fromTrip**: origin trip of transfer
     KEY_FROM_TRIP = "fromTrip"
+    #: **fromStop**: origin stop point of transfer
     KEY_FROM_STOP = "fromStop"
+    #: **toRoute**: destination route of transfer
     KEY_TO_ROUTE = "toRoute"
+    #: **toTrip**: destination trip of transfer
     KEY_TO_TRIP = "toTrip"
+    #: **toStop**: destination stop of transfer
     KEY_TO_STOP = "toStop"
 
     def __init__(self):
@@ -704,6 +744,7 @@ class JourneyKPI(KPI):
     This KPI evaluates the sequence of lines that compose a user journey
     """
 
+    #: **journeySequence**: sequence of trip ids of the journey
     KEY_JOURNEY_SEQUENCE = "journeySequence"
 
     def __init__(self):
@@ -756,6 +797,7 @@ class DestinationReachedKPI(KPI):
     This KPI evaluates the destination reach time
     """
 
+    #: **destinationReachedTime**: time when destination is reached, "NA" otherwise
     KEY_DESTINATION_REACHED = "destinationReachedTime"
 
     def __init__(self):
