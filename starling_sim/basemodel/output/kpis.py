@@ -146,6 +146,7 @@ class OdtWaitsKPI(KPI):
     """
 
     KEY_PICKUP_WAIT = "odtPickupWait"
+    #: odtDetour: series of ODT detour times
     KEY_DETOUR = "odtDetour"
     KEY_DIRECT_TRIP = "odtDirectTrip"
 
@@ -219,6 +220,13 @@ class SuccessKPI(KPI):
     This KPI evaluates the number of failed/successful requests
     """
 
+    KEY_FAILED_GET = "nbFailedGet"
+    KEY_SUCCESS_GET = "nbSuccessGet"
+    KEY_FAILED_PUT = "nbFailedPut"
+    KEY_SUCCESS_PUT = "nbSuccessPut"
+    KEY_FAILED_REQUEST = "nbFailedRequest"
+    KEY_SUCCESS_REQUEST = "nbSuccessRequest"
+
     def __init__(self, indicator_selection):
 
         super().__init__()
@@ -227,9 +235,9 @@ class SuccessKPI(KPI):
 
     def new_indicator_dict(self):
 
-        base_dict = {"nbFailedGet": 0, "nbSuccessGet": 0,
-                     "nbFailedPut": 0, "nbSuccessPut": 0,
-                     "nbFailedRequest": 0, "nbSuccessRequest": 0}
+        base_dict = {self.KEY_FAILED_GET: 0, self.KEY_SUCCESS_GET: 0,
+                     self.KEY_FAILED_PUT: 0, self.KEY_SUCCESS_PUT: 0,
+                     self.KEY_FAILED_REQUEST: 0, self.KEY_SUCCESS_REQUEST: 0}
 
         self.indicator_dict = base_dict
 
@@ -245,17 +253,17 @@ class SuccessKPI(KPI):
 
         if isinstance(event, RequestEvent):
             if event.request.success:
-                self.indicator_dict["nbSuccessRequest"] += 1
+                self.indicator_dict[self.KEY_SUCCESS_REQUEST] += 1
                 if event.request.type == StationRequest.GET_REQUEST:
-                    self.indicator_dict["nbSuccessGet"] += 1
+                    self.indicator_dict[self.KEY_SUCCESS_GET] += 1
                 else:
-                    self.indicator_dict["nbSuccessPut"] += 1
+                    self.indicator_dict[self.KEY_SUCCESS_PUT] += 1
             else:
-                self.indicator_dict["nbFailedRequest"] += 1
+                self.indicator_dict[self.KEY_FAILED_REQUEST] += 1
                 if event.request.type == StationRequest.GET_REQUEST:
-                    self.indicator_dict["nbFailedGet"] += 1
+                    self.indicator_dict[self.KEY_FAILED_GET] += 1
                 else:
-                    self.indicator_dict["nbFailedPut"] += 1
+                    self.indicator_dict[self.KEY_FAILED_PUT] += 1
 
 
 class StaffOperationKPI(KPI):
