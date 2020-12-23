@@ -317,13 +317,13 @@ class OccupationKPI(KPI):
 
     def __init__(self):
 
-        self.KEY_EMPTY_TIME = "EmptyTime"
-        self.KEY_EMPTY_DISTANCE = "EmptyDistance"
-        self.KEY_FULL_TIME = "FullTime"
-        self.KEY_FULL_DISTANCE = "FullDistance"
-        self.KEY_STOCK_TIME = "StockTime"
-        self.KEY_STOCK_DISTANCE = "StockDistance"
-        self.KEY_MAX_STOCK = "MaxStock"
+        self.KEY_EMPTY_TIME = "emptyTime"
+        self.KEY_EMPTY_DISTANCE = "emptyDistance"
+        self.KEY_FULL_TIME = "fullTime"
+        self.KEY_FULL_DISTANCE = "fullDistance"
+        self.KEY_STOCK_TIME = "stockTime"
+        self.KEY_STOCK_DISTANCE = "stockDistance"
+        self.KEY_MAX_STOCK = "maxStock"
 
         super().__init__()
 
