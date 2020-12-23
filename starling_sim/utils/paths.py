@@ -6,8 +6,8 @@ You will find here the structure of different parts of the project.
 
 **Data folder generation**
 
-The *data* folder tree is not included in the git repository, but it
-can be generated using the ``-D`` (or ``--data-tree``) option of main.py
+The :data:`~starling_sim.utils.paths.DATA_FOLDER` and sub-folders are not included in the git repository,
+but they can be generated using the ``-D`` (or ``--data-tree``) option of main.py
 
 .. code-block:: bash
 
@@ -68,16 +68,16 @@ Structure of models package
 ***************************
 
 .. code-block:: text
-
-    models
-    ├── SB_VS             # public SB_VS model
-    ├── ...               # other public models
-    │
-    └── MY_MODEL          # your own model
-        |
-        ├── model.py      # model module containing class Model(SimulationModel)
-        ├── my_agent.py   # other simulation modules for your model
-        └── ...
+    starling_sim
+    └── models
+        ├── SB_VS             # public SB_VS model
+        ├── ...               # other public models
+        │
+        └── MY_MODEL          # your own model
+            |
+            ├── model.py      # model module containing class Model(SimulationModel)
+            ├── my_agent.py   # other simulation modules for your model
+            └── ...
 
 The models package is where concrete models extending the base model are placed.
 It contains public models and the ones you developed.

@@ -4,7 +4,7 @@ Running simulations
 *******************
 
 In this section, you’ll learn the basics for running simulations
-with Starling. From installation, to running a simulation and
+with Starling. From installation to running a simulation and
 visualising results.
 
 .. toctree::
