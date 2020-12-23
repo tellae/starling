@@ -56,12 +56,11 @@ class KPI:
 
 class MoveKPI(KPI):
     """
-    This KPI evaluates the distance and spent time for
-    each one of the given modes
+    This KPI evaluates the distance and spent time for each one of the simulation modes
     """
 
-    SUFFIX_KEY_DISTANCE = "Distance"
-    SUFFIX_KEY_TIME = "Time"
+    SUFFIX_KEY_DISTANCE = "{mode}Distance"
+    SUFFIX_KEY_TIME = "{mode}Time"
 
     def __init__(self):
 
@@ -84,11 +83,11 @@ class MoveKPI(KPI):
         base_dict = {}
 
         for mode in self.modes:
-            key = mode + self.SUFFIX_KEY_DISTANCE
+            key = self.SUFFIX_KEY_DISTANCE.format(mode=mode)
             base_dict[key] = 0
             self.keys += [key]
 
-            key = mode + self.SUFFIX_KEY_TIME
+            key = self.SUFFIX_KEY_TIME.format(mode=mode)
             base_dict[key] = 0
             self.keys += [key]
 
@@ -105,8 +104,8 @@ class MoveKPI(KPI):
         super().update(event, agent)
 
         if isinstance(event, MoveEvent):
-            self.indicator_dict[event.mode + self.SUFFIX_KEY_DISTANCE] += event.distance
-            self.indicator_dict[event.mode + self.SUFFIX_KEY_TIME] += event.duration
+            self.indicator_dict[self.SUFFIX_KEY_DISTANCE.format(mode=event.mode)] += event.distance
+            self.indicator_dict[self.SUFFIX_KEY_TIME.format(mode=event.mode)] += event.duration
 
 
 class WaitKPI(KPI):
