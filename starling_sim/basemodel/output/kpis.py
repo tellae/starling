@@ -60,9 +60,9 @@ class MoveKPI(KPI):
     This KPI evaluates the distance and spent time for each one of the simulation modes
     """
 
-    #: **{mode}Distance**: distance travelled in <mode>
+    #: **{mode}Distance**: distance travelled in <mode> [meters]
     SUFFIX_KEY_DISTANCE = "{mode}Distance"
-    #: **{mode}Time**: time travelled in <mode>
+    #: **{mode}Time**: time travelled in <mode> [seconds]
     SUFFIX_KEY_TIME = "{mode}Time"
 
     def __init__(self):
@@ -116,7 +116,7 @@ class WaitKPI(KPI):
     This KPI evaluates the time spent waiting
     """
 
-    #: **waitTime**: total traced wait time
+    #: **waitTime**: total traced wait time [seconds]
     KEY_WAIT = "waitTime"
 
     def __init__(self):
@@ -149,11 +149,11 @@ class OdtWaitsKPI(KPI):
     This KPI evaluates the lateness in ODT requests.
     """
 
-    #: **odtPickupWait**: series of wait times at ODT pickups
+    #: **odtPickupWait**: series of wait times at ODT pickups [seconds]
     KEY_PICKUP_WAIT = "odtPickupWait"
-    #: **odtDetour**: series of ODT detour times
+    #: **odtDetour**: series of ODT detour times [seconds]
     KEY_DETOUR = "odtDetour"
-    #: **odtDirectTrip**: series of ODT direct trip times
+    #: **odtDirectTrip**: series of ODT direct trip times [seconds]
     KEY_DIRECT_TRIP = "odtDirectTrip"
 
     def __init__(self):
@@ -334,17 +334,17 @@ class OccupationKPI(KPI):
 
     def __init__(self):
 
-        #: **emptyTime**: time spent empty
+        #: **emptyTime**: time spent empty [seconds]
         self.KEY_EMPTY_TIME = "emptyTime"
-        #: **emptyDistance**: distance travelled empty
+        #: **emptyDistance**: distance travelled empty [meters]
         self.KEY_EMPTY_DISTANCE = "emptyDistance"
-        #: **fullTime**: time spend full
+        #: **fullTime**: time spent full [seconds]
         self.KEY_FULL_TIME = "fullTime"
-        #: **fullDistance**: distance travelled full
+        #: **fullDistance**: distance travelled full [meters]
         self.KEY_FULL_DISTANCE = "fullDistance"
-        #: **stockTime**: stock relative time (stock*time)
+        #: **stockTime**: stock relative time (stock*time) [seconds]
         self.KEY_STOCK_TIME = "stockTime"
-        #: **stockDistance**: stock relative distance (stock*distance)
+        #: **stockDistance**: stock relative distance (stock*distance) [meters]
         self.KEY_STOCK_DISTANCE = "stockDistance"
         #: **maxStock**: maximum stock
         self.KEY_MAX_STOCK = "maxStock"
@@ -618,11 +618,11 @@ class TransferKPI(KPI):
     wait duration, from/to trip/stop
     """
 
-    #: **walkDistance**: walk distance of transfer
+    #: **walkDistance**: walk distance of transfer [meters]
     KEY_WALK_DIST = "walkDistance"
-    #: **walkTime**: walk time of transfer
+    #: **walkTime**: walk time of transfer [seconds]
     KEY_WALK_DURATION = "walkDuration"
-    #: **waitTime**: wait time of transfer
+    #: **waitTime**: wait time of transfer [seconds]
     KEY_WAIT_TIME = "waitTime"
     #: **fromRoute**: origin route of transfer
     KEY_FROM_ROUTE = "fromRoute"
@@ -797,7 +797,7 @@ class DestinationReachedKPI(KPI):
     This KPI evaluates the destination reach time
     """
 
-    #: **destinationReachedTime**: time when destination is reached, "NA" otherwise
+    #: **destinationReachedTime**: time when destination is reached, "NA" otherwise [seconds or NA]
     KEY_DESTINATION_REACHED = "destinationReachedTime"
 
     def __init__(self):

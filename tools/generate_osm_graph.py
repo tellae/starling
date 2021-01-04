@@ -36,7 +36,7 @@ if __name__ == "__main__":
                         required=True)
 
     parser.add_argument("-d", "--distance",
-                        help="distance from the center point (dist_type='bbox')",
+                        help="distance (in meters) from the center point (dist_type='bbox')",
                         type=int,
                         metavar="dist",
                         required=True)
