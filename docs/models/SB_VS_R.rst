@@ -110,7 +110,7 @@ of the model and their respective classes.
      - :class:`~starling_sim.basemodel.agent.vehicles.vehicle.Vehicle`
    * - Operator
      - operator
-     - :class:`starling_sim.models.SB_VS.operator.Operator`
+     - :class:`starling_sim.models.SB_VS_R.operator.Operator`
    * - Repositioning staff
      - staff
      - :class:`starling_sim.models.SB_VS_R.repositioning_staff.RepositioningStaff`
