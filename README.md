@@ -7,15 +7,27 @@ public transport or shared taxis.
 
 ![](./docs/images/starling-viz.gif)
 
-## Installation
+## Quickstart
 
-Starling project must be cloned locally in order to be run.
+This section will show you how to run the example simulation scenarios.
+
+For a more detailed setup guide, see the section **Running simulations**
+of the documentation.
+
+### Installation
+
+Starling must be cloned locally in order to be run.
+
+```bash
+git clone https://github.com/tellae/starling.git
+```
+
 Then, you can either install the dependencies directly on your linux or
 use a Docker container to run a simulation.
 
 We recommend the Linux installation for development and the Docker installation for running simulations.
 
-### Linux (Ubuntu)
+#### Linux (Ubuntu)
 
 This procedure is described for a Linux Ubuntu 18.04 with Python 3.6 or higher already installed.
 
@@ -39,164 +51,83 @@ python3 -m pip install --upgrade pip
 pip3 install -r requirements.txt
 ```
 
-You can now build the data structure and download example scenarios.
-
-```bash
-python3 main.py -e
-```
-
-You can then run an example scenario.
-
-```bash
-python3 main.py data/models/SB_VS/example_nantes/inputs/Params.json
-```
-
-### Docker
+#### Docker
 
 Run the following command
 to create a Docker image named starling
 containing python and all requirements.
+This image doesn’t contain Starling source code but it
+contains all python dependencies for running Starling.
 
 ```bash
 docker build . --tag="starling"
 ```
 
-You can now build the data structure and download example scenarios.
+You can now use this image to create Docker containers to run the framework.
+Use the -v option to mount the Starling repository in the container.
+
+
+You can either use Docker in detached mode (which lets the simulations
+run on their own)
 
 ```bash
-docker run -d -v "$(pwd)":/starling_dir/ --name init starling\
-    bash -c "python3 main.py -e"
+docker run -d -v "$(pwd)":/starling_dir/ --name container_name starling\
+    bash -c "my_command -option"
 ```
 
-You can then run an example scenario.
+or in interactive mode (which will place you inside the container,
+as in a terminal)
 
 ```bash
-docker run -d -v "$(pwd)":/starling_dir/ --name example_nantes starling\
-    bash -c "python3 main.py 'data/models/SB_VS/example_nantes/inputs/Params.json'"
+docker run -it -v "$(pwd)":/starling_dir/ --name container_name starling
 ```
 
-You can also execute simulations from the Docker container by running it
-in interactive mode
+### Download examples
+
+You can now build the data structure and download example scenarios by
+running the following command in your environment
 
 ```bash
-docker run -it -v "$(pwd)":/starling_dir/ --name example_nantes starling
+python3 main.py -e
 ```
 
-## Usage
+### Usage
 
-Simulation scenarios are launched from a file that contains
-global parameters of the simulation.
-
-Simulation data must be placed in data/models/<model_code>/<scenario_name>/inputs
-(see [data repository](#data-folder)).
-
-Once data are prepared, a scenario can be run from the project
+Once the data is prepared, a scenario can be run from the project
 root by running main.py with the path to the scenario parameters.
 
-### Usage with linux
-
-In a terminal, use Python3 to execute main.py followed by the parameter file
+Run one of the example scenarios, for instance:
 
 ```bash
-python3 main.py $path_to_param_file
+python3 main.py data/models/SB_VS/example_nantes/inputs/Params.json
 ```
 
-For more information about the options of main.py, run it the option -h or --help.
+You will see the progression of the simulation with the logs that
+appear in the console.
 
-### Usage with Docker
+### Outputs
 
-With starling Docker image, a scenario can be executed with the following command
+You can find the outputs of the scenario in the output folder.
+In this case, its data/models/SB_VS/example_nantes/outputs/.
 
-```bash
-docker run -d -v "$(pwd)":/starling/ --name $scenario_name starling\
-    bash -c "python3 main.py $path_to_param_file"
-```
+KPI files (.csv.bz2) can be visualised with any spreadsheet software.
 
-## Data repository and examples
-
-### Data folder
-
-The *data* folder and its sub-folders are not included in the git repository.
-
-They can be generated using the -D option of main.py.
-
-```bash
-python3 main.py -D
-```
-
-The following tree view is expected in the data folder. If you choose to use a different structure,
-you must modify the paths contained in simulator/utils/paths.py.
-
-```text
-data
-├── environment             # environment data
-│   |
-│   ├── graph_speeds        # .json files containing the graph speeds
-│   ├── gtfs_feeds          # .zip files containing the gtfs feeds
-│   └── osm_graphs          # .graphml files containing the OSM graphs
-|
-└── models                  # simulation scenarios
-    |
-    ├── SB_VS               # SB_VS scenarios
-    |   |
-    |   ├── scenario_1      # scenario_1 data
-    |   |   |
-    │   |   ├── inputs      # scenario_1 inputs
-    │   |   └── outputs     # scenario_1 outputs
-    |   |
-    |   └── scenario_2      # scenario_2 data
-    └── ...
-```
-
-## Examples scenarios
-
-Data for example scenarios can be downloaded from Tellae Google Drive after
-building the data structure. To do so, use the -e option of main.py with
-the codes of the models to import and download the example environment and scenario.
-
-```bash
-python3 main.py -e SB_VS
-```
-
-With Docker.
-
-```bash
-docker run -d -v "$(pwd)":/starling/ --name init starling \
-    bash -c "python3 main.py -e SB_VS"
-```
-
-If no model code is provided, example scenarios for all available models are
-downloaded.
-
-The data folders are created if necessary.
-
-## Visualisation
-
-Simulations can be visualised using the web application [Kite](https://kite.tellae.fr/)
-which is a web application developped by Tellae and opened to everyone.
-
-To do so, upload the .geojson file from the simulation outputs.
-It traces the agents actions and movements.
+The visualisation file (.geojson) can be uploaded to the web application
+[Kite](https://kite.tellae.fr/) to visualise the simulation run.
 
 ## Documentation
 
-The documentation of the project and its code can be generated locally with the following command
+For now, the documentation of the project and its code can only be
+generated locally with the following command
 
 ```bash
 python3 main.py -S
 ```
 
-With Docker.
+Then the overview file can be opened in your navigator. For instance
 
 ```bash
-docker run -d -v "$(pwd)":/starling/ --name doc starling \
-    bash -c "python3 main.py -S"
-```
-
-Then the index file can be opened in your navigator. For instance
-
-```bash
-firefox ./docs/_build/html/index.html
+firefox ./docs/_build/html/overview.html
 ```
 
 ## Contributing
