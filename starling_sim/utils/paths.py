@@ -68,6 +68,7 @@ Structure of models package
 ***************************
 
 .. code-block:: text
+
     starling_sim
     └── models
         ├── SB_VS             # public SB_VS model
