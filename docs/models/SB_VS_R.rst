@@ -62,6 +62,8 @@ Repositioning staff are vehicles that can store and move several vehicles from
 one station to another. They are used to balance the stations' stocks and
 avoid failed user requests.
 
+For now, only a single repositioning vehicle is supported.
+
 The balancing strategy is defined by the operator dispatch attributes.
 
 ********************
