@@ -18,7 +18,7 @@ We recommend the Linux installation for development and the Docker installation 
 Linux (Ubuntu)
 ==============
 
-This procedure is described for a Ubuntu 18.04 with Python 3.6 or higher already installed.
+This procedure is described for Ubuntu 18.04 or 20.04 with Python 3.6 or higher already installed.
 
 First, install the necessary Linux packages with
 
