@@ -58,7 +58,7 @@ Model implementation
 Simulation model
 ----------------
 
-+ **Simulation model**: :class:`simulator.models.SB_VS.Model`
++ **Simulation model**: :class:`starling_sim.models.SB_VS.model.Model`
 
 + **Agent population**: :class:`~starling_sim.basemodel.population.dict_population.DictPopulation`
 

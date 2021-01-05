@@ -25,7 +25,7 @@ Visualisation of the output
 
 The geojson output file can be uploaded in the "Traces dynamiques" tab.
 
-You can then visualise dynamically the simulation run by clicking on "Zoom vers le données"
+You can then visualise dynamically the simulation run by clicking on "Zoom vers les données"
 and "Jouer / arrêter l'animation" buttons next to the timeline.
 
 .. figure:: /images/sim_viz.png
