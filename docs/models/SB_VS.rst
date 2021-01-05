@@ -1,15 +1,19 @@
 .. _SB_VS:
 
+#####################################
 Station-based vehicle-sharing [SB_VS]
-*************************************
+#####################################
 
 This model describes a rental transport system in which users can pick-up a vehicle at specific locations (called stations),
 and realise a one-way trip: the vehicle can be dropped at any station of the system.
 Existing parisian Velib' is an example of this system for bike vehicles.
 
+*****************
+Model description
+*****************
 
 Stations
-========
+--------
 
 Stations can store a limited number of vehicles (parking places). No more vehicle can be parked if a station is full.
 In order to get or leave a vehicle, users must request the station. If their request cannot be satisfied,
@@ -18,7 +22,7 @@ If a change in the station's stock allow the request to be satisfied, it is imme
 the user leaves the queue.
 
 Users
-=====
+-----
 
 Users travel from their origin to destination using the vehicle-sharing system, based on the behaviour described in the
 following flowchart. They may, or not, be informed of current stock of vehicles and available parking places on each
@@ -42,49 +46,52 @@ waiting at stations before deciding a new action.
 
 
 Vehicles
-========
+--------
 
 Vehicles don't have an autonomous behaviour: they are only used by the clients for their rides and are idle in the
 stations otherwise. They allow agents to use a different part of the network and travel a different speed.
 
-Classes of the model
-====================
+********************
+Model implementation
+********************
 
 Simulation model
-^^^^^^^^^^^^^^^^
+----------------
 
 + **Simulation model**: :class:`simulator.models.SB_VS.Model`
 
-Agents
-^^^^^^
++ **Agent population**: :class:`~starling_sim.basemodel.population.dict_population.DictPopulation`
 
-+ **Agent population**: :class:`simulator.basemodel.population.dict_population`
++ **Environment**: :class:`~starling_sim.basemodel.environment.environment.Environment`
 
-+ **Stations**: :class:`simulator.basemodel.agent.stations.vehicle_sharing_station`
++ **Topology**: :class:`~starling_sim.basemodel.topology.osm_network.OSMNetwork`
 
-+ **Users**: :class:`simulator.models.SB_VS.User`
++ **Parameters**: :class:`~starling_sim.basemodel.parameters.simulation_parameters.SimulationParameters`
 
-+ **Vehicles**: :class:`simulator.basemodel.agent.vehicles.vehicle`
++ **Dynamic input**: :class:`starling_sim.models.SB_VS.input.Input`
 
-Environment
-^^^^^^^^^^^
++ **Output factory**: :class:`starling_sim.models.SB_VS.output.Output`
 
-+ **Environment**: :class:`simulator.basemodel.environment.environment`
+Agent types and classes
+-----------------------
 
-+ **Topology**: :class:`simulator.basemodel.topology.osm_network`
+This table provides the agent_type values to put in the input files for the agents
+of the model and their respective classes.
 
-Input
-^^^^^
+.. list-table:: **SB_VS agents**
+   :widths: auto
+   :header-rows: 1
+   :align: center
 
-+ **Parameters**: :class:`simulator.basemodel.parameters.simulation_parameters`
-
-+ **Dynamic input**: :class:`simulator.models.SB_VS.Input`
-
-Output
-^^^^^^
-
-+ **Output factory**: :class:`simulator.models.SB_VS.Output`
-
-+ **Geojson output**: :class:`simulator.basemodel.output.geojson_output`
-
-+ **KPIs**: :class:`simulator.basemodel.output.kpi.kpi`
+   * - Agent
+     - agent_type
+     - class
+   * - Stations
+     - station
+     - :class:`~starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation`
+   * - Users
+     - user
+     - :class:`starling_sim.models.SB_VS.user.User`
+   * - Vehicles
+     - vehicle
+     - :class:`~starling_sim.basemodel.agent.vehicles.vehicle.Vehicle`
