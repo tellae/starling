@@ -32,3 +32,6 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Python virtual environment
+venv/
