@@ -1,13 +1,18 @@
 .. _FF_VS:
 
-Free-floating vehicle-sharing
-*****************************
+#####################################
+Free-floating vehicle-sharing [FF_VS]
+#####################################
 
 This model describes a rental transport system in which users can pick-up
-and leave vehicles anywhere in the network environment. Indigo Wheel is an example of this system.
+and leave vehicles anywhere in the network environment. Indigo Wheel is an example of this system for bike vehicles.
+
+*****************
+Model description
+*****************
 
 Users
-=====
+-----
 
 Users travel from their origin to destination using the vehicle-sharing system, based on the behaviour described in the
 following flowchart. All users have access to all available vehicle locations. Users access to information at origin
@@ -28,48 +33,50 @@ vehicle location by another user. The vehicle is therefore not available and the
 
 
 Vehicles
-========
+--------
 
 Vehicles don’t have an autonomous behaviour: they are only used by the clients
 for their rides and are idle in the environment otherwise. They allow agents to
 use a different part of the network and travel a different speed.
 
-Classes of the model
-====================
+********************
+Model implementation
+********************
 
 Simulation model
-^^^^^^^^^^^^^^^^
+----------------
 
-+ **Simulation model**: :class:`simulator.models.FF_VS.Model`
++ **Simulation model**: :class:`starling_sim.models.FF_VS.model.Model`
 
-Agents
-^^^^^^
++ **Agent population**: :class:`~starling_sim.basemodel.population.dict_population.DictPopulation`
 
-+ **Agent population**: :class:`simulator.basemodel.population.dict_population`
++ **Environment**: :class:`~starling_sim.basemodel.environment.environment.Environment`
 
-+ **Users**: :class:`simulator.models.FF_VS.User`
++ **Topology**: :class:`~starling_sim.basemodel.topology.osm_network.OSMNetwork`
 
-+ **Vehicles**: :class:`simulator.basemodel.agent.vehicles.vehicle`
++ **Parameters**: :class:`~starling_sim.basemodel.parameters.simulation_parameters.SimulationParameters`
 
-Environment
-^^^^^^^^^^^
++ **Dynamic input**: :class:`starling_sim.models.FF_VS.input.Input`
 
-+ **Environment**: :class:`simulator.basemodel.environment.environment`
++ **Output factory**: :class:`starling_sim.models.FF_VS.output.Output`
 
-+ **Topology**: :class:`simulator.basemodel.topology.osm_network`
+Agent types and classes
+-----------------------
 
-Input
-^^^^^
+This table provides the agent_type values to put in the input files for the agents
+of the model and their respective classes.
 
-+ **Parameters**: :class:`simulator.basemodel.parameters.simulation_parameters`
+.. list-table:: **FF_VS agents**
+   :widths: auto
+   :header-rows: 1
+   :align: center
 
-+ **Dynamic input**: :class:`simulator.models.FF_VS.Input`
-
-Output
-^^^^^^
-
-+ **Output factory**: :class:`simulator.models.FF_VS.Output`
-
-+ **Geojson output**: :class:`simulator.basemodel.output.geojson_output`
-
-+ **KPIs**: :class:`simulator.basemodel.output.kpi.kpi`
+   * - Agent
+     - agent_type
+     - class
+   * - Users
+     - user
+     - :class:`starling_sim.models.SB_VS.user.User`
+   * - Vehicles
+     - vehicle
+     - :class:`~starling_sim.basemodel.agent.vehicles.vehicle.Vehicle`

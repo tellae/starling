@@ -1,12 +1,28 @@
 """
-This module contains the paths and formats used in different classes of the framework.
+Starling has a precise repository structure in order to separate the
+base classes of the framework, the simulation models and the simulation data.
 
-It reflects the structure of the project described by the following tree view:
+You will find here the structure of different parts of the project.
+
+**Data folder generation**
+
+The :data:`~starling_sim.utils.paths.DATA_FOLDER` and sub-folders are not included in the git repository,
+but they can be generated using the ``-D`` (or ``--data-tree``) option of main.py
+
+.. code-block:: bash
+
+    python3 main.py -D
+
+It is also generated when :ref:`importing the example scenarios<examples>`.
+
+**********************************
+Global structure of the repository
+**********************************
 
 .. code-block:: text
 
     starling-repo
-    ├── starling_sim                # simulation modules
+    ├── starling_sim            # simulation modules
     |   |
     │   ├── basemodel           # base classes of the framework
     │   ├── models              # concrete models extending the basemodel
@@ -17,14 +33,14 @@ It reflects the structure of the project described by the following tree view:
     ├── schemas                 # json schemas
     ├── tests                   # testing scripts (TODO)
     ├── docs                    # documentation files and scripts
-    ├── docker                  # docker files
     ├── main.py
     ├── requirements.txt
     ├── .gitignore
     └── README.md
 
-
-The data folder is not included in the git repository. Its structure is as follows:
+****************************
+Structure of the data folder
+****************************
 
 .. code-block:: text
 
@@ -47,25 +63,29 @@ The data folder is not included in the git repository. Its structure is as follo
         |   └── scenario_2      # scenario_2 data
         └── ...
 
-This structure can be generated using the -D option of main.py.
-Use the -e option to also import example data.
-
-Finally, the models folder is where concrete models extending the base model are placed. Its structure is as follows:
+***************************
+Structure of models package
+***************************
 
 .. code-block:: text
 
-    models
-    ├── SB_VS             # public SB_VS model
-    ├── ...               # other public models
-    │
-    └── MY_MODEL          # your own model
-        |
-        ├── model.py      # model module containing class Model(SimulationModel)
-        ├── my_agent.py   # other simulation modules for your model
-        └── ...
+    starling_sim
+    └── models
+        ├── SB_VS             # public SB_VS model
+        ├── ...               # other public models
+        │
+        └── MY_MODEL          # your own model
+            |
+            ├── model.py      # model module containing class Model(SimulationModel)
+            ├── my_agent.py   # other simulation modules for your model
+            └── ...
 
-It contains public models and the ones you developed. The packages must be named with the model code,
-and contain a model.py module. This module must contain a Model class extending SimulationModel of the base model.
+The models package is where concrete models extending the base model are placed.
+It contains public models and the ones you developed.
+
+The packages must be named with the model code, and contain a model.py module.
+This module must contain a Model class extending SimulationModel of the base model.
+See :ref:`create-models` for more information about the requirements for your models.
 """
 
 #: local prefix
