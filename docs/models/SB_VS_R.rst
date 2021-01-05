@@ -1,12 +1,12 @@
-.. _SB_VS:
+.. _SB_VS_R:
 
-#####################################
-Station-based vehicle-sharing [SB_VS]
-#####################################
+##########################################################
+Station-based vehicle-sharing with repositioning [SB_VS_R]
+##########################################################
 
-This model describes a rental transport system in which users can pick-up a vehicle at specific locations (called stations),
-and realise a one-way trip: the vehicle can be dropped at any station of the system.
-Existing parisian Velib' is an example of this system for bike vehicles.
+This model describes a station-based rental system (see :ref:`SB_VS`)
+with repositioning operations, in order to maintain balance between the stations.
+Most of the existing station-based systems use repositioning operations.
 
 *****************
 Model description
@@ -44,12 +44,27 @@ waiting at stations before deciding a new action.
 (b) When they are in a station's queue, users wait until their patience is exhausted.
     Then, they decide if they leave the queue or if they keep waiting.
 
-
 Vehicles
 --------
 
 Vehicles don't have an autonomous behaviour: they are only used by the clients for their rides and are idle in the
 stations otherwise. They allow agents to use a different part of the network and travel a different speed.
+
+Operator
+--------
+
+The operator contains the set of stations, vehicles and repositioning staff.
+
+Repositioning staff
+-------------------
+
+Repositioning staff are vehicles that can store and move several vehicles from
+one station to another. They are used to balance the stations' stocks and
+avoid failed user requests.
+
+For now, only a single repositioning vehicle is supported.
+
+The balancing strategy is defined by the operator dispatch attributes.
 
 ********************
 Model implementation
@@ -58,7 +73,7 @@ Model implementation
 Simulation model
 ----------------
 
-+ **Simulation model**: :class:`starling_sim.models.SB_VS.model.Model`
++ **Simulation model**: :class:`starling_sim.models.SB_VS_R.model.Model`
 
 + **Agent population**: :class:`~starling_sim.basemodel.population.dict_population.DictPopulation`
 
@@ -68,9 +83,9 @@ Simulation model
 
 + **Parameters**: :class:`~starling_sim.basemodel.parameters.simulation_parameters.SimulationParameters`
 
-+ **Dynamic input**: :class:`starling_sim.models.SB_VS.input.Input`
++ **Dynamic input**: :class:`starling_sim.models.SB_VS_R.input.Input`
 
-+ **Output factory**: :class:`starling_sim.models.SB_VS.output.Output`
++ **Output factory**: :class:`starling_sim.models.SB_VS_R.output.Output`
 
 Agent types and classes
 -----------------------
@@ -78,7 +93,7 @@ Agent types and classes
 This table provides the agent_type values to put in the input files for the agents
 of the model and their respective classes.
 
-.. list-table:: **SB_VS agents**
+.. list-table:: **SB_VS_R agents**
    :widths: auto
    :header-rows: 1
    :align: center
@@ -95,3 +110,9 @@ of the model and their respective classes.
    * - Vehicles
      - vehicle
      - :class:`~starling_sim.basemodel.agent.vehicles.vehicle.Vehicle`
+   * - Operator
+     - operator
+     - :class:`starling_sim.models.SB_VS_R.operator.Operator`
+   * - Repositioning staff
+     - staff
+     - :class:`starling_sim.models.SB_VS_R.repositioning_staff.RepositioningStaff`

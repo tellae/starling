@@ -57,7 +57,7 @@ GRAPH_SPEEDS_ID = "18vgoP8EyyeUIhdbCP8Jp8UVvJgOdGlX2"
 
 # ids of the example scenarios archive of each model
 example_scenarios = {
-    "SB_VS": "1ZKSmOceP7HFiYl47Yu6kobMO0zXp9ahf",
-    "SB_VS_R": "15ZPBNjof7_NKZtQufQOVYIS8LdUyXm6N",
-    "FF_VS": "1n56-VI2mBLG8XIqu5D9oo1bixza84adz"
+    "SB_VS": "1uFP_chQiHi4WC40C38MKuWxpJq_oWWlH",
+    "SB_VS_R": "1Z4J4VhXNHfjQBYo11bDpLCq04lKBkLxv",
+    "FF_VS": "1E7a22VwiweNd5jOzHn5aElOTaczYNfQn"
 }

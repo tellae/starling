@@ -1,24 +1,71 @@
 """
-This module implements the log system in the simulation.
+Simulation logs offer an insight of the flow of events during the simulation run.
+They are displayed in chronological order and contain various information such as simulation setup,
+output generation or agent activity.
 
-Simulation logs are managed with the
+Simulation logs are managed with the Python
 `logging <https://docs.python.org/3.6/library/logging>`_ library.
 
-In addition to the basic levels of logging, we introduce two new ones:
+*************************
+Simulation logging levels
+*************************
+
+In addition to the base levels of *logging*, we introduce two new ones:
 
 - An agent level that displays the agents' activities
 - An algorithm level that displays the algorithms' steps
 
-We also create specific loggers for the Traced and Algorithm classes with
-different logging formats, in order to display additional information.
+This results in the following available levels:
 
-In order to display logs, instances of these classes should call their
+.. list-table:: **STARLING LOGGING LEVELS**
+   :widths: auto
+   :header-rows: 1
+   :align: center
+
+   * - Level
+     - Numeric value
+   * - CRITICAL
+     - 50
+   * - ERROR
+     - 40
+   * - WARNING
+     - 30
+   * - INFO
+     - 20
+   * - AGENT
+     - 15
+   * - ALGO
+     - 13
+   * - DEBUG
+     - 10
+
+The default logging level is 13.
+
+To run a simulation with a different logging level, you can use the ``-l`` (or ``--level``) option of main.py.
+For instance:
+
+.. code-block:: bash
+
+    python3 main.py data/models/SB_VS/example_nantes/inputs/Params.json -l 20
+
+******************
+Simulation loggers
+******************
+
+We also create specific loggers for the :class:`~starling_sim.basemodel.trace.trace.Traced` and
+:class:`~starling_sim.basemodel.algorithms.algorithm.Algorithm` classes with
+different logging formats, in order to display additional information (such as the simulation time). For instance:
+
+.. code-block:: text
+
+    AGENT :: [50904], S1 : Picked up u-11
+
+In order to display logs, instances of these classes call their
 internal method log_message so the relevant information is fetched
 directly from their attributes and a default level is applied.
 
 These additional loggers may also be used by any module developed around
-Starling to display simulation logs, for instance algorithms that don't
-inherit from the Algorithm class.
+Starling to display simulation logs.
 """
 
 import logging

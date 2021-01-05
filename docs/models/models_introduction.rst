@@ -12,25 +12,24 @@ incremental method was especially relevant for
 the construction of a coherent and robust architecture
 for the framework.
 
-For now, the following simulation models have been
-developed within the scope of this project (in
-chronological order). Each model has a code used
-in his class namespace and for project execution
-via command line:
+For now, the following simulation models are available.
+Each model has a code corresponding to its package name and used
+for project execution via command line:
 
 
 - :ref:`SB_VS`: Car rental system in which users can pickup a vehicle at specific
   locations (stations) and leave it at any other station.
 
+- :ref:`SB_VS_R`: Station-based rental system with repositioning operations.
 
 - :ref:`FF_VS`: Bike rental system in which users can pickup/leave vehicles at any
   location of the network.
-
 
 .. toctree::
     :maxdepth: 1
     :hidden:
 
     SB_VS
+    SB_VS_R
     FF_VS
 
