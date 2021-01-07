@@ -226,7 +226,7 @@ class Operator(Agent):
         # TODO : this choice of modes is arbitrary, do better
         correspondence_modes = ["walk", self.mode["fleet"]]
         correspondence = self.sim.environment.build_gtfs_correspondence(
-            self.service_info, correspondence_modes)
+            stops_table, correspondence_modes)
         # extend graph with stop nodes if asked
         extend_graph = self.sim.parameters["extend_graph_with_gtfs"]
         if extend_graph:
