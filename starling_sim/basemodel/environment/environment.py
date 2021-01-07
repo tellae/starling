@@ -561,18 +561,19 @@ class Environment:
         nearest_nodes = intersection_topology.localisations_nearest_nodes(longitudes, latitudes)
 
         # check if stops are in topologies zones
-        stops_table.rename(columns={"stop_lat": "lat", "stop_lon": "lon"}, inplace=True)
+        stops_table_copy = stops_table.copy(deep=True)
+        stops_table_copy.rename(columns={"stop_lat": "lat", "stop_lon": "lon"}, inplace=True)
+
         for mode in modes:
-            stops_table = points_in_zone(stops_table, self.topologies[mode].zone)
-            stops_table.rename(columns={"in_zone": mode}, inplace=True)
-        stops_table.rename(columns={"lat": "stop_lat", "lon": "stop_lon"}, inplace=True)
+            stops_table_copy = points_in_zone(stops_table_copy, self.topologies[mode].zone)
+            stops_table_copy.rename(columns={"in_zone": mode}, inplace=True)
 
         # consider stops that are not in ALL zones as out
-        stops_table["in_zones"] = stops_table[modes].all(axis=1)
+        stops_table_copy["in_zones"] = stops_table_copy[modes].all(axis=1)
 
         # build the correspondence dict from the previous computations
         i = 0
-        for index, row in stops_table.iterrows():
+        for index, row in stops_table_copy.iterrows():
 
             # get the stop point id
             stop_id = row["stop_id"]
@@ -582,7 +583,7 @@ class Environment:
 
             # see if the stop point is in the topologies zones
             if not row["in_zones"]:
-                extension = (row["stop_lat"], row["stop_lon"])
+                extension = (row["lat"], row["lon"])
             else:
                 extension = None
 
