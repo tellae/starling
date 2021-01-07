@@ -341,6 +341,25 @@ class Operator(Agent):
         else:
             self.online_dispatcher.online_dispatch(request)
 
+    def build_trip_request(self, agent=None, origin_position=None, origin_stop=None, origin_time=None,
+                           destination_position=None, destination_stop=None, destination_time=None, **kwargs):
+        """
+        Build a request for a trip with the operator service from the given information.
+
+        Depending on the operator, all parameters may not be necessary, and others mays be added .
+
+        :param agent: agent making the trip request
+        :param origin_position: trip origin position in environment
+        :param origin_stop: trip origin stop id
+        :param origin_time: trip origin time
+        :param destination_position: trip destination position in environment
+        :param destination_stop: trip destination stop id
+        :param destination_time: trip destination time
+        :param kwargs: other eventual parameters
+
+        :return: TripRequest completed with trip information set
+        """
+
     # idle service vehicles management
 
     def idle_behaviour_(self, agent):
