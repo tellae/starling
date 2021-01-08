@@ -247,7 +247,7 @@ class ServiceVehicle(Vehicle):
             self.log_message("Request {} was dismissed, cannot pickup".format(request.id))
             # remove all related stops
             for stop in self.planning:
-                if stop.requestId == request.id:
+                if stop.type == stop.GET_REQUEST and stop.requestId == request.id:
                     self.planning.remove(stop)
             return
 
