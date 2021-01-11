@@ -3,7 +3,7 @@ from starling_sim.basemodel.agent.requests import TripRequest, StopPoint
 from starling_sim.basemodel.agent.stations.station import Station
 from starling_sim.utils.utils import geopandas_polygon_from_points, points_in_zone, json_load, validate_against_schema
 from starling_sim.utils.paths import GTFS_FEEDS_FOLDER, SCHEMA_FOLDER
-from starling_sim.utils.constants import STOP_POINT_POPULATION
+from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
 from collections import OrderedDict
 
 import pandas as pd
@@ -220,6 +220,10 @@ class Operator(Agent):
         :param stops_table: gtfs-like DataFrame
         :param id_prefix: prefix to add to stop ids
         """
+
+        if not set(ADD_STOPS_COLUMNS).issubset(set(stops_table.columns)):
+            raise ValueError("Missing columns when adding stop points. Required columns are {} and {} are provided."
+                             .format(ADD_STOPS_COLUMNS, stops_table.columns))
 
         # build the dict of correspondence between stops and topologies
 
