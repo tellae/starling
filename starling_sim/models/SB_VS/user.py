@@ -12,12 +12,20 @@ class User(Person):
         "has_station_info": {"description": "indicate if user has access to vehicle availability of the stations",
                              "type": "boolean"},
         "patience": {"description": "user patience while waiting for a request. Caution, None means infinite patience",
-                     "type": ["integer", "null"], "minimum": 0, "default": DEFAULT_PATIENCE}
+                     "type": ["integer", "null"], "minimum": 0, "default": DEFAULT_PATIENCE},
+        "max_tries": {"description": "maximum number of failed tries before leaving the system",
+                      "type": ["integer", "null"], "minimum": 1, "default": None},
+        "closest_station_evaluation": {"description": "key determining how the distance to the stations is evaluated",
+                                       "type": "string", "oneOf": [{"const": "euclidean"}, {"const": "shortest_path"}],
+                                       "default": "euclidean"}
     }
 
     def __init__(self, simulation_model, agent_id, origin, destination, **kwargs):
 
         super().__init__(simulation_model, agent_id, origin, destination, **kwargs)
+
+        # remember the failed stations
+        self.failed_stations_ids = []
 
     def loop_(self):
         """
@@ -25,7 +33,7 @@ class User(Person):
         """
 
         # loop on trying to get vehicle at closest station
-        yield self.execute_process(self.request_loop_())
+        yield self.execute_process(self.request_loop_(self.profile["max_tries"]))
 
         if self.vehicle is None:
             # if failed to get a vehicle, leave the system
@@ -75,6 +83,9 @@ class User(Person):
 
             if request.success:
                 self.get_vehicle(request.result)
+                self.failed_stations_ids = []
+            else:
+                self.failed_stations_ids.append(best_station.id)
 
         else:
             # PUT request
@@ -84,6 +95,8 @@ class User(Person):
 
             if request.success:
                 self.leave_vehicle()
+            else:
+                self.failed_stations_ids.append(best_station.id)
 
         # return request to loop
         self.sim.scheduler.env.exit(request)
@@ -157,8 +170,9 @@ class User(Person):
         considered_stations = []
 
         for station in self.sim.agentPopulation["station"].values():
-            # don't consider current position as it should have been tried already
-            if station.position == self.position:
+
+            # don't consider the stations where the request already failed
+            if station.id in self.failed_stations_ids:
                 continue
 
             if self.profile["has_station_info"]:
@@ -170,13 +184,26 @@ class User(Person):
             considered_stations.append(station)
 
         # compute closest station to either current position or destination
+        if self.profile["closest_station_evaluation"] == "euclidean":
+
+            if self.vehicle is None:
+                best_station = self.sim.environment.euclidean_n_closest(self.position, considered_stations, 1)[0]
+            else:
+                best_station = self.sim.environment.euclidean_n_closest(self.destination, considered_stations, 1)[0]
+
         # TODO : return path and use it
-        if self.vehicle is None:
-            best_station = self.sim.environment.closest_object(self.position, considered_stations,
-                                                               True, "walk", dimension="time", n=3)
+        elif self.profile["closest_station_evaluation"] == "shortest_path":
+
+            if self.vehicle is None:
+
+                best_station = self.sim.environment.closest_object(self.position, considered_stations,
+                                                                   True, "walk", dimension="time", n=3)
+            else:
+                best_station = self.sim.environment.closest_object(self.destination, considered_stations,
+                                                                   False, "walk", dimension="time", n=3)
         else:
-            best_station = self.sim.environment.closest_object(self.destination, considered_stations,
-                                                               False, "walk", dimension="time", n=3)
+            raise ValueError("Unsupported value {} for 'closest_station_evaluation' option."
+                             .format(self.profile["closest_station_evaluation"]))
 
         return best_station
 

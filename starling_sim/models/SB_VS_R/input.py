@@ -41,6 +41,18 @@ class Input(DynamicInput):
             # add operator
             self.add_key_operator(input_dict, operator_population="operator")
 
+        elif input_dict["agent_type"] == "user":
+
+            super().pre_process_input_dict(input_dict)
+
+            if "origin_station" in input_dict:
+                user_station = self.sim.agentPopulation["station"][input_dict["origin_station"]]
+                input_dict["origin"] = user_station.position
+
+            if "destination_station" in input_dict:
+                user_station = self.sim.agentPopulation["station"][input_dict["destination_station"]]
+                input_dict["destination"] = user_station.position
+
         elif input_dict["agent_type"] == "staff":
 
             # add origin at depot

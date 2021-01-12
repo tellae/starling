@@ -29,6 +29,16 @@ class Input(DynamicInput):
             self.add_key_position_with_mode(input_dict, "origin",
                                             ["walk", input_dict["mode"]])
 
+        elif input_dict["agent_type"] == "user":
+
+            if "origin_station" in input_dict:
+                user_station = self.sim.agentPopulation["station"][input_dict["origin_station"]]
+                input_dict["origin"] = user_station.position
+
+            if "destination_station" in input_dict:
+                user_station = self.sim.agentPopulation["station"][input_dict["destination_station"]]
+                input_dict["destination"] = user_station.position
+
         elif input_dict["agent_type"] == "vehicle":
             vehicle_station = self.sim.agentPopulation["station"][input_dict["station"]]
             input_dict["origin"] = vehicle_station.position
