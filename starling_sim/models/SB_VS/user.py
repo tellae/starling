@@ -24,6 +24,9 @@ class User(Person):
 
         super().__init__(simulation_model, agent_id, origin, destination, **kwargs)
 
+        # remember the failed stations
+        self.failed_stations_ids = []
+
     def loop_(self):
         """
         Main loop of a station-based vehicle-sharing user
@@ -80,6 +83,9 @@ class User(Person):
 
             if request.success:
                 self.get_vehicle(request.result)
+                self.failed_stations_ids = []
+            else:
+                self.failed_stations_ids.append(best_station.id)
 
         else:
             # PUT request
@@ -89,6 +95,8 @@ class User(Person):
 
             if request.success:
                 self.leave_vehicle()
+            else:
+                self.failed_stations_ids.append(best_station.id)
 
         # return request to loop
         self.sim.scheduler.env.exit(request)
@@ -162,8 +170,9 @@ class User(Person):
         considered_stations = []
 
         for station in self.sim.agentPopulation["station"].values():
-            # don't consider current position as it should have been tried already
-            if station.position == self.position:
+
+            # don't consider the stations where the request already failed
+            if station.id in self.failed_stations_ids:
                 continue
 
             if self.profile["has_station_info"]:
