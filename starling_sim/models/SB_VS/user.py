@@ -12,7 +12,9 @@ class User(Person):
         "has_station_info": {"description": "indicate if user has access to vehicle availability of the stations",
                              "type": "boolean"},
         "patience": {"description": "user patience while waiting for a request. Caution, None means infinite patience",
-                     "type": ["integer", "null"], "minimum": 0, "default": DEFAULT_PATIENCE}
+                     "type": ["integer", "null"], "minimum": 0, "default": DEFAULT_PATIENCE},
+        "max_tries": {"description": "maximum number of failed tries before leaving the system",
+                      "type": ["integer", "null"], "minimum": 1, "default": None}
     }
 
     def __init__(self, simulation_model, agent_id, origin, destination, **kwargs):
@@ -25,7 +27,7 @@ class User(Person):
         """
 
         # loop on trying to get vehicle at closest station
-        yield self.execute_process(self.request_loop_())
+        yield self.execute_process(self.request_loop_(self.profile["max_tries"]))
 
         if self.vehicle is None:
             # if failed to get a vehicle, leave the system
