@@ -31,8 +31,6 @@ class Input(DynamicInput):
 
         elif input_dict["agent_type"] == "user":
 
-            super().pre_process_input_dict(input_dict)
-
             if "origin_station" in input_dict:
                 user_station = self.sim.agentPopulation["station"][input_dict["origin_station"]]
                 input_dict["origin"] = user_station.position

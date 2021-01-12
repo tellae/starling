@@ -16,7 +16,7 @@ class User(Person):
         "max_tries": {"description": "maximum number of failed tries before leaving the system",
                       "type": ["integer", "null"], "minimum": 1, "default": None},
         "closest_station_evaluation": {"description": "key determining how the distance to the stations is evaluated",
-                                       "type": "string", "oneOf": ["euclidean", "shortest_path"],
+                                       "type": "string", "oneOf": [{"const": "euclidean"}, {"const": "shortest_path"}],
                                        "default": "euclidean"}
     }
 
@@ -178,9 +178,9 @@ class User(Person):
         if self.profile["closest_station_evaluation"] == "euclidean":
 
             if self.vehicle is None:
-                best_station = self.sim.environment.euclidean_n_closest(self.position, considered_stations, 1)
+                best_station = self.sim.environment.euclidean_n_closest(self.position, considered_stations, 1)[0]
             else:
-                best_station = self.sim.environment.euclidean_n_closest(self.destination, considered_stations, 1)
+                best_station = self.sim.environment.euclidean_n_closest(self.destination, considered_stations, 1)[0]
 
         # TODO : return path and use it
         elif self.profile["closest_station_evaluation"] == "shortest_path":
