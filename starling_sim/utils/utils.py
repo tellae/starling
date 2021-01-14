@@ -406,6 +406,44 @@ def points_in_zone(localisations, zone):
     return res
 
 
+def stops_table_from_geojson(geojson_path):
+    """
+    Create a stops table from the provided geojson file.
+
+    :param geojson_path:
+
+    :return: a DataFrame containing the stops information
+    """
+
+    # get the feature collection from the geojson
+    stops_feature_collection = json_load(geojson_path)
+
+    # initialise the table
+    stops_table = pd.DataFrame()
+
+    for i in range(len(stops_feature_collection["features"])):
+
+        feature = stops_feature_collection["features"][i]
+        properties = feature["properties"]
+
+        # get coordinates from the geometry
+        properties["stop_lon"] = feature["geometry"]["coordinates"][0]
+        properties["stop_lat"] = feature["geometry"]["coordinates"][1]
+
+        # create a stop id if not provided
+        if "stop_id" not in properties:
+            properties["stop_id"] = i
+
+        # create a stop name if not provided
+        if "stop_name" not in properties:
+            properties["stop_name"] = "Stop point {id}".format(id=properties["stop_id"])
+
+        # append a new row
+        stops_table = stops_table.append(properties, ignore_index=True)
+
+    return stops_table
+
+
 # osmnx utils
 
 def import_osm_graph(point, dist, mode="walk", simplify=True, outfile=None):
