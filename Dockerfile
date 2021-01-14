@@ -31,5 +31,7 @@ WORKDIR /starling_dir
 # Make the files owned by user
 RUN chown -R starling_user:starling_user /starling_dir
 
+RUN apt-get -y install sudo
+
 # Switch to your new user in the docker image
 USER starling_user
