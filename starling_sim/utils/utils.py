@@ -16,6 +16,8 @@ from jsonschema import validate, ValidationError, RefResolver
 from starling_sim.utils.paths import SCHEMA_FOLDER, GTFS_FEEDS_FOLDER, \
     OSM_GRAPHS_FOLDER
 
+pd.set_option('display.expand_frame_repr', False)
+
 
 # Starling exceptions
 
