@@ -86,8 +86,12 @@ class SimulationModel:
         self.environment.setup(self)
 
         if "gtfs_timetables" in self.parameters:
-            logging.info("Public transport data structures setup")
-            self.setup_public_transport_data()
+            logging.info("GTFS tables setup")
+            self.setup_gtfs()
+
+        if "PT_parameters" in self.parameters:
+            logging.info("PT parameters setup")
+            self.setup_pt_parameters()
 
         logging.info("Dynamic input setup")
         self.dynamicInput.setup(self)
@@ -146,17 +150,6 @@ class SimulationModel:
             logging.info("Current simulation time is {}".format(self.scheduler.now()))
 
             yield self.scheduler.timeout(3600)
-
-    def setup_public_transport_data(self):
-        """
-        Setup the data structures for the simulation of public transports.
-
-        This includes getting the PT params from parameters and import a gtfs.
-        """
-
-        self.setup_pt_parameters()
-
-        self.setup_gtfs()
 
     def setup_gtfs(self):
         """
