@@ -1,0 +1,201 @@
+{
+  "title": "ALIENS parameters",
+  "description": "Parameters for running ALIENS, mainly used in ALNS_dispatch.py.",
+  "type": "object",
+  "properties": {
+    "initial": {
+      "title": "Initial solution method",
+      "description": "Method used for generating the initial method for ALIENS.",
+      "type": ["string", "null"],
+      "oneOf": [
+        {"type":  "null", "description":  "No initialisation, start with a solution with empty routes."},
+        {"const":  "greedy_insertion", "description":  "Initialisation with the greedy_repair operator."}
+      ]
+    },
+    "destroy_ops": {
+      "title": "Destroy operators",
+      "description": "List of destroy operators. See DESTROY_OPS in ALIENS.py",
+      "type": "array",
+      "items": {
+            "type": "string",
+            "oneOf": [
+              {"const":  "random", "description":  "Random removal operator."},
+              {"const":  "related", "description":  "Related removal operator."},
+              {"const":  "slack_induction", "description":  "Slack induction removal operator"}
+            ]
+      },
+      "minItems": 1,
+      "example": ["random", "slack_induction"]
+    },
+    "recreate_ops": {
+      "title": "Recreate operators",
+      "description": "List of recreate operators. See RECREATE_OPS in ALIENS.py",
+      "type": "array",
+      "items": {
+            "type": "string",
+            "oneOf": [
+              {"const":  "greedy", "description":  "Greedy repair operator."},
+              {"const":  "greedy_with_blinks", "description":  "Greedy repair with blinks operator."}
+            ]
+      },
+      "minItems": 1,
+      "example": ["greedy", "greedy_with_blinks"]
+    },
+    "criterion": {
+      "title": "Acceptance criterion",
+      "description": "Criterion for accepting candidate solutions.",
+      "type": "string",
+      "oneOf": [
+        {"const":  "hill_climbing", "description":  "HillClimbing acceptance criterion."},
+        {"const":  "record_to_record", "description":  "RelativeRecordToRecord acceptance criterion."}
+      ]
+    },
+    "adaptive": {
+      "title": "Adaptive search",
+      "description": "Boolean indicating if adaptive weights should be used for the neighborhood search.",
+      "type": "boolean",
+      "default": true
+    },
+    "iterations": {
+      "title": "ALNS iterations",
+      "description": "Number of iterations of the ALNS procedure.",
+      "type": "integer",
+      "minimum": 1,
+      "example": 1000
+    },
+    "quantity": {
+      "title": "Removal quantity",
+      "description": "Number of requests removed by the destroy operators.",
+      "type": "integer",
+      "minimum": 1,
+      "example": 10
+    }
+  },
+  "reject_penalty": {
+    "title": "Reject request penalty",
+    "description": "Penalty for rejected requests, used in the objective function.",
+    "type": "integer",
+    "minimum": 0,
+    "default": 20000
+  },
+  "vehicle_penalty": {
+    "title": "Running vehicle penalty",
+    "description": "Penalty for running vehicles, used in the objective function",
+    "type": "integer",
+    "minimum": 0,
+    "default": 10000
+  },
+  "blink_rate": {
+    "title": "Blink rate",
+    "description": "Blink rate of the greedy_repair_with_blinks recreate operator, as a percentage.",
+    "type": "integer",
+    "minimum": 0,
+    "maximum": 100,
+    "default": 1
+  },
+  "greedy_repair_sort": {
+    "title": "Greedy repair sort",
+    "description": "Sorting method of the greedy_repair recreate operators.",
+    "type": "string",
+    "oneOf": [
+        {"const":  "random", "description":  "Shuffle the requests."},
+        {"const":  "close", "description":  "Sort the requests by increasing distance."},
+        {"const":  "far", "description":  "Sort the requests by decreasing distance."},
+        {"const":  "increasing_ride_time", "description":  "Sort the requests by increasing ride time."},
+        {"const":  "decreasing_ride_time", "description":  "Sort the requests by decreasing ride time."},
+        {"const":  "increasing_time_window_start", "description":  "Sort the requests by increasing time window start."},
+        {"const":  "decreasing_time_window_start", "description":  "Sort the requests by decreasing time window start."},
+        {"type":  "null", "description":  "Do not sort the requests."},
+        {"const":  "random_sort", "description":  "Pick a random sort method."}
+    ],
+    "default": "random_sort"
+  },
+  "slack_induction_sort": {
+    "title": "Slack induction sort",
+    "description": "Sorting method of the slack_induction destroy operator.",
+    "type": "string",
+    "oneOf": [
+        {"const":  "distance", "description":  "Sort the requests by spatial distance."},
+        {"const":  "temporal", "description":  "Sort the requests by temporal distance."},
+        {"const":  "spatio_temporal", "description":  "Sort the requests by spatio-temporal distance."},
+        {"const":  "random_sort", "description":  "Pick a random sort method."}
+    ],
+    "default": "random_sort"
+  },
+  "required": ["initial", "destroy_ops", "recreate_ops", "criterion", "adaptive",
+    "iterations", "quantity"],
+  "allOf": [
+    {
+      "if": {
+        "properties": {"criterion":  {"const":  "record_to_record"}}
+      },
+      "then": {
+        "properties": {
+          "acceptance_rate": {
+            "title": "RelativeRecordToRecord acceptance rate",
+            "description": "Acceptance rate for the RelativeRecordToRecord acceptance criterion.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.05
+          }
+        },
+        "required": ["acceptance_rate"]
+      }
+    },
+    {
+      "if": {
+        "properties": {"adaptive":  {"const":  true}}
+      },
+      "then": {
+        "properties": {
+              "weights": {
+                "title": "Weight updates",
+                "description": "Weight updates when the candidate solution results in a new global best (idx 0), is better than the current solution (idx 1), the solution is accepted (idx 2), or rejected (idx 3).",
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 4,
+                "items": {
+                  "type": "number"
+                },
+                "example": [3, 2, 1, 0.5]
+              },
+              "operator_decay": {
+                "title": "Operator decay",
+                "description": "Decay of the operators, multiplied to their weights. If 0, the previous weights updates are erased.",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "example": 0.5
+              }
+        },
+        "required": ["weights", "operator_decay"]
+      },
+      "else": {
+        "properties": {
+          "destroy_weights": {
+            "title": "Destroy operators weights",
+            "description": "Relative weights for the choice of destroy operators. Each is divided by the total to give probs.",
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 1,
+            "example": [7, 3]
+          },
+          "recreate_weights": {
+            "title": "Recreate operators weights",
+            "description": "Relative weights for the choice of recreate operators. Each is divided by the total to give probs.",
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 1,
+            "example": [4, 6]
+          }
+        },
+        "required": ["destroy_weights", "recreate_weights"]
+      }
+    }
+  ]
+}
