@@ -205,7 +205,7 @@ class ServiceVehicle(Vehicle):
                 self.pickup(user_stop)
                 return agent_id
             else:
-                self.exceeds_capacity(user_stop, agent)
+                self.exceeds_capacity(user_stop)
                 return None
 
         elif user_stop.type == Stop.PUT_REQUEST:
