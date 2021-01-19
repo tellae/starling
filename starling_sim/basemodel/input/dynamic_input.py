@@ -88,7 +88,7 @@ class DynamicInput(Traced):
                 early_input_time_offset = 0
 
             # compute the effective generation time
-            generation_time = feature["properties"]["origin_time"] - early_input_time_offset
+            generation_time = int(feature["properties"]["origin_time"]) - early_input_time_offset
 
             # check that the generation time is positive
             if generation_time < 0:

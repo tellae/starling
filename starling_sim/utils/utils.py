@@ -432,7 +432,7 @@ def stops_table_from_geojson(geojson_path):
 
         # create a stop id if not provided
         if "stop_id" not in properties:
-            properties["stop_id"] = i
+            properties["stop_id"] = str(i)
 
         # create a stop name if not provided
         if "stop_name" not in properties:
