@@ -192,7 +192,7 @@ class ServiceVehicle(Vehicle):
         process_time = user_stop.get_process_time()
         if process_time is not None and process_time != self.sim.scheduler.now():
             self.log_message("Stop {} should be processed at {}"
-                             .format(user_stop, user_stop.get_process_time()), 30)
+                             .format(user_stop, process_time), 30)
 
         request = self.operator.requests[user_stop.requestId]
         agent_id = request.agent.id
@@ -204,14 +204,8 @@ class ServiceVehicle(Vehicle):
             if len(self.occupants) < self.seats:
                 self.pickup(user_stop)
                 return agent_id
-
-            # if it prevents processing the user stop, give up and signal the user
             else:
-                self.log_message("Cannot serve stop {} of agent {}, too many passengers.".format(user_stop, agent_id))
-
-                self.operator.stopPoints[request.dropoff.stopPoint]\
-                    .dropoffList.remove(request.dropoff)
-                request.pickupEvent_.succeed()
+                self.exceeds_capacity(user_stop, agent)
                 return None
 
         elif user_stop.type == Stop.PUT_REQUEST:
@@ -303,6 +297,20 @@ class ServiceVehicle(Vehicle):
         """
 
         return user_stop.trip == self.tripId
+
+    def exceeds_capacity(self, user_stop):
+        """
+        Execute the procedure for stops that cannot be picked up because of capacity.
+
+        This method is called when a GET request cannot be served because
+        of the capacity constraint.
+
+        For instance, trigger the stop pickup event, or let the agent wait for another vehicle.
+
+        :param user_stop: UserStop object
+        """
+
+        self.log_message("Cannot serve stop {}, the vehicle is full".format(user_stop))
 
     def compute_dwell_time(self, stop):
         """
