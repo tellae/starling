@@ -53,11 +53,19 @@ class LeavingSimulation(StarlingException):
     """
     Exception raised by agents for leaving the simulation.
 
-    Agents can raise this exception or call their leave_simulation() method
+    Agents should raise this exception by calling their leave_simulation() method
     to leave their loop and terminate their SimPy process.
     """
 
     def __init__(self, timestamp, source, cause, cause_description=None):
+        """
+        Create the exception with the source information when raising the exception.
+
+        :param timestamp: simulation time
+        :param source: should always be the agent raising the exception.
+        :param cause: cause of the leave, should be listed in the simulation model
+        :param cause_description: string description of the cause
+        """
 
         self.cause = cause
         self.cause_description = cause_description
