@@ -170,7 +170,7 @@ class DynamicInput(Traced):
         Add the agent to the simulation environment.
 
         Add the agent to its population, then trace an input event
-        and start its loop.
+        and start its simpy loop.
 
         :param agent: Agent object
         :param populations: population(s) where the agent belongs
@@ -183,7 +183,7 @@ class DynamicInput(Traced):
         self.trace_event(InputEvent(self.sim.scheduler.now(), agent))
 
         # add the agent loop to the event manager
-        agent.main_process = self.sim.scheduler.new_process(agent.loop_())
+        agent.main_process = self.sim.scheduler.new_process(agent.simpy_loop_())
 
     # get and manage input dicts from the input files
 

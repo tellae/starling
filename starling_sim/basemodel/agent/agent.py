@@ -1,5 +1,8 @@
 from starling_sim.basemodel.trace.trace import Traced
-from starling_sim.basemodel.trace.events import InputEvent, WaitEvent
+from starling_sim.basemodel.trace.events import InputEvent, WaitEvent, LeaveSimulationEvent
+from starling_sim.utils.utils import SimulationError, LeavingSimulation
+
+import traceback
 
 
 class Agent(Traced):
@@ -30,7 +33,7 @@ class Agent(Traced):
         self.mode = mode
         self.icon = icon
         self.name = None
-        self.loop_process = None
+        self.main_process = None
         self.current_process = None
 
         self.trace_event(InputEvent(self.sim.scheduler.now(), self))
@@ -94,6 +97,42 @@ class Agent(Traced):
 
         self.trace_event(wait_event)
 
+    def simpy_loop_(self):
+        """
+        Run the loop of the agent and catch simulation exceptions.
+
+        This method is the main SimPy process of the agent, added to the environment
+        by the DynamicInput class.
+        """
+
+        # set a default cause, to identify unmonitored leaving cases
+        cause = "NO_CAUSE_PROVIDED"
+
+        # run the agent loop
+        try:
+            yield self.execute_process(self.loop_())
+
+        # catch the LeavingSimulation exceptions
+        except LeavingSimulation as e:
+
+            # for simulation errors, log an specific message
+            if isinstance(e, SimulationError):
+                self.log_message("Encountered simulation error with message : {}".format(e), 40)
+                self.log_message(traceback.print_exc(), 10)
+                cause = "SIMULATION_ERROR"
+
+            # otherwise, log the cause description
+            else:
+                cause = str(e)
+                desc = "DESC FROM MODEL"
+                self.log_message("Leaving simulation : {} ({})".format(desc, cause))
+
+        # trace a LeaveSimulationEvent containing the leaving code
+        event = LeaveSimulationEvent(self.sim.scheduler.now(), self, cause)
+        self.trace_event(event)
+
+        return
+
     def loop_(self):
         """
         This method represents the life cycle of an agent.
@@ -108,6 +147,33 @@ class Agent(Traced):
         """
 
         yield self.execute_process(self.spend_time_())
+
+    def leave_simulation(self, cause):
+        """
+        Raise a LeavingSimulation exception to make the agent leave its loop and terminate its process.
+
+        The cause is a leaving code that should be listed in the simulation model.
+        It corresponds to a specific reason for the agent to leave the simulation.
+
+        :param cause: leaving code
+        :raises LeavingSimulation:
+        """
+
+        raise LeavingSimulation(cause)
+
+    def simulation_error(self, description):
+        """
+        Raise a SimulationError exception to make the agent leave the
+        simulation following a simulation error.
+
+        This method should be called when an unwanted
+        event occurs in a simulation, like saying "We shouldn't be here".
+
+        :param description: description of the unwanted event
+        :raises SimulationError:
+        """
+
+        raise SimulationError(description)
 
     def interrupt(self, message=""):
         """
