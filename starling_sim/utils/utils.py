@@ -17,6 +17,74 @@ from starling_sim.utils.paths import SCHEMA_FOLDER, GTFS_FEEDS_FOLDER, \
     OSM_GRAPHS_FOLDER
 
 
+# Starling exceptions
+
+class StarlingException(Exception):
+    """
+    Base class for all Starling exceptions.
+    """
+
+    def __init__(self, timestamp, source, message):
+
+        # simulation time of the exception
+        self.timestamp = timestamp
+
+        # simulation object raising the exception
+        self.source = source
+
+        # exception message
+        self.message = message
+
+        super().__init__(message)
+
+
+class SimulationError(StarlingException):
+    """
+    Simulation error exception.
+
+    This exception should be used when an unwanted
+    event occurs in a simulation, like saying "We shouldn't be here".
+    """
+
+    pass
+
+
+class LeavingSimulation(StarlingException):
+    """
+    Exception raised by agents for leaving the simulation.
+
+    Agents can raise this exception or call their leave_simulation() method
+    to leave their loop and terminate their SimPy process.
+    """
+
+    def __init__(self, timestamp, source, cause, cause_description=None):
+
+        self.cause = cause
+        self.cause_description = cause_description
+        
+        message = self.leaving_simulation_message(cause, cause_description)
+        
+        super().__init__(timestamp, source, message)
+    
+    def leaving_simulation_message(cause, cause_description=None):
+        """
+        Generate a log message for the exception.
+
+        :param cause: cause of the exception
+        :param cause_description: cause detailed description
+
+        :return: leaving simulation message
+        """
+        message = "Leaving simulation, cause {}".format(cause)
+        
+        if cause_description is not None:
+            message = message + " : {}".format(cause_description)
+        
+        return message
+
+    leaving_simulation_message = staticmethod(leaving_simulation_message)
+
+
 # json utils
 
 def json_dump(data, filepath):
