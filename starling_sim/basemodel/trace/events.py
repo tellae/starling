@@ -358,6 +358,26 @@ class DestinationReachedEvent(Event):
         return super().__str__() + "arrivalTime={}".format(self.timestamp)
 
 
+class LeaveSimulationEvent(Event):
+    """
+    This event describes an agent leaving the simulation.
+    """
+
+    def __init__(self, time, agent, reason, message=""):
+
+        super().__init__(time, message=message)
+
+        # agent leaving the simulation
+        self.agent = agent
+
+        #
+        self.reason = reason
+
+    def __str__(self):
+
+        return super().__str__() + "agent={}, reason={}".format(self.agent, self.reason)
+
+
 class EndOfSimulationEvent(Event):
     """
     This event describes the end of the simulation
