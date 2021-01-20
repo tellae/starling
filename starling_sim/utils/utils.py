@@ -24,19 +24,6 @@ class StarlingException(Exception):
     Base class for all Starling exceptions.
     """
 
-    def __init__(self, timestamp, source, message):
-
-        # simulation time of the exception
-        self.timestamp = timestamp
-
-        # simulation object raising the exception
-        self.source = source
-
-        # exception message
-        self.message = message
-
-        super().__init__(message)
-
 
 class LeavingSimulation(StarlingException):
     """
@@ -44,42 +31,10 @@ class LeavingSimulation(StarlingException):
 
     Agents should raise this exception by calling their leave_simulation() method
     to leave their loop and terminate their SimPy process.
+
+    LeavingSimulation exceptions are caught in the agent simpy_loop_ method so a
+    LeavingSimulationEvent can be traced and the agent main process can terminate.
     """
-
-    def __init__(self, timestamp, source, cause, cause_description=None):
-        """
-        Create the exception with the source information when raising the exception.
-
-        :param timestamp: simulation time
-        :param source: should always be the agent raising the exception.
-        :param cause: cause of the leave, should be listed in the simulation model
-        :param cause_description: string description of the cause
-        """
-
-        self.cause = cause
-        self.cause_description = cause_description
-        
-        message = self.leaving_simulation_message(cause, cause_description)
-        
-        super().__init__(timestamp, source, message)
-    
-    def leaving_simulation_message(cause, cause_description=None):
-        """
-        Generate a log message for the exception.
-
-        :param cause: cause of the exception
-        :param cause_description: cause detailed description
-
-        :return: leaving simulation message
-        """
-        message = "Leaving simulation, cause {}".format(cause)
-        
-        if cause_description is not None:
-            message = message + " : {}".format(cause_description)
-        
-        return message
-
-    leaving_simulation_message = staticmethod(leaving_simulation_message)
 
 
 class SimulationError(LeavingSimulation):
@@ -89,11 +44,6 @@ class SimulationError(LeavingSimulation):
     This exception should be used when an unwanted
     event occurs in a simulation, like saying "We shouldn't be here".
     """
-
-    def __init__(self, timestamp, source, description):
-
-        super().__init__(timestamp=timestamp, source=source,
-                         cause="SIMULATION_ERROR_CAUSE", cause_description=description)
 
 
 # json utils
