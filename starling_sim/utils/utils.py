@@ -38,17 +38,6 @@ class StarlingException(Exception):
         super().__init__(message)
 
 
-class SimulationError(StarlingException):
-    """
-    Simulation error exception.
-
-    This exception should be used when an unwanted
-    event occurs in a simulation, like saying "We shouldn't be here".
-    """
-
-    pass
-
-
 class LeavingSimulation(StarlingException):
     """
     Exception raised by agents for leaving the simulation.
@@ -91,6 +80,20 @@ class LeavingSimulation(StarlingException):
         return message
 
     leaving_simulation_message = staticmethod(leaving_simulation_message)
+
+
+class SimulationError(LeavingSimulation):
+    """
+    Simulation error exception.
+
+    This exception should be used when an unwanted
+    event occurs in a simulation, like saying "We shouldn't be here".
+    """
+
+    def __init__(self, timestamp, source, description):
+
+        super().__init__(timestamp=timestamp, source=source,
+                         cause="SIMULATION_ERROR_CAUSE", cause_description=description)
 
 
 # json utils
