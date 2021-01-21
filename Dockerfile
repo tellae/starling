@@ -1,11 +1,9 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # Install packages
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get install -yy -q software-properties-common
-RUN add-apt-repository -y ppa:ubuntugis/ppa
-RUN apt-get update
 RUN apt-get install -yy -q libcurl4-gnutls-dev \
     libssl-dev libproj-dev libgdal-dev gdal-bin python3-gdal \
     libgdal-dev libudunits2-dev pkg-config libnlopt-dev libxml2-dev \
