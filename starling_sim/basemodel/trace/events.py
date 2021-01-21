@@ -378,20 +378,20 @@ class LeaveSimulationEvent(Event):
         return super().__str__() + "agent={}, cause={}".format(self.agent, self.cause)
 
 
-class EndOfSimulationEvent(Event):
-    """
-    This event describes the end of the simulation
-    """
-
-    def __init__(self, time, message=""):
-        """
-        Creates an end of simulation event
-        :param time: timestamp of simulation end
-        :param message: eventual message to be added to the event
-        """
-        super().__init__(time, message=message)
-
-    def __str__(self):
-
-        return super().__str__() + "simulationEndTime={}" \
-            .format(self.timestamp)
+# class EndOfSimulationEvent(Event):
+#     """
+#     This event describes the end of the simulation
+#     """
+#
+#     def __init__(self, time, message=""):
+#         """
+#         Creates an end of simulation event
+#         :param time: timestamp of simulation end
+#         :param message: eventual message to be added to the event
+#         """
+#         super().__init__(time, message=message)
+#
+#     def __str__(self):
+#
+#         return super().__str__() + "simulationEndTime={}" \
+#             .format(self.timestamp)

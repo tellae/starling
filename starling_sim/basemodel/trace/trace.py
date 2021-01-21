@@ -11,7 +11,8 @@ position in the simulation, and not its origin.
 """
 
 from starling_sim.utils.simulation_logging import TRACED_LOGGER, AGENT_LEVEL
-from starling_sim.basemodel.trace.events import EndOfSimulationEvent
+from starling_sim.basemodel.trace.events import LeaveSimulationEvent
+from starling_sim.utils.constants import EOS_LEAVE
 
 
 class Trace:
@@ -95,8 +96,10 @@ class Traced:
 
 def trace_simulation_end(simulation_model):
     """
-    Adds an EndOfSimulationEvent to all simulation agents
+    Adds a LeaveSimulation("EOS") to all agents that didn't leave
+    during the simulation.
     """
 
     for agent in simulation_model.agentPopulation.get_total_population():
-        agent.trace_event(EndOfSimulationEvent(simulation_model.scheduler.now()))
+        if not isinstance(agent.trace.eventList[-1], LeaveSimulationEvent):
+            agent.trace_event(LeaveSimulationEvent(simulation_model.scheduler.now(), agent, EOS_LEAVE))

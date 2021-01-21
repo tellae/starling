@@ -1,6 +1,7 @@
 from starling_sim.basemodel.trace.events import *
 from starling_sim.basemodel.agent.vehicles.vehicle import Vehicle
 from starling_sim.basemodel.agent.stations.vehicle_sharing_station import VehicleSharingStation
+from starling_sim.utils.constants import EOS_LEAVE
 
 from abc import ABC
 import logging
@@ -118,7 +119,7 @@ class ActivityInformation(InformationFactory):
             start_of_activity_timestamps = agent.trace.eventList[1].timestamp
             self.append_value_and_timestamp(1, start_of_activity_timestamps)
 
-        if isinstance(event, EndOfSimulationEvent):
+        if isinstance(event, LeaveSimulationEvent):
             end_of_activity_timestamps = agent.trace.eventList[-2].timestamp
 
             self.append_value_and_timestamp(0, end_of_activity_timestamps)
