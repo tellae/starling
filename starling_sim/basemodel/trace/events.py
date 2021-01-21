@@ -363,7 +363,7 @@ class LeaveSimulationEvent(Event):
     This event describes an agent leaving the simulation.
     """
 
-    def __init__(self, time, agent, reason, message=""):
+    def __init__(self, time, agent, cause, message=""):
 
         super().__init__(time, message=message)
 
@@ -371,11 +371,11 @@ class LeaveSimulationEvent(Event):
         self.agent = agent
 
         #
-        self.reason = reason
+        self.cause = cause
 
     def __str__(self):
 
-        return super().__str__() + "agent={}, reason={}".format(self.agent, self.reason)
+        return super().__str__() + "agent={}, cause={}".format(self.agent, self.cause)
 
 
 class EndOfSimulationEvent(Event):
