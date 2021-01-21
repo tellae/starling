@@ -65,6 +65,9 @@ You should then be able to use this image to create Docker containers
 running the framework. Use the -v option to mount the Starling repository
 in the container.
 
+The Dockerfile create a new Linux user named 'starling_user'. If you need to use sudo,
+the password is also 'starling_user'.
+
 Detached mode
 +++++++++++++
 
