@@ -1,6 +1,7 @@
 from starling_sim.basemodel.trace.trace import Traced
 from starling_sim.basemodel.trace.events import InputEvent, WaitEvent, LeaveSimulationEvent
 from starling_sim.utils.utils import SimulationError, LeavingSimulation
+from starling_sim.utils.constants import DEFAULT_LEAVE, SIM_ERROR_LEAVE
 
 import traceback
 
@@ -106,7 +107,7 @@ class Agent(Traced):
         """
 
         # set a default cause, to identify unmonitored leaving cases
-        cause = "NO_CAUSE_PROVIDED"
+        cause = DEFAULT_LEAVE
 
         # run the agent loop
         try:
@@ -119,7 +120,7 @@ class Agent(Traced):
             if isinstance(e, SimulationError):
                 self.log_message("Encountered simulation error with message : {}".format(e), 40)
                 self.log_message(traceback.print_exc(), 10)
-                cause = "SIMULATION_ERROR"
+                cause = SIM_ERROR_LEAVE
 
             # otherwise, log the cause description
             else:

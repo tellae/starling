@@ -30,6 +30,20 @@ PT_PARAMETERS_SCHEMA = "PT_parameters.schema.json"
 #: default name of parameters file
 DEFAULT_PARAMS_NAME = "Params.json"
 
+# base leaving codes
+
+#: default leaving code, when the loop terminates without LeavingSimulation exception
+DEFAULT_LEAVE = "DEFAULT"
+
+#: leaving code signaling a completed loop
+SUCCESS_LEAVE = "SUCCESS"
+
+#: leaving code signaling the end of the simulation
+EOS_LEAVE = "EOS"
+
+#: leaving code signaling a simulation error
+SIM_ERROR_LEAVE = "SIM_ERROR"
+
 # filename formats
 
 #: format of the KPI output files
