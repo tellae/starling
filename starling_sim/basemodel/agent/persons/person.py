@@ -3,7 +3,7 @@ from starling_sim.basemodel.trace.events import RequestEvent, GetVehicleEvent, L
     DestinationReachedEvent
 from starling_sim.basemodel.agent.requests import UserStop
 from starling_sim.utils.utils import validate_against_schema
-from starling_sim.utils.constants import DEFAULT_DISTANCE_FACTOR, DEFAULT_WALKING_SPEED
+from starling_sim.utils.constants import DEFAULT_DISTANCE_FACTOR, DEFAULT_WALKING_SPEED, SUCCESS_LEAVE
 
 import sys
 
@@ -158,8 +158,11 @@ class Person(MovingAgent):
         # move to destination
         yield self.execute_process(self.move_())
 
-        # trace event
+        # trace destination reached event
         self.trace_event(DestinationReachedEvent(self.sim.scheduler.now()))
+
+        # leave simulation with successful leave code
+        self.leave_simulation(SUCCESS_LEAVE)
 
     def get_vehicle(self, vehicle):
         """
