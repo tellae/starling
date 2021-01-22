@@ -1,7 +1,7 @@
 from starling_sim.basemodel.output.output_factory import OutputFactory
 from starling_sim.basemodel.output.kpi_output import KpiOutput
 from starling_sim.basemodel.output.kpis import MoveKPI, SuccessKPI, DestinationReachedKPI, \
-    GetVehicleKPI
+    GetVehicleKPI, LeaveSimulationKPI
 from starling_sim.basemodel.output.information_factory import ActivityInformation
 
 
@@ -15,7 +15,8 @@ class Output(OutputFactory):
         move_kpi = MoveKPI()
         success_kpi = SuccessKPI(["nbFailedRequest"])
         destination_kpi = DestinationReachedKPI()
-        users_kpi_output = KpiOutput("user", [move_kpi, success_kpi, destination_kpi])
+        leave_simulation_kpi = LeaveSimulationKPI()
+        users_kpi_output = KpiOutput("user", [move_kpi, success_kpi, destination_kpi, leave_simulation_kpi])
 
         # vehicles kpi
         move_kpi = MoveKPI()
