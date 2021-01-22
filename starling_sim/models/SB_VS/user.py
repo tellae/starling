@@ -37,16 +37,14 @@ class User(Person):
 
         if self.vehicle is None:
             # if failed to get a vehicle, leave the system
-            self.trace_event(LeaveSystemEvent(self.sim.scheduler.now()))
-            return
+            self.leave_simulation("FAIL_GET")
         else:
             # loop on trying to leave vehicle at station closest to dest
             yield self.execute_process(self.request_loop_())
 
             # should not have a vehicle
             if self.vehicle is not None:
-                self.log_message("Did not return its vehicle", 30)
-                self.trace_event(LeaveSystemEvent(self.sim.scheduler.now()))
+                self.simulation_error("Did not return its vehicle")
             else:
                 # end trip
                 yield self.execute_process(self.walk_to_destination_())
