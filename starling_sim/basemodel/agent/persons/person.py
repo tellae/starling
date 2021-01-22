@@ -323,9 +323,6 @@ class Person(MovingAgent):
         yield request.pickupEvent_
 
         if self.vehicle is None:
-            self.log_message(request.pickup.requestedTime)
-            self.log_message(request.pickup.maxTime)
-            self.log_message("Could not board transport with request [{}]".format(request))
             request.success = False
             return False
 
@@ -333,7 +330,7 @@ class Person(MovingAgent):
         yield request.dropoffEvent_
 
         if self.vehicle is not None:
-            self.log_message("Has vehicle after dropoff", 30)
+            self.simulation_error("Has vehicle after dropoff")
 
         return True
 
