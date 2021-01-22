@@ -155,15 +155,8 @@ class DynamicInput(Traced):
                                  .format(self.agent_type_class[agent_type], traceback.format_exc()), 30)
                 exit(1)
 
-            # add agent to relevant population
-            self.sim.agentPopulation.new_agent_in(new_agent, populations)
-
-            # trace and log input event
-            # self.log_message("New agent for {} : {}".format(self.sim.name, new_agent))
-            self.trace_event(InputEvent(self.sim.scheduler.now(), new_agent))
-
-            # add the agent loop to the event manager
-            new_agent.loop_process = self.sim.scheduler.new_process(new_agent.loop_())
+            # add the agent to the simulation environment
+            self.add_agent_to_simulation(new_agent, populations)
 
             return new_agent
 
@@ -171,6 +164,26 @@ class DynamicInput(Traced):
             self.log_message("Unknown agent_type {}. Class dict is {}."
                              .format(agent_type, self.agent_type_class))
             return
+
+    def add_agent_to_simulation(self, agent, populations):
+        """
+        Add the agent to the simulation environment.
+
+        Add the agent to its population, then trace an input event
+        and start its simpy loop.
+
+        :param agent: Agent object
+        :param populations: population(s) where the agent belongs
+        """
+
+        # add agent to relevant population
+        self.sim.agentPopulation.new_agent_in(agent, populations)
+
+        # trace and log input event
+        self.trace_event(InputEvent(self.sim.scheduler.now(), agent))
+
+        # add the agent loop to the event manager
+        agent.main_process = self.sim.scheduler.new_process(agent.simpy_loop_())
 
     # get and manage input dicts from the input files
 

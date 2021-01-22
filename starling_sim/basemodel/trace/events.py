@@ -358,20 +358,40 @@ class DestinationReachedEvent(Event):
         return super().__str__() + "arrivalTime={}".format(self.timestamp)
 
 
-class EndOfSimulationEvent(Event):
+class LeaveSimulationEvent(Event):
     """
-    This event describes the end of the simulation
+    This event describes an agent leaving the simulation.
     """
 
-    def __init__(self, time, message=""):
-        """
-        Creates an end of simulation event
-        :param time: timestamp of simulation end
-        :param message: eventual message to be added to the event
-        """
+    def __init__(self, time, agent, cause, message=""):
+
         super().__init__(time, message=message)
+
+        # agent leaving the simulation
+        self.agent = agent
+
+        #
+        self.cause = cause
 
     def __str__(self):
 
-        return super().__str__() + "simulationEndTime={}" \
-            .format(self.timestamp)
+        return super().__str__() + "agent={}, cause={}".format(self.agent, self.cause)
+
+
+# class EndOfSimulationEvent(Event):
+#     """
+#     This event describes the end of the simulation
+#     """
+#
+#     def __init__(self, time, message=""):
+#         """
+#         Creates an end of simulation event
+#         :param time: timestamp of simulation end
+#         :param message: eventual message to be added to the event
+#         """
+#         super().__init__(time, message=message)
+#
+#     def __str__(self):
+#
+#         return super().__str__() + "simulationEndTime={}" \
+#             .format(self.timestamp)

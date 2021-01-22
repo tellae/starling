@@ -17,6 +17,35 @@ from starling_sim.utils.paths import SCHEMA_FOLDER, GTFS_FEEDS_FOLDER, \
     OSM_GRAPHS_FOLDER
 
 
+# Starling exceptions
+
+class StarlingException(Exception):
+    """
+    Base class for all Starling exceptions.
+    """
+
+
+class LeavingSimulation(StarlingException):
+    """
+    Exception raised by agents for leaving the simulation.
+
+    Agents should raise this exception by calling their leave_simulation() method
+    to leave their loop and terminate their SimPy process.
+
+    LeavingSimulation exceptions are caught in the agent simpy_loop_ method so a
+    LeavingSimulationEvent can be traced and the agent main process can terminate.
+    """
+
+
+class SimulationError(LeavingSimulation):
+    """
+    Simulation error exception.
+
+    This exception should be used when an unwanted
+    event occurs in a simulation, like saying "We shouldn't be here".
+    """
+
+
 # json utils
 
 def json_dump(data, filepath):

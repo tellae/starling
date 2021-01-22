@@ -823,6 +823,39 @@ class DestinationReachedKPI(KPI):
             self.indicator_dict[self.KEY_DESTINATION_REACHED] = event.timestamp
 
 
+class LeaveSimulationKPI(KPI):
+    """
+    This KPI evaluates the cause of the simulation leave.
+    """
+
+    #: **leaveSimulation**: code used when leaving the simulation (see model doc)
+    KEY_LEAVE_SIMULATION = "leaveSimulation"
+
+    def __init__(self):
+
+        super().__init__()
+
+        self.keys = [self.KEY_LEAVE_SIMULATION]
+
+    def new_indicator_dict(self):
+
+        self.indicator_dict = {self.KEY_LEAVE_SIMULATION: None}
+
+    def update(self, event, agent):
+        """
+        Add the cause of the LeaveSimulationEvent.
+
+        :param event:
+        :param agent:
+        """
+
+        super().update(event, agent)
+
+        if isinstance(event, LeaveSimulationEvent):
+
+            self.indicator_dict[self.KEY_LEAVE_SIMULATION] = event.cause
+
+
 def get_route_id_of_trip(trips, trip_id, event):
 
     if trips is None:
