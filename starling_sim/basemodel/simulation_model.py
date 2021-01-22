@@ -5,7 +5,7 @@ import numpy
 from starling_sim.basemodel.trace.trace import trace_simulation_end
 from starling_sim.utils.utils import import_gtfs_feed, validate_against_schema, json_load
 from starling_sim.utils.paths import SCHEMA_FOLDER
-from starling_sim.utils.constants import PT_PARAMETERS_SCHEMA, EOS_LEAVE, DEFAULT_LEAVE, SIM_ERROR_LEAVE, SUCCESS_LEAVE
+from starling_sim.utils.constants import PT_PARAMETERS_SCHEMA, BASE_LEAVING_CODES
 
 
 class SimulationModel:
@@ -22,13 +22,8 @@ class SimulationModel:
     #: Agent types of the model and their classes
     agent_type_class = None
 
-    #: leaving codes and their description
-    leaving_codes = {
-        DEFAULT_LEAVE: "No explicit leave call",
-        SUCCESS_LEAVE: "Successful loop",
-        EOS_LEAVE: "End of simulation",
-        SIM_ERROR_LEAVE: "Simulation error"
-    }
+    #: leaving codes of the model and their description
+    leaving_codes = BASE_LEAVING_CODES
 
     def __init__(self, parameters):
         """

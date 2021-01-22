@@ -44,6 +44,14 @@ EOS_LEAVE = "EOS"
 #: leaving code signaling a simulation error
 SIM_ERROR_LEAVE = "SIM_ERROR"
 
+#: dict of base leaving codes and their descriptions
+BASE_LEAVING_CODES = {
+        DEFAULT_LEAVE: "No explicit leave call",
+        SUCCESS_LEAVE: "Successful loop",
+        EOS_LEAVE: "End of simulation",
+        SIM_ERROR_LEAVE: "Simulation error"
+}
+
 # filename formats
 
 #: format of the KPI output files
