@@ -129,7 +129,7 @@ class SimulationModel:
         This will overwrite any custom code named as a base code.
         """
 
-        self.leaving_codes = self.leaving_codes.update(BASE_LEAVING_CODES)
+        self.leaving_codes.update(BASE_LEAVING_CODES)
 
     def setup_seeds(self):
         """
