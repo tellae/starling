@@ -23,7 +23,7 @@ class SimulationModel:
     agent_type_class = None
 
     #: leaving codes of the model and their description
-    leaving_codes = BASE_LEAVING_CODES
+    leaving_codes = {}
 
     def __init__(self, parameters):
         """
@@ -40,6 +40,9 @@ class SimulationModel:
 
         # run_summary
         self.runSummary = parameters.copy_dict()
+
+        # add the base leaving codes
+        self.add_base_leaving_codes()
 
         # random seed for the simulation setup and run
         self.randomSeed = parameters["seed"]
@@ -118,6 +121,15 @@ class SimulationModel:
         """
 
         self.outputFactory.extract_simulation(self)
+
+    def add_base_leaving_codes(self):
+        """
+        Add the base leaving codes to the ones specified for the model.
+
+        This will overwrite any custom code named as a base code.
+        """
+
+        self.leaving_codes = self.leaving_codes.update(BASE_LEAVING_CODES)
 
     def setup_seeds(self):
         """
