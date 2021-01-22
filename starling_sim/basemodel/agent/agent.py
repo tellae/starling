@@ -125,8 +125,8 @@ class Agent(Traced):
             # otherwise, log the cause description
             else:
                 cause = str(e)
-                desc = "DESC FROM MODEL"
-                self.log_message("Leaving simulation : {} ({})".format(desc, cause))
+                cause_desc = self.sim.leaving_codes[cause]
+                self.log_message("Leaving simulation: {} ({})".format(cause_desc, cause))
 
         # trace a LeaveSimulationEvent containing the leaving code
         event = LeaveSimulationEvent(self.sim.scheduler.now(), self, cause)
