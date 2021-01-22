@@ -1,5 +1,4 @@
 from starling_sim.basemodel.agent.persons.person import Person
-from starling_sim.basemodel.trace.events import LeaveSystemEvent
 from starling_sim.utils.constants import DEFAULT_PATIENCE
 
 
@@ -13,8 +12,6 @@ class User(Person):
                              "type": "boolean"},
         "patience": {"description": "user patience while waiting for a request. Caution, None means infinite patience",
                      "type": ["integer", "null"], "minimum": 0, "default": DEFAULT_PATIENCE},
-        "max_tries": {"description": "maximum number of failed tries before leaving the system",
-                      "type": ["integer", "null"], "minimum": 1, "default": None},
         "closest_station_evaluation": {"description": "key determining how the distance to the stations is evaluated",
                                        "type": "string", "oneOf": [{"const": "euclidean"}, {"const": "shortest_path"}],
                                        "default": "euclidean"}
@@ -33,7 +30,7 @@ class User(Person):
         """
 
         # loop on trying to get vehicle at closest station
-        yield self.execute_process(self.request_loop_(self.profile["max_tries"]))
+        yield self.execute_process(self.request_loop_(self.maxTries))
 
         if self.vehicle is None:
             # if failed to get a vehicle, leave the system
