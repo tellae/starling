@@ -1,7 +1,7 @@
 from starling_sim.basemodel.trace.events import *
 from starling_sim.basemodel.agent.vehicles.vehicle import Vehicle
 from starling_sim.basemodel.agent.stations.vehicle_sharing_station import VehicleSharingStation
-from starling_sim.utils.constants import EOS_LEAVE
+from starling_sim.utils.constants import END_OF_SIM_LEAVE
 
 from abc import ABC
 import logging

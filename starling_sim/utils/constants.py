@@ -39,7 +39,7 @@ DEFAULT_LEAVE = "DEFAULT"
 SUCCESS_LEAVE = "SUCCESS"
 
 #: leaving code signaling the end of the simulation
-EOS_LEAVE = "EOS"
+END_OF_SIM_LEAVE = "END_OF_SIM"
 
 #: leaving code signaling a simulation error
 SIM_ERROR_LEAVE = "SIM_ERROR"
@@ -48,7 +48,7 @@ SIM_ERROR_LEAVE = "SIM_ERROR"
 BASE_LEAVING_CODES = {
         DEFAULT_LEAVE: "No explicit leave call",
         SUCCESS_LEAVE: "Successful loop",
-        EOS_LEAVE: "End of simulation",
+        END_OF_SIM_LEAVE: "End of simulation",
         SIM_ERROR_LEAVE: "Simulation error"
 }
 
