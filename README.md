@@ -66,6 +66,8 @@ docker build . --tag="starling"
 You can now use this image to create Docker containers to run the framework.
 Use the -v option to mount the Starling repository in the container.
 
+The Dockerfile create a new Linux user named 'starling_user'. If you need to use sudo,
+the password is also 'starling_user'.
 
 You can either use Docker in detached mode (which lets the simulations
 run on their own)
