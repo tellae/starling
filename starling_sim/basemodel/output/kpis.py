@@ -588,27 +588,39 @@ class ChargeKPI(KPI):
 
         if isinstance(event, StopEvent):
 
-            self.indicator_dict[self.KEY_ID].append(agent.id)
-
-            trip_id = event.trip
-
-            self.indicator_dict[self.KEY_ROUTE_ID].append(get_route_id_of_trip(self.trips, trip_id, event))
-
-            self.indicator_dict[self.KEY_TRIP_ID].append(trip_id)
-
-            self.indicator_dict[self.KEY_TRIP_DIRECTION].append(get_direction_of_trip(self.trips, trip_id))
-
-            self.indicator_dict[self.KEY_TIME].append(event.timestamp)
-
-            self.indicator_dict[self.KEY_STOP_ID].append(get_stop_id_of_event(event))
-
-            if isinstance(event, DropoffEvent):
+            if event.dropoffs:
+                self.update_stop_information(event, agent)
+                self.indicator_dict[self.KEY_TIME].append(event.dropoff_time)
                 self.indicator_dict[self.KEY_BOARD_TYPE].append(-1)
                 self.indicator_dict[self.KEY_VALUE].append(len(event.dropoffs))
 
-            if isinstance(event, PickupEvent):
+            if event.pickups:
+                self.update_stop_information(event, agent)
+                self.indicator_dict[self.KEY_TIME].append(event.pickup_time)
                 self.indicator_dict[self.KEY_BOARD_TYPE].append(1)
                 self.indicator_dict[self.KEY_VALUE].append(len(event.pickups))
+
+    def update_stop_information(self, event, agent):
+        """
+        Update the indicator with the information common to dropoffs and pickups.
+
+        :param event:
+        :param agent:
+        """
+
+        self.indicator_dict[self.KEY_ID].append(agent.id)
+
+        trip_id = event.trip
+
+        self.indicator_dict[self.KEY_ROUTE_ID].append(get_route_id_of_trip(self.trips, trip_id, event))
+
+        self.indicator_dict[self.KEY_TRIP_ID].append(trip_id)
+
+        self.indicator_dict[self.KEY_TRIP_DIRECTION].append(get_direction_of_trip(self.trips, trip_id))
+
+        self.indicator_dict[self.KEY_STOP_ID].append(get_stop_id_of_event(event))
+
+
 
 
 class TransferKPI(KPI):

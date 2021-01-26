@@ -1,5 +1,5 @@
 from starling_sim.basemodel.agent.vehicles.vehicle import Vehicle
-from starling_sim.basemodel.trace.events import IdleEvent, RequestEvent, PickupEvent, DropoffEvent, StaffOperationEvent
+from starling_sim.basemodel.trace.events import IdleEvent, RequestEvent, StopEvent, StaffOperationEvent
 from starling_sim.basemodel.agent.requests import Stop
 from starling_sim.utils.constants import DEFAULT_DWELL_TIME
 
@@ -51,14 +51,9 @@ class ServiceVehicle(Vehicle):
 
     def trace_event(self, event):
 
-        if isinstance(event, PickupEvent):
+        if isinstance(event, StopEvent):
 
-            for occupant_id in event.pickups:
-                agent = self.sim.agentPopulation.get_agent(occupant_id)
-                agent.trace_event(event)
-
-        if isinstance(event, DropoffEvent):
-            for occupant_id in event.dropoffs:
+            for occupant_id in event.pickups + event.dropoffs:
                 agent = self.sim.agentPopulation.get_agent(occupant_id)
                 agent.trace_event(event)
 
@@ -74,6 +69,10 @@ class ServiceVehicle(Vehicle):
     # stop processing
 
     def process_stop_(self, stop):
+
+        # trace a stop event
+        stop_event = StopEvent(self.sim.scheduler.now(), self.operator, self, self.tripId, stop)
+        self.trace_event(stop_event)
 
         # get the stops to process
         dropoff = None
@@ -115,8 +114,7 @@ class ServiceVehicle(Vehicle):
                 self.log_message("Dropped off {}".format(processed_dropoff))
 
                 # trace dropoffs
-                self.trace_event(DropoffEvent(self.sim.scheduler.now(), self.operator, self, self.tripId,
-                                              stop, processed_dropoff))
+                stop_event.set_dropoffs(processed_dropoff, self.sim.scheduler.now())
 
         yield self.execute_process(self.spend_time_(dwell_time))
 
@@ -126,7 +124,7 @@ class ServiceVehicle(Vehicle):
             # remove stop from planning
             self.planning.remove(stop)
 
-            if isinstance(dropoff, list):
+            if isinstance(pickup, list):
 
                 processed_pickup = self.process_stop_list(pickup)
             else:
@@ -136,8 +134,7 @@ class ServiceVehicle(Vehicle):
                 self.log_message("Picked up {}".format(processed_pickup))
 
                 # trace pickups
-                self.trace_event(PickupEvent(self.sim.scheduler.now(), self.operator, self, self.tripId,
-                                             stop, processed_pickup))
+                stop_event.set_pickups(processed_pickup, self.sim.scheduler.now())
 
     def process_stop_list(self, stop_list):
         """

@@ -212,6 +212,28 @@ class StopEvent(Event):
         self.stop = stop
         self.trip = trip
 
+        self.dropoffs = []
+        self.dropoff_time = None
+
+        self.pickups = []
+        self.pickup_time = None
+
+    def set_dropoffs(self, dropoffs, dropoff_time):
+
+        if not isinstance(dropoffs, list):
+            dropoffs = [dropoffs]
+
+        self.dropoffs = dropoffs
+        self.dropoff_time = dropoff_time
+
+    def set_pickups(self, pickups, pickup_time):
+
+        if not isinstance(pickups, list):
+            pickups = [pickups]
+
+        self.pickups = pickups
+        self.pickup_time = pickup_time
+
 
 class PickupEvent(StopEvent):
     """
