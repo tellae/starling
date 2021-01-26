@@ -70,10 +70,6 @@ class ServiceVehicle(Vehicle):
 
     def process_stop_(self, stop):
 
-        # trace a stop event
-        stop_event = StopEvent(self.sim.scheduler.now(), self.operator, self, self.tripId, stop)
-        self.trace_event(stop_event)
-
         # get the stops to process
         dropoff = None
         pickup = None
@@ -90,6 +86,10 @@ class ServiceVehicle(Vehicle):
             return
         else:
             self.log_message("Unknown stop type {} to process".format(stop.type))
+
+        # trace a stop event
+        stop_event = StopEvent(self.sim.scheduler.now(), self.operator, self, self.tripId, stop)
+        self.trace_event(stop_event)
 
         # compute the dwell time duration
         dwell_time = self.compute_dwell_time(stop)

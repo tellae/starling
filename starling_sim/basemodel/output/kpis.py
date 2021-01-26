@@ -573,6 +573,8 @@ class ChargeKPI(KPI):
         if self.public_transport:
             self.keys = [self.KEY_ROUTE_ID, self.KEY_TRIP_DIRECTION] + self.keys
 
+        self.new_indicator_dict()
+
     def setup(self, simulation_model):
 
         if self.public_transport:
