@@ -555,9 +555,12 @@ class ChargeKPI(KPI):
     #: **value**: numeric value of the charge change
     KEY_VALUE = "value"
 
-    def __init__(self):
+    def __init__(self, non_empty_only=True):
 
         super().__init__()
+
+        # boolean indicating if only non empty pickups and dropoffs should be traced
+        self.non_empty_only = non_empty_only
 
         self.trips = None
         self.routes = None
@@ -599,6 +602,12 @@ class ChargeKPI(KPI):
                 self.indicator_dict[self.KEY_TIME].append(event.pickup_time)
                 self.indicator_dict[self.KEY_BOARD_TYPE].append(1)
                 self.indicator_dict[self.KEY_VALUE].append(len(event.pickups))
+
+            if not event.pickups and not event.dropoffs and not self.non_empty_only:
+                self.update_stop_information(event, agent)
+                self.indicator_dict[self.KEY_TIME].append(event.timestamp)
+                self.indicator_dict[self.KEY_BOARD_TYPE].append(0)
+                self.indicator_dict[self.KEY_VALUE].append(0)
 
     def update_stop_information(self, event, agent):
         """
