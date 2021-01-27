@@ -1,5 +1,7 @@
 import logging
 import sys
+import numpy as np
+import osmnx as ox
 from starling_sim.utils.utils import points_in_zone
 from starling_sim.basemodel.topology.osm_network import OSMNetwork
 from geopy import distance
@@ -407,20 +409,32 @@ class Environment:
 
         return best_node
 
-    def localisations_nearest_nodes(self, x_coordinates, y_coordinates, mode):
+    def localisations_nearest_nodes(self, x_coordinates, y_coordinates, modes):
         """
         Call the topology localisations_nearest_nodes method.
 
         :param x_coordinates: list of X coordinates of the localisations
         :param y_coordinates: list of Y coordinates of the localisations
-        :param mode: topology mode
+        :param modes: topology modes
         :return: list of nearest nodes
         """
+        print("called for modes {}".format(modes))
+        if isinstance(modes, list):
+            base_graph = self.topologies[modes[0]].graph
+            target_graph = base_graph.copy()
 
-        # get topology
-        topology = self.topologies[mode]
+            for mode in modes[1:]:
 
-        return topology.localisations_nearest_nodes(x_coordinates, y_coordinates)
+                intersect_graph = self.topologies[mode].graph
+
+                target_graph.remove_nodes_from(n for n in base_graph if n not in intersect_graph)
+
+        else:
+            target_graph = self.topologies[modes].graph
+
+        target_topology = OSMNetwork(modes, graph=target_graph)
+
+        return target_topology.localisations_nearest_nodes(x_coordinates, y_coordinates)
 
     def get_common_nodes_of(self, modes):
         """
