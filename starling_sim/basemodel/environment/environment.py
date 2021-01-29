@@ -523,8 +523,8 @@ class Environment:
         """
         Add a 'nearest_node' column to the given table containing the stop's nearest environment position.
 
-        The nearest node (common to all given modes) from each stop is evaluated. If the distance
-        to this node exceeds a maximum threshold and extend_graph is True, add a new node to the graph.
+        If extend_graph is True and the nearest node is further than max_distance from the stop,
+        add a new node to the graph.
 
         :param stops_table: DataFrame with columns ["stop_id", "stop_lat", "stop_lon"]
         :param modes: list of modes
