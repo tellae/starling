@@ -186,7 +186,7 @@ def run_main():
         exit(0)
 
     # launch simulation
-    logging.info("Launching the program Starling {}\n".format(__version__))
+    logging.info("Launching Starling {}\n".format(__version__))
     launch_simulation(input_args.param_path, input_args.package)
 
 

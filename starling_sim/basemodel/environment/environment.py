@@ -539,9 +539,9 @@ class Environment:
 
             topology.graph.add_node(node_id, **properties)
 
-    def build_gtfs_correspondence(self, feed, modes):
+    def build_gtfs_correspondence(self, stops_table, modes):
         """
-        Build a correspondence dict between the gtfs stops and the environment positions.
+        Build a correspondence dict between the given stops and the environment positions.
 
         For each stop, the nearest position common to the given modes is found.
         The second info added is if the stop localisation belongs to the modes bbox.
@@ -549,7 +549,7 @@ class Environment:
         the mode nodes. Otherwise, we add the stop localisation. It is then possible to know which stops
         belong to the bbox or not, and then extend the graph with these stops if wanted.
 
-        :param feed: gtfs_kit Feed object
+        :param stops_table: gtfs_kit stops table
         :param modes: list of modes
 
         :return: {stop_id: [position, (lat, lon) or None]
@@ -557,9 +557,6 @@ class Environment:
 
         # initialise a dict that maps stop points to topology nodes
         correspondences = dict()
-
-        # get the gtfs stop points
-        stops = feed.get_stops()
 
         # compute a network as the intersection of all given modes
         graph_0 = self.topologies[modes[0]].graph
@@ -572,24 +569,25 @@ class Environment:
         intersection_topology = OSMNetwork("intersection", graph=intersection_graph)
 
         # compute the nearest node in the intersection network for all stop points
-        latitudes = stops["stop_lat"].values
-        longitudes = stops["stop_lon"].values
+        latitudes = stops_table["stop_lat"].values
+        longitudes = stops_table["stop_lon"].values
 
         nearest_nodes = intersection_topology.localisations_nearest_nodes(longitudes, latitudes)
 
         # check if stops are in topologies zones
-        stops.rename(columns={"stop_lat": "lat", "stop_lon": "lon"}, inplace=True)
+        stops_table_copy = stops_table.copy(deep=True)
+        stops_table_copy.rename(columns={"stop_lat": "lat", "stop_lon": "lon"}, inplace=True)
+
         for mode in modes:
-            stops = points_in_zone(stops, self.topologies[mode].zone)
-            stops.rename(columns={"in_zone": mode}, inplace=True)
-        stops.rename(columns={"lat": "stop_lat", "lon": "stop_lon"}, inplace=True)
+            stops_table_copy = points_in_zone(stops_table_copy, self.topologies[mode].zone)
+            stops_table_copy.rename(columns={"in_zone": mode}, inplace=True)
 
         # consider stops that are not in ALL zones as out
-        stops["in_zones"] = stops[modes].all(axis=1)
+        stops_table_copy["in_zones"] = stops_table_copy[modes].all(axis=1)
 
         # build the correspondence dict from the previous computations
         i = 0
-        for index, row in stops.iterrows():
+        for index, row in stops_table_copy.iterrows():
 
             # get the stop point id
             stop_id = row["stop_id"]
@@ -599,7 +597,7 @@ class Environment:
 
             # see if the stop point is in the topologies zones
             if not row["in_zones"]:
-                extension = (row["stop_lat"], row["stop_lon"])
+                extension = (row["lat"], row["lon"])
             else:
                 extension = None
 
