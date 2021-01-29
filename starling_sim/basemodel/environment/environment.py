@@ -499,24 +499,6 @@ class Environment:
 
         return travel_length, travel_time
 
-    def is_in_modes_bbox(self, point, modes):
-        """
-        Check if the given point belongs to the bbox of ALL given modes.
-
-        :param point: (lat, lon)
-        :param modes: list of modes, must correspond to topologies keys
-        :return: boolean
-        """
-
-        is_in = True
-
-        for mode in modes:
-
-            topology = self.topologies[mode]
-            is_in = is_in and topology.is_in_zone(point)
-
-        return is_in
-
     def add_node(self, node_id, properties, modes):
         """
         Add a node id and its properties to the given modes.

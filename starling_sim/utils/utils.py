@@ -319,53 +319,6 @@ def geopandas_polygon_from_points(points):
     return gdf
 
 
-def bbox_centered_on_point(point_localisation, distance):
-    """
-    Recreate a osmnx bbox using a central point and distance.
-
-    The resulting bbox is a square with edges of size 2*dist,
-    centered on the given point.
-
-    :param point_localisation: (lat, lon), central point of the bbox
-    :param distance: "radius" of the square bbox
-
-    :return: GeoDataFrame containing a shapely Polygon with crs="epsg:4326"
-    """
-
-    # create a GeoDataFrame point
-    bbox = geopandas_points_from_localisations(point_localisation)
-
-    # convert GeoDataFrame to cartesian
-    bbox = bbox.to_crs({"init": "epsg:2154"})
-
-    # compute coordinates of the bbox corners
-    center_point = bbox.loc[0, "geometry"]
-
-    corner_point = Point(center_point.x - float(distance), center_point.y + float(distance))
-    bbox = bbox.append({"geometry": corner_point}, ignore_index=True)
-
-    corner_point = Point(center_point.x + float(distance), center_point.y + float(distance))
-    bbox = bbox.append({"geometry": corner_point}, ignore_index=True)
-
-    corner_point = Point(center_point.x + float(distance), center_point.y - float(distance))
-    bbox = bbox.append({"geometry": corner_point}, ignore_index=True)
-
-    corner_point = Point(center_point.x - float(distance), center_point.y - float(distance))
-    bbox = bbox.append({"geometry": corner_point}, ignore_index=True)
-
-    # remove central point
-    bbox = bbox.drop(index=0)
-
-    # convert GeoDataFrame back to GPS coordinates
-    bbox = bbox.to_crs({"init": "epsg:4326"})
-
-    # get points coordinates to create a geopandas polygon
-    points = [(corner.y, corner.x) for corner in bbox["geometry"].values]
-    bbox_zone = geopandas_polygon_from_points(points)
-
-    return bbox_zone
-
-
 def points_in_zone(localisations, zone):
     """
     Evaluate if the given points are contained in the zone.
@@ -483,15 +436,12 @@ def import_osm_graph(point, dist, mode="walk", simplify=True, outfile=None):
     save_osm_graph(graph, filename=filename, folder=OSM_GRAPHS_FOLDER)
 
 
-# TODO : store generation information somewhere else
 def osm_graph_from_point(point, distance, mode, simplify=True):
     """
     Import an osm graph of an area around the location point.
 
     The graph is reduced to its largest connected component, since
     we want connected graphs in order to find path between all nodes.
-
-    For now, we store the generation information in the name attribute.
 
     :param point: (lat, lon) point
     :param distance: distance around point
@@ -501,10 +451,8 @@ def osm_graph_from_point(point, distance, mode, simplify=True):
     :return: a networkx graph
     """
 
-    graph_name = "{};{};{};{}".format(mode, point[0], point[1], distance)
-
     graph = ox.graph_from_point(point, distance=distance, distance_type="bbox",
-                                network_type=mode, simplify=simplify, name=graph_name)
+                                network_type=mode, simplify=simplify)
 
     # we want a strongly connected graph
     graph = ox.geo_utils.get_largest_component(graph, strongly=True)
@@ -523,13 +471,9 @@ def osm_graph_from_polygon(polygon_points, mode, simplify=True):
     :return: a networkx graph
     """
 
-    polygon_points_strings = polygon_points.apply(str)
-    graph_name = polygon_points_strings.join(";")
-
     shapely_polygon = shapely_polygon_from_points(polygon_points)
 
-    graph = ox.graph_from_polygon(shapely_polygon, network_type=mode, simplify=simplify,
-                                  name=graph_name)
+    graph = ox.graph_from_polygon(shapely_polygon, network_type=mode, simplify=simplify)
 
     # we want a strongly connected graph
     graph = ox.geo_utils.get_largest_component(graph, strongly=True)

@@ -5,8 +5,7 @@ import numpy as np
 
 from starling_sim.basemodel.topology.topology import Topology
 from starling_sim.utils.paths import GRAPH_SPEEDS_FOLDER
-from starling_sim.utils.utils import json_load,  bbox_centered_on_point,\
-        points_in_zone, osm_graph_from_file
+from starling_sim.utils.utils import json_load, osm_graph_from_file
 
 
 class OSMNetwork(Topology):
@@ -31,9 +30,6 @@ class OSMNetwork(Topology):
         self.mode = transport_mode
         self.network_file = network_file
         self.speed_file = speed_file
-
-        # polygon delimiting the zone covered by the graph
-        self.zone = None
 
         self.graph = graph
         self.speeds = None
@@ -65,16 +61,6 @@ class OSMNetwork(Topology):
             logging.debug("Importing graph speeds for mode '{}' from file {}".format(self.mode, self.speed_file))
             speeds = json_load(GRAPH_SPEEDS_FOLDER + self.speed_file)
             self.update_speeds(speeds)
-
-        # TODO : find another way to store graph generation information
-        # set graph bbox
-        attr = self.graph.name.split(";")
-        if len(attr) != 4:
-            logging.error("OSM graphs must have a xml clause 'name' of the form : "
-                          "mode;point_lat;point_lon;distance")
-        graph_dist = attr[3]
-        graph_point = [float(attr[1]), float(attr[2])]
-        self.zone = bbox_centered_on_point(graph_point, graph_dist)
 
     def update(self):
         """
@@ -203,7 +189,3 @@ class OSMNetwork(Topology):
         d = self.graph.get_edge_data(node1, node2)
 
         return min(attr.get(data) for attr in d.values())
-
-    def is_in_zone(self, localisation):
-
-        return points_in_zone(localisation, self.zone)
