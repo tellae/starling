@@ -225,37 +225,23 @@ class Operator(Agent):
             raise ValueError("Missing columns when adding stop points. Required columns are {} and {} are provided."
                              .format(ADD_STOPS_COLUMNS, stops_table.columns))
 
-        # build the dict of correspondence between stops and topologies
-
         # TODO : this choice of modes is arbitrary, do better
         correspondence_modes = ["walk", self.mode["fleet"]]
-        correspondence = self.sim.environment.build_gtfs_correspondence(
-            stops_table, correspondence_modes)
-        # extend graph with stop nodes if asked
-        extend_graph = self.sim.parameters["extend_graph_with_gtfs"]
-        if extend_graph:
-            self.sim.environment.extend_graph_with_gtfs(stops_table, correspondence, correspondence_modes)
+
+        # find the nearest nodes of the stops and extend the graph if asked
+        self.sim.environment.add_stops_correspondence(stops_table, correspondence_modes,
+                                                      self.sim.parameters["extend_graph_with_gtfs"])
 
         # browse stops and add StopPoint objects to stopPoints
         for index, row in stops_table.iterrows():
 
-            info = correspondence[row["stop_id"]]
-
-            # get the position of the environment corresponding to the stop localisation
-            if extend_graph:
-                if info[1] is None:
-                    position = info[0]
-                else:
-                    position = row["stop_id"]
-            else:
-                position = info[0]
-
-            # get the stop point id and name
+            # get the stop point id, name and position from the table
             stop_point_id = id_prefix + row["stop_id"]
             stop_point_name = row["stop_name"]
+            stop_position = row["nearest_node"]
 
             # initialise the StopPoint object
-            stop_point = StopPoint(position, stop_point_id, stop_point_name)
+            stop_point = StopPoint(stop_position, stop_point_id, stop_point_name)
 
             # add the stop point to the stop points population
             self.sim.agentPopulation.new_population(STOP_POINT_POPULATION)

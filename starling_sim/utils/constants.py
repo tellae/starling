@@ -86,3 +86,8 @@ example_scenarios = {
     "SB_VS_R": "1Z4J4VhXNHfjQBYo11bDpLCq04lKBkLxv",
     "FF_VS": "1E7a22VwiweNd5jOzHn5aElOTaczYNfQn"
 }
+
+# other constants
+
+#: default maximum distance between stop and node before extending graph
+DEFAULT_MAX_STOP_DISTANCE = 50
