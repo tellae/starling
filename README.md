@@ -1,11 +1,19 @@
 # Starling
 
-Starling is an agent-based simulation framework for urban mobility.
+**Starling** is an agent-based simulation framework for urban mobility.
 
 It provides generic classes to build transport models such as station-based sharing system,
 public transport or shared taxis.
 
+**Citation info**: Leblond, V, Desbureaux, L, Bielecki, V., 2020. "[A new agent-based software for designing and optimizing emerging mobility services : application to city of Rennes](https://aetransport.org/past-etc-papers/conference-papers-2020?abstractId=6706&state=b)." *Proceedings of the European Transport Conference*, 11 September 2020, Milan
+
 ![](./docs/images/starling-viz.gif)
+
+## License
+
+[CeCILL-B](LICENSE.txt)
+
+Feel free to use and contribute to **Starling** project as long as you comply with the licence terms.
 
 ## Quickstart
 
