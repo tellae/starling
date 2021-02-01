@@ -88,6 +88,8 @@ This module must contain a Model class extending SimulationModel of the base mod
 See :ref:`create-models` for more information about the requirements for your models.
 """
 
+import starling_sim
+
 #: local prefix
 path_prefix = "./"
 
@@ -106,8 +108,11 @@ GRAPH_SPEEDS_FOLDER = ENVIRONMENT_FOLDER + "graph_speeds/"
 #: default path to folder containing gtfs feeds
 GTFS_FEEDS_FOLDER = ENVIRONMENT_FOLDER + "gtfs_feeds/"
 
-#: path to folder containing various json schemas for the simulator
-SCHEMA_FOLDER = "schemas/"
+#: name of the folder containing the json schemas for the simulator
+SCHEMA_FOLDER_NAME = "schemas/"
+
+#: path to folder containing various json schemas
+SCHEMA_FOLDER = starling_sim.__path__[0] + "/../" + SCHEMA_FOLDER_NAME
 
 #: models folder
 MODELS_FOLDER = DATA_FOLDER + "models/"
