@@ -25,6 +25,9 @@ class SimulationModel:
     #: leaving codes of the model and their description
     leaving_codes = {}
 
+    #: Agent types of the model and their modes
+    modes = None
+
     def __init__(self, parameters):
         """
         Initialisation of the simulation model with instances of its different elements

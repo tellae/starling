@@ -26,6 +26,12 @@ class Model(SimulationModel):
         "FAIL_GET": "Failed to get a vehicle"
     }
 
+    modes = {
+        "user": ["walk"],
+        "vehicle": ["station"],
+        "station": [None, "walk"]
+    }
+
     def __init__(self, parameters):
         """
         Initialisation of the classes used by the station-based model

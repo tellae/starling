@@ -59,6 +59,8 @@ class DynamicInput(Traced):
         init_file = self.sim.parameters["init_input_file"]
         init_feature_list = self.feature_list_from_file(init_file)
 
+        self.resolve_type_modes_from_inputs(init_feature_list)
+
         # TODO : pre-process init feature collection
 
         for feature in init_feature_list:
@@ -312,6 +314,86 @@ class DynamicInput(Traced):
             elif "destination_lat" in input_dict and "destination_lon" in input_dict:
                 input_dict["destination"] = nearest_nodes[i]
                 i += 1
+
+    def resolve_type_modes_from_inputs(self, features):
+
+        model_modes = self.sim.modes
+
+        if model_modes is None:
+            raise ValueError("Model modes are not specified")
+
+        for feature in features:
+
+            input_dict = feature["properties"]
+
+            type_modes = model_modes[input_dict["agent_type"]]
+
+            if "mode" in input_dict:
+                input_value = input_dict["mode"]
+            else:
+                input_value = None
+
+            if isinstance(type_modes, list):
+                for i in range(len(type_modes)):
+                    self.resolve_mode(type_modes, i, input_value, False)
+
+            if isinstance(type_modes, dict):
+                for key in type_modes.keys():
+
+                    if input_value is not None:
+                        val = input_value[key]
+                    else:
+                        val = None
+
+                    self.resolve_mode(type_modes, key, val, False)
+
+        for agent_type in model_modes.keys():
+
+            modes = model_modes[agent_type]
+
+            if isinstance(modes, list):
+                for i in range(len(modes)):
+                    self.resolve_mode(modes, i, None, True)
+
+            if isinstance(modes, dict):
+                for key in modes.keys():
+                    self.resolve_mode(modes, key, None, True)
+
+    def resolve_mode(self, obj, key, input_value, replace_types):
+
+        # get the list of topologies and the global dict of modes
+        topologies = list(self.sim.environment.topologies.keys())
+        agent_type_modes = self.sim.modes
+
+        # get the keyword to replace
+        keyword = obj[key]
+
+        mode = None
+
+        if keyword in topologies:
+            mode = keyword
+
+        elif keyword in agent_type_modes:
+
+            target = agent_type_modes[keyword]
+            target_key = 0
+
+            if not isinstance(key, str) and key != 0:
+                input_value = None
+
+            mode = self.resolve_mode(target, target_key, input_value, replace_types)
+
+            if replace_types:
+                obj[key] = mode
+
+        elif keyword is None:
+            obj[key] = input_value
+            mode = input_value
+
+        if (isinstance(key, str) or key == 0) and input_value is not None and mode != input_value:
+            raise ValueError("Conflict between type mode '{}' and input value '{}'".format(mode, input_value))
+
+        return mode
 
     def pre_process_input_dict(self, input_dict):
         """
