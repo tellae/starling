@@ -386,6 +386,8 @@ class DynamicInput(Traced):
         - if the mode value is an agent type, resolve the agent type first mode value
         - if the mode value is None, return the input value
 
+        Input values are only used for the first mode value of lists or the mode values of dicts.
+
         Check the final result against the input value if provided.
 
         :param obj: object containing the mode values
@@ -396,6 +398,12 @@ class DynamicInput(Traced):
 
         :return: resolved mode or None if not resolved
         """
+
+        # only consider input value for first list values or dict values
+        if isinstance(key, str) or key == 0:
+            input_value = input_value
+        else:
+            input_value = None
 
         # get the list of topologies and the global dict of modes
         topologies = list(self.sim.environment.topologies.keys())
@@ -413,10 +421,6 @@ class DynamicInput(Traced):
         # if the mode value is an agent type, resolve the agent type first mode value
         elif keyword in agent_type_modes:
 
-            # don't propagate input values to others than first mode values
-            if not isinstance(key, str) and key != 0:
-                input_value = None
-
             # resolve the agent type mode first mode value
             mode = self.resolve_mode(agent_type_modes[keyword], 0, input_value, replace_types)
 
@@ -430,7 +434,7 @@ class DynamicInput(Traced):
             mode = input_value
 
         # check the resulting mode with input value if mode value or dict object
-        if (isinstance(key, str) or key == 0) and input_value is not None and mode != input_value:
+        if input_value is not None and mode != input_value:
             raise ValueError("Conflict between type mode '{}' and input value '{}'".format(mode, input_value))
 
         return mode
