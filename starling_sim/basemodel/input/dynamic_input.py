@@ -315,6 +315,86 @@ class DynamicInput(Traced):
                 input_dict["destination"] = nearest_nodes[i]
                 i += 1
 
+    def pre_process_position_coordinates(self, features):
+        """
+        Add a position to the features with coordinates inputs.
+
+        Group the features by modes and call localisations_nearest_nodes environment method,
+        then update the features with the resulting positions.
+
+        :param features: features to pre process
+        """
+
+        # create a global dict that associates modes to a list of features and their information
+        pre_process_dict = dict()
+
+        # get the model modes dict
+        model_modes = self.sim.modes
+
+        # base structure of the content associated to modes
+        base_nearest_nodes_dict = {
+            "inputs": [],
+            "keys": [],
+            "lon": [],
+            "lat": [],
+            "nearest_nodes": None
+        }
+
+        # browse the features
+        for feature in features:
+            input_dict = feature["properties"]
+
+            # prepare structures for storing feature information
+            inputs = []
+            keys = []
+            lon = []
+            lat = []
+
+            # look for coordinates inputs
+
+            if "origin_lon" in input_dict and "origin_lat" in input_dict:
+                inputs.append(input_dict)
+                keys.append("origin")
+                lon.append(input_dict["origin_lon"])
+                lat.append(input_dict["origin_lat"])
+
+            if "destination_lon" in input_dict and "destination_lat" in input_dict:
+                inputs.append(input_dict)
+                keys.append("destination")
+                lon.append(input_dict["destination_lon"])
+                lat.append(input_dict["destination_lat"])
+
+            # if there are coordinates inputs, add them to the modes dict
+            if len(inputs) != 0:
+
+                # get the modes of the input
+                modes = model_modes[input_dict["agent_type"]]
+
+                # if the dict does not exist, create it
+                if modes not in pre_process_dict:
+                    pre_process_dict[modes] = base_nearest_nodes_dict.copy()
+
+                # append the information to the dict
+                nearest_nodes_dict = pre_process_dict[modes]
+                nearest_nodes_dict["inputs"] += inputs
+                nearest_nodes_dict["keys"] += keys
+                nearest_nodes_dict["lon"] += lon
+                nearest_nodes_dict["lat"] += lat
+
+        # for each mode group, compute the localisations
+        for modes in pre_process_dict.keys():
+
+            # call localisations_nearest_nodes on the dict information
+            nearest_nodes_dict = pre_process_dict[modes]
+            nearest_nodes = self.sim.environment.localisations_nearest_nodes(nearest_nodes_dict["lon"],
+                                                                             nearest_nodes_dict["lat"], list(modes))
+            nearest_nodes_dict["nearest_nodes"] = nearest_nodes
+
+            # affect the positions back to the input dicts
+            for i in range(len(nearest_nodes_dict["inputs"])):
+                input_dict = nearest_nodes_dict["inputs"][i]
+                input_dict[nearest_nodes_dict["keys"][i]] = nearest_nodes_dict["nearest_nodes"][i]
+
     def resolve_type_modes_from_inputs(self, features):
         """
         Resolve the model modes from the inputs.
