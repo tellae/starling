@@ -316,18 +316,30 @@ class DynamicInput(Traced):
                 i += 1
 
     def resolve_type_modes_from_inputs(self, features):
+        """
+        Resolve the model modes from the inputs.
 
+        Browse the inputs and resolve the missing values of the modes dict.
+        Raise an error if there are conflicting values for a same mode.
+
+        :param features: list of input features
+        :raises ValueError: if there are problem during the mode resolve
+        """
+
+        # get the modes dict of the model
         model_modes = self.sim.modes
-
         if model_modes is None:
             raise ValueError("Model modes are not specified")
 
+        # do a first pass without replacing the type references
+        # only resolve None values and check for conflicts
         for feature in features:
 
+            # get the input dict and its associated mode values
             input_dict = feature["properties"]
-
             type_modes = model_modes[input_dict["agent_type"]]
 
+            # get an eventual input value
             if "mode" in input_dict:
                 input_value = input_dict["mode"]
             else:
@@ -340,6 +352,7 @@ class DynamicInput(Traced):
             if isinstance(type_modes, dict):
                 for key in type_modes.keys():
 
+                    # get the relevant input value
                     if input_value is not None:
                         val = input_value[key]
                     else:
@@ -347,6 +360,7 @@ class DynamicInput(Traced):
 
                     self.resolve_mode(type_modes, key, val, False)
 
+        # do a second pass to resolve the type references
         for agent_type in model_modes.keys():
 
             modes = model_modes[agent_type]
@@ -355,11 +369,33 @@ class DynamicInput(Traced):
                 for i in range(len(modes)):
                     self.resolve_mode(modes, i, None, True)
 
+                # transform the lists into sorted tuples without duplicates
+                model_modes[agent_type] = tuple(sorted(set(modes)))
+
             if isinstance(modes, dict):
                 for key in modes.keys():
                     self.resolve_mode(modes, key, None, True)
 
     def resolve_mode(self, obj, key, input_value, replace_types):
+        """
+        Resolve the object mode value with recursive calls.
+
+        Resolution is done depending on the nature of the mode value:
+
+        - if the mode value is a topology, return it
+        - if the mode value is an agent type, resolve the agent type first mode value
+        - if the mode value is None, return the input value
+
+        Check the final result against the input value if provided.
+
+        :param obj: object containing the mode values
+        :param key: key of the resolved mode value
+        :param input_value: input value or None
+        :param replace_types: boolean indicating if agent type value should be
+            replaced with the resolved mode.
+
+        :return: resolved mode or None if not resolved
+        """
 
         # get the list of topologies and the global dict of modes
         topologies = list(self.sim.environment.topologies.keys())
@@ -370,26 +406,30 @@ class DynamicInput(Traced):
 
         mode = None
 
+        # if the mode value is a topology, return it
         if keyword in topologies:
             mode = keyword
 
+        # if the mode value is an agent type, resolve the agent type first mode value
         elif keyword in agent_type_modes:
 
-            target = agent_type_modes[keyword]
-            target_key = 0
-
+            # don't propagate input values to others than first mode values
             if not isinstance(key, str) and key != 0:
                 input_value = None
 
-            mode = self.resolve_mode(target, target_key, input_value, replace_types)
+            # resolve the agent type mode first mode value
+            mode = self.resolve_mode(agent_type_modes[keyword], 0, input_value, replace_types)
 
+            # replace the agent type value with mode if asked
             if replace_types:
                 obj[key] = mode
 
+        # if the mode value is None, return the input value
         elif keyword is None:
             obj[key] = input_value
             mode = input_value
 
+        # check the resulting mode with input value if mode value or dict object
         if (isinstance(key, str) or key == 0) and input_value is not None and mode != input_value:
             raise ValueError("Conflict between type mode '{}' and input value '{}'".format(mode, input_value))
 
