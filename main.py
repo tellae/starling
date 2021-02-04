@@ -10,8 +10,7 @@ python3 main.py -h
 ```
 """
 
-from starling_sim.model_simulator import run_main
-
+from starling_sim.run import run_main
 
 if __name__ == "__main__":
 
