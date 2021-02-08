@@ -7,8 +7,7 @@ import logging
 import os
 
 from starling_sim.utils.constants import example_scenarios, OSM_GRAPHS_ID, GRAPH_SPEEDS_ID, google_drive_download_format
-from starling_sim.utils.paths import DATA_FOLDER, ENVIRONMENT_FOLDER, OSM_GRAPHS_FOLDER, GRAPH_SPEEDS_FOLDER, \
-    GTFS_FEEDS_FOLDER, MODELS_FOLDER
+from starling_sim.utils import paths
 from starling_sim.utils.utils import create_if_not_exists
 
 
@@ -22,28 +21,28 @@ def create_data_tree():
     logging.info("Creating data tree as described in simulator_sim.utils.paths\n")
 
     # data folder
-    logging.info("Creating folder {}".format(DATA_FOLDER))
-    create_if_not_exists(DATA_FOLDER)
+    logging.info("Creating folder {}".format(paths.data_folder()))
+    create_if_not_exists(paths.data_folder())
 
     # environment folder
-    logging.info("Creating folder {}".format(ENVIRONMENT_FOLDER))
-    create_if_not_exists(ENVIRONMENT_FOLDER)
+    logging.info("Creating folder {}".format(paths.environment_folder()))
+    create_if_not_exists(paths.environment_folder())
 
     # OSM graphs folder
-    logging.info("Creating folder {}".format(OSM_GRAPHS_FOLDER))
-    create_if_not_exists(OSM_GRAPHS_FOLDER)
+    logging.info("Creating folder {}".format(paths.osm_graphs_folder()))
+    create_if_not_exists(paths.osm_graphs_folder())
 
     # graph speeds folder
-    logging.info("Creating folder {}".format(GRAPH_SPEEDS_FOLDER))
-    create_if_not_exists(GRAPH_SPEEDS_FOLDER)
+    logging.info("Creating folder {}".format(paths.graph_speeds_folder()))
+    create_if_not_exists(paths.graph_speeds_folder())
 
     # GTFS feeds folder
-    logging.info("Creating folder {}".format(GTFS_FEEDS_FOLDER))
-    create_if_not_exists(GTFS_FEEDS_FOLDER)
+    logging.info("Creating folder {}".format(paths.gtfs_feeds_folder()))
+    create_if_not_exists(paths.gtfs_feeds_folder())
 
     # models folder
-    logging.info("Creating folder {}".format(MODELS_FOLDER))
-    create_if_not_exists(MODELS_FOLDER)
+    logging.info("Creating folder {}".format(paths.models_folder()))
+    create_if_not_exists(paths.models_folder())
 
 
 # example scenarios import functions
@@ -56,7 +55,7 @@ def import_example_scenario(model_code):
     """
 
     # check the existence of the data folder
-    if not os.path.exists(DATA_FOLDER):
+    if not os.path.exists(paths.data_folder()):
         raise ModuleNotFoundError("The data folder tree must be created before importing example scenarios")
 
     # import example scenarios of the model
@@ -70,7 +69,7 @@ def import_example_scenario(model_code):
     file_id = example_scenarios[model_code]
 
     # import and unzip the archive
-    import_folder_from_file_id(file_id, model_code, MODELS_FOLDER)
+    import_folder_from_file_id(file_id, model_code, paths.models_folder())
 
 
 def import_example_environment():
@@ -81,10 +80,10 @@ def import_example_environment():
     logging.info("Importing environment for example scenarios")
 
     # import osm graphs for examples
-    import_folder_from_file_id(OSM_GRAPHS_ID, "osmGraph", OSM_GRAPHS_FOLDER, files_only=True)
+    import_folder_from_file_id(OSM_GRAPHS_ID, "osmGraph", paths.osm_graphs_folder(), files_only=True)
 
     # import graph speeds for examples
-    import_folder_from_file_id(GRAPH_SPEEDS_ID, "graphSpeeds", GRAPH_SPEEDS_FOLDER, files_only=True)
+    import_folder_from_file_id(GRAPH_SPEEDS_ID, "graphSpeeds", paths.graph_speeds_folder(), files_only=True)
 
     # import gtfs feeds for example
     pass

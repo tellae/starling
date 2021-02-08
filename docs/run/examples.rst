@@ -35,7 +35,7 @@ are interested in.
     python3 main.py -e SB_VS SB_VS_R
 
 You will find the newly downloaded scenarios in the folders of their
-respective models, in :data:`~starling_sim.utils.paths.DATA_FOLDER`.
+respective models, in :data:`~starling_sim.utils.paths.data_folder`.
 
 ***
 Run

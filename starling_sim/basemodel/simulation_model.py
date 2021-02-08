@@ -4,7 +4,7 @@ import numpy
 
 from starling_sim.basemodel.trace.trace import trace_simulation_end
 from starling_sim.utils.utils import import_gtfs_feed, validate_against_schema, json_load
-from starling_sim.utils.paths import SCHEMA_FOLDER
+from starling_sim.utils.paths import schemas_folder
 from starling_sim.utils.constants import PT_PARAMETERS_SCHEMA, BASE_LEAVING_CODES
 
 
@@ -168,7 +168,7 @@ class SimulationModel:
         and validate against schema
         """
 
-        pt_param_schema = json_load(SCHEMA_FOLDER + PT_PARAMETERS_SCHEMA)
+        pt_param_schema = json_load(schemas_folder() + PT_PARAMETERS_SCHEMA)
 
         # get PT parameters dict
         if "PT_parameters" in self.parameters:
