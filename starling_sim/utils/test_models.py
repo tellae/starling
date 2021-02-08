@@ -1,9 +1,8 @@
 from starling_sim.model_simulator import launch_simulation
-
 from starling_sim.utils.constants import DEFAULT_PARAMS_NAME
+from starling_sim.utils.simulation_logging import TEST_LOGGER
 
 import os
-import logging
 import subprocess
 import difflib
 import time
@@ -13,12 +12,6 @@ from starling_sim.utils import paths
 
 
 REFERENCE_OUTPUTS_FOLDER_NAME = "reference"
-
-test_logger = logging.getLogger("test_logger")
-test_logger.propagate = False
-stream_handler = logging.StreamHandler()
-test_logger.addHandler(stream_handler)
-test_logger.setLevel(20)
 
 
 def test_models(model_code_list, pkg):
@@ -33,17 +26,17 @@ def test_models(model_code_list, pkg):
     if len(model_code_list) == 0:
         model_code_list = testable_models
 
-    test_logger.info("Running tests for the models {}\n".format(model_code_list))
+    TEST_LOGGER.info("Running tests for the models {}\n".format(model_code_list))
 
     # test the models
     for model_code in model_code_list:
 
         if model_code not in testable_models:
-            test_logger.warning("Model code {} has no test scenarios".format(model_code))
+            TEST_LOGGER.warning("Model code {} has no test scenarios".format(model_code))
         else:
             test_model(model_code, pkg)
 
-    test_logger.info("\nTotal testing time: {}".format(time.time() - start))
+    TEST_LOGGER.info("\nTotal testing time: {}".format(time.time() - start))
 
 
 def test_model(model_code, pkg):
@@ -59,7 +52,7 @@ def test_model(model_code, pkg):
         except ValueError as e:
             message = str(e)
 
-        test_logger.info("{}, {} : {}".format(model_code, scenario, message))
+        TEST_LOGGER.info("{}, {} : {}".format(model_code, scenario, message))
 
 
 def test_scenario(model_code, pkg, scenario):
