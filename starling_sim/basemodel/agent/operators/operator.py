@@ -2,7 +2,7 @@ from starling_sim.basemodel.agent.agent import Agent
 from starling_sim.basemodel.agent.requests import TripRequest, StopPoint
 from starling_sim.basemodel.agent.stations.station import Station
 from starling_sim.utils.utils import geopandas_polygon_from_points, points_in_zone, json_load, validate_against_schema
-from starling_sim.utils.paths import GTFS_FEEDS_FOLDER, SCHEMA_FOLDER
+from starling_sim.utils.paths import gtfs_feeds_folder, schemas_folder
 from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
 from collections import OrderedDict
 
@@ -133,7 +133,7 @@ class Operator(Agent):
         if self.OPERATION_PARAMETERS_SCHEMA is not None:
 
             # validate given dict against schema
-            operation_param_schema = json_load(SCHEMA_FOLDER + self.OPERATION_PARAMETERS_SCHEMA)
+            operation_param_schema = json_load(schemas_folder() + self.OPERATION_PARAMETERS_SCHEMA)
             validate_against_schema(self.operationParameters, self.OPERATION_PARAMETERS_SCHEMA)
 
             # complete the parameters with the schema default values
@@ -153,7 +153,7 @@ class Operator(Agent):
         """
 
         if "line_shapes_file" in self.sim.parameters and self.sim.parameters["line_shapes_file"] is not None:
-            line_shapes_path = GTFS_FEEDS_FOLDER + self.sim.parameters["line_shapes_file"]
+            line_shapes_path = gtfs_feeds_folder() + self.sim.parameters["line_shapes_file"]
             self.line_shapes = pd.read_csv(line_shapes_path, sep=";")
             self.line_shapes = self.line_shapes.astype({"stop_id_A": str, "stop_id_B": str})
 

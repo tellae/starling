@@ -4,7 +4,7 @@ import networkx as nx
 import numpy as np
 
 from starling_sim.basemodel.topology.topology import Topology
-from starling_sim.utils.paths import GRAPH_SPEEDS_FOLDER
+from starling_sim.utils.paths import graph_speeds_folder
 from starling_sim.utils.utils import json_load, osm_graph_from_file
 
 
@@ -59,7 +59,7 @@ class OSMNetwork(Topology):
             raise ValueError("Speed file provided is {}".format(self.network_file))
         else:
             logging.debug("Importing graph speeds for mode '{}' from file {}".format(self.mode, self.speed_file))
-            speeds = json_load(GRAPH_SPEEDS_FOLDER + self.speed_file)
+            speeds = json_load(graph_speeds_folder() + self.speed_file)
             self.update_speeds(speeds)
 
     def update(self):

@@ -2,7 +2,7 @@ from starling_sim.models.SB_VS.model import Model as SB_VS_model
 from starling_sim.models.SB_VS_R.model import Model as SB_VS_R_model
 from starling_sim.models.FF_VS.model import Model as FF_VS_model
 from starling_sim.basemodel.parameters.simulation_parameters import parameters_from_file
-from starling_sim.utils.paths import MODEL_IMPORT_PATH
+from starling_sim.utils.paths import model_import_path
 
 import logging
 import time
@@ -70,7 +70,7 @@ class ModelSimulator:
         # otherwise, import the Model class using importlib
         else:
 
-            model_path = MODEL_IMPORT_PATH.format(starling_pkg=pkg, model_code=code)
+            model_path = model_import_path(starling_pkg=pkg, model_code=code)
 
             # try to import the module corresponding to the model code
             try:
