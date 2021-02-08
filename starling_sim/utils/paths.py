@@ -31,7 +31,7 @@ Global structure of the repository
     ├── tools                   # tools for the simulation runs
     ├── data                    # data folder
     ├── schemas                 # json schemas
-    ├── tests                   # testing scripts (TODO)
+    ├── tests                   # testing
     ├── docs                    # documentation files and scripts
     ├── main.py
     ├── requirements.txt
@@ -63,6 +63,12 @@ Structure of the data folder
         |   └── scenario_2      # scenario_2 data
         └── ...
 
+The path to the data repository and the names of the folders can be changed.
+
+However, the structure of the data repository must remain the same. This is ensured by the functions
+listed below, that build the paths to the different folders by concatenating the folder names
+in the correct order.
+
 ***************************
 Structure of models package
 ***************************
@@ -90,71 +96,141 @@ See :ref:`create-models` for more information about the requirements for your mo
 
 import starling_sim
 
+_SEP = "/"
+
+#: path to the data folder
 _DATA_FOLDER = "./data/"
 
+#: name of the environment folder
 ENVIRONMENT_FOLDER_NAME = "environment"
+
+#: name of the osm graphs folder
 OSM_GRAPHS_FOLDER_NAME = "osm_graphs"
+
+#: name of the graph speeds folder
 GRAPH_SPEEDS_FOLDER_NAME = "graph_speeds"
+
+#: name of the gtfs feeds folder
 GTFS_FEEDS_FOLDER_NAME = "gtfs_feeds"
+
+#: name of the schemas folder
 SCHEMAS_FOLDER_NAME = "schemas"
+
+#: name of the models folder
 MODELS_FOLDER_NAME = "models"
+
+#: name of the input folder
 INPUT_FOLDER_NAME = "inputs"
+
+#: name of the output folder
 OUTPUT_FOLDER_NAME = "outputs"
 
+#: format of the model import string
 _MODEL_IMPORT_FORMAT = "{starling_pkg}.models.{model_code}.model"
-
-_SEP = "/"
 
 
 def data_folder():
+    """
+    Path to the data folder.
+    """
     return _DATA_FOLDER
 
 
 def environment_folder():
+    """
+    Path to the environment folder.
+    """
     return data_folder() + ENVIRONMENT_FOLDER_NAME + _SEP
 
 
 def osm_graphs_folder():
+    """
+    Path to the osm graphs folder.
+    """
     return environment_folder() + OSM_GRAPHS_FOLDER_NAME + _SEP
 
 
 def graph_speeds_folder():
+    """
+    Path to the graph speeds folder.
+    """
     return environment_folder() + GRAPH_SPEEDS_FOLDER_NAME + _SEP
 
 
 def gtfs_feeds_folder():
+    """
+    Path to the gtfs feeds folder.
+    """
     return environment_folder() + GTFS_FEEDS_FOLDER_NAME + _SEP
 
 
 def models_folder():
+    """
+    Path to the models folder.
+    """
     return data_folder() + MODELS_FOLDER_NAME + _SEP
 
 
 def model_folder(model_code):
+    """
+    Path to the folder of the given model code.
+
+    :param model_code: code of the model
+    """
     return models_folder() + model_code + _SEP
 
 
 def scenario_folder(model_code, scenario):
+    """
+    Path to the folder of the given scenario.
+
+    :param model_code: code of the model
+    :param scenario: name of the scenario
+    """
     return model_folder(model_code) + scenario + _SEP
 
 
 def scenario_input_folder(model_code, scenario):
+    """
+    Path to the input folder of the given scenario.
+
+    :param model_code: code of the model
+    :param scenario: name of the scenario
+    """
     return scenario_folder(model_code, scenario) + INPUT_FOLDER_NAME + _SEP
 
 
 def scenario_output_folder(model_code, scenario):
+    """
+    Path to the output folder of the given scenario.
+
+    :param model_code: code of the model
+    :param scenario: name of the scenario
+    """
     return scenario_folder(model_code, scenario) + OUTPUT_FOLDER_NAME + _SEP
 
 
-def starling_sim_folder():
-    return starling_sim.__path__[0] + _SEP
+def starling_folder():
+    """
+    Path to the Starling folder.
+    """
+    return starling_sim.__path__[0] + _SEP + ".." + _SEP
 
 
 def schemas_folder():
-    return starling_sim_folder() + ".." + _SEP + SCHEMAS_FOLDER_NAME + _SEP
+    """
+    Path to the schemas folder.
+    """
+    return starling_folder() + SCHEMAS_FOLDER_NAME + _SEP
 
 
 def model_import_path(starling_pkg, model_code):
+    """
+    Import sequence for the given model.
+
+    :param starling_pkg: name of the root starling package
+    :param model_code: code of the model
+    """
     return _MODEL_IMPORT_FORMAT.format(starling_pkg=starling_pkg, model_code=model_code)
 
 # #: local prefix
