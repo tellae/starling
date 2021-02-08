@@ -5,6 +5,7 @@ import os
 from starling_sim.model_simulator import model_codes, launch_simulation
 from starling_sim.utils.data_tree import create_data_tree, import_example_environment, import_example_scenario
 from starling_sim.utils.simulation_logging import DEFAULT_LOGGER_LEVEL, setup_logging
+from starling_sim.utils.test_models import test_models
 from starling_sim.version import __version__
 
 
@@ -31,6 +32,12 @@ def run_main():
                         help="import example scenarios of the given model codes from the Google Drive of Tellae "
                              "and exit. If no model code is provided, import example scenarios for all public models."
                              "Generate the data tree folders if they don't exist.",
+                        nargs="*",
+                        metavar=("MODEL_CODE_1", "MODEL_CODE_2"),
+                        default=None)
+
+    parser.add_argument("-t", "--test",
+                        help="run tests on the given model codes based on the scenarios in tests/expected_outputs.",
                         nargs="*",
                         metavar=("MODEL_CODE_1", "MODEL_CODE_2"),
                         default=None)
@@ -85,6 +92,11 @@ def run_main():
                     raise ValueError("Unknown model code {} for example import. "
                                      "The list of public model codes is {}".format(code, model_codes))
                 import_example_scenario(code)
+        exit(0)
+
+    # test scenarios
+    if input_args.test is not None:
+        test_models(input_args.test, input_args.package)
         exit(0)
 
     # launch simulation
