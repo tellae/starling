@@ -1,15 +1,18 @@
 from starling_sim.model_simulator import launch_simulation
 
 from starling_sim.utils.constants import DEFAULT_PARAMS_NAME
-from starling_sim.utils.paths import *
 
 import os
 import logging
 import subprocess
 import difflib
 import time
+import shutil
 
-EXPECTED_OUTPUTS_FOLDER = "./tests/expected_outputs/"
+from starling_sim.utils import paths
+
+
+REFERENCE_OUTPUTS_FOLDER_NAME = "reference"
 
 test_logger = logging.getLogger("test_logger")
 test_logger.propagate = False
@@ -20,10 +23,12 @@ test_logger.setLevel(20)
 
 def test_models(model_code_list, pkg):
 
+    paths._DATA_FOLDER = "tests/test_data/"
+
     start = time.time()
 
     # get the list of models with a test folder
-    testable_models = os.listdir(EXPECTED_OUTPUTS_FOLDER)
+    testable_models = os.listdir(paths.models_folder())
 
     if len(model_code_list) == 0:
         model_code_list = testable_models
@@ -44,8 +49,7 @@ def test_models(model_code_list, pkg):
 def test_model(model_code, pkg):
 
     # get the test scenarios of the model
-    model_expected_outputs = EXPECTED_OUTPUTS_FOLDER + model_code + "/"
-    test_scenarios = os.listdir(model_expected_outputs)
+    test_scenarios = os.listdir(paths.model_folder(model_code))
 
     # test the scenarios
     for scenario in test_scenarios:
@@ -61,11 +65,16 @@ def test_model(model_code, pkg):
 def test_scenario(model_code, pkg, scenario):
 
     # get the scenario parameters file
-    parameters_path = MODELS_FOLDER + model_code + "/" + scenario + "/" + INPUT_FOLDER_NAME + "/" + DEFAULT_PARAMS_NAME
+    parameters_path = paths.scenario_input_folder(model_code, scenario) + DEFAULT_PARAMS_NAME
 
     # test the existance of the scenario
     if not os.path.exists(parameters_path):
         raise ValueError("Scenario parameters not found")
+
+    # remove existing outputs
+    output_folder = paths.scenario_output_folder(model_code, scenario)
+    if os.path.exists(output_folder):
+        shutil.rmtree(output_folder)
 
     try:
         # run the scenario
@@ -85,7 +94,7 @@ def test_scenario(model_code, pkg, scenario):
 def compare_scenario_outputs(model_code, scenario):
 
     # get the test files
-    test_scenario_output_folder = MODELS_FOLDER + model_code + "/" + scenario + "/" + OUTPUT_FOLDER_NAME + "/"
+    test_scenario_output_folder = paths.scenario_output_folder(model_code, scenario)
     test_scenario_output_files = os.listdir(test_scenario_output_folder)
 
     # extract bz2 archives
@@ -95,7 +104,7 @@ def compare_scenario_outputs(model_code, scenario):
     test_scenario_output_files = os.listdir(test_scenario_output_folder)
 
     # get the reference files
-    scenario_expected_outputs_folder = EXPECTED_OUTPUTS_FOLDER + model_code + "/" + scenario + "/"
+    scenario_expected_outputs_folder = paths.scenario_folder(model_code, scenario) + REFERENCE_OUTPUTS_FOLDER_NAME + "/"
     expected_output_files_list = os.listdir(scenario_expected_outputs_folder)
 
     # compare each reference file to its
@@ -119,4 +128,4 @@ def compare_scenario_outputs(model_code, scenario):
 
         # if diff is not empty, raise an error
         for _ in diff:
-            raise ValueError("Output differences")
+            raise ValueError("Differences in output file {}".format(expected_file))

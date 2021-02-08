@@ -1,0 +1,17 @@
+{
+    "code": "SB_VS",
+    "scenario": "example_nantes",
+    "limit": 100000,
+    "seed": 42,
+    "date": "2019-09-19",
+    "display_traces": false,
+    "geojson_output": true,
+    "kpi_output": true,
+    "simulate_routes": false,
+    "dynamic_input_file": "../../../../users_nantes.geojson",
+    "init_input_file": "stations_nantes.geojson",
+    "topologies": {
+        "walk": ["SGwalk_nantes_4000.graphml.bz2", "speeds_walk.json"],
+        "bike": ["SGbike_nantes_4000.graphml.bz2", "speeds_bike.json"]
+    }
+}
