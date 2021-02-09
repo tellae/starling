@@ -5,7 +5,7 @@ import os
 from starling_sim.model_simulator import model_codes, launch_simulation
 from starling_sim.utils.data_tree import create_data_tree, import_example_environment, import_example_scenario
 from starling_sim.utils.simulation_logging import DEFAULT_LOGGER_LEVEL, setup_logging
-from starling_sim.utils.test_models import test_models
+from starling_sim.utils.test_models import launch_tests
 from starling_sim.version import __version__
 
 
@@ -96,7 +96,7 @@ def run_main():
 
     # test scenarios
     if input_args.test is not None:
-        test_models(input_args.test, input_args.package)
+        launch_tests(input_args.test, input_args.package)
         exit(0)
 
     # launch simulation
