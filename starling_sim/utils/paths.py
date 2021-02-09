@@ -6,7 +6,7 @@ You will find here the structure of different parts of the project.
 
 **Data folder generation**
 
-The :data:`~starling_sim.utils.paths.DATA_FOLDER` and sub-folders are not included in the git repository,
+The :data:`~starling_sim.utils.paths.data_folder` and sub-folders are not included in the git repository,
 but they can be generated using the ``-D`` (or ``--data-tree``) option of main.py
 
 .. code-block:: bash
@@ -31,7 +31,7 @@ Global structure of the repository
     ├── tools                   # tools for the simulation runs
     ├── data                    # data folder
     ├── schemas                 # json schemas
-    ├── tests                   # testing scripts (TODO)
+    ├── tests                   # testing
     ├── docs                    # documentation files and scripts
     ├── main.py
     ├── requirements.txt
@@ -63,6 +63,12 @@ Structure of the data folder
         |   └── scenario_2      # scenario_2 data
         └── ...
 
+The path to the data repository and the names of the folders can be changed.
+
+However, the structure of the data repository must remain the same. This is ensured by the functions
+listed below, that build the paths to the different folders by concatenating the folder names
+in the correct order.
+
 ***************************
 Structure of models package
 ***************************
@@ -90,38 +96,287 @@ See :ref:`create-models` for more information about the requirements for your mo
 
 import starling_sim
 
-#: local prefix
-path_prefix = "./"
+_SEP = "/"
 
-#: data folder
-DATA_FOLDER = path_prefix + "data/"
+#: path to the data folder
+_DATA_FOLDER = "./data/"
 
-#: environment folder
-ENVIRONMENT_FOLDER = DATA_FOLDER + "environment/"
+#: name of the environment folder
+ENVIRONMENT_FOLDER_NAME = "environment"
 
-#: default path to folder for loading and saving graphs with osmnx
-OSM_GRAPHS_FOLDER = ENVIRONMENT_FOLDER + "osm_graphs/"
+#: name of the osm graphs folder
+OSM_GRAPHS_FOLDER_NAME = "osm_graphs"
 
-#: default path to folder containing graph speeds
-GRAPH_SPEEDS_FOLDER = ENVIRONMENT_FOLDER + "graph_speeds/"
+#: name of the graph speeds folder
+GRAPH_SPEEDS_FOLDER_NAME = "graph_speeds"
 
-#: default path to folder containing gtfs feeds
-GTFS_FEEDS_FOLDER = ENVIRONMENT_FOLDER + "gtfs_feeds/"
+#: name of the gtfs feeds folder
+GTFS_FEEDS_FOLDER_NAME = "gtfs_feeds"
 
-#: name of the folder containing the json schemas for the simulator
-SCHEMA_FOLDER_NAME = "schemas/"
+#: name of the schemas folder
+SCHEMAS_FOLDER_NAME = "schemas"
 
-#: path to folder containing various json schemas
-SCHEMA_FOLDER = starling_sim.__path__[0] + "/../" + SCHEMA_FOLDER_NAME
+#: name of the models folder
+MODELS_FOLDER_NAME = "models"
 
-#: models folder
-MODELS_FOLDER = DATA_FOLDER + "models/"
-
-#: inputs folder
+#: name of the input folder
 INPUT_FOLDER_NAME = "inputs"
 
-#: outputs folder
+#: name of the output folder
 OUTPUT_FOLDER_NAME = "outputs"
 
-#: import path for non public models
-MODEL_IMPORT_PATH = "{starling_pkg}.models.{model_code}.model"
+#: format of the model import string
+_MODEL_IMPORT_FORMAT = "{starling_pkg}.models.{model_code}.model"
+
+
+def data_folder():
+    """
+    Path to the data folder.
+    """
+    return _DATA_FOLDER
+
+
+def environment_folder():
+    """
+    Path to the environment folder.
+    """
+    return data_folder() + ENVIRONMENT_FOLDER_NAME + _SEP
+
+
+def osm_graphs_folder():
+    """
+    Path to the osm graphs folder.
+    """
+    return environment_folder() + OSM_GRAPHS_FOLDER_NAME + _SEP
+
+
+def graph_speeds_folder():
+    """
+    Path to the graph speeds folder.
+    """
+    return environment_folder() + GRAPH_SPEEDS_FOLDER_NAME + _SEP
+
+
+def gtfs_feeds_folder():
+    """
+    Path to the gtfs feeds folder.
+    """
+    return environment_folder() + GTFS_FEEDS_FOLDER_NAME + _SEP
+
+
+def models_folder():
+    """
+    Path to the models folder.
+    """
+    return data_folder() + MODELS_FOLDER_NAME + _SEP
+
+
+def model_folder(model_code):
+    """
+    Path to the folder of the given model code.
+
+    :param model_code: code of the model
+    """
+    return models_folder() + model_code + _SEP
+
+
+def scenario_folder(model_code, scenario):
+    """
+    Path to the folder of the given scenario.
+
+    :param model_code: code of the model
+    :param scenario: name of the scenario
+    """
+    return model_folder(model_code) + scenario + _SEP
+
+
+def scenario_input_folder(model_code, scenario):
+    """
+    Path to the input folder of the given scenario.
+
+    :param model_code: code of the model
+    :param scenario: name of the scenario
+    """
+    return scenario_folder(model_code, scenario) + INPUT_FOLDER_NAME + _SEP
+
+
+def scenario_output_folder(model_code, scenario):
+    """
+    Path to the output folder of the given scenario.
+
+    :param model_code: code of the model
+    :param scenario: name of the scenario
+    """
+    return scenario_folder(model_code, scenario) + OUTPUT_FOLDER_NAME + _SEP
+
+
+def starling_folder():
+    """
+    Path to the Starling folder.
+    """
+    return starling_sim.__path__[0] + _SEP + ".." + _SEP
+
+
+def schemas_folder():
+    """
+    Path to the schemas folder.
+    """
+    return starling_folder() + SCHEMAS_FOLDER_NAME + _SEP
+
+
+def model_import_path(starling_pkg, model_code):
+    """
+    Import sequence for the given model.
+
+    :param starling_pkg: name of the root starling package
+    :param model_code: code of the model
+    """
+    return _MODEL_IMPORT_FORMAT.format(starling_pkg=starling_pkg, model_code=model_code)
+
+# #: local prefix
+# path_prefix = "./"
+#
+# #: data folder
+# DATA_FOLDER = path_prefix + "data/"
+#
+# #: environment folder
+# ENVIRONMENT_FOLDER = DATA_FOLDER + "environment/"
+#
+# #: default path to folder for loading and saving graphs with osmnx
+# OSM_GRAPHS_FOLDER = ENVIRONMENT_FOLDER + "osm_graphs/"
+#
+# #: default path to folder containing graph speeds
+# GRAPH_SPEEDS_FOLDER = ENVIRONMENT_FOLDER + "graph_speeds/"
+#
+# #: default path to folder containing gtfs feeds
+# GTFS_FEEDS_FOLDER = ENVIRONMENT_FOLDER + "gtfs_feeds/"
+#
+# #: name of the folder containing the json schemas for the simulator
+# SCHEMA_FOLDER_NAME = "schemas/"
+#
+# #: path to folder containing various json schemas
+# SCHEMA_FOLDER = starling_sim.__path__[0] + "/../" + SCHEMA_FOLDER_NAME
+#
+# #: models folder
+# MODELS_FOLDER = DATA_FOLDER + "models/"
+#
+# #: inputs folder
+# INPUT_FOLDER_NAME = "inputs"
+#
+# #: outputs folder
+# OUTPUT_FOLDER_NAME = "outputs"
+#
+# #: import path for non public models
+# MODEL_IMPORT_PATH = "{starling_pkg}.models.{model_code}.model"
+
+# _DATA_FOLDER = "./data/"
+# _ENVIRONMENT_FOLDER_NAME = "environment"
+# _OSM_GRAPHS_FOLDER_NAME = "osm_graphs"
+# _GRAPH_SPEEDS_FOLDER_NAME = "graph_speeds"
+# _GTFS_FEEDS_FOLDER_NAME = "gtfs_feeds"
+# _SCHEMAS_FOLDER_NAME = "schemas"
+# _MODELS_FOLDER_NAME = "models"
+# _INPUT_FOLDER_NAME = "inputs"
+# _OUTPUT_FOLDER_NAME = "outputs"
+#
+#
+# class StarlingPath:
+#
+#     def __init__(self):
+#
+#         self._data_folder = None
+#
+#         self._ENVIRONMENT_FOLDER_NAME = None
+#         self._OSM_GRAPHS_FOLDER_NAME = None
+#         self._GRAPH_SPEEDS_FOLDER = None
+#         self._GTFS_FEEDS_FOLDER = None
+#         self._SCHEMA_FOLDER_NAME = None
+#         self._MODELS_FOLDER_NAME = None
+#         self._INPUT_FOLDER_NAME = None
+#         self._OUTPUT_FOLDER_NAME = None
+#
+#         self._sep = None
+#
+#         self.set_attributes()
+#
+#     def set_attributes(self, data_folder=_DATA_FOLDER,
+#                        environment_folder_name=_ENVIRONMENT_FOLDER_NAME,
+#                        osm_graphs_folder_name=_OSM_GRAPHS_FOLDER_NAME,
+#                        graph_speeds_folder_name=_GRAPH_SPEEDS_FOLDER_NAME,
+#                        gtfs_feeds_folder_name=_GTFS_FEEDS_FOLDER_NAME,
+#                        schemas_folder_name=_SCHEMAS_FOLDER_NAME,
+#                        models_folder_name=_MODELS_FOLDER_NAME,
+#                        input_folder_name=_INPUT_FOLDER_NAME,
+#                        output_folder_name=_OUTPUT_FOLDER_NAME,
+#                        folder_separator="/"):
+#
+#         self._data_folder = data_folder
+#
+#         self._ENVIRONMENT_FOLDER_NAME = environment_folder_name
+#         self._OSM_GRAPHS_FOLDER_NAME = osm_graphs_folder_name
+#         self._GRAPH_SPEEDS_FOLDER = graph_speeds_folder_name
+#         self._GTFS_FEEDS_FOLDER = gtfs_feeds_folder_name
+#         self._SCHEMA_FOLDER_NAME = schemas_folder_name
+#         self._MODELS_FOLDER_NAME = models_folder_name
+#         self._INPUT_FOLDER_NAME = input_folder_name
+#         self._OUTPUT_FOLDER_NAME = output_folder_name
+#
+#         self._sep = folder_separator
+#
+#     @property
+#     def starling_sim_folder(self):
+#         return starling_sim.__path__[0] + self._sep
+#
+#     @property
+#     def schemas_folder(self):
+#         return self.starling_sim_folder + self._SCHEMA_FOLDER_NAME + self._sep
+#
+#     @property
+#     def data_folder(self):
+#         return self._data_folder
+#
+#     @property
+#     def environment_folder(self):
+#         return self.data_folder + self._ENVIRONMENT_FOLDER_NAME + self._sep
+#
+#     @property
+#     def osm_graphs_folder(self):
+#         return self.environment_folder + self._OSM_GRAPHS_FOLDER_NAME + self._sep
+#
+#     @property
+#     def graph_speeds_folder(self):
+#         return self.environment_folder + self._GRAPH_SPEEDS_FOLDER + self._sep
+#
+#     @property
+#     def gtfs_feeds_folder(self):
+#         return self.environment_folder + self._GTFS_FEEDS_FOLDER + self._sep
+#
+#     @property
+#     def models_folder(self):
+#         return self.data_folder + self._MODELS_FOLDER_NAME + self._sep
+#
+#     def model_folder(self, model):
+#         return self.models_folder + model + self._sep
+#
+#     def scenario_folder(self, model, scenario):
+#         return self.model_folder(model) + scenario + self._sep
+#
+#     def scenario_input_folder(self, model, scenario):
+#         return self.scenario_folder(model, scenario) + self._INPUT_FOLDER_NAME + self._sep
+#
+#     def scenario_output_folder(self, model, scenario):
+#         return self.scenario_folder(model, scenario) + self._OUTPUT_FOLDER_NAME + self._sep
+#
+#
+# starling_paths = StarlingPath()
+#
+# print(starling_paths.data_folder)
+# print(starling_paths.starling_sim_folder)
+# print(starling_paths.environment_folder)
+# print(starling_paths.scenario_input_folder("SB_VS", "oui"))
+# starling_paths.set_attributes(data_folder="tests/test_data/")
+# print(starling_paths.data_folder)
+# print(starling_paths.starling_sim_folder)
+# print(starling_paths.environment_folder)
+# print(starling_paths.scenario_input_folder("SB_VS", "oui"))
+# exit(0)

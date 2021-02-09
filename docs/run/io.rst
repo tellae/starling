@@ -5,7 +5,7 @@ Inputs and outputs
 ##################
 
 Simulations are run using input data and generate output data. These files are stored in
-:data:`~starling_sim.utils.paths.DATA_FOLDER` (see :ref:`repository-structure`).
+:data:`~starling_sim.utils.paths.data_folder` (see :ref:`repository-structure`).
 
 ************
 JSON schemas
@@ -15,7 +15,7 @@ We use use `JSON Schema <https://json-schema.org/>`_ to describe the format of s
 and validate the inputs before running simulations.
 
 Some of these schemas are displayed in this page, but you can also find them in
-:data:`~starling_sim.utils.paths.SCHEMA_FOLDER`.
+:data:`~starling_sim.utils.paths.schemas_folder`.
 
 **********
 Input data
@@ -27,13 +27,13 @@ and in scenario inputs, that describe a specific simulation scenario.
 Environment data
 ----------------
 
-Environment data is stored in sub-folders of :data:`~starling_sim.utils.paths.ENVIRONMENT_FOLDER`.
+Environment data is stored in sub-folders of :data:`~starling_sim.utils.paths.environment_folder`.
 Such data can be common to several scenarios, for instance OSM graphs.
 
 OSM graphs
 ++++++++++
 
-OSM graphs files are stored in :data:`~starling_sim.utils.paths.OSM_GRAPHS_FOLDER`.
+OSM graphs files are stored in :data:`~starling_sim.utils.paths.osm_graphs_folder`.
 
 They are .graphml files that contain OSM graphs imported using :mod:`tools.generate_osm_graph`.
 These files represent the networks used by the agents to evolve in the simulation and are used to
@@ -42,7 +42,7 @@ setup the :class:`~starling_sim.basemodel.topology.osm_network` using the *osmnx
 Graph speeds
 ++++++++++++
 
-Graph speeds files are stored in :data:`~starling_sim.utils.paths.GRAPH_SPEEDS_FOLDER`.
+Graph speeds files are stored in :data:`~starling_sim.utils.paths.graph_speeds_folder`.
 
 They are .json files that associate speeds to graph arcs based on their "highway" attribute.
 If this attribute does not match the fields of the graph speeds, the default value is fetched in the "other" field.
@@ -50,7 +50,7 @@ If this attribute does not match the fields of the graph speeds, the default val
 GTFS feeds
 ++++++++++
 
-GTFS feeds are stored in :data:`~starling_sim.utils.paths.GTFS_FEEDS_FOLDER`.
+GTFS feeds are stored in :data:`~starling_sim.utils.paths.gtfs_feeds_folder`.
 
 They are .zip files that describe a public transport timetable.
 See `Google's GTFS Static overview <https://developers.google.com/transit/gtfs>`_ for more information.

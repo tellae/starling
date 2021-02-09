@@ -13,8 +13,7 @@ import osmnx as ox
 from shapely.geometry import Point, Polygon
 from numbers import Integral
 from jsonschema import validate, ValidationError, RefResolver
-from starling_sim.utils.paths import SCHEMA_FOLDER, GTFS_FEEDS_FOLDER, \
-    OSM_GRAPHS_FOLDER
+from starling_sim.utils.paths import schemas_folder, gtfs_feeds_folder, osm_graphs_folder
 
 pd.set_option('display.expand_frame_repr', False)
 
@@ -95,10 +94,10 @@ def validate_against_schema(instance, schema, raise_exception=True):
 
     # load the schema if a path is provided
     if isinstance(schema, str):
-        schema = json_load(SCHEMA_FOLDER + schema)
+        schema = json_load(schemas_folder() + schema)
 
     # get the absolute path and setup a resolver
-    schema_abs_path = 'file:///{0}/'.format(os.path.abspath(SCHEMA_FOLDER).replace("\\", "/"))
+    schema_abs_path = 'file:///{0}/'.format(os.path.abspath(schemas_folder()).replace("\\", "/"))
     resolver = RefResolver(schema_abs_path, schema)
 
     # validate against schema and catch eventual exception
@@ -433,7 +432,7 @@ def import_osm_graph(point, dist, mode="walk", simplify=True, outfile=None):
         filename = outfile
 
     # save the graph at .graphml format
-    save_osm_graph(graph, filename=filename, folder=OSM_GRAPHS_FOLDER)
+    save_osm_graph(graph, filename=filename, folder=osm_graphs_folder())
 
 
 def osm_graph_from_point(point, distance, mode, simplify=True):
@@ -514,7 +513,7 @@ def osm_graph_from_file(filename):
     :return: a networkx graph, or None if import fails
     """
 
-    graph = ox.load_graphml(filename=filename, folder=OSM_GRAPHS_FOLDER)
+    graph = ox.load_graphml(filename=filename, folder=osm_graphs_folder())
     return graph
 
 
@@ -534,7 +533,7 @@ def import_gtfs_feed(gtfs_filename, folder=None):
 
     # read the gtfs feed using gtfs-kit
     if folder is None:
-        folder = GTFS_FEEDS_FOLDER
+        folder = gtfs_feeds_folder()
     path = folder + gtfs_filename
     feed = gt.read_feed(path, dist_units="km")
 

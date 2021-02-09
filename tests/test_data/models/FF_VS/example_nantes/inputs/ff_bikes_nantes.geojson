@@ -1,0 +1,4641 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7505-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.216522612941674,
+                "origin_lon": -1.563140874633096
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7505-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21452261294167,
+                "origin_lon": -1.560140874633096
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7507-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21116897371217,
+                "origin_lon": -1.564543985982997
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7507-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.213168973712165,
+                "origin_lon": -1.562543985982997
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7523-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.212194630802664,
+                "origin_lon": -1.53073588559922
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7523-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.217194630802666,
+                "origin_lon": -1.53073588559922
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7531-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21268199924889,
+                "origin_lon": -1.5391810006488051
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7531-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21368199924889,
+                "origin_lon": -1.541181000648805
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7532-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22100899899329,
+                "origin_lon": -1.5430709999372831
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7532-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.217008998993286,
+                "origin_lon": -1.544070999937283
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7542-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21750499904649,
+                "origin_lon": -1.540843999579531
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7542-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.213504999046485,
+                "origin_lon": -1.5428439995795311
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7544-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.229625689315874,
+                "origin_lon": -1.564806392721725
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7544-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22862568931588,
+                "origin_lon": -1.5638063927217252
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7549-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21044367585451,
+                "origin_lon": -1.5395144881077343
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7549-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20844367585451,
+                "origin_lon": -1.543514488107734
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7555-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20774214150493,
+                "origin_lon": -1.526933452603476
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7555-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20974214150493,
+                "origin_lon": -1.5229334526034761
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7562-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22758060420423,
+                "origin_lon": -1.572114577980977
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7562-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22958060420423,
+                "origin_lon": -1.5691145779809772
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7563-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.235028184070494,
+                "origin_lon": -1.564059068742884
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7563-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.23602818407049,
+                "origin_lon": -1.564059068742884
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7568-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2280880859196,
+                "origin_lon": -1.540292593812309
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7568-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2320880859196,
+                "origin_lon": -1.540292593812309
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7578-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.216900998870145,
+                "origin_lon": -1.533947000438565
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7578-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22090099887014,
+                "origin_lon": -1.533947000438565
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7584-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19411699896786,
+                "origin_lon": -1.568362000602423
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7584-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.18811699896786,
+                "origin_lon": -1.566362000602423
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7586-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19330799904172,
+                "origin_lon": -1.58180600014532
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7586-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.192307999041724,
+                "origin_lon": -1.58180600014532
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7477-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21866758136109,
+                "origin_lon": -1.556384714271656
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7477-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.214667581361084,
+                "origin_lon": -1.557384714271656
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7491-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21942933829981,
+                "origin_lon": -1.5623083668828062
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7491-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21942933829981,
+                "origin_lon": -1.563308366882806
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7510-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.212108462375305,
+                "origin_lon": -1.550049128960399
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7510-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.212108462375305,
+                "origin_lon": -1.550049128960399
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7516-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20831728779129,
+                "origin_lon": -1.5601730785542012
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7516-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21131728779129,
+                "origin_lon": -1.562173078554201
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7521-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21869999891765,
+                "origin_lon": -1.550252999798415
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7521-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21669999891765,
+                "origin_lon": -1.549252999798415
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7536-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.221785182197024,
+                "origin_lon": -1.549099233293921
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7536-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22378518219703,
+                "origin_lon": -1.545099233293921
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7538-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22742988478162,
+                "origin_lon": -1.549999926008981
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7538-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22542988478162,
+                "origin_lon": -1.545999926008981
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7552-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20195551652634,
+                "origin_lon": -1.542507251477436
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7552-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19895551652634,
+                "origin_lon": -1.547507251477436
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7554-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20819964437134,
+                "origin_lon": -1.532180436224583
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7554-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20619964437134,
+                "origin_lon": -1.528180436224583
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7576-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19940799903701,
+                "origin_lon": -1.571183999687406
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7576-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20240799903701,
+                "origin_lon": -1.570183999687406
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7582-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.18649099912796,
+                "origin_lon": -1.5595320001369881
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7582-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.18449099912796,
+                "origin_lon": -1.565532000136988
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7588-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2085599993998,
+                "origin_lon": -1.586850000224417
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7588-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2075599993998,
+                "origin_lon": -1.589850000224417
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7591-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.23161399871924,
+                "origin_lon": -1.532328999746924
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7591-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22661399871924,
+                "origin_lon": -1.5363289997469238
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7594-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20523899911223,
+                "origin_lon": -1.5227259995294782
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7594-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20523899911223,
+                "origin_lon": -1.5217259995294783
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7482-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.212814586186084,
+                "origin_lon": -1.5580174853617121
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7482-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.218814586186085,
+                "origin_lon": -1.5580174853617121
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7483-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21320699919081,
+                "origin_lon": -1.5367959996268368
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7483-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21920699919081,
+                "origin_lon": -1.5367959996268368
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7485-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21215818771438,
+                "origin_lon": -1.563900673234135
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7485-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21815818771438,
+                "origin_lon": -1.5649006732341348
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7493-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21330099913174,
+                "origin_lon": -1.555782000113883
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7493-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21330099913174,
+                "origin_lon": -1.553782000113883
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7497-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.221514906597285,
+                "origin_lon": -1.554711961121047
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7497-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22551490659728,
+                "origin_lon": -1.555711961121047
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7500-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22092981580346,
+                "origin_lon": -1.571171883441585
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7500-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21492981580346,
+                "origin_lon": -1.569171883441585
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7503-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21508302986171,
+                "origin_lon": -1.5620865517218718
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7503-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21208302986171,
+                "origin_lon": -1.561086551721872
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7509-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.208465062653794,
+                "origin_lon": -1.5538245376182631
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7509-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.214465062653794,
+                "origin_lon": -1.554824537618263
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7511-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.210406573347804,
+                "origin_lon": -1.556233144075186
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7511-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.209406573347806,
+                "origin_lon": -1.553233144075186
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7513-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.207904998661206,
+                "origin_lon": -1.569229999345842
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7513-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.205904998661204,
+                "origin_lon": -1.569229999345842
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7517-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20578393470672,
+                "origin_lon": -1.555923109811675
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7517-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20678393470673,
+                "origin_lon": -1.5599231098116748
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7522-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.212149694052165,
+                "origin_lon": -1.5492262427954593
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7522-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21314969405216,
+                "origin_lon": -1.5472262427954593
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7541-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2222163793516,
+                "origin_lon": -1.533847443245216
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7541-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2222163793516,
+                "origin_lon": -1.536847443245216
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7543-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21885363717827,
+                "origin_lon": -1.55594074628687
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7543-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22485363717827,
+                "origin_lon": -1.5609407462868699
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7546-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.212333660110566,
+                "origin_lon": -1.574924617244764
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7546-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.215333660110566,
+                "origin_lon": -1.5759246172447638
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7558-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22660481471338,
+                "origin_lon": -1.568373577894617
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7558-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22060481471338,
+                "origin_lon": -1.571373577894617
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7561-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22519506069616,
+                "origin_lon": -1.576612844131113
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7561-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22619506069616,
+                "origin_lon": -1.575612844131113
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7566-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.238157999495556,
+                "origin_lon": -1.5533220002491481
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7566-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.23615799949555,
+                "origin_lon": -1.5533220002491481
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7569-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.188212046267964,
+                "origin_lon": -1.5498280369687292
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7569-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.18921204626796,
+                "origin_lon": -1.5498280369687292
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7572-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19953136311058,
+                "origin_lon": -1.542568090565843
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7572-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19553136311058,
+                "origin_lon": -1.539568090565843
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7575-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.202546999211165,
+                "origin_lon": -1.574324999841739
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7575-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20054699921116,
+                "origin_lon": -1.5713249998417391
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7583-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.190683998666344,
+                "origin_lon": -1.570201000301087
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7583-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.18968399866634,
+                "origin_lon": -1.565201000301087
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7587-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19812399913103,
+                "origin_lon": -1.588394999640925
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7587-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19812399913103,
+                "origin_lon": -1.588394999640925
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7476-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21647977047657,
+                "origin_lon": -1.549540605294652
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7476-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21847977047657,
+                "origin_lon": -1.552540605294652
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7488-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.215184822202666,
+                "origin_lon": -1.5599867937371033
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7488-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21718482220267,
+                "origin_lon": -1.565986793737103
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7494-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.224143328512135,
+                "origin_lon": -1.55447633962643
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7494-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.218143328512134,
+                "origin_lon": -1.55947633962643
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7495-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21739212548616,
+                "origin_lon": -1.5565310417225149
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7495-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22239212548616,
+                "origin_lon": -1.5585310417225149
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7518-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.205324089572784,
+                "origin_lon": -1.5541831078070003
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7518-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.202324089572784,
+                "origin_lon": -1.556183107807
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7524-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21732752407979,
+                "origin_lon": -1.546750555144349
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7524-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.213327524079794,
+                "origin_lon": -1.551750555144349
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7525-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21373639237868,
+                "origin_lon": -1.5488860249318162
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7525-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.208736392378675,
+                "origin_lon": -1.550886024931816
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7529-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20339613114905,
+                "origin_lon": -1.537581862893767
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7529-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20839613114905,
+                "origin_lon": -1.5385818628937669
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7530-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21046499886663,
+                "origin_lon": -1.539657000129892
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7530-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.208464998866624,
+                "origin_lon": -1.539657000129892
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7539-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22977476038521,
+                "origin_lon": -1.555147986306174
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7539-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22577476038521,
+                "origin_lon": -1.552147986306174
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7556-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.226394429953054,
+                "origin_lon": -1.558022819336933
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7556-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.229394429953054,
+                "origin_lon": -1.562022819336933
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7560-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.206438636544334,
+                "origin_lon": -1.5816892639118818
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7560-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20843863654433,
+                "origin_lon": -1.5816892639118818
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7585-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.191492999216564,
+                "origin_lon": -1.571364999961507
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7585-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.191492999216564,
+                "origin_lon": -1.572364999961507
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7590-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.23285299864353,
+                "origin_lon": -1.5349810001495312
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7590-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.236852998643535,
+                "origin_lon": -1.5319810001495313
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7592-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.229649999265284,
+                "origin_lon": -1.5291930000978928
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7592-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.225649999265286,
+                "origin_lon": -1.5271930000978928
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7481-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21820089161944,
+                "origin_lon": -1.559111680642514
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7481-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.217200891619434,
+                "origin_lon": -1.557111680642514
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7490-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.217213951768535,
+                "origin_lon": -1.5595701471776622
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7490-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22221395176854,
+                "origin_lon": -1.5615701471776622
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7498-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22650886902881,
+                "origin_lon": -1.530959592211888
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7498-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.222508869028815,
+                "origin_lon": -1.532959592211888
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7504-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22224839862821,
+                "origin_lon": -1.548185000350946
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7504-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22024839862821,
+                "origin_lon": -1.550185000350946
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7534-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.216102999440785,
+                "origin_lon": -1.5397510000662031
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7534-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22010299944079,
+                "origin_lon": -1.542751000066203
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7537-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22558733937878,
+                "origin_lon": -1.5546664429118289
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7537-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.219587339378776,
+                "origin_lon": -1.551666442911829
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7551-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20300320769318,
+                "origin_lon": -1.549548484533396
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7551-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.205003207693174,
+                "origin_lon": -1.552548484533396
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7559-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.211501069223715,
+                "origin_lon": -1.577175414925574
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7559-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21050106922372,
+                "origin_lon": -1.577175414925574
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7571-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19892309214909,
+                "origin_lon": -1.53671754036137
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7571-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19892309214909,
+                "origin_lon": -1.53171754036137
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7574-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20387899863963,
+                "origin_lon": -1.56919099958253
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7574-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20787899863963,
+                "origin_lon": -1.56919099958253
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7577-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19912699935205,
+                "origin_lon": -1.581700000216598
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7577-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20512699935205,
+                "origin_lon": -1.580700000216598
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7579-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.194216999176916,
+                "origin_lon": -1.533105000225913
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7579-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.197216999176916,
+                "origin_lon": -1.535105000225913
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7593-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22295699920414,
+                "origin_lon": -1.5243340001205221
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7593-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.228956999204144,
+                "origin_lon": -1.5193340001205222
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7484-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.217578941921715,
+                "origin_lon": -1.562675284070991
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7484-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.214578941921715,
+                "origin_lon": -1.557675284070991
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7489-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21902754347281,
+                "origin_lon": -1.565419483524874
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7489-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21602754347281,
+                "origin_lon": -1.563419483524874
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7496-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.227145467552965,
+                "origin_lon": -1.545404740836305
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7496-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22514546755296,
+                "origin_lon": -1.545404740836305
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7514-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20859772792559,
+                "origin_lon": -1.5726102863770302
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7514-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20759772792559,
+                "origin_lon": -1.5716102863770303
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7533-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21459146264419,
+                "origin_lon": -1.54290593917735
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7533-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.212591462644184,
+                "origin_lon": -1.5489059391773499
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7535-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21883419669814,
+                "origin_lon": -1.5457189647586058
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7535-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21883419669814,
+                "origin_lon": -1.544718964758606
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7547-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2114290916999,
+                "origin_lon": -1.573515336142073
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7547-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.209429091699896,
+                "origin_lon": -1.571515336142073
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7548-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20460563948131,
+                "origin_lon": -1.557532467953787
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7548-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20960563948131,
+                "origin_lon": -1.557532467953787
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7553-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.208757511162396,
+                "origin_lon": -1.5341182447029
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7553-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.208757511162396,
+                "origin_lon": -1.5361182447029
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7557-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22447062583161,
+                "origin_lon": -1.5705018422931
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7557-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2264706258316,
+                "origin_lon": -1.5695018422931002
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7565-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.245263913614124,
+                "origin_lon": -1.558344610514337
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7565-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.24126391361412,
+                "origin_lon": -1.554344610514337
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7573-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.192159999442545,
+                "origin_lon": -1.5482119997415962
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7573-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19015999944254,
+                "origin_lon": -1.549211999741596
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7589-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21085899866363,
+                "origin_lon": -1.586108000305972
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7589-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21085899866363,
+                "origin_lon": -1.584108000305972
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7474-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22125518252376,
+                "origin_lon": -1.554083806863555
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7474-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.223255182523765,
+                "origin_lon": -1.5550838068635549
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7480-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.212331357073936,
+                "origin_lon": -1.559126126571913
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7480-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.215331357073936,
+                "origin_lon": -1.557126126571913
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7487-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22933399868553,
+                "origin_lon": -1.554132999569387
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7487-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.23333399868553,
+                "origin_lon": -1.554132999569387
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7492-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2218544663884,
+                "origin_lon": -1.5569208906313812
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7492-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2218544663884,
+                "origin_lon": -1.5569208906313812
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7502-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.214120550156835,
+                "origin_lon": -1.558393235751407
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7502-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21512055015684,
+                "origin_lon": -1.558393235751407
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7508-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20954899874847,
+                "origin_lon": -1.569367999982376
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7508-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21154899874846,
+                "origin_lon": -1.565367999982376
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7512-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2058046412083,
+                "origin_lon": -1.550411913565954
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7512-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2118046412083,
+                "origin_lon": -1.5534119135659539
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7519-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.207932998696485,
+                "origin_lon": -1.548168999615048
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7519-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.207932998696485,
+                "origin_lon": -1.549168999615048
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7520-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21750537335024,
+                "origin_lon": -1.552849784673317
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7520-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21450537335024,
+                "origin_lon": -1.554849784673317
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7527-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21078140551884,
+                "origin_lon": -1.544298470702128
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7527-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21278140551884,
+                "origin_lon": -1.543298470702128
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7528-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.208798618038514,
+                "origin_lon": -1.5407777402377252
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7528-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.208798618038514,
+                "origin_lon": -1.542777740237725
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7540-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22406787826084,
+                "origin_lon": -1.5482124347758848
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7540-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22506787826084,
+                "origin_lon": -1.544212434775885
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7564-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.243298067059754,
+                "origin_lon": -1.553309010906766
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7564-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.24729806705975,
+                "origin_lon": -1.552309010906766
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7595-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.1983779989306,
+                "origin_lon": -1.52048099974515
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7595-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.1963779989306,
+                "origin_lon": -1.52048099974515
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7475-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.221571812320455,
+                "origin_lon": -1.552484289802341
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7475-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21957181232045,
+                "origin_lon": -1.550484289802341
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7478-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21583722927642,
+                "origin_lon": -1.5577492632613859
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7478-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.216837229276415,
+                "origin_lon": -1.5597492632613859
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7479-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21559668164849,
+                "origin_lon": -1.5539376451397742
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7479-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.2195966816485,
+                "origin_lon": -1.558937645139774
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7486-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21578794864367,
+                "origin_lon": -1.557161066406022
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7486-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21478794864367,
+                "origin_lon": -1.5561610664060221
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7499-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21882795858172,
+                "origin_lon": -1.564004526653967
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7499-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.214827958581715,
+                "origin_lon": -1.564004526653967
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7501-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.213463426738095,
+                "origin_lon": -1.569568016869896
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7501-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21246342673809,
+                "origin_lon": -1.569568016869896
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7506-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20788692504868,
+                "origin_lon": -1.5647449060469698
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7506-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20788692504868,
+                "origin_lon": -1.5627449060469698
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7515-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20891895753685,
+                "origin_lon": -1.561806790344659
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7515-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.20791895753685,
+                "origin_lon": -1.566806790344659
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7526-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21618008444329,
+                "origin_lon": -1.5469525413981071
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7526-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21218008444329,
+                "origin_lon": -1.5469525413981071
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7545-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21788243177725,
+                "origin_lon": -1.56943859751944
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7545-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.22088243177725,
+                "origin_lon": -1.57243859751944
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7550-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21639499919814,
+                "origin_lon": -1.539954000568135
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7550-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.21339499919814,
+                "origin_lon": -1.5359540005681351
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7567-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.23533522147605,
+                "origin_lon": -1.5522217664333129
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7567-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.23733522147605,
+                "origin_lon": -1.547221766433313
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7570-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19589890765901,
+                "origin_lon": -1.537540664054582
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7570-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19889890765901,
+                "origin_lon": -1.5335406640545821
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7580-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.19425999941826,
+                "origin_lon": -1.5313129999111992
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7580-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.192259999418255,
+                "origin_lon": -1.5263129999111993
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7581-1",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.18840199933313,
+                "origin_lon": -1.5520249996559812
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_id": "B-7581-2",
+                "agent_type": "vehicle",
+                "mode": "bike",
+                "icon": "bike",
+                "seats": 1,
+                "origin_lat": 47.18440199933313,
+                "origin_lon": -1.557024999655981
+            }
+        }
+    ]
+}

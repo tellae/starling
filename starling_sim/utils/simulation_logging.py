@@ -145,8 +145,27 @@ def new_algo_logger():
     return algo_logger
 
 
+def new_test_logger():
+    """
+    Create and return a logger for the testing.
+
+    :return: Logger object from the logging library
+    """
+
+    test_logger = logging.getLogger("test_logger")
+    test_logger.propagate = False
+    stream_handler = logging.StreamHandler()
+    test_logger.addHandler(stream_handler)
+    test_logger.setLevel(20)
+
+    return test_logger
+
+
 #: Traced objects logger
 TRACED_LOGGER = new_traced_logger()
 
 #: algorithms logger
 ALGO_LOGGER = new_algo_logger()
+
+#: testing logger
+TEST_LOGGER = new_test_logger()
