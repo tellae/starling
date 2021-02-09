@@ -90,4 +90,4 @@ example_scenarios = {
 # other constants
 
 #: default maximum distance between stop and node before extending graph
-DEFAULT_MAX_STOP_DISTANCE = 50
+DEFAULT_MAX_STOP_DISTANCE = 100
