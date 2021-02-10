@@ -301,13 +301,13 @@ def geopandas_polygon_from_points(points):
     The point coordinates are reversed to have a zone specified with
     (lon, lat) points, with "epsg:4326"
 
-    :param points: list of coordinates, must be (lat, lon) points.
+    :param points: list of coordinates, must be (lon, lat) points.
 
     :return: GeoDataFrame containing a shapely Polygon with crs="epsg:4326"
     """
 
     # create a shapely Polygon from point list
-    polygon = shapely_polygon_from_points(points, reverse=True)
+    polygon = shapely_polygon_from_points(points)
 
     # create a GeoDataFrame containing the polygon
     gdf = geopandas.GeoDataFrame([polygon], columns=["geometry"])
