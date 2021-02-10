@@ -240,12 +240,20 @@ class Operator(Agent):
             stop_point_name = row["stop_name"]
             stop_position = row["nearest_node"]
 
-            # initialise the StopPoint object
-            stop_point = StopPoint(stop_position, stop_point_id, stop_point_name)
+            stop_point_population = self.sim.agentPopulation.new_population(STOP_POINT_POPULATION)
 
-            # add the stop point to the stop points population
-            self.sim.agentPopulation.new_population(STOP_POINT_POPULATION)
-            self.sim.agentPopulation.new_agent_in(stop_point, STOP_POINT_POPULATION)
+            # if the stop point already exists, get it from the stop point population
+            if stop_point_id in stop_point_population:
+                stop_point = stop_point_population[stop_point_id]
+
+                # check if its position ise the same
+                if stop_position != stop_point.position:
+                    raise ValueError("Different positions provided for stop point {}.".format(stop_point_id))
+
+            # otherwise, create a new StopPoint object and add it to the population
+            else:
+                stop_point = StopPoint(stop_position, stop_point_id, stop_point_name)
+                self.sim.agentPopulation.new_agent_in(stop_point, STOP_POINT_POPULATION)
 
             # add the stop point to the operator stop points dict
             self.stopPoints[stop_point.id] = stop_point
