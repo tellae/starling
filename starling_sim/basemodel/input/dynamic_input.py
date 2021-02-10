@@ -161,8 +161,8 @@ class DynamicInput(Traced):
             return new_agent
 
         else:
-            self.log_message("Unknown agent_type {}. Class dict is {}."
-                             .format(agent_type, self.agent_type_class))
+            self.log_message("Unknown agent_type {}. Model agent types are {}."
+                             .format(agent_type, list(self.agent_type_class.keys())), 30)
             return
 
     def add_agent_to_simulation(self, agent, populations):
