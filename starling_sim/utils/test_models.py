@@ -9,10 +9,14 @@ import subprocess
 import time
 import shutil
 import filecmp
+import multiprocessing as mp
+
 
 REFERENCE_OUTPUTS_FOLDER_NAME = "reference"
 TEST_DATA_FOLDER = "tests/test_data/"
 DEMAND_INPUT_FILE = "users_nantes.geojson"
+
+PARALLEL_TESTS = 6
 
 
 def launch_tests(model_code_list, pkg):
@@ -74,15 +78,26 @@ def test_models(model_code_list, pkg):
     if len(model_code_list) == 0:
         model_code_list = testable_models
 
-    TEST_LOGGER.info("\nRunning tests for the models {}\n".format(model_code_list))
+    test_codes = []
 
     # test the models
     for model_code in model_code_list:
 
         if model_code not in testable_models:
-            TEST_LOGGER.warning("Model code {} has no test scenarios".format(model_code))
+            TEST_LOGGER.warning("Model code {} has no test scenario".format(model_code))
         else:
-            test_model(model_code, pkg)
+            test_codes.append(model_code)
+
+    TEST_LOGGER.info("\nRunning tests for the models {}\n".format(model_code_list))
+
+    # create a pool of processes
+    p_p = mp.Pool(processes=PARALLEL_TESTS, maxtasksperchild=1)
+
+    # create the tuple of parameters for each test
+    params = [(code, pkg) for code in test_codes]
+
+    # run the tests in parallel
+    p_p.starmap(test_model, params)
 
 
 def test_model(model_code, pkg):
