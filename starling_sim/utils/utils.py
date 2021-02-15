@@ -3,6 +3,7 @@ This module contains utils for the Starling framework.
 """
 
 import os
+import subprocess
 import logging
 import json
 import geopandas
@@ -398,123 +399,209 @@ def stops_table_from_geojson(geojson_path):
 
 # osmnx utils
 
-def import_osm_graph(point, dist, mode="walk", simplify=True, outfile=None):
+# def import_osm_graph(point, dist, mode="walk", simplify=True, outfile=None):
+#     """
+#     Generate an osm graph from parameters and store it in a file.
+#
+#     The generation method uses osmnx graph_from_point method with
+#     dist_type="bbox".
+#
+#     :param point: [lon, lat] coordinates of the center point
+#     :param dist: distance of the bbox from the center point
+#     :param mode: network_type of the graph
+#     :param simplify: boolean indicating if the graph should be simplified
+#     :param outfile: optional name for the output file
+#     """
+#
+#     # reverse lon and lat since osmnx takes [lat, lon]
+#     point = [point[1], point[0]]
+#
+#     # check mode
+#     if mode not in ["walk", "bike", "drive", "drive_service", "all", "all_private"]:
+#         raise ValueError("Unknown network type {}".format(mode))
+#
+#     # import graph
+#
+#     graph = osm_graph_from_point(point, dist, mode, simplify)
+#
+#     # determine filename
+#     if outfile is None:
+#         filename = "G{}_{}_{}_{}.graphml".format(mode, point[1], point[0], dist)
+#         if simplify:
+#             filename = "S" + filename
+#     else:
+#         filename = outfile
+#
+#     # save the graph at .graphml format
+#     save_osm_graph(graph, filename=filename, folder=osm_graphs_folder())
+
+
+def import_osm_graph(method, network_type, simplify, query=None, point=None, dist=None, polygon=None,
+                     outfile=None, bz2_compression=True):
     """
-    Generate an osm graph from parameters and store it in a file.
+    Generate an OSM graph from given parameters and store it in a file.
 
-    The generation method uses osmnx graph_from_point method with
-    dist_type="bbox".
+    The osmnx function used to generate the OSM graph is specified by the method parameter.
 
+    The correct parameters must be provided according to the import method.
+
+    :param method: name of the osmnx import method. Among ['place', 'point', 'polygon'].
+    :param network_type: OSM network_type of the graph
+    :param simplify: boolean indicating if the graph should be simplified
+    :param query: string, dict or list describing the place (must be geocodable)
     :param point: [lon, lat] coordinates of the center point
     :param dist: distance of the bbox from the center point
-    :param mode: network_type of the graph
-    :param simplify: boolean indicating if the graph should be simplified
+    :param polygon: list of points describing a polygon
     :param outfile: optional name for the output file
+    :param bz2_compression: boolean indicating if the file should be compressed in bz2
     """
 
-    # reverse lon and lat since osmnx takes [lat, lon]
-    point = [point[1], point[0]]
+    # import the OSM graph according to the given method
+    if method == "place":
+        graph = osm_graph_from_place(query, network_type, simplify)
+        default_outfile = "G{}_{}.graphml".format(network_type, query)
 
-    # check mode
-    if mode not in ["walk", "bike", "drive", "drive_service", "all", "all_private"]:
-        raise ValueError("Unknown network type {}".format(mode))
+    elif method == "point":
+        graph = osm_graph_from_point(point, dist, network_type, simplify)
+        default_outfile = "G{}_{}-{}_{}.graphml".format(network_type, point[0], point[1], dist)
 
-    # import graph
+    elif method == "polygon":
+        graph = osm_graph_from_polygon(polygon, network_type, simplify)
+        if outfile is None:
+            print("Outfile name must be provided when importing from polygon.")
+            return
+        default_outfile = None
 
-    graph = osm_graph_from_point(point, dist, mode, simplify)
-
-    # determine filename
-    if outfile is None:
-        filename = "G{}_{}_{}_{}.graphml".format(mode, point[1], point[0], dist)
-        if simplify:
-            filename = "S" + filename
     else:
-        filename = outfile
+        print("Unknown import method {}. Choices are ['point', 'place', 'polygon'].")
+        return
+
+    # keep the largest strongly connected component of the graph
+    graph = ox.geo_utils.get_largest_component(graph, strongly=True)
+
+    # get the output filename
+    if outfile is None:
+
+        # add 'S' to simplified graphs
+        if simplify:
+            default_outfile = "S" + default_outfile
+
+        outfile = default_outfile
 
     # save the graph at .graphml format
-    save_osm_graph(graph, filename=filename, folder=osm_graphs_folder())
+    save_osm_graph(graph, filename=outfile, folder=osm_graphs_folder(), bz2_compression=bz2_compression)
 
-
-def osm_graph_from_point(point, distance, mode, simplify=True):
-    """
-    Import an osm graph of an area around the location point.
-
-    The graph is reduced to its largest connected component, since
-    we want connected graphs in order to find path between all nodes.
-
-    :param point: (lat, lon) point
-    :param distance: distance around point
-    :param mode: osm network type
-    :param simplify: boolean indicating if the graph should be simplified
-
-    :return: a networkx graph
-    """
-
-    graph = ox.graph_from_point(point, distance=distance, distance_type="bbox",
-                                network_type=mode, simplify=simplify)
-
-    # we want a strongly connected graph
-    graph = ox.geo_utils.get_largest_component(graph, strongly=True)
-
+    # return the graph
     return graph
 
 
-def osm_graph_from_polygon(polygon_points, mode, simplify=True):
+def osm_graph_from_point(point, distance, network_type, simplify):
     """
-    Import an osm graph of the area with the polygon.
+    Import an OSM graph of an area around the location point.
 
-    :param polygon_points: list of (lat, lon) points delimiting the network zone
-    :param mode: osm network type
+    The import is done with the distance_type parameter set to 'bbox'.
+
+    :param point: (lon, lat) point
+    :param distance: distance around point
+    :param network_type: osm network type
     :param simplify: boolean indicating if the graph should be simplified
 
     :return: a networkx graph
     """
 
+    if point is None or distance is None:
+        print("The point and distance parameters must be specified when importing graph from point.")
+        exit(1)
+
+    # reverse the point coordinates (osmnx takes (lat, lon) coordinates)
+    point = (point[1], point[0])
+
+    return ox.graph_from_point(point, distance=distance, distance_type="bbox",
+                               network_type=network_type, simplify=simplify)
+
+
+def osm_graph_from_polygon(polygon_points, network_type, simplify):
+    """
+    Import an OSM graph of the area within the polygon.
+
+    :param polygon_points: list of (lon, lat) points delimiting the network zone
+    :param network_type: osm network type
+    :param simplify: boolean indicating if the graph should be simplified
+
+    :return: a networkx graph
+    """
+
+    if polygon_points is None:
+        print("The polygon parameter must be specified when importing graph from polygon.")
+        exit(1)
+
+    # create a shapely polygon with (lat, lon) coordinates from the list of points
     shapely_polygon = shapely_polygon_from_points(polygon_points)
 
-    graph = ox.graph_from_polygon(shapely_polygon, network_type=mode, simplify=simplify)
-
-    # we want a strongly connected graph
-    graph = ox.geo_utils.get_largest_component(graph, strongly=True)
-
-    return graph
+    return ox.graph_from_polygon(shapely_polygon, network_type=network_type, simplify=simplify)
 
 
-def save_osm_graph(graph, filename, folder):
+def osm_graph_from_place(query, network_type, simplify):
     """
-    Save the given graph in a graphml file
+    Import an OSM graph of the area described by the geocodable query.
 
-    If the files already exists, does nothing (? to be verified)
+    :param query: string, dict or list describing the place (must be geocodable)
+    :param network_type: osm network type
+    :param simplify: boolean indicating if the graph should be simplified
+
+    :return: a networkx graph
+    """
+
+    if query is None:
+        print("The query parameter must be specified when importing graph from place.")
+        exit(1)
+
+    return ox.graph_from_place(query, network_type=network_type, simplify=simplify)
+
+
+def save_osm_graph(graph, filename, folder, bz2_compression):
+    """
+    Save the given graph in a .graphml file.
+
+    The parameter bz2_compression indicates if the .graphml file
+    should be compressed using bzip2.
 
     :param graph: saved graph
     :param filename: name of the save file
     :param folder: name of the save folder
+    :param bz2_compression: boolean indicating if the file should be compressed in bz2
     """
 
     # check filename
     if not filename.endswith(".graphml"):
         raise ValueError("OSM graph filename must end with .graphml")
 
-    # print saving message
-    print("Saving osm graph at " + folder + filename)
-
     # save the graph
     ox.save_graphml(graph, filename=filename, folder=folder)
 
+    # compress to bz2 if asked
+    if bz2_compression:
+        subprocess.run(["bzip2", "-z", "-f", folder + filename])
+        print("Saved osm graph at " + folder + filename + ".bz2")
+    else:
+        print("Saved osm graph at " + folder + filename)
 
-def osm_graph_from_file(filename):
+
+def osm_graph_from_file(filename, folder=None):
     """
     Import an osm graph from a .graphml file.
 
-    The file is expected to be in OSM_GRAPHS_FOLDER.
-
-    :param filename: path to the graphml file
+    :param filename: path to the .graphml file
+    :param folder: folder containing the .graphml file.
+        Default is the osm graphs folder.
 
     :return: a networkx graph, or None if import fails
     """
 
-    graph = ox.load_graphml(filename=filename, folder=osm_graphs_folder())
-    return graph
+    if folder is None:
+        folder = osm_graphs_folder()
+
+    return ox.load_graphml(filename=filename, folder=folder)
 
 
 # gtfs utils
