@@ -397,45 +397,6 @@ def stops_table_from_geojson(geojson_path):
     return stops_table
 
 
-# osmnx utils
-
-# def import_osm_graph(point, dist, mode="walk", simplify=True, outfile=None):
-#     """
-#     Generate an osm graph from parameters and store it in a file.
-#
-#     The generation method uses osmnx graph_from_point method with
-#     dist_type="bbox".
-#
-#     :param point: [lon, lat] coordinates of the center point
-#     :param dist: distance of the bbox from the center point
-#     :param mode: network_type of the graph
-#     :param simplify: boolean indicating if the graph should be simplified
-#     :param outfile: optional name for the output file
-#     """
-#
-#     # reverse lon and lat since osmnx takes [lat, lon]
-#     point = [point[1], point[0]]
-#
-#     # check mode
-#     if mode not in ["walk", "bike", "drive", "drive_service", "all", "all_private"]:
-#         raise ValueError("Unknown network type {}".format(mode))
-#
-#     # import graph
-#
-#     graph = osm_graph_from_point(point, dist, mode, simplify)
-#
-#     # determine filename
-#     if outfile is None:
-#         filename = "G{}_{}_{}_{}.graphml".format(mode, point[1], point[0], dist)
-#         if simplify:
-#             filename = "S" + filename
-#     else:
-#         filename = outfile
-#
-#     # save the graph at .graphml format
-#     save_osm_graph(graph, filename=filename, folder=osm_graphs_folder())
-
-
 def import_osm_graph(method, network_type, simplify, query=None, point=None, dist=None, polygon=None,
                      outfile=None, bz2_compression=True):
     """
@@ -466,11 +427,11 @@ def import_osm_graph(method, network_type, simplify, query=None, point=None, dis
         default_outfile = "G{}_{}-{}_{}.graphml".format(network_type, point[0], point[1], dist)
 
     elif method == "polygon":
-        graph = osm_graph_from_polygon(polygon, network_type, simplify)
+        default_outfile = None
         if outfile is None:
             print("Outfile name must be provided when importing from polygon.")
             return
-        default_outfile = None
+        graph = osm_graph_from_polygon(polygon, network_type, simplify)
 
     else:
         print("Unknown import method {}. Choices are ['point', 'place', 'polygon'].")
