@@ -61,6 +61,9 @@ class DynamicInput(Traced):
 
         self.resolve_type_modes_from_inputs(init_feature_list)
 
+        self.pre_process_position_coordinates(self.dynamic_feature_list)
+        self.pre_process_position_coordinates(init_feature_list)
+
         # TODO : pre-process init feature collection
 
         for feature in init_feature_list:
@@ -69,7 +72,7 @@ class DynamicInput(Traced):
             self.new_agent_input(feature)
 
         # pre-process the dynamic feature collection
-        self.pre_process_features(self.dynamic_feature_list, "walk")
+        # self.pre_process_features(self.dynamic_feature_list, "walk")
 
     def play_dynamic_input_(self):
         """
