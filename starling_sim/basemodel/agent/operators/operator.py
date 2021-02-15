@@ -22,7 +22,8 @@ class Operator(Agent):
     OPERATION_PARAMETERS_SCHEMA = None
 
     def __init__(self, simulation_model, agent_id, fleet_dict, staff_dict=None, depot_points=None,
-                 zone_polygon=None, network_file=None, operation_parameters=None, parent_operator_id=None, **kwargs):
+                 zone_polygon=None, network_file=None, operation_parameters=None, parent_operator_id=None,
+                 extend_graph_with_stops=False, **kwargs):
         """
         Initialise the service operator with the relevant properties.
 
@@ -38,6 +39,7 @@ class Operator(Agent):
         :param network_file: file describing a topology specific to the service
         :param operation_parameters: additional parameters used for service operation
         :param parent_operator_id: id of the parent operator, if there is one
+        :param extend_graph_with_stops: boolean indicating if the graph should be extended with the stop points
         :param kwargs:
         """
 
@@ -51,6 +53,9 @@ class Operator(Agent):
         # parameters determining the service operation
         self.operationParameters = None
         self.init_operation_parameters(operation_parameters)
+
+        # graph extension boolean
+        self.extend_graph_with_stops = extend_graph_with_stops
 
         # set the fleet population (agents that provide the main transport service)
         self.fleet_name = fleet_dict
@@ -229,8 +234,7 @@ class Operator(Agent):
         correspondence_modes = ["walk", self.mode["fleet"]]
 
         # find the nearest nodes of the stops and extend the graph if asked
-        self.sim.environment.add_stops_correspondence(stops_table, correspondence_modes,
-                                                      self.sim.parameters["extend_graph_with_gtfs"])
+        self.sim.environment.add_stops_correspondence(stops_table, correspondence_modes, self.extend_graph_with_stops)
 
         # browse stops and add StopPoint objects to stopPoints
         for index, row in stops_table.iterrows():
@@ -246,9 +250,7 @@ class Operator(Agent):
             if stop_point_id in stop_point_population:
                 stop_point = stop_point_population[stop_point_id]
 
-                # check if its position ise the same
-                if stop_position != stop_point.position:
-                    raise ValueError("Different positions provided for stop point {}.".format(stop_point_id))
+                # no comparison between the two positions. The stops initialisation must be well ordered
 
             # otherwise, create a new StopPoint object and add it to the population
             else:
