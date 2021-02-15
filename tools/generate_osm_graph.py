@@ -14,7 +14,7 @@ Examples of command lines:
 
 .. code-block:: bash
 
-    python3 -m tools.generate_osm_graph place --query "Nantes, France" -n walk
+    python3 -m tools.generate_osm_graph place --query 'Nantes, France' -n walk
 
 .. code-block:: bash
 
@@ -23,7 +23,7 @@ Examples of command lines:
 .. code-block:: bash
 
     python3 -m tools.generate_osm_graph polygon -n drive -o triangle.graphml \
---polygon "[[-1.55, 47.20], [-1.55, 47.21], [-1.56, 47.20], [-1.55, 47.20]]"
+--polygon '[[-1.55, 47.20], [-1.55, 47.21], [-1.56, 47.20], [-1.55, 47.20]]'
 
 """
 
@@ -57,14 +57,20 @@ if __name__ == "__main__":
     # command line parser
 
     parser = argparse.ArgumentParser(description="Script for the generation of OSM graph",
-                                     epilog="For more details about the import functions, see the documentation "
-                                            "of the OSMnX library and its graph import functions.")
+                                     epilog="Examples:\n\n"
+                                            "python3 -m tools.generate_osm_graph place --query 'Nantes, France' -n walk\n"
+                                            "python3 -m tools.generate_osm_graph point --point -1.2 47.4 -d 3000 -n bike\n"
+                                            "python3 -m tools.generate_osm_graph polygon -n drive -o triangle.graphml "
+                                            "--polygon '[[-1.55, 47.20], [-1.55, 47.21], [-1.56, 47.20], [-1.55, 47.20]]'\n\n"
+                                            "For more details about the import functions, see the documentation "
+                                            "of the OSMnX library and its graph import functions.",
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument("method",
                         help="import method for the OSM graph. Corresponds to an import method of OSMnX."
                              " If 'place', provide a query."
                              " If 'point', provide a point and distance."
-                             " If 'polygon', provide a polygon.",
+                             " If 'polygon', provide a polygon and an outfile name.",
                         choices=["place", "point", "polygon"])
 
     parser.add_argument("-n", "--network",
