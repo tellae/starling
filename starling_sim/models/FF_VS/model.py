@@ -26,7 +26,7 @@ class Model(SimulationModel):
 
     modes = {
         "user": ["walk"],
-        "vehicle": [None]
+        "vehicle": [None, "walk"]
     }
 
     def __init__(self, parameters):
