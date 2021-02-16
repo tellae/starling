@@ -1,5 +1,6 @@
 from starling_sim.basemodel.trace.trace import Traced
 from starling_sim.basemodel.trace.events import InputEvent
+from starling_sim.basemodel.agent.operators.operator import Operator
 from starling_sim.utils.utils import json_load, validate_against_schema
 from starling_sim.utils.constants import STOP_POINT_POPULATION
 from jsonschema import ValidationError
@@ -59,20 +60,33 @@ class DynamicInput(Traced):
         init_file = self.sim.parameters["init_input_file"]
         init_feature_list = self.feature_list_from_file(init_file)
 
+        # resolve the modes of the agent types
         self.resolve_type_modes_from_inputs(init_feature_list)
 
-        self.pre_process_position_coordinates(init_feature_list)
+        init_without_operators = []
 
-        # TODO : pre-process init feature collection
-
+        # create the operators agents
         for feature in init_feature_list:
+
+            agent_type = feature["properties"]["agent_type"]
+            agent_class = self.agent_type_class[agent_type]
+
+            if issubclass(agent_class, Operator):
+                self.new_agent_input(feature)
+            else:
+                init_without_operators.append(feature)
+
+        # pre process the positions of the rest of the init input
+        self.pre_process_position_coordinates(init_without_operators)
+
+        # create the rest of the init input
+        for feature in init_without_operators:
 
             # generate a new agent based on the feature properties
             self.new_agent_input(feature)
 
-        # pre-process the dynamic feature collection
+        # pre process the positions of the dynamic input
         self.pre_process_position_coordinates(self.dynamic_feature_list)
-        # self.pre_process_features(self.dynamic_feature_list, "walk")
 
     def play_dynamic_input_(self):
         """
@@ -542,7 +556,7 @@ class DynamicInput(Traced):
         :param key: suffix of the current items and key of the new item
         :param modes: modes to which the position must belong, default mode is found in input dict
         """
-
+        return
         if modes is None:
             modes = input_dict["mode"]
 
