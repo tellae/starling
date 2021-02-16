@@ -46,22 +46,23 @@ def launch_tests(model_code_list, pkg):
                 test_models(public_models, "starling_sim")
 
         # now proceed to test to local models
+        if len(model_code_list) == 0 or len(local_models) != 0:
 
-        # set the data repository to the local test repository
-        paths._DATA_FOLDER = TEST_DATA_FOLDER
+            # set the data repository to the local test repository
+            paths._DATA_FOLDER = TEST_DATA_FOLDER
 
-        # copy the environment and demand input file
-        starling_test_data_env = paths.starling_folder() + TEST_DATA_FOLDER + paths.ENVIRONMENT_FOLDER_NAME + "/"
-        starling_test_data_demand = paths.starling_folder() + TEST_DATA_FOLDER + DEMAND_INPUT_FILE
-        shutil.copytree(starling_test_data_env, paths.environment_folder())
-        shutil.copy(starling_test_data_demand, TEST_DATA_FOLDER + DEMAND_INPUT_FILE)
+            # copy the environment and demand input file
+            starling_test_data_env = paths.starling_folder() + TEST_DATA_FOLDER + paths.ENVIRONMENT_FOLDER_NAME + "/"
+            starling_test_data_demand = paths.starling_folder() + TEST_DATA_FOLDER + DEMAND_INPUT_FILE
+            shutil.copytree(starling_test_data_env, paths.environment_folder())
+            shutil.copy(starling_test_data_demand, TEST_DATA_FOLDER + DEMAND_INPUT_FILE)
 
-        # run the tests for the local models
-        test_models(local_models, pkg)
+            # run the tests for the local models
+            test_models(local_models, pkg)
 
-        # remove the temporary test files
-        shutil.rmtree(paths.environment_folder())
-        os.remove(TEST_DATA_FOLDER + DEMAND_INPUT_FILE)
+            # remove the temporary test files
+            shutil.rmtree(paths.environment_folder())
+            os.remove(TEST_DATA_FOLDER + DEMAND_INPUT_FILE)
 
     else:
         # simply call test_models
