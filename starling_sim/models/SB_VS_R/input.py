@@ -29,12 +29,6 @@ class Input(DynamicInput):
 
             operator = self.sim.agentPopulation.population["operator"][input_dict["operator_id"]]
 
-            # TODO : add operator to station's attributes
-
-            # add station position
-            self.add_key_position_with_mode(input_dict, "origin",
-                                            ["walk", operator.mode["fleet"], operator.mode["staff"]])
-
             # add station population
             input_dict["population"] = operator.stations_dict_name
 

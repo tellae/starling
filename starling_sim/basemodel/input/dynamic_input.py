@@ -271,67 +271,6 @@ class DynamicInput(Traced):
             # store the dynamic ones back
             self.dynamic_feature_list = dynamic_features
 
-    # TODO : adapt to init_input_file and clean
-    def pre_process_features(self, features, mode):
-        """
-        Pre-process the features of the list before
-        introduction in the simulation.
-
-        The features are specified using the Geosjon schema.
-
-        :param features: list of input features
-        :param mode: topology mode
-        :return: list of pre-processed features, or nothing ??
-        """
-
-        if not features:
-            return
-
-        # first, build a list of longitudes and latitudes
-        latitudes = []
-        longitudes = []
-        for feature in features:
-
-            input_dict = feature["properties"]
-
-            # TODO : clarify this set
-            if "mode" not in input_dict:
-                input_dict["mode"] = mode
-
-            if "origin_stop_point" in input_dict:
-                self.add_key_position_from_stop_point(input_dict, "origin")
-            elif "origin_lat" in input_dict and "origin_lon" in input_dict:
-                latitudes.append(input_dict["origin_lat"])
-                longitudes.append(input_dict["origin_lon"])
-
-            if "destination_stop_point" in input_dict:
-                self.add_key_position_from_stop_point(input_dict, "destination")
-            if "destination_lat" in input_dict and "destination_lon" in input_dict:
-                latitudes.append(input_dict["destination_lat"])
-                longitudes.append(input_dict["destination_lon"])
-
-        # find nearest nodes
-        if len(longitudes) != 0:
-            nearest_nodes = self.sim.environment.localisations_nearest_nodes(longitudes, latitudes, mode)
-
-        # add nodes to input dicts
-        i = 0
-        for feature in features:
-
-            input_dict = feature["properties"]
-
-            if "origin_stop_point" in input_dict:
-                pass
-            elif "origin_lat" in input_dict and "origin_lon" in input_dict:
-                input_dict["origin"] = nearest_nodes[i]
-                i += 1
-
-            if "destination_stop_point" in input_dict:
-                pass
-            elif "destination_lat" in input_dict and "destination_lon" in input_dict:
-                input_dict["destination"] = nearest_nodes[i]
-                i += 1
-
     def pre_process_position_coordinates(self, features):
         """
         Add a position to the features with coordinates inputs.
@@ -544,34 +483,6 @@ class DynamicInput(Traced):
         :return:
         """
         pass
-
-    def add_key_position_with_mode(self, input_dict, key, modes=None):
-        """
-        Enhance the given input dict by adding an new position item.
-
-        The position item is found in the environment corresponding to <modes>,
-        using the '$key$_lat' and '$key$_lon'parameters.
-
-        :param input_dict: input dict to be completed
-        :param key: suffix of the current items and key of the new item
-        :param modes: modes to which the position must belong, default mode is found in input dict
-        """
-        return
-        if modes is None:
-            modes = input_dict["mode"]
-
-        key_lat = key + "_lat"
-        key_lon = key + "_lon"
-
-        if key_lat in input_dict and key_lon in input_dict:
-
-            localisation = (input_dict[key_lat], input_dict[key_lon])
-            if type(modes) == list:
-                input_dict[key] = self.sim.environment.nearest_node_in_modes(
-                    localisation, modes)
-            else:
-                input_dict[key] = self.sim.environment.topologies[modes].\
-                    nearest_position(localisation)
 
     def add_key_position_from_stop_point(self, input_dict, key):
 

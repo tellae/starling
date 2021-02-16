@@ -23,13 +23,7 @@ class Input(DynamicInput):
 
     def pre_process_input_dict(self, input_dict):
 
-        if input_dict["agent_type"] == "station":
-
-            # add station position (drive network)
-            self.add_key_position_with_mode(input_dict, "origin",
-                                            ["walk", input_dict["mode"]])
-
-        elif input_dict["agent_type"] == "user":
+        if input_dict["agent_type"] == "user":
 
             if "origin_station" in input_dict:
                 user_station = self.sim.agentPopulation["station"][input_dict["origin_station"]]
