@@ -63,6 +63,9 @@ KPI_FORMAT = "{scenario}_{kpi_output}.csv.bz2"
 #: format of the geojson output files
 GEOJSON_FORMAT = "{scenario}.geojson"
 
+#: format of the trace output files
+TRACE_FORMAT = "{scenario}_traces.txt"
+
 #: format of the ALIENS operators usage diagram
 OPERATORS_USAGE_FORMAT = "{prefix}_operators.png"
 

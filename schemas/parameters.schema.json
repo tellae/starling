@@ -59,16 +59,16 @@
       "description": "Boolean indicating if simulation time should be logged",
       "default": false
     },
-    "display_traces": {
-      "type": "boolean",
-      "title": "Display traces",
-      "description": "Boolean indicating if agent traces should be displayed",
-      "default": false
-    },
     "generate_summary": {
       "title": "Generate run summary",
       "description": "Boolean indicating if run summary should be generated.",
       "type": "boolean",
+      "default": false
+    },
+    "traces_output": {
+      "type": "boolean",
+      "title": "Traces output",
+      "description": "Boolean indicating if an agent traces output should be created",
       "default": false
     },
     "geojson_output": {
@@ -155,6 +155,6 @@
       "description": "List of routes that should be present in the simulation. If null, keep all routes."
     }
   },
-  "required": ["code", "scenario", "limit", "seed", "date", "display_traces", "geojson_output", "kpi_output",
+  "required": ["code", "scenario", "limit", "seed", "date", "geojson_output", "kpi_output",
     "simulate_routes", "dynamic_input_file", "init_input_file", "topologies"]
 }
