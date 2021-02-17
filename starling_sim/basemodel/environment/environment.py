@@ -127,7 +127,7 @@ class Environment:
         time_sum = sum(route_data["time"])
 
         if duration != time_sum:
-            route_data["time"][-1] += duration - time_sum
+            route_data["time"][-1] += int(duration - time_sum)
 
         return route_data
 
