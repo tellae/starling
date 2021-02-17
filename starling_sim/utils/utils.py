@@ -397,6 +397,39 @@ def stops_table_from_geojson(geojson_path):
     return stops_table
 
 
+def stop_table_from_gtfs(gtfs_feed, routes=None, zone=None, fixed_stops=None, active_stops_only=False):
+
+    result_table = pd.DataFrame()
+
+    gtfs_stops = gtfs_feed.get_stops().copy()
+
+    if fixed_stops is not None:
+        result_table = pd.concat([result_table, gtfs_stops[gtfs_stops["stop_id"].isin(fixed_stops)]], sort=False)
+
+    if active_stops_only:
+        stop_times = gtfs_feed.get_stop_times()
+        stop_ids = stop_times.drop_duplicates("stop_id")
+        gtfs_stops = pd.merge(gtfs_stops, stop_ids)[gtfs_stops.columns]
+
+    if routes is not None:
+        gtfs_stops = gtfs_feed.get_stops(route_ids=routes)
+
+    if zone is not None:
+        gtfs_stops.rename(columns={"stop_lat": "lat", "stop_lon": "lon"}, inplace=True)
+        gtfs_stops = points_in_zone(gtfs_stops, zone)
+        gtfs_stops.rename(columns={"lat": "stop_lat", "lon": "stop_lon"}, inplace=True)
+
+        gtfs_stops = gtfs_stops[gtfs_stops["in_zone"]]
+
+        # remove stops areas
+        gtfs_stops = gtfs_stops[(gtfs_stops["location_type"] == 0) | (gtfs_stops["location_type"].isna())]
+
+    result_table = pd.concat([result_table, gtfs_stops], sort=False)
+    result_table.drop_duplicates(inplace=True)
+
+    return result_table
+
+
 def import_osm_graph(method, network_type, simplify, query=None, point=None, dist=None, polygon=None,
                      outfile=None, bz2_compression=True):
     """
