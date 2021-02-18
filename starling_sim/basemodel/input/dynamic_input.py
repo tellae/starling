@@ -61,7 +61,7 @@ class DynamicInput(Traced):
         init_feature_list = self.feature_list_from_file(init_file)
 
         # resolve the modes of the agent types
-        self.resolve_type_modes_from_inputs(init_feature_list)
+        self.resolve_type_modes_from_inputs(init_feature_list + self.dynamic_feature_list)
 
         init_without_operators = []
 
@@ -381,9 +381,11 @@ class DynamicInput(Traced):
             else:
                 input_value = None
 
+            mode = None
+
             if isinstance(type_modes, list):
                 for i in range(len(type_modes)):
-                    self.resolve_mode(type_modes, i, input_value, False)
+                    mode = self.resolve_mode(type_modes, i, input_value, False)
 
             if isinstance(type_modes, dict):
                 for key in type_modes.keys():
@@ -394,7 +396,11 @@ class DynamicInput(Traced):
                     else:
                         val = None
 
-                    self.resolve_mode(type_modes, key, val, False)
+                    mode = self.resolve_mode(type_modes, key, val, False)
+
+            # affect the resulting mode if no mode was specified
+            if input_value is None and mode is not None:
+                input_dict["mode"] = mode
 
         # do a second pass to resolve the type references
         for agent_type in model_modes.keys():
