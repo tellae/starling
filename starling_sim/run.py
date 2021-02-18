@@ -22,7 +22,7 @@ def run_main():
     parser.add_argument("-l", "--level",
                         help="specify the logger level. See simulation_logging.py for more information.",
                         type=int,
-                        default=DEFAULT_LOGGER_LEVEL)
+                        default=None)
 
     parser.add_argument("-D", "--data-tree",
                         help="generate the data tree according to the paths stored in paths.py and exit.",
@@ -61,6 +61,12 @@ def run_main():
     input_args = parser.parse_args()
 
     # setup logging
+    if input_args.level is None:
+        # default logger level is 40 when running tests
+        if input_args.test is not None:
+            input_args.level = 40
+        else:
+            input_args.level = DEFAULT_LOGGER_LEVEL
     setup_logging(input_args.level)
 
     # documentation generation
