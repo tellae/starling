@@ -33,8 +33,7 @@ class Event:
 
 class InputEvent(Event):
     """
-    This event describes the generation of a traced element
-    Can be an agent, or the dynamic input
+    This event describes the generation of a traced element.
     """
 
     def __init__(self, time, element, message=""):

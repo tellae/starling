@@ -176,6 +176,39 @@ You can find here the correspondence between the most of the KPI fields and thei
     LeaveSimulationKPI.KEY_LEAVE_SIMULATION
 
 
+Traces file
+-----------
+
+The traces file is a .txt file which contains the sequence of events of the simulation agents.
+
+Events are grouped by agent, not in chronological order.
+
+The string representation of an event contains the event tracing time, its class name and its
+main attributes.
+
+The different kind of events are implemented in the :mod:`starling_sim.basemodel.trace.events` module.
+
+.. automodule:: starling_sim.basemodel.trace.events
+
+.. autosummary::
+    :nosignatures:
+
+    InputEvent
+    RouteEvent
+    PositionChangeEvent
+    WaitEvent
+    IdleEvent
+    RequestEvent
+    StopEvent
+    PickupEvent
+    DropoffEvent
+    StaffOperationEvent
+    GetVehicleEvent
+    LeaveVehicleEvent
+    LeaveSystemEvent
+    DestinationReachedEvent
+    LeaveSimulationEvent
+
 
 
 
