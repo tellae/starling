@@ -173,6 +173,8 @@ You can find here the correspondence between the most of the KPI fields and thei
     OccupationKPI.KEY_STOCK_DISTANCE
     OccupationKPI.KEY_MAX_STOCK
     DestinationReachedKPI.KEY_DESTINATION_REACHED
+    LeaveSimulationKPI.KEY_LEAVE_SIMULATION
+
 
 
 
