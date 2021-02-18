@@ -1,2 +1,2 @@
 agentId;walkDistance;walkTime;bikeDistance;bikeTime;driveDistance;driveTime;waitTime;nbSuccessGet;nbFailedGet;nbSuccessPut;nbFailedPut;nbFailedGetStaff;nbSuccessGetStaff;nbFailedPutStaff;nbSuccessPutStaff
-staff-0;0;0;0;0;65677;8596;0;0;0;0;0;0;41;0;37
+staff-0;0;0;0;0;61458;8003;0;0;0;0;0;0;41;0;37

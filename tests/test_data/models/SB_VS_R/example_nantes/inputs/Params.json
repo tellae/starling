@@ -11,8 +11,8 @@
     "dynamic_input_file": "../../../../users_nantes.geojson",
     "init_input_file": "operated_stations_nantes.geojson",
     "topologies": {
-        "walk": ["SGwalk_nantes_4000.graphml.bz2", "speeds_walk.json"],
-        "bike": ["SGbike_nantes_4000.graphml.bz2", "speeds_bike.json"],
-        "drive": ["SGdrive_nantes_4000.graphml.bz2", "speeds_drive.json"]
+        "walk": ["SGwalk_Nantes.graphml.bz2", "speeds_walk.json"],
+        "bike": ["SGbike_Nantes.graphml.bz2", "speeds_bike.json"],
+        "drive": ["SGdrive_Nantes.graphml.bz2", "speeds_drive.json"]
     }
 }
