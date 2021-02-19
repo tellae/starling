@@ -3,7 +3,7 @@ import logging
 import os
 
 from starling_sim.model_simulator import model_codes, launch_simulation
-from starling_sim.utils.data_tree import create_data_tree, import_example_environment, import_example_scenario
+from starling_sim.utils.data_tree import create_data_tree, import_examples
 from starling_sim.utils.simulation_logging import DEFAULT_LOGGER_LEVEL, setup_logging
 from starling_sim.utils.test_models import launch_tests
 from starling_sim.version import __version__
@@ -29,12 +29,9 @@ def run_main():
                         action="store_true")
 
     parser.add_argument("-e", "--examples",
-                        help="import example scenarios of the given model codes from the Google Drive of Tellae "
-                             "and exit. If no model code is provided, import example scenarios for all public models."
-                             "Generate the data tree folders if they don't exist.",
-                        nargs="*",
-                        metavar=("MODEL_CODE_1", "MODEL_CODE_2"),
-                        default=None)
+                        help="import the example scenarios of the given model codes from the test folder "
+                             "and exit. Generate the data tree folders if they don't exist.",
+                        action="store_true")
 
     parser.add_argument("-t", "--test",
                         help="run tests on the given model codes based on the scenarios in tests/expected_outputs.",
@@ -80,24 +77,13 @@ def run_main():
         exit(0)
 
     # example scenarios
-    if input_args.examples is not None:
+    if input_args.examples:
 
         # make sure the data tree is setup
         create_data_tree()
 
-        # import examples environment
-        import_example_environment()
-
-        if len(input_args.examples) == 0:
-            # if no model code is provided, import examples for all public models
-            for code in model_codes:
-                import_example_scenario(code)
-        else:
-            for code in input_args.examples:
-                if code not in model_codes:
-                    raise ValueError("Unknown model code {} for example import. "
-                                     "The list of public model codes is {}".format(code, model_codes))
-                import_example_scenario(code)
+        # import the example scenarios and environment
+        import_examples()
         exit(0)
 
     # test scenarios

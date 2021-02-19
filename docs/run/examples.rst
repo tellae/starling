@@ -15,26 +15,21 @@ Example scenarios are available only for the models provided with Starling.
 Import
 ******
 
-The scenarios and their environment are stored on the Google Drive
-of Tellae. The ids of the files are stored in the module constants.py,
-so make sure that your git is up-to-date if you want the latest examples.
 
-Run main.py with the ``-e`` (or ``--examples``) option to download the example scenarios and
-their environments. This also creates the data folder tree if it
-does not exist.
+The example scenarios are the same than those used for testing, so the import consists in copying the
+test scenarios in the :data:`~starling_sim.utils.paths.data_folder`.
+This also creates the data folder tree if it does not exist.
+
+The operation overwrites all the existing files, so if you have modified example scenarios,
+be sure to rename them.
+
+Run main.py with the ``-e`` (or ``--examples``) option to import the example scenarios.
 
 .. code-block:: bash
 
     python3 main.py -e
 
-You can also provide one or more model code to specify the models you
-are interested in.
-
-.. code-block:: bash
-
-    python3 main.py -e SB_VS SB_VS_R
-
-You will find the newly downloaded scenarios in the folders of their
+You will find the scenarios in the folders of their
 respective models, in :data:`~starling_sim.utils.paths.data_folder`.
 
 ***
@@ -65,6 +60,7 @@ the scenario inputs. This folder contains the output files of the simulation:
 
 - Key Indicators of Performance (KPIs) tables
 - Visualisation file
+- Traces file
 
 The KPIs tables are .csv files and can be used or visualised with
 classic software and libraries.

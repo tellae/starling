@@ -72,24 +72,6 @@ OPERATORS_USAGE_FORMAT = "{prefix}_operators.png"
 #: format of the ALIENS objective function graph
 OBJECTIVE_GRAPH_FORMAT = "{prefix}_objective.png"
 
-# ids and links for importing files from Tellae's Google Drive
-
-# link format for importing files (can be used with wget)
-google_drive_download_format = "https://docs.google.com/uc?export=download&id={}"
-
-# id of the osm graphs archive
-OSM_GRAPHS_ID = "1_QErckpf-cgcJfC2Il3WS4SdlLEP0Lmt"
-
-# id of the graph speeds archive
-GRAPH_SPEEDS_ID = "18vgoP8EyyeUIhdbCP8Jp8UVvJgOdGlX2"
-
-# ids of the example scenarios archive of each model
-example_scenarios = {
-    "SB_VS": "1uFP_chQiHi4WC40C38MKuWxpJq_oWWlH",
-    "SB_VS_R": "1Z4J4VhXNHfjQBYo11bDpLCq04lKBkLxv",
-    "FF_VS": "1E7a22VwiweNd5jOzHn5aElOTaczYNfQn"
-}
-
 # other constants
 
 #: default maximum distance between stop and node before extending graph
