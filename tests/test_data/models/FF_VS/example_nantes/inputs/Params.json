@@ -1,7 +1,7 @@
 {
     "code": "FF_VS",
     "scenario": "example_nantes",
-    "limit": 100000,
+    "limit": 35000,
     "seed": 42,
     "date": "2019-09-19",
     "traces_output": true,
