@@ -36,6 +36,7 @@ Global structure of the repository
     ├── main.py
     ├── requirements.txt
     ├── .gitignore
+    ├── CHANGELOG.md
     └── README.md
 
 ****************************
