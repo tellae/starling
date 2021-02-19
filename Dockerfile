@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 # Install packages
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update
+RUN apt-get update --fix-missing
 RUN apt-get install -yy -q software-properties-common
 RUN apt-get install -yy -q libcurl4-gnutls-dev \
     libssl-dev libproj-dev libgdal-dev gdal-bin python3-gdal \
@@ -29,6 +29,7 @@ WORKDIR /starling_dir
 # Make the files owned by user
 RUN chown -R starling_user:starling_user /starling_dir
 
+# Install sudo
 RUN apt-get -y install sudo
 
 # Switch to your new user in the docker image
