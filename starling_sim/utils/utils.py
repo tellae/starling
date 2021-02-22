@@ -431,7 +431,7 @@ def stop_table_from_gtfs(gtfs_feed, routes=None, zone=None, fixed_stops=None, ac
 
 
 def import_osm_graph(method, network_type, simplify, query=None, which_result=None, point=None, dist=None, polygon=None,
-                     outfile=None, bz2_compression=True):
+                     outfile=None):
     """
     Generate an OSM graph from given parameters and store it in a file.
 
@@ -449,17 +449,16 @@ def import_osm_graph(method, network_type, simplify, query=None, which_result=No
     :param dist: distance of the bbox from the center point
     :param polygon: list of points describing a polygon
     :param outfile: optional name for the output file
-    :param bz2_compression: boolean indicating if the file should be compressed in bz2
     """
 
     # import the OSM graph according to the given method
     if method == "place":
         graph = osm_graph_from_place(query, which_result, network_type, simplify)
-        default_outfile = "G{}_{}.graphml".format(network_type, query)
+        default_outfile = "G{}_{}.graphml.bz2".format(network_type, query)
 
     elif method == "point":
         graph = osm_graph_from_point(point, dist, network_type, simplify)
-        default_outfile = "G{}_{}-{}_{}.graphml".format(network_type, point[0], point[1], dist)
+        default_outfile = "G{}_{}-{}_{}.graphml.bz2".format(network_type, point[0], point[1], dist)
 
     elif method == "polygon":
         default_outfile = None
@@ -485,7 +484,7 @@ def import_osm_graph(method, network_type, simplify, query=None, which_result=No
         outfile = default_outfile
 
     # save the graph at .graphml format
-    save_osm_graph(graph, filename=outfile, folder=osm_graphs_folder(), bz2_compression=bz2_compression)
+    save_osm_graph(graph, filename=outfile, folder=osm_graphs_folder())
 
     # return the graph
     return graph
@@ -557,33 +556,39 @@ def osm_graph_from_place(query, which_result, network_type, simplify):
     return ox.graph_from_place(query, network_type=network_type, simplify=simplify, which_result=which_result)
 
 
-def save_osm_graph(graph, filename, folder, bz2_compression):
+def save_osm_graph(graph, filename, folder):
     """
     Save the given graph in a .graphml file.
 
-    The parameter bz2_compression indicates if the .graphml file
-    should be compressed using bzip2.
+    Detect if the filename ends with '.bz2', and realise
+    a bz2 compression accordingly.
 
     :param graph: saved graph
     :param filename: name of the save file
     :param folder: name of the save folder
-    :param bz2_compression: boolean indicating if the file should be compressed in bz2
     """
+
+    # check bz2 extension
+    if filename.endswith(".bz2"):
+        to_bz2 = True
+        filename = filename[:-4]
+    else:
+        to_bz2 = False
 
     # check filename
     if not filename.endswith(".graphml"):
-        raise ValueError("OSM graph filename must end with .graphml")
+        raise ValueError("OSM graph filename must end with .graphml or .graphml.bz2")
 
     # save the graph
     filepath = folder + filename
     ox.save_graphml(graph, filepath)
 
-    # compress to bz2 if asked
-    if bz2_compression:
-        subprocess.run(["bzip2", "-z", "-f", folder + filename])
-        print("Saved osm graph at " + folder + filename + ".bz2")
+    # compress to bz2 if necessary
+    if to_bz2:
+        subprocess.run(["bzip2", "-z", "-f", filepath])
+        print("Saved osm graph at " + filepath + ".bz2")
     else:
-        print("Saved osm graph at " + folder + filename)
+        print("Saved osm graph at " + filepath)
 
 
 def osm_graph_from_file(filename, folder=None):

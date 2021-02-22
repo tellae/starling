@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - Moved to osmnx 1.0.1
+- Replaced the bz2_compress option by an automatic detection of .bz2 extension
 
 ## 0.2.0 (2021-02-19)
 

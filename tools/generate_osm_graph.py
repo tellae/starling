@@ -118,15 +118,10 @@ if __name__ == "__main__":
                         dest="simplify")
 
     parser.add_argument("-o", "--outfile",
-                        help="name of the output file",
+                        help="name of the output file. If a '.bz2' extension is detected, the graph is compressed.",
                         type=str,
                         default=None,
                         nargs="?")
-
-    parser.add_argument("-nc", "--no-compress",
-                        help="avoid file compression using bz2",
-                        action="store_false",
-                        dest="bz2")
 
     # parse arguments
     input_args = parser.parse_args()
@@ -135,5 +130,4 @@ if __name__ == "__main__":
     import_osm_graph(input_args.method, input_args.network, input_args.simplify,
                      query=input_args.query, which_result=input_args.which_result,
                      point=input_args.point, dist=input_args.dist,
-                     polygon=input_args.polygon, outfile=input_args.outfile,
-                     bz2_compression=input_args.bz2)
+                     polygon=input_args.polygon, outfile=input_args.outfile)
