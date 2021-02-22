@@ -229,7 +229,8 @@ class DynamicInput(Traced):
         if not os.path.exists(filepath):
             filepath = common_inputs_folder() + filename
             if not os.path.exists(filepath):
-                raise FileNotFoundError("Input file {} not found in scenario inputs folder or common inputs folder")
+                raise FileNotFoundError("Input file {} not found in scenario inputs folder "
+                                        "or common inputs folder".format(filename))
 
         # read the dict contained in input file
         try:
