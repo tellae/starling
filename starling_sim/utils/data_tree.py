@@ -25,6 +25,9 @@ def create_data_tree():
     logging.info("Creating folder {}".format(paths.data_folder()))
     create_if_not_exists(paths.data_folder())
 
+    logging.info("Creating folder {}".format(paths.common_inputs_folder()))
+    create_if_not_exists(paths.common_inputs_folder())
+
     # environment folder
     logging.info("Creating folder {}".format(paths.environment_folder()))
     create_if_not_exists(paths.environment_folder())
@@ -71,6 +74,8 @@ def import_examples_from_test_data(test_data_folder):
 
     :param test_data_folder: data folder to copy
     """
+
+    logging.info("Copying contents of {}".format(test_data_folder))
 
     list_dir = os.listdir(test_data_folder)
 

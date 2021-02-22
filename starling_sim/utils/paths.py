@@ -46,6 +46,8 @@ Structure of the data folder
 .. code-block:: text
 
     data
+    ├── common_inputs           # inputs shared between scenarios
+    |
     ├── environment             # environment data
     │   |
     │   ├── graph_speeds        # .json files containing the graph speeds
@@ -102,6 +104,9 @@ _SEP = "/"
 #: path to the data folder
 _DATA_FOLDER = "./data/"
 
+#: name of the common inputs folder
+COMMON_INPUTS_FOLDER = "common_inputs"
+
 #: name of the environment folder
 ENVIRONMENT_FOLDER_NAME = "environment"
 
@@ -135,6 +140,13 @@ def data_folder():
     Path to the data folder.
     """
     return _DATA_FOLDER
+
+
+def common_inputs_folder():
+    """
+    Path to the common inputs folder
+    """
+    return data_folder() + COMMON_INPUTS_FOLDER + _SEP
 
 
 def environment_folder():
