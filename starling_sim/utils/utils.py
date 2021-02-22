@@ -287,7 +287,7 @@ def geopandas_points_from_localisations(localisations):
         localisations, geometry=geopandas.points_from_xy(localisations.lon, localisations.lat))
 
     # set epsg
-    gdf.crs = {"init": "epsg:4326"}
+    gdf.set_crs("epsg:4326")
 
     return gdf
 
@@ -314,7 +314,7 @@ def geopandas_polygon_from_points(points):
     gdf = geopandas.GeoDataFrame([polygon], columns=["geometry"])
 
     # set epsg, not in GeoDataFrame init
-    gdf.crs = {"init": "epsg:4326"}
+    gdf.set_crs("epsg:4326")
 
     return gdf
 
