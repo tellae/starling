@@ -3,11 +3,13 @@ from starling_sim.basemodel.trace.events import InputEvent
 from starling_sim.basemodel.agent.operators.operator import Operator
 from starling_sim.utils.utils import json_load, validate_against_schema
 from starling_sim.utils.constants import STOP_POINT_POPULATION
+from starling_sim.utils.paths import common_inputs_folder
 from jsonschema import ValidationError
 from json import JSONDecodeError
 
 import traceback
 import random
+import os
 
 
 class DynamicInput(Traced):
@@ -222,6 +224,12 @@ class DynamicInput(Traced):
 
         # complete the file path with the input folder path
         filepath = self.sim.parameters["input_folder"] + filename
+
+        # if the file does not exist, look in the common inputs folder
+        if not os.path.exists(filepath):
+            filepath = common_inputs_folder() + filename
+            if not os.path.exists(filepath):
+                raise FileNotFoundError("Input file {} not found in scenario inputs folder or common inputs folder")
 
         # read the dict contained in input file
         try:

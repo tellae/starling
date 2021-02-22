@@ -62,6 +62,12 @@ Simulation scenario data
 For each scenario, the specific input data must be stored in the input folder
 (see :data:`~starling_sim.utils.paths.INPUT_FOLDER_NAME)`.
 
+For each scenario, the specific input data must be stored in the :data:`~starling_sim.utils.paths.scenario_inputs_folder`.
+
+For the dynamic and initialisation input files, they can also be stored in the
+:data:`~starling_sim.utils.paths.common_inputs_folder`, in order to share the files between several scenarios.
+The framework looks in the common inputs folder if it does not find the files in the scenario inputs folder.
+
 Parameters file
 +++++++++++++++
 

@@ -25,6 +25,9 @@ def create_data_tree():
     logging.info("Creating folder {}".format(paths.data_folder()))
     create_if_not_exists(paths.data_folder())
 
+    logging.info("Creating folder {}".format(paths.common_inputs_folder()))
+    create_if_not_exists(paths.common_inputs_folder())
+
     # environment folder
     logging.info("Creating folder {}".format(paths.environment_folder()))
     create_if_not_exists(paths.environment_folder())
