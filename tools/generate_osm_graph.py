@@ -4,11 +4,14 @@ This python script imports OSM graphs from the given arguments.
 OSM graphs are used in the simulation to represent the networks where agents will evolve.
 They must be provided in the parameters file in the "topologies" field.
 
-Imports are realised using the OSMnX library.
+Imports are realised using the OSMnX library, with the functions graph_from_place, graph_from_point
+and graph_from_polygon. The relevant information must be provided when running the command:
 
-Graphs are saved directly in :data:`~starling_sim.utils.paths.osm_graphs_folder`.
+- Import from **place**: provide a query and optionally a result number. You can test the results of a query at `<openstreetmap.org>`_.
 
-Run the script with ``-h`` (or ``--help``) to see the execution options.
+- Import from **point**: provide a center point and a distance. The distance is used to draw a bbox around the center point.
+
+- Import from **polygon**: provide a polygon as a list of (lon, lat) coordinates, and a filename.
 
 Examples of command lines:
 
@@ -25,6 +28,9 @@ Examples of command lines:
     python3 -m tools.generate_osm_graph polygon -n drive -o triangle.graphml \
 --polygon '[[-1.55, 47.20], [-1.55, 47.21], [-1.56, 47.20], [-1.55, 47.20]]'
 
+Run the script with ``-h`` (or ``--help``) to see the execution options.
+
+Graphs are saved directly in :data:`~starling_sim.utils.paths.osm_graphs_folder`.
 """
 
 from starling_sim.utils.utils import import_osm_graph
@@ -68,7 +74,7 @@ if __name__ == "__main__":
 
     parser.add_argument("method",
                         help="import method for the OSM graph. Corresponds to an import method of OSMnX."
-                             " If 'place', provide a query."
+                             " If 'place', provide a query, and optionally a result number (which-result)."
                              " If 'point', provide a point and distance."
                              " If 'polygon', provide a polygon and an outfile name.",
                         choices=["place", "point", "polygon"])
@@ -81,6 +87,11 @@ if __name__ == "__main__":
     parser.add_argument("--query",
                         help="string, dict or list describing a place (must be geocodable)",
                         type=str_or_json_loads,
+                        default=None)
+
+    parser.add_argument("--which-result",
+                        help="integer (> 0) describing which geocoding result to use",
+                        dest="which_result",
                         default=None)
 
     parser.add_argument("--point",
@@ -122,6 +133,7 @@ if __name__ == "__main__":
 
     # generate and save osm graph
     import_osm_graph(input_args.method, input_args.network, input_args.simplify,
-                     query=input_args.query, point=input_args.point, dist=input_args.dist,
+                     query=input_args.query, which_result=input_args.which_result,
+                     point=input_args.point, dist=input_args.dist,
                      polygon=input_args.polygon, outfile=input_args.outfile,
                      bz2_compression=input_args.bz2)

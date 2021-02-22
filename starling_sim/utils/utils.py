@@ -430,7 +430,7 @@ def stop_table_from_gtfs(gtfs_feed, routes=None, zone=None, fixed_stops=None, ac
     return result_table
 
 
-def import_osm_graph(method, network_type, simplify, query=None, point=None, dist=None, polygon=None,
+def import_osm_graph(method, network_type, simplify, query=None, which_result=None, point=None, dist=None, polygon=None,
                      outfile=None, bz2_compression=True):
     """
     Generate an OSM graph from given parameters and store it in a file.
@@ -443,6 +443,8 @@ def import_osm_graph(method, network_type, simplify, query=None, point=None, dis
     :param network_type: OSM network_type of the graph
     :param simplify: boolean indicating if the graph should be simplified
     :param query: string, dict or list describing the place (must be geocodable)
+    :param which_result: integer describing which geocoding result to use,
+        or None to auto-select the first (Multi)Polygon
     :param point: [lon, lat] coordinates of the center point
     :param dist: distance of the bbox from the center point
     :param polygon: list of points describing a polygon
@@ -452,7 +454,7 @@ def import_osm_graph(method, network_type, simplify, query=None, point=None, dis
 
     # import the OSM graph according to the given method
     if method == "place":
-        graph = osm_graph_from_place(query, network_type, simplify)
+        graph = osm_graph_from_place(query, which_result, network_type, simplify)
         default_outfile = "G{}_{}.graphml".format(network_type, query)
 
     elif method == "point":
@@ -535,11 +537,13 @@ def osm_graph_from_polygon(polygon_points, network_type, simplify):
     return ox.graph_from_polygon(shapely_polygon, network_type=network_type, simplify=simplify)
 
 
-def osm_graph_from_place(query, network_type, simplify):
+def osm_graph_from_place(query, which_result, network_type, simplify):
     """
     Import an OSM graph of the area described by the geocodable query.
 
     :param query: string, dict or list describing the place (must be geocodable)
+    :param which_result: integer describing which geocoding result to use,
+        or None to auto-select the first (Multi)Polygon
     :param network_type: osm network type
     :param simplify: boolean indicating if the graph should be simplified
 
@@ -550,7 +554,7 @@ def osm_graph_from_place(query, network_type, simplify):
         print("The query parameter must be specified when importing graph from place.")
         exit(1)
 
-    return ox.graph_from_place(query, network_type=network_type, simplify=simplify)
+    return ox.graph_from_place(query, network_type=network_type, simplify=simplify, which_result=which_result)
 
 
 def save_osm_graph(graph, filename, folder, bz2_compression):
