@@ -75,6 +75,8 @@ def import_examples_from_test_data(test_data_folder):
     :param test_data_folder: data folder to copy
     """
 
+    logging.info("Copying contents of {}".format(test_data_folder))
+
     list_dir = os.listdir(test_data_folder)
 
     dest = paths.data_folder()
