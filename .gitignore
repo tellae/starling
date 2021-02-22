@@ -38,3 +38,6 @@ var/
 
 # Python virtual environment
 venv/
+
+# OSMnX cache
+cache/

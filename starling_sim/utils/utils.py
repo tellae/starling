@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 import gtfs_kit as gt
 import osmnx as ox
-from shapely.geometry import Point, Polygon
+from shapely.geometry import Polygon
 from numbers import Integral
 from jsonschema import validate, ValidationError, RefResolver
 from starling_sim.utils.paths import schemas_folder, gtfs_feeds_folder, osm_graphs_folder
@@ -471,7 +471,7 @@ def import_osm_graph(method, network_type, simplify, query=None, point=None, dis
         return
 
     # keep the largest strongly connected component of the graph
-    graph = ox.geo_utils.get_largest_component(graph, strongly=True)
+    graph = ox.utils_graph.get_largest_component(graph, strongly=True)
 
     # get the output filename
     if outfile is None:
@@ -510,7 +510,7 @@ def osm_graph_from_point(point, distance, network_type, simplify):
     # reverse the point coordinates (osmnx takes (lat, lon) coordinates)
     point = (point[1], point[0])
 
-    return ox.graph_from_point(point, distance=distance, distance_type="bbox",
+    return ox.graph_from_point(point, dist=distance, dist_type="bbox",
                                network_type=network_type, simplify=simplify)
 
 
@@ -571,7 +571,8 @@ def save_osm_graph(graph, filename, folder, bz2_compression):
         raise ValueError("OSM graph filename must end with .graphml")
 
     # save the graph
-    ox.save_graphml(graph, filename=filename, folder=folder)
+    filepath = folder + filename
+    ox.save_graphml(graph, filepath)
 
     # compress to bz2 if asked
     if bz2_compression:
@@ -595,7 +596,9 @@ def osm_graph_from_file(filename, folder=None):
     if folder is None:
         folder = osm_graphs_folder()
 
-    return ox.load_graphml(filename=filename, folder=folder)
+    filepath = folder + filename
+
+    return ox.load_graphml(filepath)
 
 
 # gtfs utils
