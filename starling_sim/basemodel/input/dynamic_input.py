@@ -10,6 +10,7 @@ from json import JSONDecodeError
 import traceback
 import random
 import os
+from copy import deepcopy
 
 
 class DynamicInput(Traced):
@@ -337,7 +338,7 @@ class DynamicInput(Traced):
 
                 # if the dict does not exist, create it
                 if modes not in pre_process_dict:
-                    pre_process_dict[modes] = base_nearest_nodes_dict.copy()
+                    pre_process_dict[modes] = deepcopy(base_nearest_nodes_dict)
 
                 # append the information to the dict
                 nearest_nodes_dict = pre_process_dict[modes]
