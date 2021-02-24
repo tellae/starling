@@ -340,8 +340,8 @@ def points_in_zone(localisations, zone):
     # create a GeoDataFrame point
     geopandas_points = geopandas_points_from_localisations(localisations)
 
-    # convert point to zone projection
-    geopandas_points = geopandas_points.to_crs(zone.crs)
+    # set epsg
+    geopandas_points.set_crs("epsg:4326")
 
     # evaluate if within zone
     res = geopandas.sjoin(geopandas_points, zone, how="left", op="within")
