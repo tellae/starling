@@ -11,6 +11,8 @@ import pandas as pd
 import numpy as np
 import gtfs_kit as gt
 import osmnx as ox
+import gzip
+import shutil
 from shapely.geometry import Polygon
 from numbers import Integral
 from jsonschema import validate, ValidationError, RefResolver
@@ -87,6 +89,54 @@ def json_load(filepath):
 
     with open(filepath, "r") as param_file:
         return json.load(param_file)
+
+
+# compression utils
+
+def gz_compression(filepath, delete_source=True):
+    """
+    Compress the given file using gzip.
+
+    Delete the source file if asked.
+
+    :param filepath: path pointing to the source file
+    :param delete_source: boolean indicating if the source file should be deleted
+    """
+
+    # compress the file using gzip
+    with open(filepath, 'rb') as f_in:
+        with gzip.open(filepath + ".gz", 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+
+    # delete source file if asked
+    if delete_source:
+        os.remove(filepath)
+
+
+def gz_decompression(filepath, delete_source=True):
+    """
+    Decompress the given file using gzip.
+
+    Delete the source file if asked.
+
+    :param filepath: path pointing to the source file
+    :param delete_source: boolean indicating if the source file should be deleted
+
+    :raises: ValueError if the filepath does not end with '.gz'
+    """
+
+    # test if the file ends with .gz
+    if not filepath.endswith(".gz"):
+        logging.log(30, "File to decompress does not end with '.gz'. Continuing without decompressing the file.")
+
+    # decompress the file unsing gzip
+    with gzip.open(filepath, 'rb') as f_in:
+        with open(filepath[:-3], 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+
+    # delete source file if asked
+    if delete_source:
+        os.remove(filepath)
 
 
 # json schema validation

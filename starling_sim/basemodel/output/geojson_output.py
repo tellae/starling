@@ -10,7 +10,7 @@ from starling_sim.basemodel.agent.moving_agent import MovingAgent
 from starling_sim.basemodel.agent.operators.operator import Operator
 from starling_sim.basemodel.output.feature_factory import *
 from starling_sim.basemodel.agent.stations.station import Station
-from starling_sim.utils.utils import json_dump, new_feature_collection
+from starling_sim.utils.utils import json_dump, new_feature_collection, gz_compression, gz_decompression
 
 from abc import ABC
 
@@ -153,8 +153,19 @@ class GeojsonOutput(ABC):
         # log geojson generation
         logging.info("Generating geojson output in file " + path)
 
+        # check bz2 extension
+        if path.endswith(".gz"):
+            to_gz = True
+            path = path[:-3]
+        else:
+            to_gz = False
+
         # write the geojson file
         json_dump(feature_collection, path)
+
+        # compress to bz2 if necessary
+        if to_gz:
+            gz_compression(path)
 
 
 # Classes for the generation of geojson output
