@@ -61,7 +61,7 @@ BASE_LEAVING_CODES = {
 KPI_FORMAT = "{scenario}_{kpi_output}.csv.bz2"
 
 #: format of the geojson output files
-GEOJSON_FORMAT = "{scenario}.geojson"
+GEOJSON_FORMAT = "{scenario}.geojson.gz"
 
 #: format of the trace output files
 TRACE_FORMAT = "{scenario}_traces.txt"

@@ -1,7 +1,8 @@
 from starling_sim.model_simulator import launch_simulation
+from starling_sim.model_simulator import model_codes
 from starling_sim.utils.constants import DEFAULT_PARAMS_NAME
 from starling_sim.utils.simulation_logging import TEST_LOGGER
-from starling_sim.model_simulator import model_codes
+from starling_sim.utils.utils import gz_decompression
 from starling_sim.utils import paths
 
 import os
@@ -154,10 +155,12 @@ def compare_scenario_outputs(model_code, scenario):
     test_scenario_output_folder = paths.scenario_output_folder(model_code, scenario)
     test_scenario_output_files = os.listdir(test_scenario_output_folder)
 
-    # extract bz2 archives
+    # extract bz2 and gz archives
     for output_file in test_scenario_output_files:
         if output_file.endswith(".bz2"):
             subprocess.run(["bzip2", "-d", "-f", test_scenario_output_folder + output_file])
+        if output_file.endswith(".gz"):
+            gz_decompression(test_scenario_output_folder + output_file)
 
     # get the reference files
     scenario_expected_outputs_folder = paths.scenario_folder(model_code, scenario) + REFERENCE_OUTPUTS_FOLDER_NAME + "/"

@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - CHANGELOG file
 - --which-result option for generate_osm_graph place import
 - Common inputs scenarios for inputs shared between scenarios
+- gzip compression/decompression
+- changed default visualisation file extension to .geojson.gz
 
 ### Changed
 - Moved to osmnx 1.0.1
