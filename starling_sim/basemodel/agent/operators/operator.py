@@ -439,3 +439,18 @@ class Operator(Agent):
             Default is "start_after".
         :return: a list of journeys represented by DataFrames
         """
+
+    def confirm_journey_(self, journey, agent, parameters):
+        """
+        Confirm the journey choice of the agent and assign its requests if necessary.
+
+        The request assignment may not be immediate, so the confirmation can take some time.
+
+        :param journey:
+        :param agent:
+        :param parameters:
+
+        :return: boolean indicating if the chosen journey can be executed
+        """
+
+        return True
