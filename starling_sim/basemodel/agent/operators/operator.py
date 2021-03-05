@@ -453,4 +453,6 @@ class Operator(Agent):
         :return: boolean indicating if the chosen journey can be executed
         """
 
+        yield self.execute_process(self.spend_time_(0))
+
         return True
