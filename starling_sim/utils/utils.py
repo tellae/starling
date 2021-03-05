@@ -3,6 +3,7 @@ This module contains utils for the Starling framework.
 """
 
 import os
+import subprocess
 import logging
 import json
 import geopandas
@@ -10,11 +11,41 @@ import pandas as pd
 import numpy as np
 import gtfs_kit as gt
 import osmnx as ox
-from shapely.geometry import Point, Polygon
+from shapely.geometry import Polygon
 from numbers import Integral
 from jsonschema import validate, ValidationError, RefResolver
-from starling_sim.utils.paths import SCHEMA_FOLDER, GTFS_FEEDS_FOLDER, \
-    OSM_GRAPHS_FOLDER
+from starling_sim.utils.paths import schemas_folder, gtfs_feeds_folder, osm_graphs_folder
+
+pd.set_option('display.expand_frame_repr', False)
+
+
+# Starling exceptions
+
+class StarlingException(Exception):
+    """
+    Base class for all Starling exceptions.
+    """
+
+
+class LeavingSimulation(StarlingException):
+    """
+    Exception raised by agents for leaving the simulation.
+
+    Agents should raise this exception by calling their leave_simulation() method
+    to leave their loop and terminate their SimPy process.
+
+    LeavingSimulation exceptions are caught in the agent simpy_loop_ method so a
+    LeavingSimulationEvent can be traced and the agent main process can terminate.
+    """
+
+
+class SimulationError(LeavingSimulation):
+    """
+    Simulation error exception.
+
+    This exception should be used when an unwanted
+    event occurs in a simulation, like saying "We shouldn't be here".
+    """
 
 
 # json utils
@@ -64,10 +95,10 @@ def validate_against_schema(instance, schema, raise_exception=True):
 
     # load the schema if a path is provided
     if isinstance(schema, str):
-        schema = json_load(SCHEMA_FOLDER + schema)
+        schema = json_load(schemas_folder() + schema)
 
     # get the absolute path and setup a resolver
-    schema_abs_path = 'file:///{0}/'.format(os.path.abspath(SCHEMA_FOLDER).replace("\\", "/"))
+    schema_abs_path = 'file:///{0}/'.format(os.path.abspath(schemas_folder()).replace("\\", "/"))
     resolver = RefResolver(schema_abs_path, schema)
 
     # validate against schema and catch eventual exception
@@ -256,7 +287,7 @@ def geopandas_points_from_localisations(localisations):
         localisations, geometry=geopandas.points_from_xy(localisations.lon, localisations.lat))
 
     # set epsg
-    gdf.crs = {"init": "epsg:4326"}
+    gdf.set_crs("epsg:4326")
 
     return gdf
 
@@ -271,68 +302,21 @@ def geopandas_polygon_from_points(points):
     The point coordinates are reversed to have a zone specified with
     (lon, lat) points, with "epsg:4326"
 
-    :param points: list of coordinates, must be (lat, lon) points.
+    :param points: list of coordinates, must be (lon, lat) points.
 
     :return: GeoDataFrame containing a shapely Polygon with crs="epsg:4326"
     """
 
     # create a shapely Polygon from point list
-    polygon = shapely_polygon_from_points(points, reverse=True)
+    polygon = shapely_polygon_from_points(points)
 
     # create a GeoDataFrame containing the polygon
     gdf = geopandas.GeoDataFrame([polygon], columns=["geometry"])
 
     # set epsg, not in GeoDataFrame init
-    gdf.crs = {"init": "epsg:4326"}
+    gdf.set_crs("epsg:4326")
 
     return gdf
-
-
-def bbox_centered_on_point(point_localisation, distance):
-    """
-    Recreate a osmnx bbox using a central point and distance.
-
-    The resulting bbox is a square with edges of size 2*dist,
-    centered on the given point.
-
-    :param point_localisation: (lat, lon), central point of the bbox
-    :param distance: "radius" of the square bbox
-
-    :return: GeoDataFrame containing a shapely Polygon with crs="epsg:4326"
-    """
-
-    # create a GeoDataFrame point
-    bbox = geopandas_points_from_localisations(point_localisation)
-
-    # convert GeoDataFrame to cartesian
-    bbox = bbox.to_crs({"init": "epsg:2154"})
-
-    # compute coordinates of the bbox corners
-    center_point = bbox.loc[0, "geometry"]
-
-    corner_point = Point(center_point.x - float(distance), center_point.y + float(distance))
-    bbox = bbox.append({"geometry": corner_point}, ignore_index=True)
-
-    corner_point = Point(center_point.x + float(distance), center_point.y + float(distance))
-    bbox = bbox.append({"geometry": corner_point}, ignore_index=True)
-
-    corner_point = Point(center_point.x + float(distance), center_point.y - float(distance))
-    bbox = bbox.append({"geometry": corner_point}, ignore_index=True)
-
-    corner_point = Point(center_point.x - float(distance), center_point.y - float(distance))
-    bbox = bbox.append({"geometry": corner_point}, ignore_index=True)
-
-    # remove central point
-    bbox = bbox.drop(index=0)
-
-    # convert GeoDataFrame back to GPS coordinates
-    bbox = bbox.to_crs({"init": "epsg:4326"})
-
-    # get points coordinates to create a geopandas polygon
-    points = [(corner.y, corner.x) for corner in bbox["geometry"].values]
-    bbox_zone = geopandas_polygon_from_points(points)
-
-    return bbox_zone
 
 
 def points_in_zone(localisations, zone):
@@ -356,8 +340,8 @@ def points_in_zone(localisations, zone):
     # create a GeoDataFrame point
     geopandas_points = geopandas_points_from_localisations(localisations)
 
-    # convert point to zone projection
-    geopandas_points = geopandas_points.to_crs(zone.crs)
+    # set epsg
+    geopandas_points.set_crs("epsg:4326")
 
     # evaluate if within zone
     res = geopandas.sjoin(geopandas_points, zone, how="left", op="within")
@@ -375,134 +359,255 @@ def points_in_zone(localisations, zone):
     return res
 
 
-# osmnx utils
-
-def import_osm_graph(point, dist, mode="walk", simplify=True, outfile=None):
+def stops_table_from_geojson(geojson_path):
     """
-    Generate an osm graph from parameters and store it in a file.
+    Create a stops table from the provided geojson file.
 
-    The generation method uses osmnx graph_from_point method with
-    dist_type="bbox".
+    :param geojson_path:
 
+    :return: a DataFrame containing the stops information
+    """
+
+    # get the feature collection from the geojson
+    stops_feature_collection = json_load(geojson_path)
+
+    # initialise the table
+    stops_table = pd.DataFrame()
+
+    for i in range(len(stops_feature_collection["features"])):
+
+        feature = stops_feature_collection["features"][i]
+        properties = feature["properties"]
+
+        # get coordinates from the geometry
+        properties["stop_lon"] = feature["geometry"]["coordinates"][0]
+        properties["stop_lat"] = feature["geometry"]["coordinates"][1]
+
+        # create a stop id if not provided
+        if "stop_id" not in properties:
+            properties["stop_id"] = str(i)
+
+        # create a stop name if not provided
+        if "stop_name" not in properties:
+            properties["stop_name"] = "Stop point {id}".format(id=properties["stop_id"])
+
+        # append a new row
+        stops_table = stops_table.append(properties, ignore_index=True)
+
+    return stops_table
+
+
+def stop_table_from_gtfs(gtfs_feed, routes=None, zone=None, fixed_stops=None, active_stops_only=False):
+
+    result_table = pd.DataFrame()
+
+    gtfs_stops = gtfs_feed.get_stops().copy()
+
+    if fixed_stops is not None:
+        result_table = pd.concat([result_table, gtfs_stops[gtfs_stops["stop_id"].isin(fixed_stops)]], sort=False)
+
+    if active_stops_only:
+        stop_times = gtfs_feed.get_stop_times()
+        stop_ids = stop_times.drop_duplicates("stop_id")
+        gtfs_stops = pd.merge(gtfs_stops, stop_ids)[gtfs_stops.columns]
+
+    if routes is not None:
+        gtfs_stops = gtfs_feed.get_stops(route_ids=routes)
+
+    if zone is not None:
+        gtfs_stops.rename(columns={"stop_lat": "lat", "stop_lon": "lon"}, inplace=True)
+        gtfs_stops = points_in_zone(gtfs_stops, zone)
+        gtfs_stops.rename(columns={"lat": "stop_lat", "lon": "stop_lon"}, inplace=True)
+
+        gtfs_stops = gtfs_stops[gtfs_stops["in_zone"]]
+
+        # remove stops areas
+        gtfs_stops = gtfs_stops[(gtfs_stops["location_type"] == 0) | (gtfs_stops["location_type"].isna())]
+
+    result_table = pd.concat([result_table, gtfs_stops], sort=False)
+    result_table.drop_duplicates(inplace=True)
+
+    return result_table
+
+
+def import_osm_graph(method, network_type, simplify, query=None, which_result=None, point=None, dist=None, polygon=None,
+                     outfile=None):
+    """
+    Generate an OSM graph from given parameters and store it in a file.
+
+    The osmnx function used to generate the OSM graph is specified by the method parameter.
+
+    The correct parameters must be provided according to the import method.
+
+    :param method: name of the osmnx import method. Among ['place', 'point', 'polygon'].
+    :param network_type: OSM network_type of the graph
+    :param simplify: boolean indicating if the graph should be simplified
+    :param query: string, dict or list describing the place (must be geocodable)
+    :param which_result: integer describing which geocoding result to use,
+        or None to auto-select the first (Multi)Polygon
     :param point: [lon, lat] coordinates of the center point
     :param dist: distance of the bbox from the center point
-    :param mode: network_type of the graph
-    :param simplify: boolean indicating if the graph should be simplified
+    :param polygon: list of points describing a polygon
     :param outfile: optional name for the output file
     """
 
-    # reverse lon and lat since osmnx takes [lat, lon]
-    point = [point[1], point[0]]
+    # import the OSM graph according to the given method
+    if method == "place":
+        graph = osm_graph_from_place(query, which_result, network_type, simplify)
+        default_outfile = "G{}_{}.graphml.bz2".format(network_type, query)
 
-    # check mode
-    if mode not in ["walk", "bike", "drive", "drive_service", "all", "all_private"]:
-        raise ValueError("Unknown network type {}".format(mode))
+    elif method == "point":
+        graph = osm_graph_from_point(point, dist, network_type, simplify)
+        default_outfile = "G{}_{}-{}_{}.graphml.bz2".format(network_type, point[0], point[1], dist)
 
-    # import graph
+    elif method == "polygon":
+        default_outfile = None
+        if outfile is None:
+            print("Outfile name must be provided when importing from polygon.")
+            return
+        graph = osm_graph_from_polygon(polygon, network_type, simplify)
 
-    graph = osm_graph_from_point(point, dist, mode, simplify)
-
-    # determine filename
-    if outfile is None:
-        filename = "G{}_{}_{}_{}.graphml".format(mode, point[1], point[0], dist)
-        if simplify:
-            filename = "S" + filename
     else:
-        filename = outfile
+        print("Unknown import method {}. Choices are ['point', 'place', 'polygon'].")
+        return
+
+    # keep the largest strongly connected component of the graph
+    graph = ox.utils_graph.get_largest_component(graph, strongly=True)
+
+    # get the output filename
+    if outfile is None:
+
+        # add 'S' to simplified graphs
+        if simplify:
+            default_outfile = "S" + default_outfile
+
+        outfile = default_outfile
 
     # save the graph at .graphml format
-    save_osm_graph(graph, filename=filename, folder=OSM_GRAPHS_FOLDER)
+    save_osm_graph(graph, filename=outfile, folder=osm_graphs_folder())
 
-
-# TODO : store generation information somewhere else
-def osm_graph_from_point(point, distance, mode, simplify=True):
-    """
-    Import an osm graph of an area around the location point.
-
-    The graph is reduced to its largest connected component, since
-    we want connected graphs in order to find path between all nodes.
-
-    For now, we store the generation information in the name attribute.
-
-    :param point: (lat, lon) point
-    :param distance: distance around point
-    :param mode: osm network type
-    :param simplify: boolean indicating if the graph should be simplified
-
-    :return: a networkx graph
-    """
-
-    graph_name = "{};{};{};{}".format(mode, point[0], point[1], distance)
-
-    graph = ox.graph_from_point(point, distance=distance, distance_type="bbox",
-                                network_type=mode, simplify=simplify, name=graph_name)
-
-    # we want a strongly connected graph
-    graph = ox.geo_utils.get_largest_component(graph, strongly=True)
-
+    # return the graph
     return graph
 
 
-def osm_graph_from_polygon(polygon_points, mode, simplify=True):
+def osm_graph_from_point(point, distance, network_type, simplify):
     """
-    Import an osm graph of the area with the polygon.
+    Import an OSM graph of an area around the location point.
 
-    :param polygon_points: list of (lat, lon) points delimiting the network zone
-    :param mode: osm network type
+    The import is done with the distance_type parameter set to 'bbox'.
+
+    :param point: (lon, lat) point
+    :param distance: distance around point
+    :param network_type: osm network type
     :param simplify: boolean indicating if the graph should be simplified
 
     :return: a networkx graph
     """
 
-    polygon_points_strings = polygon_points.apply(str)
-    graph_name = polygon_points_strings.join(";")
+    if point is None or distance is None:
+        print("The point and distance parameters must be specified when importing graph from point.")
+        exit(1)
 
+    # reverse the point coordinates (osmnx takes (lat, lon) coordinates)
+    point = (point[1], point[0])
+
+    return ox.graph_from_point(point, dist=distance, dist_type="bbox",
+                               network_type=network_type, simplify=simplify)
+
+
+def osm_graph_from_polygon(polygon_points, network_type, simplify):
+    """
+    Import an OSM graph of the area within the polygon.
+
+    :param polygon_points: list of (lon, lat) points delimiting the network zone
+    :param network_type: osm network type
+    :param simplify: boolean indicating if the graph should be simplified
+
+    :return: a networkx graph
+    """
+
+    if polygon_points is None:
+        print("The polygon parameter must be specified when importing graph from polygon.")
+        exit(1)
+
+    # create a shapely polygon with (lat, lon) coordinates from the list of points
     shapely_polygon = shapely_polygon_from_points(polygon_points)
 
-    graph = ox.graph_from_polygon(shapely_polygon, network_type=mode, simplify=simplify,
-                                  name=graph_name)
+    return ox.graph_from_polygon(shapely_polygon, network_type=network_type, simplify=simplify)
 
-    # we want a strongly connected graph
-    graph = ox.geo_utils.get_largest_component(graph, strongly=True)
 
-    return graph
+def osm_graph_from_place(query, which_result, network_type, simplify):
+    """
+    Import an OSM graph of the area described by the geocodable query.
+
+    :param query: string, dict or list describing the place (must be geocodable)
+    :param which_result: integer describing which geocoding result to use,
+        or None to auto-select the first (Multi)Polygon
+    :param network_type: osm network type
+    :param simplify: boolean indicating if the graph should be simplified
+
+    :return: a networkx graph
+    """
+
+    if query is None:
+        print("The query parameter must be specified when importing graph from place.")
+        exit(1)
+
+    return ox.graph_from_place(query, network_type=network_type, simplify=simplify, which_result=which_result)
 
 
 def save_osm_graph(graph, filename, folder):
     """
-    Save the given graph in a graphml file
+    Save the given graph in a .graphml file.
 
-    If the files already exists, does nothing (? to be verified)
+    Detect if the filename ends with '.bz2', and realise
+    a bz2 compression accordingly.
 
     :param graph: saved graph
     :param filename: name of the save file
     :param folder: name of the save folder
     """
 
+    # check bz2 extension
+    if filename.endswith(".bz2"):
+        to_bz2 = True
+        filename = filename[:-4]
+    else:
+        to_bz2 = False
+
     # check filename
     if not filename.endswith(".graphml"):
-        raise ValueError("OSM graph filename must end with .graphml")
-
-    # print saving message
-    print("Saving osm graph at " + folder + filename)
+        raise ValueError("OSM graph filename must end with .graphml or .graphml.bz2")
 
     # save the graph
-    ox.save_graphml(graph, filename=filename, folder=folder)
+    filepath = folder + filename
+    ox.save_graphml(graph, filepath)
+
+    # compress to bz2 if necessary
+    if to_bz2:
+        subprocess.run(["bzip2", "-z", "-f", filepath])
+        print("Saved osm graph at " + filepath + ".bz2")
+    else:
+        print("Saved osm graph at " + filepath)
 
 
-def osm_graph_from_file(filename):
+def osm_graph_from_file(filename, folder=None):
     """
     Import an osm graph from a .graphml file.
 
-    The file is expected to be in OSM_GRAPHS_FOLDER.
-
-    :param filename: path to the graphml file
+    :param filename: path to the .graphml file
+    :param folder: folder containing the .graphml file.
+        Default is the osm graphs folder.
 
     :return: a networkx graph, or None if import fails
     """
 
-    graph = ox.load_graphml(filename=filename, folder=OSM_GRAPHS_FOLDER)
-    return graph
+    if folder is None:
+        folder = osm_graphs_folder()
+
+    filepath = folder + filename
+
+    return ox.load_graphml(filepath)
 
 
 # gtfs utils
@@ -521,7 +626,7 @@ def import_gtfs_feed(gtfs_filename, folder=None):
 
     # read the gtfs feed using gtfs-kit
     if folder is None:
-        folder = GTFS_FEEDS_FOLDER
+        folder = gtfs_feeds_folder()
     path = folder + gtfs_filename
     feed = gt.read_feed(path, dist_units="km")
 

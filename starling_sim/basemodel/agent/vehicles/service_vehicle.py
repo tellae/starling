@@ -1,5 +1,5 @@
 from starling_sim.basemodel.agent.vehicles.vehicle import Vehicle
-from starling_sim.basemodel.trace.events import IdleEvent, RequestEvent, PickupEvent, DropoffEvent, StaffOperationEvent
+from starling_sim.basemodel.trace.events import IdleEvent, RequestEvent, StopEvent, StaffOperationEvent
 from starling_sim.basemodel.agent.requests import Stop
 from starling_sim.utils.constants import DEFAULT_DWELL_TIME
 
@@ -51,14 +51,9 @@ class ServiceVehicle(Vehicle):
 
     def trace_event(self, event):
 
-        if isinstance(event, PickupEvent):
+        if isinstance(event, StopEvent):
 
-            for occupant_id in event.pickups:
-                agent = self.sim.agentPopulation.get_agent(occupant_id)
-                agent.trace_event(event)
-
-        if isinstance(event, DropoffEvent):
-            for occupant_id in event.dropoffs:
+            for occupant_id in event.pickups + event.dropoffs:
                 agent = self.sim.agentPopulation.get_agent(occupant_id)
                 agent.trace_event(event)
 
@@ -92,6 +87,10 @@ class ServiceVehicle(Vehicle):
         else:
             self.log_message("Unknown stop type {} to process".format(stop.type))
 
+        # trace a stop event
+        stop_event = StopEvent(self.sim.scheduler.now(), self.operator, self, self.tripId, stop)
+        self.trace_event(stop_event)
+
         # compute the dwell time duration
         dwell_time = self.compute_dwell_time(stop)
         # set the effective departure time of the current stop
@@ -115,8 +114,7 @@ class ServiceVehicle(Vehicle):
                 self.log_message("Dropped off {}".format(processed_dropoff))
 
                 # trace dropoffs
-                self.trace_event(DropoffEvent(self.sim.scheduler.now(), self.operator, self, self.tripId,
-                                              stop, processed_dropoff))
+                stop_event.set_dropoffs(processed_dropoff, self.sim.scheduler.now())
 
         yield self.execute_process(self.spend_time_(dwell_time))
 
@@ -126,7 +124,7 @@ class ServiceVehicle(Vehicle):
             # remove stop from planning
             self.planning.remove(stop)
 
-            if isinstance(dropoff, list):
+            if isinstance(pickup, list):
 
                 processed_pickup = self.process_stop_list(pickup)
             else:
@@ -136,8 +134,7 @@ class ServiceVehicle(Vehicle):
                 self.log_message("Picked up {}".format(processed_pickup))
 
                 # trace pickups
-                self.trace_event(PickupEvent(self.sim.scheduler.now(), self.operator, self, self.tripId,
-                                             stop, processed_pickup))
+                stop_event.set_pickups(processed_pickup, self.sim.scheduler.now())
 
     def process_stop_list(self, stop_list):
         """
@@ -192,7 +189,7 @@ class ServiceVehicle(Vehicle):
         process_time = user_stop.get_process_time()
         if process_time is not None and process_time != self.sim.scheduler.now():
             self.log_message("Stop {} should be processed at {}"
-                             .format(user_stop, user_stop.get_process_time()), 30)
+                             .format(user_stop, process_time), 30)
 
         request = self.operator.requests[user_stop.requestId]
         agent_id = request.agent.id
@@ -204,14 +201,8 @@ class ServiceVehicle(Vehicle):
             if len(self.occupants) < self.seats:
                 self.pickup(user_stop)
                 return agent_id
-
-            # if it prevents processing the user stop, give up and signal the user
             else:
-                self.log_message("Cannot serve stop {} of agent {}, too many passengers.".format(user_stop, agent_id))
-
-                self.operator.stopPoints[request.dropoff.stopPoint]\
-                    .dropoffList.remove(request.dropoff)
-                request.pickupEvent_.succeed()
+                self.exceeds_capacity(user_stop)
                 return None
 
         elif user_stop.type == Stop.PUT_REQUEST:
@@ -247,7 +238,7 @@ class ServiceVehicle(Vehicle):
             self.log_message("Request {} was dismissed, cannot pickup".format(request.id))
             # remove all related stops
             for stop in self.planning:
-                if stop.requestId == request.id:
+                if stop.type == stop.GET_REQUEST and stop.requestId == request.id:
                     self.planning.remove(stop)
             return
 
@@ -303,6 +294,20 @@ class ServiceVehicle(Vehicle):
         """
 
         return user_stop.trip == self.tripId
+
+    def exceeds_capacity(self, user_stop):
+        """
+        Execute the procedure for stops that cannot be picked up because of capacity.
+
+        This method is called when a GET request cannot be served because
+        of the capacity constraint.
+
+        For instance, trigger the stop pickup event, or let the agent wait for another vehicle.
+
+        :param user_stop: UserStop object
+        """
+
+        self.log_message("Cannot serve stop {}, the vehicle is full".format(user_stop))
 
     def compute_dwell_time(self, stop):
         """

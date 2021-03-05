@@ -2,13 +2,8 @@ from starling_sim.models.SB_VS.model import Model as SB_VS_model
 from starling_sim.models.SB_VS_R.model import Model as SB_VS_R_model
 from starling_sim.models.FF_VS.model import Model as FF_VS_model
 from starling_sim.basemodel.parameters.simulation_parameters import parameters_from_file
-from starling_sim.utils.paths import MODEL_IMPORT_PATH
-from starling_sim.utils.simulation_logging import setup_logging, DEFAULT_LOGGER_LEVEL
-from starling_sim.utils.data_tree import create_data_tree, import_example_scenario, import_example_environment
-from starling_sim.version import __version__
+from starling_sim.utils.paths import model_import_path
 
-import argparse
-import os
 import logging
 import time
 import importlib
@@ -75,14 +70,14 @@ class ModelSimulator:
         # otherwise, import the Model class using importlib
         else:
 
-            model_path = MODEL_IMPORT_PATH.format(starling_pkg=pkg, model_code=code)
+            model_path = model_import_path(starling_pkg=pkg, model_code=code)
 
             # try to import the module corresponding to the model code
             try:
                 module = importlib.import_module(model_path)
             except ModuleNotFoundError as e:
                 logging.error("Cannot find the module model.py in package starling_sim.models.{}".format(code))
-                raise e
+                exit(0)
 
             # try to get the Model class from the model module
             try:
@@ -104,90 +99,6 @@ class ModelSimulator:
         return simulator
 
     init_simulator_from_parameters = staticmethod(init_simulator_from_parameters)
-
-
-def run_main():
-
-    # create a command line parser
-
-    parser = argparse.ArgumentParser(description="Starling agent-based simulation framework")
-
-    parser.add_argument("param_path",
-                        help="path to parameter file.",
-                        nargs="?")
-
-    parser.add_argument("-l", "--level",
-                        help="specify the logger level. See simulation_logging.py for more information.",
-                        type=int,
-                        default=DEFAULT_LOGGER_LEVEL)
-
-    parser.add_argument("-D", "--data-tree",
-                        help="generate the data tree according to the paths stored in paths.py and exit.",
-                        action="store_true")
-
-    parser.add_argument("-e", "--examples",
-                        help="import example scenarios of the given model codes from the Google Drive of Tellae "
-                             "and exit. If no model code is provided, import example scenarios for all public models."
-                             "Generate the data tree folders if they don't exist.",
-                        nargs="*",
-                        metavar=("MODEL_CODE_1", "MODEL_CODE_2"),
-                        default=None)
-
-    parser.add_argument("-S", "--sphinx",
-                        action="store_true",
-                        help="generate the project documentation using Sphinx and exit.")
-
-    parser.add_argument('-p', '--package',
-                        help="indicate an alternative name for the base package of starling",
-                        type=str,
-                        action="store",
-                        default="starling_sim")
-
-    parser.add_argument("-v", "--version",
-                        action="version",
-                        version=__version__)
-
-    # parse the command line
-
-    input_args = parser.parse_args()
-
-    # setup logging
-    setup_logging(input_args.level)
-
-    # documentation generation
-    if input_args.sphinx:
-        os.system("./docs/sphinx-doc.sh")
-        exit(0)
-
-    # data tree create
-    if input_args.data_tree:
-        create_data_tree()
-        exit(0)
-
-    # example scenarios
-    if input_args.examples is not None:
-
-        # make sure the data tree is setup
-        create_data_tree()
-
-        # import examples environment
-        import_example_environment()
-
-        if len(input_args.examples) == 0:
-            # if no model code is provided, import examples for all public models
-            for code in model_codes:
-                import_example_scenario(code)
-        else:
-            for code in input_args.examples:
-                if code not in model_codes:
-                    raise ValueError("Unknown model code {} for example import. "
-                                     "The list of public model codes is {}".format(code, model_codes))
-                import_example_scenario(code)
-        exit(0)
-
-    # launch simulation
-    logging.info("Launching the program Starling {}\n".format(__version__))
-    launch_simulation(input_args.param_path, input_args.package)
 
 
 def launch_simulation(parameters_path, pkg):

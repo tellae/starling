@@ -1,6 +1,9 @@
 # simulation data folder
 data/
 
+# test outputs
+*outputs/
+
 # sphinx apidoc output
 docs/src/
 
@@ -35,3 +38,6 @@ var/
 
 # Python virtual environment
 venv/
+
+# OSMnX cache
+cache/

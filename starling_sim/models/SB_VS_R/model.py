@@ -25,6 +25,21 @@ class Model(SimulationModel):
         "operator": Operator
     }
 
+    leaving_codes = {
+        "FAIL_GET": "Failed to get a vehicle"
+    }
+
+    modes = {
+        "user": ["walk"],
+        "vehicle": ["station"],
+        "station": [None, "walk", "staff"],
+        "staff": [None],
+        "operator": {
+            "staff": "staff",
+            "fleet": "station"
+        }
+    }
+
     def __init__(self, parameters):
         """
         Initialisation of the classes used by the station-based with repositioning model

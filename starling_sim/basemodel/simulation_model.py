@@ -4,8 +4,8 @@ import numpy
 
 from starling_sim.basemodel.trace.trace import trace_simulation_end
 from starling_sim.utils.utils import import_gtfs_feed, validate_against_schema, json_load
-from starling_sim.utils.paths import SCHEMA_FOLDER
-from starling_sim.utils.constants import PT_PARAMETERS_SCHEMA
+from starling_sim.utils.paths import schemas_folder
+from starling_sim.utils.constants import PT_PARAMETERS_SCHEMA, BASE_LEAVING_CODES
 
 
 class SimulationModel:
@@ -22,6 +22,12 @@ class SimulationModel:
     #: Agent types of the model and their classes
     agent_type_class = None
 
+    #: leaving codes of the model and their description
+    leaving_codes = {}
+
+    #: Agent types of the model and their modes
+    modes = None
+
     def __init__(self, parameters):
         """
         Initialisation of the simulation model with instances of its different elements
@@ -37,6 +43,9 @@ class SimulationModel:
 
         # run_summary
         self.runSummary = parameters.copy_dict()
+
+        # add the base leaving codes
+        self.add_base_leaving_codes()
 
         # random seed for the simulation setup and run
         self.randomSeed = parameters["seed"]
@@ -80,8 +89,12 @@ class SimulationModel:
         self.environment.setup(self)
 
         if "gtfs_timetables" in self.parameters:
-            logging.info("Public transport data structures setup")
-            self.setup_public_transport_data()
+            logging.info("GTFS tables setup")
+            self.setup_gtfs()
+
+        if "PT_parameters" in self.parameters:
+            logging.info("PT parameters setup")
+            self.setup_pt_parameters()
 
         logging.info("Dynamic input setup")
         self.dynamicInput.setup(self)
@@ -116,6 +129,15 @@ class SimulationModel:
 
         self.outputFactory.extract_simulation(self)
 
+    def add_base_leaving_codes(self):
+        """
+        Add the base leaving codes to the ones specified for the model.
+
+        This will overwrite any custom code named as a base code.
+        """
+
+        self.leaving_codes.update(BASE_LEAVING_CODES)
+
     def setup_seeds(self):
         """
         Set the seeds of the random functions
@@ -131,17 +153,6 @@ class SimulationModel:
             logging.info("Current simulation time is {}".format(self.scheduler.now()))
 
             yield self.scheduler.timeout(3600)
-
-    def setup_public_transport_data(self):
-        """
-        Setup the data structures for the simulation of public transports.
-
-        This includes getting the PT params from parameters and import a gtfs.
-        """
-
-        self.setup_pt_parameters()
-
-        self.setup_gtfs()
 
     def setup_gtfs(self):
         """
@@ -160,7 +171,7 @@ class SimulationModel:
         and validate against schema
         """
 
-        pt_param_schema = json_load(SCHEMA_FOLDER + PT_PARAMETERS_SCHEMA)
+        pt_param_schema = json_load(schemas_folder() + PT_PARAMETERS_SCHEMA)
 
         # get PT parameters dict
         if "PT_parameters" in self.parameters:

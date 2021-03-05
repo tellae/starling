@@ -1,7 +1,7 @@
 import logging
 import sys
-from starling_sim.utils.utils import points_in_zone
 from starling_sim.basemodel.topology.osm_network import OSMNetwork
+from starling_sim.utils.constants import DEFAULT_MAX_STOP_DISTANCE
 from geopy import distance
 
 
@@ -127,7 +127,7 @@ class Environment:
         time_sum = sum(route_data["time"])
 
         if duration != time_sum:
-            route_data["time"][-1] += duration - time_sum
+            route_data["time"][-1] += int(duration - time_sum)
 
         return route_data
 
@@ -407,20 +407,32 @@ class Environment:
 
         return best_node
 
-    def localisations_nearest_nodes(self, x_coordinates, y_coordinates, mode):
+    def localisations_nearest_nodes(self, x_coordinates, y_coordinates, modes):
         """
         Call the topology localisations_nearest_nodes method.
 
         :param x_coordinates: list of X coordinates of the localisations
         :param y_coordinates: list of Y coordinates of the localisations
-        :param mode: topology mode
+        :param modes: topology modes
         :return: list of nearest nodes
         """
 
-        # get topology
-        topology = self.topologies[mode]
+        if isinstance(modes, list):
+            base_graph = self.topologies[modes[0]].graph
+            target_graph = base_graph.copy()
 
-        return topology.localisations_nearest_nodes(x_coordinates, y_coordinates)
+            for mode in modes[1:]:
+
+                intersect_graph = self.topologies[mode].graph
+
+                target_graph.remove_nodes_from(n for n in base_graph if n not in intersect_graph)
+
+        else:
+            target_graph = self.topologies[modes].graph
+
+        target_topology = OSMNetwork(modes, graph=target_graph)
+
+        return target_topology.localisations_nearest_nodes(x_coordinates, y_coordinates)
 
     def get_common_nodes_of(self, modes):
         """
@@ -487,24 +499,6 @@ class Environment:
 
         return travel_length, travel_time
 
-    def is_in_modes_bbox(self, point, modes):
-        """
-        Check if the given point belongs to the bbox of ALL given modes.
-
-        :param point: (lat, lon)
-        :param modes: list of modes, must correspond to topologies keys
-        :return: boolean
-        """
-
-        is_in = True
-
-        for mode in modes:
-
-            topology = self.topologies[mode]
-            is_in = is_in and topology.is_in_zone(point)
-
-        return is_in
-
     def add_node(self, node_id, properties, modes):
         """
         Add a node id and its properties to the given modes.
@@ -525,95 +519,44 @@ class Environment:
 
             topology.graph.add_node(node_id, **properties)
 
-    def build_gtfs_correspondence(self, feed, modes):
+    def add_stops_correspondence(self, stops_table, modes, extend_graph, max_distance=DEFAULT_MAX_STOP_DISTANCE):
         """
-        Build a correspondence dict between the gtfs stops and the environment positions.
+        Add a 'nearest_node' column to the given table containing the stop's nearest environment position.
 
-        For each stop, the nearest position common to the given modes is found.
-        The second info added is if the stop localisation belongs to the modes bbox.
-        If it is in the bbox, the second info is None, since the stop position can be described using
-        the mode nodes. Otherwise, we add the stop localisation. It is then possible to know which stops
-        belong to the bbox or not, and then extend the graph with these stops if wanted.
+        If extend_graph is True and the nearest node is further than max_distance from the stop,
+        add a new node to the graph.
 
-        :param feed: gtfs_kit Feed object
+        :param stops_table: DataFrame with columns ["stop_id", "stop_lat", "stop_lon"]
         :param modes: list of modes
-
-        :return: {stop_id: [position, (lat, lon) or None]
+        :param extend_graph: boolean indicating if the graph should be extended when
+            nearest nodes are too far
+        :param max_distance: maximum node distance before extending graph
         """
 
-        # initialise a dict that maps stop points to topology nodes
-        correspondences = dict()
+        # get the stops coordinate lists
+        latitudes = stops_table["stop_lat"].values
+        longitudes = stops_table["stop_lon"].values
 
-        # get the gtfs stop points
-        stops = feed.get_stops()
+        # compute the stops nearest nodes
+        stops_table["nearest_node"] = self.localisations_nearest_nodes(longitudes, latitudes, modes)
 
-        # compute a network as the intersection of all given modes
-        graph_0 = self.topologies[modes[0]].graph
-        intersection_graph = graph_0.copy()
+        for index, row in stops_table.iterrows():
 
-        for mode in modes[1:]:
-            mode_graph = self.topologies[mode].graph
-            intersection_graph.remove_nodes_from(n for n in graph_0 if n not in mode_graph)
+            # get stop and node information
+            nearest_node = row["nearest_node"]
 
-        intersection_topology = OSMNetwork("intersection", graph=intersection_graph)
+            # compute euclidean distance
+            nearest_loc = self.get_localisation(nearest_node, modes[0])
+            stop_loc = [row["stop_lat"], row["stop_lon"]]
+            eucl_dist = 1000*distance.great_circle(nearest_loc, stop_loc).kilometers
 
-        # compute the nearest node in the intersection network for all stop points
-        latitudes = stops["stop_lat"].values
-        longitudes = stops["stop_lon"].values
+            # set correspondence
+            if eucl_dist > max_distance and extend_graph:
 
-        nearest_nodes = intersection_topology.localisations_nearest_nodes(longitudes, latitudes)
-
-        # check if stops are in topologies zones
-        stops.rename(columns={"stop_lat": "lat", "stop_lon": "lon"}, inplace=True)
-        for mode in modes:
-            stops = points_in_zone(stops, self.topologies[mode].zone)
-            stops.rename(columns={"in_zone": mode}, inplace=True)
-        stops.rename(columns={"lat": "stop_lat", "lon": "stop_lon"}, inplace=True)
-
-        # consider stops that are not in ALL zones as out
-        stops["in_zones"] = stops[modes].all(axis=1)
-
-        # build the correspondence dict from the previous computations
-        i = 0
-        for index, row in stops.iterrows():
-
-            # get the stop point id
-            stop_id = row["stop_id"]
-
-            # get the stop point position
-            position = int(nearest_nodes[i])
-
-            # see if the stop point is in the topologies zones
-            if not row["in_zones"]:
-                extension = (row["stop_lat"], row["stop_lon"])
-            else:
-                extension = None
-
-            # set the stop point information
-            correspondences[stop_id] = [position, extension]
-
-            i += 1
-
-        return correspondences
-
-    def extend_graph_with_gtfs(self, stops, correspondence_dict, modes):
-        """
-        Extend the modes' graphs with the stops of the given feed
-        that don't belong to the bbox.
-
-        The method uses the correspondence file to know if stops belong to the modes' bbox.
-
-        :param stops: gtfs_kit Feed object
-        :param correspondence_dict: dict mapping stop points with topology nodes
-        :param modes: topologies to extend with given stops
-        """
-
-        # browse the stops and add their positions to the environment
-        for index, row in stops.iterrows():
-
-            info = correspondence_dict[row["stop_id"]]
-
-            if info[1] is not None:
+                # extend the graph : add a new node at stop location
                 self.add_node(row["stop_id"],
                               {"y": row["stop_lat"], "x": row["stop_lon"],
                                "osmid": row["stop_id"]}, modes)
+
+                # update the stop's nearest node
+                stops_table.loc[index, "nearest_node"] = row["stop_id"]

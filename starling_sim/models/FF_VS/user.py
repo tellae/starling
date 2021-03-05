@@ -14,9 +14,32 @@ class User(Person):
     def __init__(self, simulation_model, agent_id, origin, destination, **kwargs):
         super().__init__(simulation_model, agent_id, origin, destination, **kwargs)
 
-        # self.failTimeout = random.randrange(20, 40)
-
         # all for now
+
+    def loop_(self):
+        """
+        Main loop of a free-floating vehicle-sharing user
+        """
+
+        # loop on trying to get closest vehicle
+        yield self.execute_process(self.request_loop_(self.maxTries))
+
+        if self.vehicle is None:
+            # if failed to get a vehicle, leave the system
+            self.leave_simulation("FAIL_GET")
+
+        # get closest point to destination on the adequate topology and move to it
+        vehicle_mode = self.vehicle.mode
+        self.tempDestination = self.closest_walkable_node_of(vehicle_mode, position=self.destination)
+        yield self.execute_process(self.move_shortest_with_vehicle_())
+
+        # leave vehicle
+        self.leave_vehicle()
+
+        # end trip
+        yield self.execute_process(self.walk_to_destination_())
+
+        return
 
     def try_new_request_(self):
         """
@@ -61,23 +84,3 @@ class User(Person):
             vehicle_request.success = False
 
         return vehicle_request
-
-    def loop_(self):
-        """
-        Main loop of a free-floating vehicle-sharing user
-        """
-
-        # loop on trying to get closest vehicle
-        yield self.execute_process(self.request_loop_())
-
-        # get closest point to destination on the adequate topology and move to it
-        vehicle_mode = self.vehicle.mode
-        self.tempDestination = self.closest_walkable_node_of(vehicle_mode, position=self.destination)
-        yield self.execute_process(self.move_shortest_with_vehicle_())
-
-        # leave vehicle
-        self.leave_vehicle()
-
-        # end trip
-        yield self.execute_process(self.walk_to_destination_())
-        return

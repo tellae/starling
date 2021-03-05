@@ -294,12 +294,8 @@ class PalZangGCH(Algorithm):
 
     def init_demand_dict(self):
 
-        dynamic_input_filepath = self.sim.parameters["input_folder"] + self.sim.parameters["dynamic_input_file"]
-
-        input_dict = json_load(dynamic_input_filepath)
-        features = input_dict["features"]
-        self.sim.dynamicInput.pre_process_features(features, "walk")
-
+        features = self.sim.dynamicInput.feature_list_from_file(self.sim.parameters["dynamic_input_file"])
+        self.sim.dynamicInput.pre_process_position_coordinates(features)
         demand_dict = {station: [] for station in self.operator.stations.keys()}
 
         for user_dict in features:

@@ -147,7 +147,7 @@ class MovingAgent(SpatialAgent):
         # change agent position and trace the event
         self.change_position(destination, self.mode)
 
-    def fly_(self, destination=None, duration=None, length=None, distance_factor=DEFAULT_DISTANCE_FACTOR,
+    def fly_(self, destination=None, duration=None, length=None, distance_factor=None,
              speed=None, mode=None, verb=True):
         """
         Realise a direct trip from current position to destination without using the network.
@@ -174,6 +174,9 @@ class MovingAgent(SpatialAgent):
 
         # get or compute trip information
         origin = self.position
+
+        if distance_factor is None:
+            distance_factor = DEFAULT_DISTANCE_FACTOR
 
         if destination is None:
             destination = self.tempDestination

@@ -1,0 +1,12 @@
+{
+  "residential": {"speed": 20},
+  "secondary": {"speed": 30},
+  "primary": {"speed": 30},
+  "trunk": {"speed": 30},
+  "tertiary": {"speed": 30},
+  "trunk_link": {"speed": 30},
+  "primary_link": {"speed": 30},
+  "living_street": {"speed": 20},
+  "motorway": {"speed": 90},
+  "other": {"speed": 30}
+}

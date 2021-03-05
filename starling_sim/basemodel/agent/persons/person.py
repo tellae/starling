@@ -3,7 +3,7 @@ from starling_sim.basemodel.trace.events import RequestEvent, GetVehicleEvent, L
     DestinationReachedEvent
 from starling_sim.basemodel.agent.requests import UserStop
 from starling_sim.utils.utils import validate_against_schema
-from starling_sim.utils.constants import DEFAULT_DISTANCE_FACTOR, DEFAULT_WALKING_SPEED
+from starling_sim.utils.constants import DEFAULT_DISTANCE_FACTOR, DEFAULT_WALKING_SPEED, SUCCESS_LEAVE
 
 import sys
 
@@ -27,7 +27,7 @@ class Person(MovingAgent):
                             "type": "number", "minimum": 0.01, "default": DEFAULT_DISTANCE_FACTOR}
     }
 
-    def __init__(self, simulation_model, agent_id, origin, destination, origin_time, **kwargs):
+    def __init__(self, simulation_model, agent_id, origin, destination, origin_time, max_tries=None, **kwargs):
         """
         Initialize the new Person object, as a moving agent with specific user data.
 
@@ -36,6 +36,8 @@ class Person(MovingAgent):
         :param origin: Origin position of the agent
         :param destination: Destination position of the agent
         :param origin_time: time at which the person should enter the simulation
+        :param max_tries: maximum number of failed system tries before leaving the system.
+            Default is None (infinite tries).
         :param kwargs:
         """
 
@@ -46,6 +48,9 @@ class Person(MovingAgent):
 
         # time at which the person should enter the simulation
         self.originTime = origin_time
+
+        # number of failed system tries before leaving. If None, try indefinitely.
+        self.maxTries = max_tries
 
         # profile of the agent, additional information that may be used by the models
         # these should be accessed using the profile dict
@@ -158,8 +163,11 @@ class Person(MovingAgent):
         # move to destination
         yield self.execute_process(self.move_())
 
-        # trace event
+        # trace destination reached event
         self.trace_event(DestinationReachedEvent(self.sim.scheduler.now()))
+
+        # leave simulation with successful leave code
+        self.leave_simulation(SUCCESS_LEAVE)
 
     def get_vehicle(self, vehicle):
         """
@@ -315,9 +323,6 @@ class Person(MovingAgent):
         yield request.pickupEvent_
 
         if self.vehicle is None:
-            self.log_message(request.pickup.requestedTime)
-            self.log_message(request.pickup.maxTime)
-            self.log_message("Could not board transport with request [{}]".format(request))
             request.success = False
             return False
 
@@ -325,7 +330,7 @@ class Person(MovingAgent):
         yield request.dropoffEvent_
 
         if self.vehicle is not None:
-            self.log_message("Has vehicle after dropoff", 30)
+            self.simulation_error("Has vehicle after dropoff")
 
         return True
 
@@ -366,104 +371,5 @@ class Person(MovingAgent):
         request = local_station.return_to_store(self, self.vehicle)
 
         self.log_message("Made a request : {}".format(request))
-
-        return request
-
-    def taxi_request_delta(self, operator, origin, origin_time,
-                           destination, destination_time, delta):
-        """
-        Create a new taxi request using a delta value for the maximum times
-
-        :param operator:
-        :param origin:
-        :param origin_time:
-        :param destination:
-        :param destination_time:
-        :param delta:
-        :return: TaxiOperatorRequest object
-        """
-
-        request = operator.new_request(self)
-
-        if delta is None:
-            pickup = UserStop(request.GET_REQUEST, origin, request.id,
-                              requested_time=origin_time, max_time=None)
-
-            dropoff = UserStop(request.PUT_REQUEST, destination, request.id,
-                               requested_time=destination_time, max_time=None)
-        else:
-            pickup = UserStop(request.GET_REQUEST, origin, request.id,
-                              requested_time=origin_time, max_time=origin_time + delta)
-
-            dropoff = UserStop(request.PUT_REQUEST, destination, request.id,
-                               requested_time=destination_time, max_time=destination_time + delta)
-
-            # timeout event for the pickup
-            pickup_event = request.event_ | \
-                self.sim.scheduler.timeout(origin_time + delta
-                                           - self.sim.scheduler.now() + 1)
-            request.set_request_event(pickup_event)
-
-        request.set_stops(pickup, dropoff)
-
-        self.log_message("Made a request : {}".format(request))
-
-        return request
-
-    def public_transport_request(self, operator, origin_stop_id, destination_stop_id, trip_id):
-        """
-        Build a request for a trip in the public transport network.
-
-        :param operator: PublicTransportOperator
-        :param origin_stop_id: id of the origin stop point
-        :param destination_stop_id: id of the destination stop point
-        :param trip_id: id of the trip
-        :return: Request object
-        """
-
-        request = operator.new_request(self)
-
-        origin_stop = operator.stopPoints[origin_stop_id]
-        destination_stop = operator.stopPoints[destination_stop_id]
-
-        pickup = UserStop(request.GET_REQUEST, origin_stop.position, request.id,
-                          requested_time=self.sim.scheduler.now(), max_time=None,
-                          stop_point_id=origin_stop.id, trip_id=trip_id)
-
-        dropoff = UserStop(request.PUT_REQUEST, destination_stop.position, request.id,
-                           requested_time=self.sim.scheduler.now(), max_time=None,
-                           stop_point_id=destination_stop.id, trip_id=trip_id)
-
-        request.set_stops(pickup, dropoff)
-
-        self.log_message("Made a request: {}".format(request))
-
-        return request
-
-    def on_demand_transport_request(self, operator, pickup_time, origin_stop_id, destination_stop_id):
-        """
-        Build a request for a trip using an on-demand transport.
-
-        :param operator: OnDemandTransportOperator
-        :param pickup_time: booked pickup time
-        :param origin_stop_id: id of the origin stop point
-        :param destination_stop_id: id of the destination stop point
-        :return: Request object
-        """
-
-        request = operator.new_request(self)
-
-        origin_stop = operator.stopPoints[origin_stop_id]
-        destination_stop = operator.stopPoints[destination_stop_id]
-
-        pickup = UserStop(request.GET_REQUEST, origin_stop.position, request.id,
-                          requested_time=pickup_time, max_time=None, stop_point_id=origin_stop_id)
-
-        dropoff = UserStop(request.PUT_REQUEST, destination_stop.position, request.id,
-                           requested_time=pickup_time, max_time=None, stop_point_id=destination_stop.id)
-
-        request.set_stops(pickup, dropoff)
-
-        self.log_message("Made a request: {}".format(request))
 
         return request

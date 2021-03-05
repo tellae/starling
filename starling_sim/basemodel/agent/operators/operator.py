@@ -2,8 +2,8 @@ from starling_sim.basemodel.agent.agent import Agent
 from starling_sim.basemodel.agent.requests import TripRequest, StopPoint
 from starling_sim.basemodel.agent.stations.station import Station
 from starling_sim.utils.utils import geopandas_polygon_from_points, points_in_zone, json_load, validate_against_schema
-from starling_sim.utils.paths import GTFS_FEEDS_FOLDER, SCHEMA_FOLDER
-from starling_sim.utils.constants import STOP_POINT_POPULATION
+from starling_sim.utils.paths import gtfs_feeds_folder, schemas_folder
+from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
 from collections import OrderedDict
 
 import pandas as pd
@@ -22,7 +22,8 @@ class Operator(Agent):
     OPERATION_PARAMETERS_SCHEMA = None
 
     def __init__(self, simulation_model, agent_id, fleet_dict, staff_dict=None, depot_points=None,
-                 zone_polygon=None, network_file=None, operation_parameters=None, parent_operator_id=None, **kwargs):
+                 zone_polygon=None, network_file=None, operation_parameters=None, parent_operator_id=None,
+                 extend_graph_with_stops=False, **kwargs):
         """
         Initialise the service operator with the relevant properties.
 
@@ -38,6 +39,7 @@ class Operator(Agent):
         :param network_file: file describing a topology specific to the service
         :param operation_parameters: additional parameters used for service operation
         :param parent_operator_id: id of the parent operator, if there is one
+        :param extend_graph_with_stops: boolean indicating if the graph should be extended with the stop points
         :param kwargs:
         """
 
@@ -51,6 +53,9 @@ class Operator(Agent):
         # parameters determining the service operation
         self.operationParameters = None
         self.init_operation_parameters(operation_parameters)
+
+        # graph extension boolean
+        self.extend_graph_with_stops = extend_graph_with_stops
 
         # set the fleet population (agents that provide the main transport service)
         self.fleet_name = fleet_dict
@@ -133,7 +138,7 @@ class Operator(Agent):
         if self.OPERATION_PARAMETERS_SCHEMA is not None:
 
             # validate given dict against schema
-            operation_param_schema = json_load(SCHEMA_FOLDER + self.OPERATION_PARAMETERS_SCHEMA)
+            operation_param_schema = json_load(schemas_folder() + self.OPERATION_PARAMETERS_SCHEMA)
             validate_against_schema(self.operationParameters, self.OPERATION_PARAMETERS_SCHEMA)
 
             # complete the parameters with the schema default values
@@ -153,7 +158,7 @@ class Operator(Agent):
         """
 
         if "line_shapes_file" in self.sim.parameters and self.sim.parameters["line_shapes_file"] is not None:
-            line_shapes_path = GTFS_FEEDS_FOLDER + self.sim.parameters["line_shapes_file"]
+            line_shapes_path = gtfs_feeds_folder() + self.sim.parameters["line_shapes_file"]
             self.line_shapes = pd.read_csv(line_shapes_path, sep=";")
             self.line_shapes = self.line_shapes.astype({"stop_id_A": str, "stop_id_B": str})
 
@@ -221,41 +226,36 @@ class Operator(Agent):
         :param id_prefix: prefix to add to stop ids
         """
 
-        # build the dict of correspondence between stops and topologies
+        if not set(ADD_STOPS_COLUMNS).issubset(set(stops_table.columns)):
+            raise ValueError("Missing columns when adding stop points. Required columns are {} and {} are provided."
+                             .format(ADD_STOPS_COLUMNS, stops_table.columns))
 
         # TODO : this choice of modes is arbitrary, do better
         correspondence_modes = ["walk", self.mode["fleet"]]
-        correspondence = self.sim.environment.build_gtfs_correspondence(
-            self.service_info, correspondence_modes)
-        # extend graph with stop nodes if asked
-        extend_graph = self.sim.parameters["extend_graph_with_gtfs"]
-        if extend_graph:
-            self.sim.environment.extend_graph_with_gtfs(stops_table, correspondence, correspondence_modes)
+
+        # find the nearest nodes of the stops and extend the graph if asked
+        self.sim.environment.add_stops_correspondence(stops_table, correspondence_modes, self.extend_graph_with_stops)
 
         # browse stops and add StopPoint objects to stopPoints
         for index, row in stops_table.iterrows():
 
-            info = correspondence[row["stop_id"]]
-
-            # get the position of the environment corresponding to the stop localisation
-            if extend_graph:
-                if info[1] is None:
-                    position = info[0]
-                else:
-                    position = row["stop_id"]
-            else:
-                position = info[0]
-
-            # get the stop point id and name
+            # get the stop point id, name and position from the table
             stop_point_id = id_prefix + row["stop_id"]
             stop_point_name = row["stop_name"]
+            stop_position = row["nearest_node"]
 
-            # initialise the StopPoint object
-            stop_point = StopPoint(position, stop_point_id, stop_point_name)
+            stop_point_population = self.sim.agentPopulation.new_population(STOP_POINT_POPULATION)
 
-            # add the stop point to the stop points population
-            self.sim.agentPopulation.new_population(STOP_POINT_POPULATION)
-            self.sim.agentPopulation.new_agent_in(stop_point, STOP_POINT_POPULATION)
+            # if the stop point already exists, get it from the stop point population
+            if stop_point_id in stop_point_population:
+                stop_point = stop_point_population[stop_point_id]
+
+                # no comparison between the two positions. The stops initialisation must be well ordered
+
+            # otherwise, create a new StopPoint object and add it to the population
+            else:
+                stop_point = StopPoint(stop_position, stop_point_id, stop_point_name)
+                self.sim.agentPopulation.new_agent_in(stop_point, STOP_POINT_POPULATION)
 
             # add the stop point to the operator stop points dict
             self.stopPoints[stop_point.id] = stop_point
@@ -340,6 +340,25 @@ class Operator(Agent):
             self.leftOutRequests.append(request)
         else:
             self.online_dispatcher.online_dispatch(request)
+
+    def build_trip_request(self, agent=None, origin_position=None, origin_stop=None, origin_time=None,
+                           destination_position=None, destination_stop=None, destination_time=None, **kwargs):
+        """
+        Build a request for a trip with the operator service from the given information.
+
+        Depending on the operator, all parameters may not be necessary, and others mays be added .
+
+        :param agent: agent making the trip request
+        :param origin_position: trip origin position in environment
+        :param origin_stop: trip origin stop id
+        :param origin_time: trip origin time
+        :param destination_position: trip destination position in environment
+        :param destination_stop: trip destination stop id
+        :param destination_time: trip destination time
+        :param kwargs: other eventual parameters
+
+        :return: TripRequest completed with trip information set
+        """
 
     # idle service vehicles management
 

@@ -555,27 +555,38 @@ class ChargeKPI(KPI):
     #: **value**: numeric value of the charge change
     KEY_VALUE = "value"
 
-    def __init__(self):
+    def __init__(self, non_empty_only=True, public_transport=True):
 
         super().__init__()
+
+        # boolean indicating if only non empty pickups and dropoffs should be traced
+        self.non_empty_only = non_empty_only
+
+        # boolean indicating if the simulated system is public transports (with gtfs tables)
+        self.public_transport = public_transport
 
         self.trips = None
         self.routes = None
 
-        self.keys = [self.KEY_ROUTE_ID, self.KEY_TRIP_ID, self.KEY_TRIP_DIRECTION,
-                     self.KEY_TIME, self.KEY_STOP_ID, self.KEY_BOARD_TYPE, self.KEY_VALUE]
+        self.keys = [self.KEY_TRIP_ID, self.KEY_TIME, self.KEY_STOP_ID, self.KEY_BOARD_TYPE, self.KEY_VALUE]
+
+        if self.public_transport:
+            self.keys = [self.KEY_ROUTE_ID, self.KEY_TRIP_DIRECTION] + self.keys
+
+        self.new_indicator_dict()
 
     def setup(self, simulation_model):
 
-        self.trips = simulation_model.gtfs.trips
-        self.routes = simulation_model.gtfs.routes
+        if self.public_transport:
+            self.trips = simulation_model.gtfs.trips
+            self.routes = simulation_model.gtfs.routes
 
     def new_indicator_dict(self):
 
-        self.indicator_dict = {self.KEY_ID: [], self.KEY_ROUTE_ID: [],
-                               self.KEY_TRIP_ID: [], self.KEY_TRIP_DIRECTION: [],
-                               self.KEY_TIME: [], self.KEY_STOP_ID: [],
-                               self.KEY_BOARD_TYPE: [], self.KEY_VALUE: []}
+        self.indicator_dict = dict()
+
+        for key in [self.KEY_ID] + self.keys:
+            self.indicator_dict[key] = []
 
     def update(self, event, agent):
         """
@@ -588,27 +599,43 @@ class ChargeKPI(KPI):
 
         if isinstance(event, StopEvent):
 
-            self.indicator_dict[self.KEY_ID].append(agent.id)
-
-            trip_id = event.trip
-
-            self.indicator_dict[self.KEY_ROUTE_ID].append(get_route_id_of_trip(self.trips, trip_id, event))
-
-            self.indicator_dict[self.KEY_TRIP_ID].append(trip_id)
-
-            self.indicator_dict[self.KEY_TRIP_DIRECTION].append(get_direction_of_trip(self.trips, trip_id))
-
-            self.indicator_dict[self.KEY_TIME].append(event.timestamp)
-
-            self.indicator_dict[self.KEY_STOP_ID].append(get_stop_id_of_event(event))
-
-            if isinstance(event, DropoffEvent):
+            if event.dropoffs:
+                self.update_stop_information(event, agent)
+                self.indicator_dict[self.KEY_TIME].append(event.dropoff_time)
                 self.indicator_dict[self.KEY_BOARD_TYPE].append(-1)
                 self.indicator_dict[self.KEY_VALUE].append(len(event.dropoffs))
 
-            if isinstance(event, PickupEvent):
+            if event.pickups:
+                self.update_stop_information(event, agent)
+                self.indicator_dict[self.KEY_TIME].append(event.pickup_time)
                 self.indicator_dict[self.KEY_BOARD_TYPE].append(1)
                 self.indicator_dict[self.KEY_VALUE].append(len(event.pickups))
+
+            if not event.pickups and not event.dropoffs and not self.non_empty_only:
+                self.update_stop_information(event, agent)
+                self.indicator_dict[self.KEY_TIME].append(event.timestamp)
+                self.indicator_dict[self.KEY_BOARD_TYPE].append(0)
+                self.indicator_dict[self.KEY_VALUE].append(0)
+
+    def update_stop_information(self, event, agent):
+        """
+        Update the indicator with the information common to dropoffs and pickups.
+
+        :param event:
+        :param agent:
+        """
+
+        self.indicator_dict[self.KEY_ID].append(agent.id)
+
+        trip_id = event.trip
+
+        self.indicator_dict[self.KEY_TRIP_ID].append(trip_id)
+
+        self.indicator_dict[self.KEY_STOP_ID].append(get_stop_id_of_event(event))
+
+        if self.public_transport:
+            self.indicator_dict[self.KEY_ROUTE_ID].append(get_route_id_of_trip(self.trips, trip_id, event))
+            self.indicator_dict[self.KEY_TRIP_DIRECTION].append(get_direction_of_trip(self.trips, trip_id))
 
 
 class TransferKPI(KPI):
@@ -821,6 +848,39 @@ class DestinationReachedKPI(KPI):
 
         if isinstance(event, DestinationReachedEvent):
             self.indicator_dict[self.KEY_DESTINATION_REACHED] = event.timestamp
+
+
+class LeaveSimulationKPI(KPI):
+    """
+    This KPI evaluates the cause of the simulation leave.
+    """
+
+    #: **leaveSimulation**: code used when leaving the simulation (see model doc)
+    KEY_LEAVE_SIMULATION = "leaveSimulation"
+
+    def __init__(self):
+
+        super().__init__()
+
+        self.keys = [self.KEY_LEAVE_SIMULATION]
+
+    def new_indicator_dict(self):
+
+        self.indicator_dict = {self.KEY_LEAVE_SIMULATION: None}
+
+    def update(self, event, agent):
+        """
+        Add the cause of the LeaveSimulationEvent.
+
+        :param event:
+        :param agent:
+        """
+
+        super().update(event, agent)
+
+        if isinstance(event, LeaveSimulationEvent):
+
+            self.indicator_dict[self.KEY_LEAVE_SIMULATION] = event.cause
 
 
 def get_route_id_of_trip(trips, trip_id, event):

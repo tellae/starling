@@ -1,7 +1,8 @@
 from starling_sim.basemodel.output.geojson_output import new_geojson_output
 from starling_sim.utils.utils import json_pretty_dump
-from starling_sim.utils.constants import KPI_FORMAT, GEOJSON_FORMAT
+from starling_sim.utils.constants import KPI_FORMAT, GEOJSON_FORMAT, TRACE_FORMAT
 
+import logging
 import os
 
 
@@ -105,8 +106,9 @@ class OutputFactory:
         It must be extended to generate the output using specific methods.
         """
 
-        if simulation_model.parameters["display_traces"]:
-            self.print_traces(simulation_model)
+        if "traces_output" in simulation_model.parameters \
+                and simulation_model.parameters["traces_output"]:
+            self.generate_trace_output(simulation_model)
 
         if "generate_summary" in simulation_model.parameters \
                 and simulation_model.parameters["generate_summary"]:
@@ -153,27 +155,43 @@ class OutputFactory:
 
             kpi_output.write_kpi_table()
 
-    def print_traces(simulation_model):
+    def generate_trace_output(simulation_model):
         """
-        Displays the traces of all agents in the console
+        Generate a text file containing the event traces of the agents.
 
         :param simulation_model:
         """
 
-        print("Now displaying traces")
+        # get the scenario information and outfile
+        scenario = simulation_model.parameters["scenario"]
+        model_code = simulation_model.parameters["code"]
+        output_folder = simulation_model.parameters["output_folder"]
+        filepath = output_folder + TRACE_FORMAT.format(scenario=scenario)
 
-        print("\nTrace of dynamicInput")
-        for event in simulation_model.dynamicInput.trace.eventList:
-            print(event)
+        logging.info("Generating traces output in file {}".format(filepath))
 
-        for agent in simulation_model.agentPopulation.get_total_population():
+        # open the trace file in write mode
+        with open(filepath, "w") as outfile:
 
-            # don't display agents with empty trace
-            if len(agent.trace.eventList) <= 2:
-                continue
+            # write header with scenario information
+            outfile.write("Traces of scenario {}, model {}".format(scenario, model_code))
 
-            print("\nTrace of agent " + str(agent.id))
-            for event in agent.trace.eventList:
-                print(event)
+            # write the trace of the dynamic input
+            outfile.write("\nTrace of dynamicInput")
+            for event in simulation_model.dynamicInput.trace.eventList:
+                outfile.write("\n")
+                outfile.write(str(event))
 
-    print_traces = staticmethod(print_traces)
+            # write the trace of the simulation agents
+            for agent in simulation_model.agentPopulation.get_total_population():
+
+                # don't display agents with empty trace
+                if len(agent.trace.eventList) <= 2:
+                    continue
+
+                outfile.write("\nTrace of agent " + str(agent.id))
+                for event in agent.trace.eventList:
+                    outfile.write("\n")
+                    outfile.write(str(event))
+
+    generate_trace_output = staticmethod(generate_trace_output)

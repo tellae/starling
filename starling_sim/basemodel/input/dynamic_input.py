@@ -1,12 +1,16 @@
 from starling_sim.basemodel.trace.trace import Traced
 from starling_sim.basemodel.trace.events import InputEvent
+from starling_sim.basemodel.agent.operators.operator import Operator
 from starling_sim.utils.utils import json_load, validate_against_schema
 from starling_sim.utils.constants import STOP_POINT_POPULATION
+from starling_sim.utils.paths import common_inputs_folder
 from jsonschema import ValidationError
 from json import JSONDecodeError
 
 import traceback
 import random
+import os
+from copy import deepcopy
 
 
 class DynamicInput(Traced):
@@ -59,15 +63,33 @@ class DynamicInput(Traced):
         init_file = self.sim.parameters["init_input_file"]
         init_feature_list = self.feature_list_from_file(init_file)
 
-        # TODO : pre-process init feature collection
+        # resolve the modes of the agent types
+        self.resolve_type_modes_from_inputs(init_feature_list + self.dynamic_feature_list)
 
+        init_without_operators = []
+
+        # create the operators agents
         for feature in init_feature_list:
+
+            agent_type = feature["properties"]["agent_type"]
+            agent_class = self.agent_type_class[agent_type]
+
+            if issubclass(agent_class, Operator):
+                self.new_agent_input(feature)
+            else:
+                init_without_operators.append(feature)
+
+        # pre process the positions of the rest of the init input
+        self.pre_process_position_coordinates(init_without_operators)
+
+        # create the rest of the init input
+        for feature in init_without_operators:
 
             # generate a new agent based on the feature properties
             self.new_agent_input(feature)
 
-        # pre-process the dynamic feature collection
-        self.pre_process_features(self.dynamic_feature_list, "walk")
+        # pre process the positions of the dynamic input
+        self.pre_process_position_coordinates(self.dynamic_feature_list)
 
     def play_dynamic_input_(self):
         """
@@ -88,7 +110,7 @@ class DynamicInput(Traced):
                 early_input_time_offset = 0
 
             # compute the effective generation time
-            generation_time = feature["properties"]["origin_time"] - early_input_time_offset
+            generation_time = int(feature["properties"]["origin_time"]) - early_input_time_offset
 
             # check that the generation time is positive
             if generation_time < 0:
@@ -155,22 +177,35 @@ class DynamicInput(Traced):
                                  .format(self.agent_type_class[agent_type], traceback.format_exc()), 30)
                 exit(1)
 
-            # add agent to relevant population
-            self.sim.agentPopulation.new_agent_in(new_agent, populations)
-
-            # trace and log input event
-            # self.log_message("New agent for {} : {}".format(self.sim.name, new_agent))
-            self.trace_event(InputEvent(self.sim.scheduler.now(), new_agent))
-
-            # add the agent loop to the event manager
-            new_agent.loop_process = self.sim.scheduler.new_process(new_agent.loop_())
+            # add the agent to the simulation environment
+            self.add_agent_to_simulation(new_agent, populations)
 
             return new_agent
 
         else:
-            self.log_message("Unknown agent_type {}. Class dict is {}."
-                             .format(agent_type, self.agent_type_class))
+            self.log_message("Unknown agent_type {}. Model agent types are {}."
+                             .format(agent_type, list(self.agent_type_class.keys())), 30)
             return
+
+    def add_agent_to_simulation(self, agent, populations):
+        """
+        Add the agent to the simulation environment.
+
+        Add the agent to its population, then trace an input event
+        and start its simpy loop.
+
+        :param agent: Agent object
+        :param populations: population(s) where the agent belongs
+        """
+
+        # add agent to relevant population
+        self.sim.agentPopulation.new_agent_in(agent, populations)
+
+        # trace and log input event
+        self.trace_event(InputEvent(self.sim.scheduler.now(), agent))
+
+        # add the agent loop to the event manager
+        agent.main_process = self.sim.scheduler.new_process(agent.simpy_loop_())
 
     # get and manage input dicts from the input files
 
@@ -190,6 +225,13 @@ class DynamicInput(Traced):
 
         # complete the file path with the input folder path
         filepath = self.sim.parameters["input_folder"] + filename
+
+        # if the file does not exist, look in the common inputs folder
+        if not os.path.exists(filepath):
+            filepath = common_inputs_folder() + filename
+            if not os.path.exists(filepath):
+                raise FileNotFoundError("Input file {} not found in scenario inputs folder "
+                                        "or common inputs folder".format(filename))
 
         # read the dict contained in input file
         try:
@@ -239,66 +281,215 @@ class DynamicInput(Traced):
             # store the dynamic ones back
             self.dynamic_feature_list = dynamic_features
 
-    # TODO : adapt to init_input_file and clean
-    def pre_process_features(self, features, mode):
+    def pre_process_position_coordinates(self, features):
         """
-        Pre-process the features of the list before
-        introduction in the simulation.
+        Add a position to the features with coordinates inputs.
 
-        The features are specified using the Geosjon schema.
+        Group the features by modes and call localisations_nearest_nodes environment method,
+        then update the features with the resulting positions.
+
+        :param features: features to pre process
+        """
+
+        # create a global dict that associates modes to a list of features and their information
+        pre_process_dict = dict()
+
+        # get the model modes dict
+        model_modes = self.sim.modes
+
+        # base structure of the content associated to modes
+        base_nearest_nodes_dict = {
+            "inputs": [],
+            "keys": [],
+            "lon": [],
+            "lat": [],
+            "nearest_nodes": None
+        }
+
+        # browse the features
+        for feature in features:
+            input_dict = feature["properties"]
+
+            # prepare structures for storing feature information
+            inputs = []
+            keys = []
+            lon = []
+            lat = []
+
+            # look for coordinates inputs
+
+            if "origin_lon" in input_dict and "origin_lat" in input_dict:
+                inputs.append(input_dict)
+                keys.append("origin")
+                lon.append(input_dict["origin_lon"])
+                lat.append(input_dict["origin_lat"])
+
+            if "destination_lon" in input_dict and "destination_lat" in input_dict:
+                inputs.append(input_dict)
+                keys.append("destination")
+                lon.append(input_dict["destination_lon"])
+                lat.append(input_dict["destination_lat"])
+
+            # if there are coordinates inputs, add them to the modes dict
+            if len(inputs) != 0:
+
+                # get the modes of the input
+                modes = model_modes[input_dict["agent_type"]]
+
+                # if the dict does not exist, create it
+                if modes not in pre_process_dict:
+                    pre_process_dict[modes] = deepcopy(base_nearest_nodes_dict)
+
+                # append the information to the dict
+                nearest_nodes_dict = pre_process_dict[modes]
+                nearest_nodes_dict["inputs"] += inputs
+                nearest_nodes_dict["keys"] += keys
+                nearest_nodes_dict["lon"] += lon
+                nearest_nodes_dict["lat"] += lat
+
+        # for each mode group, compute the localisations
+        for modes in pre_process_dict.keys():
+
+            # call localisations_nearest_nodes on the dict information
+            nearest_nodes_dict = pre_process_dict[modes]
+            nearest_nodes = self.sim.environment.localisations_nearest_nodes(nearest_nodes_dict["lon"],
+                                                                             nearest_nodes_dict["lat"], list(modes))
+            nearest_nodes_dict["nearest_nodes"] = nearest_nodes
+
+            # affect the positions back to the input dicts
+            for i in range(len(nearest_nodes_dict["inputs"])):
+                input_dict = nearest_nodes_dict["inputs"][i]
+                input_dict[nearest_nodes_dict["keys"][i]] = nearest_nodes_dict["nearest_nodes"][i]
+
+    def resolve_type_modes_from_inputs(self, features):
+        """
+        Resolve the model modes from the inputs.
+
+        Browse the inputs and resolve the missing values of the modes dict.
+        Raise an error if there are conflicting values for a same mode.
 
         :param features: list of input features
-        :param mode: topology mode
-        :return: list of pre-processed features, or nothing ??
+        :raises ValueError: if there are problem during the mode resolve
         """
 
-        if not features:
-            return
+        # get the modes dict of the model
+        model_modes = self.sim.modes
+        if model_modes is None:
+            raise ValueError("Model modes are not specified")
 
-        # first, build a list of longitudes and latitudes
-        latitudes = []
-        longitudes = []
+        # do a first pass without replacing the type references
+        # only resolve None values and check for conflicts
         for feature in features:
 
+            # get the input dict and its associated mode values
             input_dict = feature["properties"]
+            type_modes = model_modes[input_dict["agent_type"]]
 
-            # TODO : clarify this set
-            if "mode" not in input_dict:
+            # get an eventual input value
+            if "mode" in input_dict:
+                input_value = input_dict["mode"]
+            else:
+                input_value = None
+
+            mode = None
+
+            if isinstance(type_modes, list):
+                for i in range(len(type_modes)):
+                    mode = self.resolve_mode(type_modes, i, input_value, False)
+
+            if isinstance(type_modes, dict):
+                for key in type_modes.keys():
+
+                    # get the relevant input value
+                    if input_value is not None:
+                        val = input_value[key]
+                    else:
+                        val = None
+
+                    mode = self.resolve_mode(type_modes, key, val, False)
+
+            # affect the resulting mode if no mode was specified
+            if input_value is None and mode is not None:
                 input_dict["mode"] = mode
 
-            if "origin_stop_point" in input_dict:
-                self.add_key_position_from_stop_point(input_dict, "origin")
-            elif "origin_lat" in input_dict and "origin_lon" in input_dict:
-                latitudes.append(input_dict["origin_lat"])
-                longitudes.append(input_dict["origin_lon"])
+        # do a second pass to resolve the type references
+        for agent_type in model_modes.keys():
 
-            if "destination_stop_point" in input_dict:
-                self.add_key_position_from_stop_point(input_dict, "destination")
-            if "destination_lat" in input_dict and "destination_lon" in input_dict:
-                latitudes.append(input_dict["destination_lat"])
-                longitudes.append(input_dict["destination_lon"])
+            modes = model_modes[agent_type]
 
-        # find nearest nodes
-        if len(longitudes) != 0:
-            nearest_nodes = self.sim.environment.localisations_nearest_nodes(longitudes, latitudes, mode)
+            if isinstance(modes, list):
+                for i in range(len(modes)):
+                    self.resolve_mode(modes, i, None, True)
 
-        # add nodes to input dicts
-        i = 0
-        for feature in features:
+                # transform the lists into sorted tuples without duplicates
+                model_modes[agent_type] = tuple(sorted(set(modes)))
 
-            input_dict = feature["properties"]
+            if isinstance(modes, dict):
+                for key in modes.keys():
+                    self.resolve_mode(modes, key, None, True)
 
-            if "origin_stop_point" in input_dict:
-                pass
-            elif "origin_lat" in input_dict and "origin_lon" in input_dict:
-                input_dict["origin"] = nearest_nodes[i]
-                i += 1
+    def resolve_mode(self, obj, key, input_value, replace_types):
+        """
+        Resolve the object mode value with recursive calls.
 
-            if "destination_stop_point" in input_dict:
-                pass
-            elif "destination_lat" in input_dict and "destination_lon" in input_dict:
-                input_dict["destination"] = nearest_nodes[i]
-                i += 1
+        Resolution is done depending on the nature of the mode value:
+
+        - if the mode value is a topology, return it
+        - if the mode value is an agent type, resolve the agent type first mode value
+        - if the mode value is None, return the input value
+
+        Input values are only used for the first mode value of lists or the mode values of dicts.
+
+        Check the final result against the input value if provided.
+
+        :param obj: object containing the mode values
+        :param key: key of the resolved mode value
+        :param input_value: input value or None
+        :param replace_types: boolean indicating if agent type value should be
+            replaced with the resolved mode.
+
+        :return: resolved mode or None if not resolved
+        """
+
+        # only consider input value for first list values or dict values
+        if isinstance(key, str) or key == 0:
+            input_value = input_value
+        else:
+            input_value = None
+
+        # get the list of topologies and the global dict of modes
+        topologies = list(self.sim.environment.topologies.keys())
+        agent_type_modes = self.sim.modes
+
+        # get the keyword to replace
+        keyword = obj[key]
+
+        mode = None
+
+        # if the mode value is a topology, return it
+        if keyword in topologies:
+            mode = keyword
+
+        # if the mode value is an agent type, resolve the agent type first mode value
+        elif keyword in agent_type_modes:
+
+            # resolve the agent type mode first mode value
+            mode = self.resolve_mode(agent_type_modes[keyword], 0, input_value, replace_types)
+
+            # replace the agent type value with mode if asked
+            if replace_types:
+                obj[key] = mode
+
+        # if the mode value is None, return the input value
+        elif keyword is None:
+            obj[key] = input_value
+            mode = input_value
+
+        # check the resulting mode with input value if mode value or dict object
+        if input_value is not None and mode != input_value:
+            raise ValueError("Conflict between type mode '{}' and input value '{}'".format(mode, input_value))
+
+        return mode
 
     def pre_process_input_dict(self, input_dict):
         """
@@ -308,34 +499,6 @@ class DynamicInput(Traced):
         :return:
         """
         pass
-
-    def add_key_position_with_mode(self, input_dict, key, modes=None):
-        """
-        Enhance the given input dict by adding an new position item.
-
-        The position item is found in the environment corresponding to <modes>,
-        using the '$key$_lat' and '$key$_lon'parameters.
-
-        :param input_dict: input dict to be completed
-        :param key: suffix of the current items and key of the new item
-        :param modes: modes to which the position must belong, default mode is found in input dict
-        """
-
-        if modes is None:
-            modes = input_dict["mode"]
-
-        key_lat = key + "_lat"
-        key_lon = key + "_lon"
-
-        if key_lat in input_dict and key_lon in input_dict:
-
-            localisation = (input_dict[key_lat], input_dict[key_lon])
-            if type(modes) == list:
-                input_dict[key] = self.sim.environment.nearest_node_in_modes(
-                    localisation, modes)
-            else:
-                input_dict[key] = self.sim.environment.topologies[modes].\
-                    nearest_position(localisation)
 
     def add_key_position_from_stop_point(self, input_dict, key):
 
