@@ -15,8 +15,6 @@ class Person(MovingAgent):
     It should be extended to implement more specific features and behaviours
     """
 
-    RESET_JOURNEY = "RESET"
-
     #: Dict of the profile's properties, with their specifications as a JSON schema
     PROPERTIES = {
         "walking_speed": {"description": "speed (in m/s) of the agents when they walk, "

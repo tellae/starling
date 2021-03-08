@@ -10,12 +10,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - --which-result option for generate_osm_graph place import
 - Common inputs scenarios for inputs shared between scenarios
 - gzip compression/decompression
-- changed default visualisation file extension to .geojson.gz
+- Changed default visualisation file extension to .geojson.gz
+- Added a 'request' column to the journeys DataFrame
+- Added a confirm_journey_ method to Operator that replaces Traveler's make_journey_request_
 
 ### Changed
 - Moved to osmnx 1.0.1
 - Replaced the bz2_compress option by an automatic detection of .bz2 extension
 - Moved the test demand in a common inputs folder
+- The trips dict now also contain the agent serving it
 
 ## 0.2.0 (2021-02-19)
 
