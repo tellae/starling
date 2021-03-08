@@ -90,12 +90,12 @@ class Operator(Agent):
         self.stopPoints = dict()
         self.init_stops()
 
-        # a dict of service trips
-        self.trips = OrderedDict()
-        self.init_trips()
-
         # trip count, used when generating trips
         self.tripCount = 0
+
+        # a dict of service trips {trip_id: [agent, planning]}
+        self.trips = dict()
+        self.init_trips()
 
         # requests management
 
@@ -265,6 +265,35 @@ class Operator(Agent):
         Initialise the trips attribute using simulation data.
         """
 
+    def add_trip(self, agent, planning, trip_id=None):
+        """
+        Add a new trip to the trips dict.
+
+        Associate the trip_id to the agent that realises the trip
+        and the planning that describes the trip.
+
+        The default trip id built as <self.id>_T<self.tripCount>.
+
+        :param agent: agent realising the trip, or None if the agent is not known yet
+        :param planning: planning of the trip
+        :param trip_id: id of the trip, or None
+
+        :return: id of the trip
+        """
+
+        # set a default trip id if not provided
+        if trip_id is None:
+            trip_id = self.id + "_T" + str(self.tripCount)
+
+        # set the trip's agent and planning
+        self.trips[trip_id] = [agent, planning]
+
+        # increment trip count
+        self.tripCount += 1
+
+        # return trip id
+        return trip_id
+
     def position_in_zone(self, position):
         """
         Test if the given position belongs to the service zone.
@@ -394,24 +423,6 @@ class Operator(Agent):
         new_service_vehicle = self.sim.dynamicInput.new_agent_input(feature)
 
         return new_service_vehicle
-
-    def new_trip(self, value):
-        """
-        Create a new entry in the trips dict.
-
-        The trip id built as operatorId-tripCount.
-
-        :param value: entry value for the trips dict
-
-        :return: id of the newly generated trip
-        """
-        trip_id = self.id + "-" + str(self.tripCount)
-
-        self.trips[trip_id] = value
-
-        self.tripCount += 1
-
-        return trip_id
 
     # evaluation of a set of user journeys using operator service
 
