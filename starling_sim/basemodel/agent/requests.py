@@ -159,7 +159,7 @@ class TripRequest(Request):
 
     STR_LIST = ["structure", "id", "position", "type"]
 
-    def __init__(self, agent, timestamp, operator, request_id):
+    def __init__(self, agent, timestamp, operator, request_id, trip_id=None):
         """
         Creation of a new trip request.
 
@@ -167,12 +167,16 @@ class TripRequest(Request):
         :param timestamp: time when the request was made
         :param operator: operator requested by the agent
         :param request_id: id of the trip request, stored by the operator
+        :param trip_id: if of the request trip, or None
         """
 
         super().__init__(agent, timestamp, structure=operator)
 
         # trip request id
         self.id = request_id
+
+        # store the id of the request trip, if there is one
+        self.tripId = trip_id
 
         # store the direct travel time
         self.directTravelTime = None
@@ -219,6 +223,8 @@ class TripRequest(Request):
 
         :param trip_id:
         """
+
+        self.tripId = trip_id
 
         if isinstance(self.pickup, UserStop) and isinstance(self.dropoff, UserStop):
             self.pickup.tripId = trip_id
