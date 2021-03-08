@@ -68,6 +68,9 @@ def launch_tests(model_code_list, pkg):
             os.remove(TEST_DATA_FOLDER + paths.COMMON_INPUTS_FOLDER + "/" + DEMAND_INPUT_FILE)
 
     else:
+        # set the data repository to the local test repository
+        paths._DATA_FOLDER = TEST_DATA_FOLDER
+
         # simply call test_models
         test_models(model_code_list, pkg)
 
