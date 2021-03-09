@@ -127,18 +127,11 @@ The visualisation file (.geojson) can be uploaded to the web application
 
 ## Documentation
 
-For now, the documentation of the project and its code can only be
-generated locally with the following command
+The project documentation is generated using Sphinx and hosted by ReadTheDocs here:
 
-```bash
-python3 main.py -S
-```
+<https://starling.readthedocs.io/en/latest/overview.html>
 
-Then the overview file can be opened in your navigator. For instance
-
-```bash
-firefox ./docs/_build/html/overview.html
-```
+The documentation is still incomplete, but contributions and suggestions are very welcome.
 
 ## Contributing
 
