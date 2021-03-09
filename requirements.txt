@@ -12,8 +12,6 @@ scikit-learn==0.23.1
 simPy==3.0.12
 networkx==2.5
 osmnx==1.0.1
-sphinx==3.4.0
-sphinx-rtd-theme==0.4.3
 gtfs-kit==5.0.2
 mpu==0.22.0
 alns==1.2.5
