@@ -129,7 +129,7 @@ The visualisation file (.geojson) can be uploaded to the web application
 
 The project documentation is generated using Sphinx and hosted by *Read the Docs* here:
 
-<https://starling.readthedocs.io/en/latest/overview.html>
+<https://starling.readthedocs.io/en/stable/overview.html>
 
 The documentation is still incomplete, but contributions and suggestions are very welcome.
 
