@@ -102,8 +102,8 @@ class Agent(Traced):
         """
         Run the loop of the agent and catch simulation exceptions.
 
-        This method is the main SimPy process of the agent, added to the environment
-        by the DynamicInput class.
+        This method is the main SimPy process of the agent, added to the
+        SimPy environment by the DynamicInput class.
         """
 
         # set a default cause, to identify unmonitored leaving cases

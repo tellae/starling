@@ -12,22 +12,28 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
+import importlib
 import os
 import sys
+import starling_sim
+
 sys.path.insert(0, os.path.abspath('../'))
+version_module = importlib.import_module("starling_sim.version")
 
 
 # -- Project information -----------------------------------------------------
 
 project = u'Starling'
-copyright = u'2020, Tellae'
+copyright = u'2021, Tellae'
 author = u'Tellae'
 
 # Get the version from the git tag
-version = (os.popen('git describe').read().strip())[0:6]
+# version = (os.popen('git describe').read().strip())[0:6]
+version = '.'.join(version_module.__version__.split('.')[0:2])
 
 # The full version, including alpha/beta/rc tags
-release = version
+release = version_module.__version__
+
 
 
 # -- General configuration ---------------------------------------------------

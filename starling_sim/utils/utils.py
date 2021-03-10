@@ -36,8 +36,8 @@ class LeavingSimulation(StarlingException):
     Agents should raise this exception by calling their leave_simulation() method
     to leave their loop and terminate their SimPy process.
 
-    LeavingSimulation exceptions are caught in the agent simpy_loop_ method so a
-    LeavingSimulationEvent can be traced and the agent main process can terminate.
+    LeavingSimulation exceptions are caught in the agent :meth:`~starling_sim.basemodel.agent.agent.Agent.simpy_loop_`
+    method so a LeavingSimulationEvent can be traced and the agent main process can terminate.
     """
 
 
