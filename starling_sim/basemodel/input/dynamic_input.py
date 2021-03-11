@@ -240,15 +240,14 @@ class DynamicInput(Traced):
             # TODO : validate against FeatureCollection
 
         except JSONDecodeError as e:
-            # TODO : test this
             self.log_message("Error while decoding input file {} : {}\n "
-                             "Are you sure the file is a JSON ?".format(filename, e), 30)
-            return []
+                             "Are you sure the file is a JSON ?".format(filename, e), 40)
+            raise e
 
         except ValidationError as e:
             self.log_message("Error while validating the input data : {}\n Are you sure "
-                             "the json follows the FeatureCollection schema ?".format(e), 30)
-            return []
+                             "the json follows the FeatureCollection schema ?".format(e), 40)
+            raise e
 
         # return the feature list
         return geojson_input["features"]
