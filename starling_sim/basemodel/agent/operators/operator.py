@@ -451,6 +451,17 @@ class Operator(Agent):
         :return: a list of journeys represented by DataFrames
         """
 
+    def create_journeys(self, departures_table, arrival_stops, parameters):
+        """
+        Compute a list of journeys for the given departures timetable and arrival stops.
+
+        :param departures_table:
+        :param arrival_stops:
+        :param parameters:
+
+        :return: a list of journeys
+        """
+
     def confirm_journey_(self, journey, agent, parameters):
         """
         Confirm the journey choice of the agent and assign its requests if necessary.
