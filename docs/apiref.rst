@@ -8,6 +8,6 @@ This section provides more details on the framework's classes. It can be useful 
 .. toctree::
    :maxdepth: 4
 
-   src/starling_sim
+   autoapi/starling_sim/index
    
 

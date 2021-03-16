@@ -46,6 +46,7 @@ release = version_module.__version__
 extensions = [
     "sphinx.ext.autosummary",
     'sphinx.ext.autodoc',
+    'autoapi.extension',
     'sphinx.ext.doctest',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
@@ -59,6 +60,9 @@ autodoc_default_options = {
     'private-members': True,
     'show-inheritance': True
 }
+
+# package directory to document with autoapi
+autoapi_dirs = ['../starling_sim']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
