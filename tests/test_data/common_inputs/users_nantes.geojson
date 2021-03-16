@@ -674,8 +674,8 @@
                 "type": "LineString",
                 "coordinates": [
                     [
-                        -1.5669515240813137,
-                        47.18977533268302
+                        -1.572414,
+                        47.200765
                     ],
                     [
                         -1.550943916223725,
@@ -687,8 +687,8 @@
                 "agent_id": "user-11.1",
                 "icon": "user",
                 "agent_type": "user",
-                "origin_lat": 47.18977533268302,
-                "origin_lon": -1.5669515240813137,
+                "origin_lat": 47.200765,
+                "origin_lon": -1.572414,
                 "destination_lat": 47.21086087252995,
                 "destination_lon": -1.550943916223725,
                 "origin_time": 25543,
@@ -703,8 +703,8 @@
                 "type": "LineString",
                 "coordinates": [
                     [
-                        -1.5659515240813138,
-                        47.19277533268302
+                        -1.568936,
+                        47.200515
                     ],
                     [
                         -1.550943916223725,
@@ -716,69 +716,11 @@
                 "agent_id": "user-11.2",
                 "icon": "user",
                 "agent_type": "user",
-                "origin_lat": 47.19277533268302,
-                "origin_lon": -1.5659515240813138,
+                "origin_lat": 47.200515,
+                "origin_lon": -1.568936,
                 "destination_lat": 47.21086087252995,
                 "destination_lon": -1.550943916223725,
                 "origin_time": 25540,
-                "has_station_info": false,
-                "patience": 200,
-                "mode": "walk"
-            }
-        },
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        -1.5659515240813138,
-                        47.18977533268302
-                    ],
-                    [
-                        -1.552943916223725,
-                        47.21686087252995
-                    ]
-                ]
-            },
-            "properties": {
-                "agent_id": "user-11.3",
-                "icon": "user",
-                "agent_type": "user",
-                "origin_lat": 47.18977533268302,
-                "origin_lon": -1.5659515240813138,
-                "destination_lat": 47.21686087252995,
-                "destination_lon": -1.552943916223725,
-                "origin_time": 25581,
-                "has_station_info": false,
-                "patience": 200,
-                "mode": "walk"
-            }
-        },
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        -1.5709515240813137,
-                        47.19077533268302
-                    ],
-                    [
-                        -1.5489439162237253,
-                        47.21286087252995
-                    ]
-                ]
-            },
-            "properties": {
-                "agent_id": "user-11.4",
-                "icon": "user",
-                "agent_type": "user",
-                "origin_lat": 47.19077533268302,
-                "origin_lon": -1.5709515240813137,
-                "destination_lat": 47.21286087252995,
-                "destination_lon": -1.5489439162237253,
-                "origin_time": 25529,
                 "has_station_info": false,
                 "patience": 200,
                 "mode": "walk"
@@ -906,12 +848,12 @@
                 "type": "LineString",
                 "coordinates": [
                     [
-                        -1.5459943514260885,
-                        47.19469996249097
+                        -1.540532,
+                        47.196970
                     ],
                     [
-                        -1.5391294053944193,
-                        47.20928506945531
+                        -1.556183,
+                        47.219953
                     ]
                 ]
             },
@@ -919,10 +861,10 @@
                 "agent_id": "user-14.1",
                 "icon": "user",
                 "agent_type": "user",
-                "origin_lat": 47.19469996249097,
-                "origin_lon": -1.5459943514260885,
-                "destination_lat": 47.20928506945531,
-                "destination_lon": -1.5391294053944193,
+                "origin_lat": 47.196970,
+                "origin_lon": -1.540532,
+                "destination_lat": 47.219953,
+                "destination_lon": -1.556183,
                 "origin_time": 24687,
                 "has_station_info": true,
                 "patience": 200,
@@ -935,12 +877,12 @@
                 "type": "LineString",
                 "coordinates": [
                     [
-                        -1.5479943514260885,
-                        47.19769996249097
+                        -1.542534,
+                        47.195358
                     ],
                     [
-                        -1.5391294053944193,
-                        47.20428506945531
+                        -1.561980,
+                        47.220239
                     ]
                 ]
             },
@@ -948,10 +890,10 @@
                 "agent_id": "user-14.2",
                 "icon": "user",
                 "agent_type": "user",
-                "origin_lat": 47.19769996249097,
-                "origin_lon": -1.5479943514260885,
-                "destination_lat": 47.20428506945531,
-                "destination_lon": -1.5391294053944193,
+                "origin_lat": 47.195358,
+                "origin_lon": -1.542534,
+                "destination_lat": 47.220239,
+                "destination_lon": -1.561980,
                 "origin_time": 24734,
                 "has_station_info": false,
                 "patience": 200,
@@ -964,12 +906,12 @@
                 "type": "LineString",
                 "coordinates": [
                     [
-                        -1.5489943514260884,
-                        47.19169996249097
+                        -1.540690,
+                        47.196289
                     ],
                     [
-                        -1.5421294053944192,
-                        47.20628506945531
+                        -1.557764,
+                        47.217161
                     ]
                 ]
             },
@@ -977,41 +919,12 @@
                 "agent_id": "user-14.3",
                 "icon": "user",
                 "agent_type": "user",
-                "origin_lat": 47.19169996249097,
-                "origin_lon": -1.5489943514260884,
-                "destination_lat": 47.20628506945531,
-                "destination_lon": -1.5421294053944192,
+                "origin_lat": 47.196289,
+                "origin_lon": -1.540690,
+                "destination_lat": 47.217161,
+                "destination_lon": -1.557764,
                 "origin_time": 24849,
                 "has_station_info": true,
-                "patience": 200,
-                "mode": "walk"
-            }
-        },
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        -1.5459943514260885,
-                        47.19569996249097
-                    ],
-                    [
-                        -1.5421294053944192,
-                        47.20628506945531
-                    ]
-                ]
-            },
-            "properties": {
-                "agent_id": "user-14.4",
-                "icon": "user",
-                "agent_type": "user",
-                "origin_lat": 47.19569996249097,
-                "origin_lon": -1.5459943514260885,
-                "destination_lat": 47.20628506945531,
-                "destination_lon": -1.5421294053944192,
-                "origin_time": 24780,
-                "has_station_info": false,
                 "patience": 200,
                 "mode": "walk"
             }
@@ -1196,8 +1109,8 @@
                 "type": "LineString",
                 "coordinates": [
                     [
-                        -1.5717928913228385,
-                        47.204750269372276
+                        -1.573520,
+                        47.206744
                     ],
                     [
                         -1.538710224154632,
@@ -1209,8 +1122,8 @@
                 "agent_id": "user-17.1",
                 "icon": "user",
                 "agent_type": "user",
-                "origin_lat": 47.204750269372276,
-                "origin_lon": -1.5717928913228385,
+                "origin_lat": 47.206744,
+                "origin_lon": -1.573520,
                 "destination_lat": 47.22998706084396,
                 "destination_lon": -1.538710224154632,
                 "origin_time": 22534,
@@ -1229,8 +1142,8 @@
                         47.20158143385929
                     ],
                     [
-                        -1.5254785654599914,
-                        47.21364900210547
+                        -1.529531,
+                        47.214190
                     ]
                 ]
             },
@@ -1240,8 +1153,8 @@
                 "agent_type": "user",
                 "origin_lat": 47.20158143385929,
                 "origin_lon": -1.5858352849864825,
-                "destination_lat": 47.21364900210547,
-                "destination_lon": -1.5254785654599914,
+                "destination_lat": 47.214190,
+                "destination_lon": -1.529531,
                 "origin_time": 27874,
                 "has_station_info": false,
                 "patience": 200,
@@ -1254,12 +1167,12 @@
                 "type": "LineString",
                 "coordinates": [
                     [
-                        -1.5888352849864824,
-                        47.19558143385929
+                        -1.588394,
+                        47.198545
                     ],
                     [
-                        -1.5224785654599915,
-                        47.21264900210547
+                        -1.539438,
+                        47.215980
                     ]
                 ]
             },
@@ -1267,10 +1180,10 @@
                 "agent_id": "user-19.2",
                 "icon": "user",
                 "agent_type": "user",
-                "origin_lat": 47.19558143385929,
-                "origin_lon": -1.5888352849864824,
-                "destination_lat": 47.21264900210547,
-                "destination_lon": -1.5224785654599915,
+                "origin_lat": 47.198545,
+                "origin_lon": -1.588394,
+                "destination_lat": 47.215980,
+                "destination_lon": -1.539438,
                 "origin_time": 27898,
                 "has_station_info": true,
                 "patience": 200,
