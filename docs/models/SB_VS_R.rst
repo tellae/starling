@@ -95,7 +95,6 @@ of the model and their respective classes.
 
 .. list-table:: **SB_VS_R agents**
    :widths: auto
-   :header-rows: 1
    :align: center
 
    * - Agent

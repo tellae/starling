@@ -68,7 +68,6 @@ of the model and their respective classes.
 
 .. list-table:: **FF_VS agents**
    :widths: auto
-   :header-rows: 1
    :align: center
 
    * - Agent

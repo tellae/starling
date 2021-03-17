@@ -80,7 +80,6 @@ of the model and their respective classes.
 
 .. list-table:: **SB_VS agents**
    :widths: auto
-   :header-rows: 1
    :align: center
 
    * - Agent
