@@ -25,12 +25,12 @@
     },
     "origin_day": {"type": "string", "format": "date"},
     "origin_stop_point": {"type":  "string"},
-    "origin_lat": {"type":  "number"},
-    "origin_lon": {"type":  "number"},
+    "origin_lat": {"type":  "number", "description":  "(Deprecated, prefer using the feature geometry) Latitude of the origin"},
+    "origin_lon": {"type":  "number", "description":  "(Deprecated, prefer using the feature geometry) Longitude of the origin"},
     "origin": {"type":  ["string","number"]},
     "destination_stop_point": {"type":  "string"},
-    "destination_lat": {"type":  "number"},
-    "destination_lon": {"type":  "number"},
+    "destination_lat": {"type":  "number", "description":  "(Deprecated, prefer using the feature geometry) Latitude of the destination"},
+    "destination_lon": {"type":  "number", "description":  "(Deprecated, prefer using the feature geometry) Longitude of the destination"},
     "destination": {"type":  ["string","number"]}
   }
 }

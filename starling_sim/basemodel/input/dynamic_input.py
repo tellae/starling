@@ -317,17 +317,34 @@ class DynamicInput(Traced):
 
             # look for coordinates inputs
 
-            if "origin_lon" in input_dict and "origin_lat" in input_dict:
+            origin_coordinates = self.get_position_coordinates_from_feature(feature, "origin")
+            if origin_coordinates is not None:
+
+                # deprecated properties 'origin_lon' and 'origin_lat'
+                if origin_coordinates == [0, 0] and "origin_lon" in input_dict and "origin_lat" in input_dict:
+                    self.log_message("Use of 'origin_lon' and 'origin_lat' is deprecated, "
+                                     "using the feature geometry is preferred", 30)
+                    origin_coordinates = [input_dict["origin_lon"], input_dict["origin_lat"]]
+
                 inputs.append(input_dict)
                 keys.append("origin")
-                lon.append(input_dict["origin_lon"])
-                lat.append(input_dict["origin_lat"])
+                lon.append(origin_coordinates[0])
+                lat.append(origin_coordinates[1])
 
-            if "destination_lon" in input_dict and "destination_lat" in input_dict:
+            destination_coordinates = self.get_position_coordinates_from_feature(feature, "destination")
+            if destination_coordinates is not None:
+
+                # deprecated properties 'destination_lon' and 'destination_lat'
+                if destination_coordinates == [0, 0] \
+                        and "destination_lon" in input_dict and "destination_lat" in input_dict:
+                    self.log_message("Use of 'destination_lon' and 'destination_lat' is deprecated, "
+                                     "using the feature geometry is preferred", 30)
+                    destination_coordinates = [input_dict["destination_lon"], input_dict["destination_lat"]]
+
                 inputs.append(input_dict)
                 keys.append("destination")
-                lon.append(input_dict["destination_lon"])
-                lat.append(input_dict["destination_lat"])
+                lon.append(destination_coordinates[0])
+                lat.append(destination_coordinates[1])
 
             # if there are coordinates inputs, add them to the modes dict
             if len(inputs) != 0:
@@ -359,6 +376,29 @@ class DynamicInput(Traced):
             for i in range(len(nearest_nodes_dict["inputs"])):
                 input_dict = nearest_nodes_dict["inputs"][i]
                 input_dict[nearest_nodes_dict["keys"][i]] = nearest_nodes_dict["nearest_nodes"][i]
+
+    def get_position_coordinates_from_feature(self, feature, position_key):
+
+        geometry_type = feature["geometry"]["type"]
+        geometry_coordinates = feature["geometry"]["coordinates"]
+
+        res_coordinates = None
+
+        if position_key == "origin":
+
+            if geometry_type == "Point":
+                res_coordinates = geometry_coordinates
+            elif geometry_type == "LineString":
+                res_coordinates = geometry_coordinates[0]
+
+        elif position_key == "destination":
+            if geometry_type == "LineString":
+                res_coordinates = geometry_coordinates[-1]
+
+        else:
+            self.log_message("Unsupported position key '{}'".format(position_key))
+
+        return res_coordinates
 
     def resolve_type_modes_from_inputs(self, features):
         """
