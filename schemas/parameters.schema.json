@@ -80,7 +80,7 @@
       "type": "string",
       "title": "Geojson filename format",
       "description": "Format of the geojson output filename. Formatted with the 'scenario' placeholder.",
-      "pattern": "^.geojson"
+      "pattern": "(\\.geojson(\\.gz)?)$"
     },
     "geojson_version": {
       "title": "Geojson output version",
@@ -96,7 +96,7 @@
       "title": "KPIs filename format",
       "description": "Format of the KPI outputs filename. Formatted with the 'scenario' and 'kpi_output' placeholders.",
       "type": "string",
-      "pattern": "^.csv.bz2"
+      "pattern": "(\\.csv(\\.bz2)?)$"
     },
     "simulate_routes": {
       "type": "boolean",
