@@ -89,7 +89,6 @@ class ServiceVehicle(Vehicle):
 
         # trace a stop event
         stop_event = StopEvent(self.sim.scheduler.now(), self.operator, self, self.tripId, stop)
-        self.trace_event(stop_event)
 
         # compute the dwell time duration
         dwell_time = self.compute_dwell_time(stop)
@@ -135,6 +134,8 @@ class ServiceVehicle(Vehicle):
 
                 # trace pickups
                 stop_event.set_pickups(processed_pickup, self.sim.scheduler.now())
+
+        self.trace_event(stop_event)
 
     def process_stop_list(self, stop_list):
         """

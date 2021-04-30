@@ -716,24 +716,25 @@ class TransferKPI(KPI):
 
             self.current_wait_time += sum(event.request.waitSequence)
 
-        elif isinstance(event, PickupEvent):
+        elif isinstance(event, StopEvent):
 
-            self.to_trip = event.trip
             if isinstance(event.stop, StopPoint):
-                self.to_stop = event.stop.id
+                stop_id = event.stop.id
             elif isinstance(event.stop, UserStop):
-                self.to_stop = event.stop.stopPoint
+                stop_id = event.stop.stopPoint
+            else:
+                stop_id = None
 
-            self.write_variables(agent)
-            self.reset_variables()
+            if agent.id in event.dropoffs:
+                self.from_trip = event.trip
+                self.from_stop = stop_id
 
-        elif isinstance(event, DropoffEvent):
+            elif agent.id in event.pickups:
+                self.to_trip = event.trip
+                self.to_stop = stop_id
 
-            self.from_trip = event.trip
-            if isinstance(event.stop, StopPoint):
-                self.from_stop = event.stop.id
-            elif isinstance(event.stop, UserStop):
-                self.from_stop = event.stop.stopPoint
+                self.write_variables(agent)
+                self.reset_variables()
 
         elif isinstance(event, DestinationReachedEvent):
 

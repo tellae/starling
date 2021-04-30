@@ -233,7 +233,13 @@ class StopEvent(Event):
         self.pickups = pickups
         self.pickup_time = pickup_time
 
+    def __str__(self):
 
+        return super().__str__() + "stop={}, trip={}, serviceVehicle={}"\
+            .format(self.stop, self.trip, self.serviceVehicle)
+
+
+# deprecated, use StopEvent
 class PickupEvent(StopEvent):
     """
     This event describes the processing of a pickup
@@ -254,6 +260,7 @@ class PickupEvent(StopEvent):
             .format(self.serviceVehicle.id, str(self.stop), self.trip, self.pickups)
 
 
+# deprecated, use StopEvent
 class DropoffEvent(StopEvent):
     """
     This event describes the processing of a dropoff
