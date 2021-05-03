@@ -19,7 +19,8 @@ Feel free to use and contribute to **Starling** project as long as you comply wi
 
 This section will show you how to run the example simulation scenarios.
 
-For a more detailed setup guide, see the section **Running simulations**
+For a more detailed setup guide, see the section
+[Running simulations](https://starling.readthedocs.io/en/latest/run/running_simulations.html)
 of the documentation.
 
 ### Installation
@@ -35,7 +36,7 @@ use a Docker container to run a simulation.
 
 We recommend the Linux installation for development and the Docker installation for running simulations.
 
-#### Linux (Ubuntu)
+#### On-device (Ubuntu)
 
 This procedure is described for a Linux Ubuntu 18.04 or 20.04 with Python 3.6 or higher already installed.
 
@@ -59,7 +60,7 @@ python3 -m pip install --upgrade pip
 pip3 install -r requirements.txt
 ```
 
-#### Docker
+#### Docker (Linux and Windows)
 
 Run the following command
 to create a Docker image named starling
@@ -71,26 +72,23 @@ contains all python dependencies for running Starling.
 docker build . --tag="starling"
 ```
 
-You can now use this image to create Docker containers to run the framework.
-Use the -v option to mount the Starling repository in the container.
+You can run Docker in interactive mode (which will place you inside the container,
+as in a terminal) with the following command:
 
-The Dockerfile create a new Linux user named 'starling_user'. If you need to use sudo,
-the password is also 'starling_user'.
-
-You can either use Docker in detached mode (which lets the simulations
-run on their own)
+**Linux**
 
 ```bash
-docker run -d -v "$(pwd)":/starling_dir/ --name container_name starling\
-    bash -c "my_command -option"
+docker run -it -v "$(pwd):/starling_dir/" --name container_name starling
 ```
 
-or in interactive mode (which will place you inside the container,
-as in a terminal)
+**Windows**
 
 ```bash
-docker run -it -v "$(pwd)":/starling_dir/ --name container_name starling
+docker run -it -v "%cd%:/starling_dir/" --name container_name starling
 ```
+
+Docker can also be run in detached mode, which lets the simulations
+run on their own (see the [documentation](https://starling.readthedocs.io/en/latest/run/install.html#detached-mode)).
 
 ### Download examples
 
