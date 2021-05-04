@@ -15,7 +15,7 @@ import gzip
 import shutil
 from shapely.geometry import Polygon
 from numbers import Integral
-from jsonschema import validate, ValidationError, RefResolver
+from jsonschema import Draft7Validator, Draft4Validator, validators, validate, ValidationError, RefResolver
 from starling_sim.utils.paths import schemas_folder, gtfs_feeds_folder, osm_graphs_folder
 
 pd.set_option('display.expand_frame_repr', False)
@@ -141,6 +141,10 @@ def gz_decompression(filepath, delete_source=True):
 
 # json schema validation
 
+# use the type check from Draft4Validator, because Draft7 considers 1.0 as integer
+CustomValidator = validators.extend(Draft7Validator, type_checker=Draft4Validator.TYPE_CHECKER)
+
+
 def validate_against_schema(instance, schema, raise_exception=True):
 
     # load the schema if a path is provided
@@ -150,10 +154,11 @@ def validate_against_schema(instance, schema, raise_exception=True):
     # get the absolute path and setup a resolver
     schema_abs_path = 'file:///{0}/'.format(os.path.abspath(schemas_folder()).replace("\\", "/"))
     resolver = RefResolver(schema_abs_path, schema)
+    validator = CustomValidator(schema=schema, resolver=resolver)
 
     # validate against schema and catch eventual exception
     try:
-        validate(instance=instance, schema=schema, resolver=resolver)
+        validator.validate(instance)
         return True
     except ValidationError as e:
         if raise_exception:
