@@ -725,11 +725,14 @@ class TransferKPI(KPI):
             else:
                 stop_id = None
 
-            if agent.id in event.dropoffs:
+            dropoff_agents = [request.agent.id for request in event.dropoffs]
+            pickup_agents = [request.agent.id for request in event.pickups]
+
+            if agent.id in dropoff_agents:
                 self.from_trip = event.trip
                 self.from_stop = stop_id
 
-            elif agent.id in event.pickups:
+            elif agent.id in pickup_agents:
                 self.to_trip = event.trip
                 self.to_stop = stop_id
 

@@ -211,9 +211,11 @@ class StopEvent(Event):
         self.stop = stop
         self.trip = trip
 
+        # list of requests served during dropoff
         self.dropoffs = []
         self.dropoff_time = None
 
+        # list of requests served during pickup
         self.pickups = []
         self.pickup_time = None
 

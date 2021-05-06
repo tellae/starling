@@ -52,10 +52,8 @@ class ServiceVehicle(Vehicle):
     def trace_event(self, event):
 
         if isinstance(event, StopEvent):
-
-            for occupant_id in event.pickups + event.dropoffs:
-                agent = self.sim.agentPopulation.get_agent(occupant_id)
-                agent.trace_event(event)
+            for request in event.pickups + event.dropoffs:
+                request.agent.trace_event(event)
 
         if isinstance(event, StaffOperationEvent):
             if event.structure is not None:
@@ -201,7 +199,7 @@ class ServiceVehicle(Vehicle):
             # for the pickup requests, check the service vehicle capacity
             if len(self.occupants) < self.seats:
                 self.pickup(user_stop)
-                return agent_id
+                return request
             else:
                 self.exceeds_capacity(user_stop)
                 return None
@@ -213,7 +211,7 @@ class ServiceVehicle(Vehicle):
                 return None
             else:
                 self.dropoff(user_stop)
-                return agent_id
+                return request
 
         else:
             self.log_message("Unknown stop type for service vehicle : {}"
