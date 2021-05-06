@@ -238,50 +238,50 @@ class StopEvent(Event):
     def __str__(self):
 
         return super().__str__() + "stop={}, trip={}, serviceVehicle={}"\
-            .format(self.stop, self.trip, self.serviceVehicle)
+            .format(self.stop, self.trip, self.serviceVehicle.id)
 
 
 # deprecated, use StopEvent
-class PickupEvent(StopEvent):
-    """
-    This event describes the processing of a pickup
-    """
-
-    def __init__(self, time, operator, service_vehicle, trip, stop, pickups, message=""):
-
-        super().__init__(time, operator, service_vehicle, trip, stop, message=message)
-
-        if not isinstance(pickups, list):
-            pickups = [pickups]
-
-        self.pickups = pickups
-
-    def __str__(self):
-
-        return super().__str__() + "serviceVehicle={}, stop={}, trip={}, pickups={}"\
-            .format(self.serviceVehicle.id, str(self.stop), self.trip, self.pickups)
-
-
-# deprecated, use StopEvent
-class DropoffEvent(StopEvent):
-    """
-    This event describes the processing of a dropoff
-    """
-
-    def __init__(self, time, operator, service_vehicle, trip, stop, dropoffs, message=""):
-
-        super().__init__(time, operator, service_vehicle, trip, stop, message=message)
-
-        if not isinstance(dropoffs, list):
-            dropoffs = [dropoffs]
-
-        self.dropoffs = dropoffs
-
-    def __str__(self):
-
-        return super().__str__() + "serviceVehicle={}, stop={}, trip={}, dropoffs={}"\
-            .format(self.serviceVehicle.id, str(self.stop), self.trip, self.dropoffs)
-
+# class PickupEvent(StopEvent):
+#     """
+#     This event describes the processing of a pickup
+#     """
+#
+#     def __init__(self, time, operator, service_vehicle, trip, stop, pickups, message=""):
+#
+#         super().__init__(time, operator, service_vehicle, trip, stop, message=message)
+#
+#         if not isinstance(pickups, list):
+#             pickups = [pickups]
+#
+#         self.pickups = pickups
+#
+#     def __str__(self):
+#
+#         return super().__str__() + "serviceVehicle={}, stop={}, trip={}, pickups={}"\
+#             .format(self.serviceVehicle.id, str(self.stop), self.trip, self.pickups)
+#
+#
+# # deprecated, use StopEvent
+# class DropoffEvent(StopEvent):
+#     """
+#     This event describes the processing of a dropoff
+#     """
+#
+#     def __init__(self, time, operator, service_vehicle, trip, stop, dropoffs, message=""):
+#
+#         super().__init__(time, operator, service_vehicle, trip, stop, message=message)
+#
+#         if not isinstance(dropoffs, list):
+#             dropoffs = [dropoffs]
+#
+#         self.dropoffs = dropoffs
+#
+#     def __str__(self):
+#
+#         return super().__str__() + "serviceVehicle={}, stop={}, trip={}, dropoffs={}"\
+#             .format(self.serviceVehicle.id, str(self.stop), self.trip, self.dropoffs)
+#
 
 class StaffOperationEvent(Event):
     """
