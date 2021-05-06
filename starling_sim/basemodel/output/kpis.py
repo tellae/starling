@@ -174,23 +174,26 @@ class OdtWaitsKPI(KPI):
         :return:
         """
 
-        super().update(event, agent)
-
         # TODO : find a better condition
-        if isinstance(event, PickupEvent) and event.serviceVehicle.type != PUBLIC_TRANSPORT_TYPE:
-            request = event.operator.requests[event.stop.requestId]
-            if len(request.waitSequence) > 0:
-                if self.indicator_dict[self.KEY_PICKUP_WAIT] != "":
-                    self.indicator_dict[self.KEY_PICKUP_WAIT] += "-"
-                self.indicator_dict[self.KEY_PICKUP_WAIT] += str(request.waitSequence[0])
-        elif isinstance(event, DropoffEvent) and event.serviceVehicle.type != PUBLIC_TRANSPORT_TYPE:
-            request = event.operator.requests[event.stop.requestId]
-            if len(request.waitSequence) > 1:
-                if self.indicator_dict[self.KEY_DETOUR] != "":
-                    self.indicator_dict[self.KEY_DETOUR] += "-"
-                    self.indicator_dict[self.KEY_DIRECT_TRIP] += "-"
-                self.indicator_dict[self.KEY_DETOUR] += str(request.waitSequence[1])
-                self.indicator_dict[self.KEY_DIRECT_TRIP] += str(request.directTravelTime)
+        if isinstance(event, StopEvent) and event.serviceVehicle.type != PUBLIC_TRANSPORT_TYPE:
+            dropoff_agents = [request.agent.id for request in event.dropoffs]
+            pickup_agents = [request.agent.id for request in event.pickups]
+
+            if agent.id in dropoff_agents:
+                request = event.dropoffs[dropoff_agents.index(agent.id)]
+                if len(request.waitSequence) > 1:
+                    if self.indicator_dict[self.KEY_DETOUR] != "":
+                        self.indicator_dict[self.KEY_DETOUR] += "-"
+                        self.indicator_dict[self.KEY_DIRECT_TRIP] += "-"
+                    self.indicator_dict[self.KEY_DETOUR] += str(request.waitSequence[1])
+                    self.indicator_dict[self.KEY_DIRECT_TRIP] += str(request.directTravelTime)
+
+            elif agent.id in pickup_agents:
+                request = event.pickups[pickup_agents.index(agent.id)]
+                if len(request.waitSequence) > 0:
+                    if self.indicator_dict[self.KEY_PICKUP_WAIT] != "":
+                        self.indicator_dict[self.KEY_PICKUP_WAIT] += "-"
+                    self.indicator_dict[self.KEY_PICKUP_WAIT] += str(request.waitSequence[0])
 
 
 class GetVehicleKPI(KPI):
@@ -770,58 +773,58 @@ class TransferKPI(KPI):
 
 
 # TODO : remove ? useless with TransferKPI
-class JourneyKPI(KPI):
-    """
-    This KPI evaluates the sequence of lines that compose a user journey
-    """
-
-    #: **journeySequence**: sequence of trip ids of the journey
-    KEY_JOURNEY_SEQUENCE = "journeySequence"
-
-    def __init__(self):
-
-        super().__init__()
-
-        self.keys = [self.KEY_JOURNEY_SEQUENCE]
-
-        self.trips_table = None
-        self.routes_table = None
-
-    def setup(self, simulation_model):
-
-        operator = simulation_model.agentPopulation["operators"]["OPR"]
-
-        feed = operator.service_info
-
-        self.trips_table = feed.trips
-        self.routes_table = feed.routes
-
-    def new_indicator_dict(self):
-
-        self.indicator_dict = {self.KEY_JOURNEY_SEQUENCE: ""}
-
-    def update(self, event, agent):
-        """
-        Add a new route for each PickupEvent
-        :param agent:
-        :param event:
-        :return:
-        """
-
-        super().update(event, agent)
-
-        if isinstance(event, PickupEvent):
-
-            route_id = self.trips_table.loc[self.trips_table["trip_id"] == event.trip, "route_id"].iloc[0]
-
-            route_name = self.routes_table.loc[self.routes_table["route_id"] == route_id, "route_short_name"].iloc[0]
-
-            self.indicator_dict[self.KEY_JOURNEY_SEQUENCE] += route_name + "-"
-
-        if isinstance(event, DestinationReachedEvent):
-
-            self.indicator_dict[self.KEY_JOURNEY_SEQUENCE] = self.indicator_dict[self.KEY_JOURNEY_SEQUENCE][:-1]
-
+# class JourneyKPI(KPI):
+#     """
+#     This KPI evaluates the sequence of lines that compose a user journey
+#     """
+#
+#     #: **journeySequence**: sequence of trip ids of the journey
+#     KEY_JOURNEY_SEQUENCE = "journeySequence"
+#
+#     def __init__(self):
+#
+#         super().__init__()
+#
+#         self.keys = [self.KEY_JOURNEY_SEQUENCE]
+#
+#         self.trips_table = None
+#         self.routes_table = None
+#
+#     def setup(self, simulation_model):
+#
+#         operator = simulation_model.agentPopulation["operators"]["OPR"]
+#
+#         feed = operator.service_info
+#
+#         self.trips_table = feed.trips
+#         self.routes_table = feed.routes
+#
+#     def new_indicator_dict(self):
+#
+#         self.indicator_dict = {self.KEY_JOURNEY_SEQUENCE: ""}
+#
+#     def update(self, event, agent):
+#         """
+#         Add a new route for each PickupEvent
+#         :param agent:
+#         :param event:
+#         :return:
+#         """
+#
+#         super().update(event, agent)
+#
+#         if isinstance(event, PickupEvent):
+#
+#             route_id = self.trips_table.loc[self.trips_table["trip_id"] == event.trip, "route_id"].iloc[0]
+#
+#             route_name = self.routes_table.loc[self.routes_table["route_id"] == route_id, "route_short_name"].iloc[0]
+#
+#             self.indicator_dict[self.KEY_JOURNEY_SEQUENCE] += route_name + "-"
+#
+#         if isinstance(event, DestinationReachedEvent):
+#
+#             self.indicator_dict[self.KEY_JOURNEY_SEQUENCE] = self.indicator_dict[self.KEY_JOURNEY_SEQUENCE][:-1]
+#
 
 class DestinationReachedKPI(KPI):
     """
