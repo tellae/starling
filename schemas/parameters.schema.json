@@ -95,7 +95,7 @@
       "title": "KPIs filename format",
       "description": "Format of the KPI outputs filename. Formatted with the 'scenario' and 'kpi_output' placeholders.",
       "type": "string",
-      "pattern": "(\\.csv(\\.bz2)?)$"
+      "pattern": "(\\.csv(\\.gz)?)$"
     },
     "simulate_routes": {
       "type": "boolean",

@@ -118,7 +118,7 @@ appear in the console.
 You can find the outputs of the scenario in the output folder.
 In this case, its data/models/SB_VS/example_nantes/outputs/.
 
-KPI files (.csv.bz2) can be visualised with any spreadsheet software.
+KPI files (.csv.gz) can be visualised with any spreadsheet software.
 
 The visualisation file (.geojson) can be uploaded to the web application
 [Kite](https://kite.tellae.fr/) to visualise the simulation run.
