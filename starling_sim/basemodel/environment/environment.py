@@ -23,14 +23,29 @@ class Environment:
         # get the topologies dict
         topologies_dict = parameters["topologies"]
 
+        # get the 'store_paths' parameter
+        if "store_paths" in parameters:
+            store_paths = parameters["store_paths"]
+        else:
+            store_paths = False
+
         for mode, info in topologies_dict.items():
 
             network_file = info[0]
             speeds_file = info[1]
 
+            # see if paths of this topology should be stored
+            if isinstance(store_paths, dict):
+                if mode not in store_paths:
+                    raise ValueError("Missing topology in parameter 'store_paths'")
+                else:
+                    store = store_paths[mode]
+            else:
+                store = store_paths
+
             # create a topology object according to the given network type
             if network == "osm":
-                topology = OSMNetwork(mode, network_file, speeds_file)
+                topology = OSMNetwork(mode, network_file, speeds_file, store_paths=store)
 
             else:
                 logging.error("Unknown network type {}".format(network))
@@ -98,9 +113,10 @@ class Environment:
 
         # if route is None, compute the path from <origin> to <destination>
         # which minimises <dimension>
+        length = None
         if route is None:
             # compute shortest path
-            route = self.topologies[mode].shortest_path(origin, destination, dimension)
+            route, length = self.topologies[mode].dijkstra_shortest_path_and_length(origin, destination, dimension)
 
         # store route in a dict
         route_data = {"route": route}
@@ -122,11 +138,12 @@ class Environment:
             self.add_route_data(route_data, mode, "time")
 
         # check that the duration fits (to avoid round-up error)
-        if duration is None:
-            duration = int(self.sim.environment.topologies[mode].shortest_path_length(origin, destination, "time"))
+        if duration is None and length is not None:
+            duration = length
+
         time_sum = sum(route_data["time"])
 
-        if duration != time_sum:
+        if duration is not None and duration != time_sum:
             route_data["time"][-1] += int(duration - time_sum)
 
         return route_data

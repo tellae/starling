@@ -17,13 +17,15 @@ class OSMNetwork(Topology):
 
     IMPORT_ERROR = "Cannot import OSM network : "
 
-    def __init__(self, transport_mode, network_file=None, speed_file=None, graph=None):
+    def __init__(self, transport_mode, network_file=None, speed_file=None, graph=None, store_paths=None):
         """
         Create the topology structure, without initializing the network
 
         :param transport_mode: type of the given network
         :param network_file: graphml file for network import
         :param speed_file: json file containing the link speeds
+        :param graph: graph object for direct initialisation
+        :param store_paths: boolean indicating if shortest paths should be stored
         """
         super().__init__()
 
@@ -33,6 +35,13 @@ class OSMNetwork(Topology):
 
         self.graph = graph
         self.speeds = None
+
+        # paths storing
+        if store_paths is None:
+            self.store_paths = False
+        else:
+            self.store_paths = store_paths
+        self.paths = {}
 
         # TODO : replace with a decorator ?
         self.shortest_path_count = 0
@@ -126,9 +135,9 @@ class OSMNetwork(Topology):
             logging.error("Origin or destination provided for shortest path is None")
             raise ValueError((origin, destination))
 
-        self.shortest_path_count += 1
+        path, _ = self.dijkstra_shortest_path_and_length(origin, destination, dimension)
 
-        return nx.shortest_path(self.graph, origin, destination, weight=dimension)
+        return path
 
     def shortest_path_length(self, origin, destination, dimension):
         """
@@ -140,13 +149,13 @@ class OSMNetwork(Topology):
         :return: length of the shortest path
         """
 
-        self.shortest_path_count += 1
-
         if origin is None or destination is None:
             logging.error("Origin or destination provided for shortest path is None")
             raise ValueError((origin, destination))
 
-        return nx.shortest_path_length(self.graph, origin, destination, weight=dimension)
+        _, length = self.dijkstra_shortest_path_and_length(origin, destination, dimension)
+
+        return length
 
     def dijkstra_shortest_path_and_length(self, origin, destination, dimension):
         """
@@ -158,12 +167,21 @@ class OSMNetwork(Topology):
         :return: tuple (path, path_length)
         """
 
-        self.shortest_path_count += 1
+        od = (origin, destination)
 
-        length, path = nx.single_source_dijkstra(self.graph, origin,
-                                                 target=destination, weight=dimension)
+        if self.store_paths and od in self.paths:
+            return self.paths[od][0], self.paths[od][1]
+        else:
 
-        return path, length
+            self.shortest_path_count += 1
+
+            length, path = nx.single_source_dijkstra(self.graph, origin,
+                                                     target=destination, weight=dimension)
+
+            if self.store_paths:
+                self.paths[od] = path, length
+
+            return path, length
 
     def position_localisation(self, position):
 

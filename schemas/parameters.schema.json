@@ -12,8 +12,7 @@
       "type": "string",
       "title": "Simulation scenario",
       "description": "Name of the scenario simulated",
-      "example": "C2G",
-      "default": "TEST"
+      "example": "C2G"
     },
     "limit": {
       "type": "integer",
@@ -131,6 +130,12 @@
         }
       },
       "required": ["walk"]
+    },
+    "store_paths": {
+      "title": "Store shortest paths",
+      "description": "Indicates if computed shortest paths should be stored in a dict to avoid computing them again. Either a boolean or a dict with the same keys as topologies and boolean values.",
+      "type": ["boolean", "object"],
+      "default": false
     },
     "gtfs_timetables": {
       "type": ["string", "null"],
