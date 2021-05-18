@@ -41,7 +41,7 @@ class OSMNetwork(Topology):
             self.store_paths = False
         else:
             self.store_paths = store_paths
-        self.paths = {}
+        self.paths = {"time": {}, "length": {}}
 
         # TODO : replace with a decorator ?
         self.shortest_path_count = 0
@@ -169,8 +169,8 @@ class OSMNetwork(Topology):
 
         od = (origin, destination)
 
-        if self.store_paths and od in self.paths:
-            return self.paths[od][0], self.paths[od][1]
+        if self.store_paths and od in self.paths[dimension]:
+            return self.paths[dimension][od][0], self.paths[dimension][od][1]
         else:
 
             self.shortest_path_count += 1
@@ -179,7 +179,7 @@ class OSMNetwork(Topology):
                                                      target=destination, weight=dimension)
 
             if self.store_paths:
-                self.paths[od] = path, length
+                self.paths[dimension][od] = path, length
 
             return path, length
 
