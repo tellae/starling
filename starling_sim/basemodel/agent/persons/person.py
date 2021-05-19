@@ -321,7 +321,7 @@ class Person(MovingAgent):
         yield request.pickupEvent_
 
         if self.vehicle is None:
-            request.success = False
+            request.cancel()
             return False
 
         # wait for the dropoff

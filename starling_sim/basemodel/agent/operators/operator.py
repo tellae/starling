@@ -370,6 +370,19 @@ class Operator(Agent):
         else:
             self.online_dispatcher.online_dispatch(request)
 
+    def cancel_request(self, request):
+        """
+        Remove the pending queues of the given assigned request.
+
+        For instance, remove the UserStop objects from the stop points lists.
+
+        Called when a request is canceled by the requesting user or the operator.
+
+        :param request: cancelled request
+        """
+
+        print("hello")
+
     def build_trip_request(self, agent=None, origin_position=None, origin_stop=None, origin_time=None,
                            destination_position=None, destination_stop=None, destination_time=None, **kwargs):
         """
