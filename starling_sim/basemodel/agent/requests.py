@@ -107,6 +107,15 @@ class Request:
         # TODO : need an exception argument ?
         former_event.fail()
 
+    def cancel(self):
+        """
+        Set success to false and call the structure cancel method.
+        """
+
+        self.success = False
+
+        self.structure.cancel_request(self)
+
     def __str__(self):
         """
         Give string display to the request.
