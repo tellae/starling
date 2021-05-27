@@ -127,8 +127,7 @@ def launch_simulation(parameters_path, pkg):
     start = time.time()
     simulator.setup_simulation()
     duration = time.time() - start
-    logging.info("End of setup. Elapsed time : "
-                 + str(duration) + " seconds\n")
+    logging.info("End of setup. Elapsed time : {:.2f} seconds\n".format(duration))
     simulator.simulationModel.runSummary["setup_time"] = duration
 
     # run the simulation
@@ -136,8 +135,7 @@ def launch_simulation(parameters_path, pkg):
     start = time.time()
     simulator.run_simulation()
     duration = time.time() - start
-    logging.info("End of simulation run. Elapsed time : "
-                 + str(duration) + " seconds\n")
+    logging.info("End of simulation run. Elapsed time : {:.2f} seconds\n".format(duration))
     simulator.simulationModel.runSummary["execution_time"] = duration
 
     shortest_path_count = 0
