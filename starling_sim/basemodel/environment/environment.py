@@ -534,6 +534,8 @@ class Environment:
                 # TODO : test if properties are same
                 continue
 
+            logging.debug("Adding node {} to topology {}".format(node_id, mode))
+
             topology.graph.add_node(node_id, **properties)
 
     def add_stops_correspondence(self, stops_table, modes, extend_graph, max_distance=DEFAULT_MAX_STOP_DISTANCE):
