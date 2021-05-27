@@ -5,15 +5,15 @@ from starling_sim.basemodel.trace.events import StaffOperationEvent
 import random
 
 
-class PalZangGCH(Algorithm):
+class PalZhangGCH(Algorithm):
 
-    NAME = "PalZangGCH"
+    NAME = "PalZhangGCH"
 
     def __init__(self, simulation_model, operator, verb=False):
 
         super().__init__(simulation_model=simulation_model, operator=operator, verb=verb)
 
-        # PalZangGCH parameters
+        # PalZhangGCH parameters
 
         # start times of the repositioning operations
         self.start_times = self.operator.operationParameters["start_time"]
@@ -30,7 +30,7 @@ class PalZangGCH(Algorithm):
 
         self.priority_threshold = self.operator.operationParameters["priority_threshold"]
 
-        # PalZangGCH variables
+        # PalZhangGCH variables
 
         # demand at each station
         self.demand_dict = None
@@ -97,7 +97,7 @@ class PalZangGCH(Algorithm):
     def run(self):
 
         # log algorithm start
-        self.log_message("Start of the PalZangGCH")
+        self.log_message("Start of the PalZhangGCH")
 
         max_operations = self.maximum_operations()
 

@@ -1,10 +1,10 @@
 from starling_sim.basemodel.algorithms.dispatcher import Dispatcher
-from starling_sim.basemodel.algorithms.pal_zang_GCH import PalZangGCH
+from starling_sim.basemodel.algorithms.pal_zhang_GCH import PalZhangGCH
 
 
-class PalZangGreedyDispatcher(Dispatcher):
+class PalZhangGreedyDispatcher(Dispatcher):
 
-    NAME = "PalZangGreedyDispatcher"
+    NAME = "PalZhangGreedyDispatcher"
 
     def __init__(self, simulation_model, operator, verb=False):
 
@@ -12,7 +12,7 @@ class PalZangGreedyDispatcher(Dispatcher):
 
     def init_algorithm(self):
 
-        self.algorithm = PalZangGCH(simulation_model=self.sim, operator=self.operator, verb=self.verb)
+        self.algorithm = PalZhangGCH(simulation_model=self.sim, operator=self.operator, verb=self.verb)
 
     def setup_dispatch(self):
 

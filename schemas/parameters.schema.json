@@ -2,6 +2,8 @@
   "title": "parameters",
   "description": "parameters of a simulation run",
   "type": "object",
+  "required": ["code", "scenario", "limit", "seed", "date", "geojson_output", "kpi_output",
+    "simulate_routes", "dynamic_input_file", "init_input_file", "topologies"],
   "properties": {
     "code": {
       "type": "string",
@@ -159,7 +161,5 @@
       "title": "Routes to keep in the public transport simulation",
       "description": "List of routes that should be present in the simulation. If null, keep all routes."
     }
-  },
-  "required": ["code", "scenario", "limit", "seed", "date", "geojson_output", "kpi_output",
-    "simulate_routes", "dynamic_input_file", "init_input_file", "topologies"]
+  }
 }
