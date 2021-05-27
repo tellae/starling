@@ -1,5 +1,5 @@
 from starling_sim.basemodel.agent.operators.station_based_operator import StationBasedOperator
-from starling_sim.basemodel.algorithms.pal_zang_dispatcher import PalZangGreedyDispatcher
+from starling_sim.basemodel.algorithms.pal_zhang_dispatcher import PalZhangGreedyDispatcher
 
 
 class Operator(StationBasedOperator):
@@ -15,7 +15,7 @@ class Operator(StationBasedOperator):
 
         dispatcher_name = self.operationParameters["dispatcher"]
         if dispatcher_name == "PZ":
-            self.punctual_dispatcher = PalZangGreedyDispatcher(self.sim, self, verb=True)
+            self.punctual_dispatcher = PalZhangGreedyDispatcher(self.sim, self, verb=True)
         elif dispatcher_name == "null":
             self.punctual_dispatcher = None
 
