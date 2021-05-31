@@ -450,6 +450,10 @@ class OccupationKPI(KPI):
             self.currentStock = self.get_initial_stock(event.element)
             self.indicator_dict[self.KEY_MAX_STOCK] = self.currentStock
 
+        if isinstance(event, LeaveSimulationEvent):
+
+            self.add_to_stock(0, event.timestamp)
+
 
 class StationOccupationKPI(OccupationKPI):
     """
