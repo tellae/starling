@@ -111,9 +111,9 @@
       "example": "CS_SB_dynamic_input.json"
     },
     "init_input_file": {
-      "type": ["string", "null"],
+      "type": ["string", "array", "null"],
       "title": "Initialisation input file",
-      "description": "Name of the file containing the initialisation input",
+      "description": "Name of the file containing the initialisation input or list of file names",
       "example": "CS_SB_init_input.json"
     },
     "topologies": {
