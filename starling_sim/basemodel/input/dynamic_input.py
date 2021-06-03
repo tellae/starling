@@ -60,8 +60,15 @@ class DynamicInput(Traced):
         self.dynamic_feature_list = sorted(self.dynamic_feature_list, key=lambda x: x["properties"]["origin_time"])
 
         # get the list of static features (present at the start of the simulation)
-        init_file = self.sim.parameters["init_input_file"]
-        init_feature_list = self.feature_list_from_file(init_file)
+        init_files = self.sim.parameters["init_input_file"]
+
+        # if there are several files, concatenate their feature lists
+        if isinstance(init_files, list):
+            init_feature_list = []
+            for filename in init_files:
+                init_feature_list += self.feature_list_from_file(filename)
+        else:
+            init_feature_list = self.feature_list_from_file(init_files)
 
         # resolve the modes of the agent types
         self.resolve_type_modes_from_inputs(init_feature_list + self.dynamic_feature_list)
