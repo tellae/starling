@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Shortest paths storing
+- Possibility to provide a list of init input files
 
 ### Changed
 - Deprecated use of origin/destination_lat/lon, now fetching coordinates from geometry

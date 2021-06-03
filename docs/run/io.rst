@@ -114,6 +114,9 @@ It can describe, for instance, stations and their vehicles, or a transport opera
 The initialisation file is subject to the same JSON schema than the dynamic input file, initial agents
 are described with the same specification.
 
+You can also provide a list of geojson files instead of one. In this case, the feature lists of the files are
+concatenated and processed as in the case of one file.
+
 ***********
 Output data
 ***********
