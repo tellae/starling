@@ -131,4 +131,7 @@ class Dispatcher:
             for j in range(len(stop_points)):
                 matrix[i, j] = int(lengths[self.operator.stopPoints[stop_points[j]].position])
 
+        if dimension == "time":
+            matrix = matrix.astype(int)
+
         return matrix
