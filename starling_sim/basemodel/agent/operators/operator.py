@@ -478,3 +478,22 @@ class Operator(Agent):
         yield self.execute_process(self.spend_time_(0))
 
         return True
+
+    # utils
+
+    def compute_accepted_detour(direct_travel_time, max_detour):
+        """
+        Compute the maximum acceptable travel time with the given detour.
+
+
+
+        :param direct_travel_time: direct travel time in seconds
+        :param max_detour: maximum detour, either as a multiplicand or as a constant
+
+        :return: maximum acceptable travel time
+        """
+
+
+
+
+    compute_accepted_detour = staticmethod(compute_accepted_detour)
