@@ -505,15 +505,19 @@ class Operator(Agent):
         If it is an integer, it is used as a constant (in seconds) added to the direct travel time.
 
         :param direct_travel_time: direct travel time in seconds
-        :param max_detour: maximum detour, either as a multiplicand or as a constant
+        :param max_detour: maximum detour, either as a multiplicand or as a constant, or None
 
-        :return: deviated travel time (can be a float or an int)
+        :return: deviated travel time (can be a float or an int), or None if max detour is None
         """
 
         if isinstance(max_detour, float):
             max_travel_time = direct_travel_time * max_detour
-        else:
+        elif isinstance(max_detour, int):
             max_travel_time = direct_travel_time + max_detour
+        elif max_detour is None:
+            max_travel_time = None
+        else:
+            raise ValueError("Unsupported type for max detour parameter : {}".format(type(max_detour)))
 
         return max_travel_time
 
