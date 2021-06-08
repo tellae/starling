@@ -478,3 +478,30 @@ class Operator(Agent):
         yield self.execute_process(self.spend_time_(0))
 
         return True
+
+    # utils
+
+    def compute_travel_time_with_detour(direct_travel_time, max_detour):
+        """
+        Compute the travel time of a trip with a given detour.
+
+        The deviated travel time can be used to compute a maximum acceptable
+        travel time, or an estimated travel time.
+
+        If the detour is a float, it is used as a multiplicand with the direct travel time.
+        If it is an integer, it is used as a constant (in seconds) added to the direct travel time.
+
+        :param direct_travel_time: direct travel time in seconds
+        :param max_detour: maximum detour, either as a multiplicand or as a constant
+
+        :return: deviated travel time (can be a float or an int)
+        """
+
+        if isinstance(max_detour, float):
+            max_travel_time = direct_travel_time * max_detour
+        else:
+            max_travel_time = direct_travel_time + max_detour
+
+        return max_travel_time
+
+    compute_travel_time_with_detour = staticmethod(compute_travel_time_with_detour)
