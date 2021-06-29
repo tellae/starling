@@ -166,3 +166,37 @@ class StockInformation(InformationFactory):
 
                 value = self.values[-1] - 1
                 self.append_value_and_timestamp(value, event.timestamp)
+
+
+class DelayInformation(InformationFactory):
+    """
+    This factory traces the delay of service vehicles compared to the timetable.
+    """
+
+    DEFAULT_KEY = "delay"
+
+    def update(self, event, agent):
+
+        if isinstance(event, InputEvent):
+
+            self.append_value_and_timestamp(0, event.timestamp)
+
+        elif isinstance(event, StopEvent):
+
+            # get the theoretical departure time
+            service_info = agent.operator.service_info
+            stop_times = service_info.get_stop_times()
+            theo_departure_time = stop_times[(stop_times["trip_id"] == event.trip)
+                                             & (stop_times["stop_id"] == event.stop.id)]["departure_time_num"].values[0]
+
+            # compute the delay
+            delay = int((event.pickup_time - theo_departure_time)/float(60))
+
+            # format the delay information
+            if delay > 0:
+                delay = "+" + str(delay)
+            else:
+                delay = str(delay)
+
+            # append the information
+            self.append_value_and_timestamp(delay, event.pickup_time)
