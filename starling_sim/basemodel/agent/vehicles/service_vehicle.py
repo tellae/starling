@@ -97,6 +97,7 @@ class ServiceVehicle(Vehicle):
             stop.effectiveDepartureTime = self.sim.scheduler.now() + dwell_time
 
         # process the dropoffs
+        processed_dropoff = []
         if dropoff is not None:
             if isinstance(dropoff, list):
                 processed_dropoff = self.process_stop_list(dropoff)
@@ -110,12 +111,13 @@ class ServiceVehicle(Vehicle):
             if processed_dropoff is not None and processed_dropoff != []:
                 self.log_message("Dropped off {}".format(processed_dropoff))
 
-                # trace dropoffs
-                stop_event.set_dropoffs(processed_dropoff, self.sim.scheduler.now())
+        # trace dropoffs
+        stop_event.set_dropoffs(processed_dropoff, self.sim.scheduler.now())
 
         yield self.execute_process(self.spend_time_(dwell_time))
 
         # process the pickups
+        processed_pickup = []
         if pickup is not None:
 
             # remove stop from planning
@@ -130,8 +132,8 @@ class ServiceVehicle(Vehicle):
             if processed_pickup is not None and processed_pickup != []:
                 self.log_message("Picked up {}".format(processed_pickup))
 
-                # trace pickups
-                stop_event.set_pickups(processed_pickup, self.sim.scheduler.now())
+        # trace pickups
+        stop_event.set_pickups(processed_pickup, self.sim.scheduler.now())
 
         self.trace_event(stop_event)
 
