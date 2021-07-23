@@ -172,8 +172,18 @@ class Operator(Agent):
         :param zone_polygon: list of points describing a polygon
         """
 
-        if zone_polygon is not None:
-            self.serviceZone = geopandas_polygon_from_points(zone_polygon)
+        if isinstance(zone_polygon, str):
+            filepath = self.sim.parameters["input_folder"] + zone_polygon
+            geojson = json_load(filepath)
+            service_zone = geopandas_polygon_from_points(geojson["features"][0]["geometry"]["coordinates"][0])
+        elif isinstance(zone_polygon, list):
+            service_zone = geopandas_polygon_from_points(zone_polygon)
+        elif zone_polygon is None:
+            service_zone = None
+        else:
+            raise TypeError("The zone_polygon parameter must be either an input filename or a list of coordinates")
+
+        self.serviceZone = service_zone
 
     def init_topology(self, network_file):
         """
