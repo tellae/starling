@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - zone_polygon parameter can now be an input filename (geojson) instead of coordinates
+- Option --data-folder in main.py to specify the data folder
 
 ## 0.4.0 (2021-06-29)
 

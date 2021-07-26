@@ -6,6 +6,7 @@ from starling_sim.model_simulator import model_codes, launch_simulation
 from starling_sim.utils.data_tree import create_data_tree, import_examples
 from starling_sim.utils.simulation_logging import DEFAULT_LOGGER_LEVEL, setup_logging
 from starling_sim.utils.test_models import launch_tests
+from starling_sim.utils import paths
 from starling_sim.version import __version__
 
 
@@ -49,6 +50,10 @@ def run_main():
                         action="store",
                         default="starling_sim")
 
+    parser.add_argument("--data-folder",
+                        help="Change the path to the data folder",
+                        default=None)
+
     parser.add_argument("-v", "--version",
                         action="version",
                         version=__version__)
@@ -70,6 +75,12 @@ def run_main():
     if input_args.sphinx:
         os.system("./docs/sphinx-doc.sh")
         exit(0)
+
+    if input_args.data_folder is not None:
+        if input_args.data_folder.endswith("/"):
+            paths._DATA_FOLDER = input_args.data_folder
+        else:
+            paths._DATA_FOLDER = input_args.data_folder + "/"
 
     # data tree create
     if input_args.data_tree:
