@@ -76,7 +76,9 @@ class ModelSimulator:
             try:
                 module = importlib.import_module(model_path)
             except ModuleNotFoundError as e:
-                logging.error("Cannot find the module model.py in package starling_sim.models.{}".format(code))
+                logging.error("Cannot find the module '{}'.\n"
+                              "    Maybe there is an error in the model code ? "
+                              "Or maybe you forgot to use the -p option of main.py ?".format(model_path))
                 exit(0)
 
             # try to get the Model class from the model module
