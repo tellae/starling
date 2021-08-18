@@ -229,8 +229,8 @@ def scenario_output_folder(model_code, scenario):
     """
 
     # check if the OUTPUT_FOLDER environment variable is provided
-    env_output_folder = os.environ["OUTPUT_FOLDER"]
-    if env_output_folder is not None:
+    if "OUTPUT_FOLDER" in os.environ:
+        env_output_folder = os.environ["OUTPUT_FOLDER"]
         # check that the folder exists
         if not os.path.isdir(env_output_folder):
             raise IOError("Environment variable OUTPUT_FOLDER does not point to a folder")
