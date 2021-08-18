@@ -104,6 +104,7 @@ See :ref:`create-models` for more information about the requirements for your mo
 """
 
 import starling_sim
+import os
 
 _SEP = "/"
 
@@ -226,7 +227,21 @@ def scenario_output_folder(model_code, scenario):
     :param model_code: code of the model
     :param scenario: name of the scenario
     """
-    return scenario_folder(model_code, scenario) + OUTPUT_FOLDER_NAME + _SEP
+
+    # check if the OUTPUT_FOLDER environment variable is provided
+    env_output_folder = os.environ["OUTPUT_FOLDER"]
+    if env_output_folder is not None:
+        # check that the folder exists
+        if not os.path.isdir(env_output_folder):
+            raise IOError("Environment variable OUTPUT_FOLDER does not point to a folder")
+
+        # add missing folder separator
+        if not env_output_folder.endswith(_SEP):
+            env_output_folder = env_output_folder + _SEP
+
+        return env_output_folder
+    else:
+        return scenario_folder(model_code, scenario) + OUTPUT_FOLDER_NAME + _SEP
 
 
 def starling_folder():
