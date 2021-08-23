@@ -76,3 +76,7 @@ OBJECTIVE_GRAPH_FORMAT = "{prefix}_objective.png"
 
 #: default maximum distance between stop and node before extending graph
 DEFAULT_MAX_STOP_DISTANCE = 100
+
+#: Duration (seconds) restriction applied to the GTFS transfer table before making is transitively closed.
+# This allows reducing the size of the resulting set of transfers.
+DEFAULT_TRANSFER_RESTRICTION = 240

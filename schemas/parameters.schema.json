@@ -160,6 +160,12 @@
       },
       "title": "Routes to keep in the public transport simulation",
       "description": "List of routes that should be present in the simulation. If null, keep all routes."
+    },
+    "transfer_duration_restriction": {
+      "title": "Transfer duration restriction",
+      "description": "Duration (seconds) restriction applied to the GTFS transfer table before making is transitively closed. This allows reducing the size of the resulting set of transfers.",
+      "type": "integer",
+      "default": "$DEFAULT_TRANSFER_RESTRICTION$"
     }
   }
 }

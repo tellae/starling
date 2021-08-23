@@ -17,6 +17,7 @@ from shapely.geometry import Polygon
 from numbers import Integral
 from jsonschema import Draft7Validator, Draft4Validator, validators, validate, ValidationError, RefResolver
 from starling_sim.utils.paths import schemas_folder, gtfs_feeds_folder, osm_graphs_folder
+from starling_sim.utils.constants import DEFAULT_TRANSFER_RESTRICTION
 
 pd.set_option('display.expand_frame_repr', False)
 
@@ -667,15 +668,17 @@ def osm_graph_from_file(filename, folder=None):
 
 # gtfs utils
 
-def import_gtfs_feed(gtfs_filename, folder=None):
+def import_gtfs_feed(gtfs_filename, transfer_restriction=None, folder=None):
     """
     Import a gtfs feed from the given file.
 
     Also check that stop times are ordered and transfers are symmetrical.
 
     :param gtfs_filename: name of a gtfs file
+    :param transfer_restriction: duration restriction on the transfers
     :param folder: folder where the gtfs is stored.
         Default is the GTFS_FEEDS_FOLDER.
+
     :return: gtfs-kit Feed object
     """
 
@@ -705,8 +708,125 @@ def import_gtfs_feed(gtfs_filename, folder=None):
         if not counts_not_equal_to_2.empty:
             logging.warning("Transfer table of {} is not symmetrical (in term of arcs, not transfer times)"
                             .format(gtfs_filename))
+        if not is_transitive(feed.transfers):
+            if transfer_restriction is None:
+                transfer_restriction = DEFAULT_TRANSFER_RESTRICTION
+            feed.transfers = transitively_closed_transfers(feed.transfers, transfer_restriction)
+    else:
+        logging.warning("The given GTFS has no transfer table")
 
     return feed
+
+
+def transitively_closed_transfers(transfers, restrict_transfer_time):
+    """
+    Restrict the transfer table under the given time limit and then make it transitive.
+
+    The restriction on the transfer times help keeping the transfer table at a reasonable size
+    after making it transitive.
+
+    :param transfers: transfer table
+    :param restrict_transfer_time: transfer duration limit
+
+    :return: transitive closure of the restricted transfer table
+    """
+
+    # restrict original transfers so the final set of transfers isn't too large
+    if restrict_transfer_time is not None:
+        logging.info("The GTFS transfer table is not transitively closed. "
+                     "Transfers are restricted to duration under {} seconds and then made transitive."
+                     .format(restrict_transfer_time))
+        transfers = transfers[transfers["min_transfer_time"] <= restrict_transfer_time]
+        return make_transfers_transitively_closed(transfers)
+    # else:
+    #     new_transfers = None
+    #     restrict_transfer_time = 60
+    #     computations_too_big = False
+    #     while not computations_too_big:
+    #         restricted_transfers = transfers[transfers["min_transfer_time"] <= restrict_transfer_time]
+    #         try:
+    #             new_transfers = make_transfers_transitively_closed(restricted_transfers)
+    #             restrict_transfer_time += 60
+    #         except TimeoutError as e:
+    #             computations_too_big = True
+    #             if restrict_transfer_time == 60:
+    #                 raise e
+    #
+    #     return new_transfers
+
+
+def is_transitive(transfers):
+    """
+    Test if the given transfer table is transitive.
+
+    :param transfers: transfer table
+
+    :return: boolean indicating if the table is transitive
+    """
+
+    if transfers is None:
+        return True
+
+    nb_transfers = len(transfers)
+    # create new transfers using transitive property
+    new_transfers = pd.merge(transfers, transfers, left_on="to_stop_id", right_on="from_stop_id")
+    new_transfers["min_transfer_time"] = new_transfers["min_transfer_time_x"] + new_transfers["min_transfer_time_y"]
+    new_transfers["from_stop_id"] = new_transfers["from_stop_id_x"]
+    new_transfers["to_stop_id"] = new_transfers["to_stop_id_y"]
+    if "transfer_type" in transfers.columns:
+        new_transfers["transfer_type"] = new_transfers[["transfer_type_x", "transfer_type_y"]].max(axis=1)
+    new_transfers = new_transfers[transfers.columns]
+
+    # add them to the former set of transfers
+    transfers = pd.concat([transfers, new_transfers])
+
+    # keep the best transfer for each couple of stops
+    transfers.sort_values(by="min_transfer_time", inplace=True)
+    transfers = transfers.groupby(by=["from_stop_id", "to_stop_id"], as_index=False).first()
+
+    # break condition
+    return len(transfers) == nb_transfers
+
+
+def make_transfers_transitively_closed(transfers):
+    """
+    Make the given transfer table transitive by incrementally adding transition transfers.
+
+    If transfers from A to B and from B to C exist, create a transfer from A to C.
+    If several transfers from A to C exist, keep the one with shorter transfer duration.
+    Repeat.
+
+    :param transfers: transfer table
+
+    :return: transitive closure of the given transfer table
+    """
+
+    # loop until no new transfer is found
+    nb_transfers = len(transfers)
+    while True:
+        # create new transfers using transitive property
+        new_transfers = pd.merge(transfers, transfers, left_on="to_stop_id", right_on="from_stop_id")
+        new_transfers["min_transfer_time"] = new_transfers["min_transfer_time_x"] + new_transfers["min_transfer_time_y"]
+        new_transfers["from_stop_id"] = new_transfers["from_stop_id_x"]
+        new_transfers["to_stop_id"] = new_transfers["to_stop_id_y"]
+        if "transfer_type" in transfers.columns:
+            new_transfers["transfer_type"] = new_transfers[["transfer_type_x", "transfer_type_y"]].max(axis=1)
+        new_transfers = new_transfers[transfers.columns]
+
+        # add them to the former set of transfers
+        transfers = pd.concat([transfers, new_transfers])
+
+        # keep the best transfer for each couple of stops
+        transfers.sort_values(by="min_transfer_time", inplace=True)
+        transfers = transfers.groupby(by=["from_stop_id", "to_stop_id"], as_index=False).first()
+
+        # break condition
+        if len(transfers) == nb_transfers:
+            break
+
+        nb_transfers = len(transfers)
+
+    return transfers
 
 
 # folder creation

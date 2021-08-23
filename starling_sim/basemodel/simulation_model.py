@@ -160,7 +160,10 @@ class SimulationModel:
         """
 
         # import the gtfs timetable from the zip given in the parameters
-        self.gtfs = import_gtfs_feed(self.parameters["gtfs_timetables"])
+        transfer_restriction = None
+        if "transfer_duration_restriction" in self.parameters:
+            transfer_restriction = self.parameters["transfer_duration_restriction"]
+        self.gtfs = import_gtfs_feed(self.parameters["gtfs_timetables"], transfer_restriction)
 
     def setup_pt_parameters(self):
         """
