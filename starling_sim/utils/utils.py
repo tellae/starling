@@ -709,8 +709,6 @@ def import_gtfs_feed(gtfs_filename, transfer_restriction=None, folder=None):
             logging.warning("Transfer table of {} is not symmetrical (in term of arcs, not transfer times)"
                             .format(gtfs_filename))
         if not is_transitive(feed.transfers):
-            if transfer_restriction is None:
-                transfer_restriction = DEFAULT_TRANSFER_RESTRICTION
             feed.transfers = transitively_closed_transfers(feed.transfers, transfer_restriction)
     else:
         logging.warning("The given GTFS has no transfer table")
@@ -718,7 +716,7 @@ def import_gtfs_feed(gtfs_filename, transfer_restriction=None, folder=None):
     return feed
 
 
-def transitively_closed_transfers(transfers, restrict_transfer_time):
+def transitively_closed_transfers(transfers, restrict_transfer_time=None):
     """
     Restrict the transfer table under the given time limit and then make it transitive.
 
@@ -730,6 +728,9 @@ def transitively_closed_transfers(transfers, restrict_transfer_time):
 
     :return: transitive closure of the restricted transfer table
     """
+
+    if restrict_transfer_time is None:
+        restrict_transfer_time = DEFAULT_TRANSFER_RESTRICTION
 
     # restrict original transfers so the final set of transfers isn't too large
     if restrict_transfer_time is not None:
