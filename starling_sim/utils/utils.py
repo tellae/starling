@@ -13,7 +13,7 @@ import gtfs_kit as gt
 import osmnx as ox
 import gzip
 import shutil
-from shapely.geometry import Polygon
+from shapely.geometry import Polygon, LineString
 from numbers import Integral
 from jsonschema import Draft7Validator, Draft4Validator, validators, validate, ValidationError, RefResolver
 from starling_sim.utils.paths import schemas_folder, gtfs_feeds_folder, osm_graphs_folder
@@ -828,6 +828,53 @@ def make_transfers_transitively_closed(transfers):
         nb_transfers = len(transfers)
 
     return transfers
+
+
+def stops2geojson(stops_df):
+    """
+    Create a geojson FeatureCollection from the GTFS stops.
+
+    :param stops_df: stops DataFrame of the GTFS
+
+    :return: feature collection
+    """
+
+    features = []
+    stops_df.apply(lambda x: features.append(
+        new_point_feature(point_localisation=[x["stop_lon"], x["stop_lat"]],
+                          properties={
+                              "stop_id": x["stop_id"],
+                              "stop_name": x["stop_name"],
+                          })), axis=1)
+
+    return new_feature_collection(features)
+
+
+def transfers2geojson(transfers_df, stops_df):
+    """
+    Create a geojson FeatureCollection from the GTFS transfers.
+
+    :param transfers_df: transfers DataFrame of the GTFS
+    :param stops_df: stops DataFrame of the GTFS
+
+    :return: feature collection
+    """
+
+    # add the stop information to the from_stop and to_stop
+    geo_transfers = pd.merge(transfers_df, stops_df, left_on=["from_stop_id"], right_on=["stop_id"])
+    geo_transfers = pd.merge(geo_transfers, stops_df, left_on=["to_stop_id"], right_on=["stop_id"])
+    geo_transfers = geo_transfers[["from_stop_id", "to_stop_id", "min_transfer_time", "stop_lat_x", "stop_lon_x",
+                                   "stop_lat_y", "stop_lon_y"]]
+
+    # create the geometry attribute
+    geo_transfers["geometry"] = geo_transfers.apply(
+        lambda x: LineString([(x["stop_lon_x"], x["stop_lat_x"]), (x["stop_lon_y"], x["stop_lat_y"])]), axis=1)
+    geo_transfers = geopandas.GeoDataFrame(geo_transfers)
+    geo_transfers = geo_transfers[["min_transfer_time", "geometry"]]
+
+    geojson = geo_transfers.to_json(drop_id=True)
+
+    return geojson
 
 
 # folder creation
