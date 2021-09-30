@@ -15,4 +15,4 @@ osmnx==1.0.1
 gtfs-kit==5.0.2
 mpu==0.22.0
 alns==1.2.5
-numba==0.51.2
+numba==0.54.0

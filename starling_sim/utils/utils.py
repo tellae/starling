@@ -13,9 +13,10 @@ import gtfs_kit as gt
 import osmnx as ox
 import gzip
 import shutil
+import copy
 from shapely.geometry import Polygon, LineString
 from numbers import Integral
-from jsonschema import Draft7Validator, Draft4Validator, validators, validate, ValidationError, RefResolver
+from jsonschema import Draft7Validator, Draft4Validator, validators, ValidationError, RefResolver
 from starling_sim.utils.paths import schemas_folder, gtfs_feeds_folder, osm_graphs_folder
 from starling_sim.utils.constants import DEFAULT_TRANSFER_RESTRICTION
 
@@ -168,6 +169,28 @@ def validate_against_schema(instance, schema, raise_exception=True):
         else:
             logging.log(30, "JSON Schema validation of :\n\n{}\n\nfailed with message:\n\n {} ".format(instance, e))
             return False
+
+
+def add_defaults_and_validate(instance, schema, raise_exception=True):
+
+    # initialise an empty result dict
+    res = copy.deepcopy(instance)
+
+    # load the schema if a path is provided
+    if isinstance(schema, str):
+        schema = json_load(schemas_folder() + schema)
+
+    # browse the schema properties
+    for prop in schema["properties"].keys():
+
+        # if the property is missing and there is a default value, use default
+        if prop not in instance and "default" in schema["properties"][prop]:
+            res[prop] = schema["properties"][prop]["default"]
+
+    # validate the final instance against the schema
+    validate_against_schema(res, schema, raise_exception)
+
+    return res
 
 
 # converters
