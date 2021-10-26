@@ -18,7 +18,6 @@ from shapely.geometry import Polygon, LineString
 from numbers import Integral
 from jsonschema import Draft7Validator, Draft4Validator, validators, ValidationError, RefResolver
 from starling_sim.utils.paths import schemas_folder, gtfs_feeds_folder, osm_graphs_folder
-from starling_sim.utils.constants import DEFAULT_TRANSFER_RESTRICTION
 
 pd.set_option('display.expand_frame_repr', False)
 
@@ -731,7 +730,7 @@ def import_gtfs_feed(gtfs_filename, transfer_restriction=None, folder=None):
         if not counts_not_equal_to_2.empty:
             logging.warning("Transfer table of {} is not symmetrical (in term of arcs, not transfer times)"
                             .format(gtfs_filename))
-        if not is_transitive(feed.transfers):
+        if not is_transitive(feed.transfers) and transfer_restriction is not None:
             feed.transfers = transitively_closed_transfers(feed.transfers, transfer_restriction)
     else:
         logging.warning("The given GTFS has no transfer table")
@@ -739,7 +738,7 @@ def import_gtfs_feed(gtfs_filename, transfer_restriction=None, folder=None):
     return feed
 
 
-def transitively_closed_transfers(transfers, restrict_transfer_time=None):
+def transitively_closed_transfers(transfers, restrict_transfer_time):
     """
     Restrict the transfer table under the given time limit and then make it transitive.
 
@@ -751,9 +750,6 @@ def transitively_closed_transfers(transfers, restrict_transfer_time=None):
 
     :return: transitive closure of the restricted transfer table
     """
-
-    if restrict_transfer_time is None:
-        restrict_transfer_time = DEFAULT_TRANSFER_RESTRICTION
 
     # restrict original transfers so the final set of transfers isn't too large
     if restrict_transfer_time is not None:

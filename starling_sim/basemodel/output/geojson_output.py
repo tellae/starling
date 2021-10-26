@@ -11,6 +11,7 @@ from starling_sim.basemodel.agent.operators.operator import Operator
 from starling_sim.basemodel.output.feature_factory import *
 from starling_sim.basemodel.agent.stations.station import Station
 from starling_sim.utils.utils import json_dump, new_feature_collection, gz_compression, gz_decompression
+from starling_sim.utils.config import config
 
 from abc import ABC
 
@@ -20,7 +21,7 @@ ICON_LIST = ["user", "user-01", "user-02", "user-03", "user-04", "user-05", "use
              "station", "car", "bike", "bus", "subway", "tram", "train", "odt", "truck"]
 
 # default version of the geojson output format
-DEFAULT_GEOJSON_VERSION = 1
+CURRENT_GEOJSON_VERSION = 1
 
 
 # Abstract Base Class for the geojson output generation
@@ -266,22 +267,20 @@ class GeojsonOutput0(GeojsonOutput):
 
 # function for the creation of a geojson output instance of the correct version
 
-def new_geojson_output(parameters):
+def new_geojson_output():
     """
     Create a new GeojsonOutput instance.
 
     Use the version provided in the 'geojson_version' field of parameters,
     and the default version if not provided.
 
-    :param parameters:
     :return: GeojsonOutput instance
     """
 
     # get the geojson version
-    if "geojson_version" in parameters:
-        geojson_version = parameters["geojson_version"]
-    else:
-        geojson_version = DEFAULT_GEOJSON_VERSION
+    geojson_version = config["geojson_version"]
+    if geojson_version is None:
+        geojson_version = CURRENT_GEOJSON_VERSION
 
     # create the geojson output
     if geojson_version == 0:

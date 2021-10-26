@@ -1,7 +1,7 @@
 import logging
 import sys
 from starling_sim.basemodel.topology.osm_network import OSMNetwork
-from starling_sim.utils.constants import DEFAULT_MAX_STOP_DISTANCE
+from starling_sim.utils.config import config
 from geopy import distance
 
 
@@ -538,7 +538,7 @@ class Environment:
 
             topology.graph.add_node(node_id, **properties)
 
-    def add_stops_correspondence(self, stops_table, modes, extend_graph, max_distance=DEFAULT_MAX_STOP_DISTANCE):
+    def add_stops_correspondence(self, stops_table, modes, extend_graph, max_distance=config["max_stop_distance"]):
         """
         Add a 'nearest_node' column to the given table containing the stop's nearest environment position.
 
