@@ -1,12 +1,14 @@
 import random
 import logging
 import numpy
-
+import copy
+import json
 from starling_sim.basemodel.trace.trace import trace_simulation_end
 from starling_sim.utils.utils import import_gtfs_feed, validate_against_schema, json_load
 from starling_sim.utils.paths import schemas_folder
 from starling_sim.utils.constants import PT_PARAMETERS_SCHEMA, BASE_LEAVING_CODES
 from starling_sim.utils.config import config
+from starling_sim.basemodel.agent.agent import Agent
 
 
 class SimulationModel:
@@ -80,6 +82,12 @@ class SimulationModel:
 
         This method can be extended to manage and setup other elements of the model
         """
+        schema = {}
+        for agent_type, agent_class in self.agent_type_class.items():
+            schema[agent_type] = self.get_schema(agent_class)
+        logging.info(str(json.dumps(schema, indent=4)))
+
+        exit(0)
 
         # set the parameters and initialize the random seed
         self.setup_seeds()
@@ -102,6 +110,34 @@ class SimulationModel:
 
         logging.info("Output factory setup")
         self.outputFactory.setup(self)
+
+    def get_schema(self, aclass):
+        if aclass == Agent:
+            return aclass.SCHEMA
+
+        class_schema = aclass.SCHEMA
+        parent_schema = copy.deepcopy(self.get_schema(aclass.__bases__[0]))
+        if class_schema:
+            if "remove_props" in class_schema:
+                for prop in class_schema["remove_props"]:
+                    del parent_schema["properties"][prop]
+                    parent_schema["required"].remove(prop)
+            if "required" in class_schema:
+                for prop in class_schema["required"]:
+                    parent_schema["required"].append(prop)
+
+            if "advanced" in class_schema["properties"]:
+                parent_schema["properties"]["advanced"]["properties"]\
+                    .update(class_schema["properties"]["advanced"]["properties"])
+                del class_schema["properties"]["advanced"]
+
+            parent_schema["properties"].update(class_schema["properties"])
+
+        advanced = parent_schema["properties"]["advanced"]
+        del parent_schema["properties"]["advanced"]
+        parent_schema["properties"]["advanced"] = advanced
+
+        return parent_schema
 
     def run(self):
         """

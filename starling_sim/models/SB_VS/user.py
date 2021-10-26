@@ -7,14 +7,38 @@ class User(Person):
     This class describes a simple station-based vehicle-sharing user
     """
 
-    PROPERTIES = {
-        "has_station_info": {"description": "indicate if user has access to vehicle availability of the stations",
-                             "type": "boolean"},
-        "patience": {"description": "user patience while waiting for a request. Caution, None means infinite patience",
-                     "type": ["integer", "null"], "minimum": 0, "default": DEFAULT_PATIENCE},
-        "closest_station_evaluation": {"description": "key determining how the distance to the stations is evaluated",
-                                       "type": "string", "oneOf": [{"const": "euclidean"}, {"const": "shortest_path"}],
-                                       "default": "euclidean"}
+    SCHEMA = {
+        "properties": {
+            "has_station_info": {
+                "title": "Station stock information",
+                "description": "Indicate if user has access to vehicle availability of the stations",
+                "type": "boolean",
+                "default": True
+            },
+            "advanced": {
+                "properties": {
+                    "patience": {
+                        "title": "Patience when requesting a station",
+                        "description": "user patience while waiting for a vehicle. "
+                                       "Caution, None means infinite patience",
+                        "type": ["integer", "null"],
+                        "minimum": 0,
+                        "default": DEFAULT_PATIENCE
+                    },
+                    "closest_station_evaluation": {
+                        "title": "Station distance evaluation",
+                        "description": "Determine how the distance to the stations is evaluated",
+                        "type": "string",
+                        "oneOf": [
+                            {"const": "euclidean"},
+                            {"const": "shortest_path"}
+                        ],
+                        "default": "euclidean"
+                    }
+                }
+            }
+        },
+        "required": ["has_station_info"]
     }
 
     def __init__(self, simulation_model, agent_id, origin, destination, **kwargs):

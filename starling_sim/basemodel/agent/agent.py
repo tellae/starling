@@ -15,7 +15,38 @@ class Agent(Traced):
     simulated in a specific model.
     """
 
-    def __init__(self, simulation_model, agent_id, agent_type=None, mode=None, icon=None, **kwargs):
+    SCHEMA = {
+        "properties": {
+            "agent_id": {
+                "type": "string",
+                "title": "Agent ID",
+                "description": "Unique identifier"
+            },
+            "agent_type": {
+                "type": "string",
+                "title": "Agent type",
+                "description": "One of the model's agent types"
+            },
+            "mode": {
+                "type": "string",
+                "title": "Default network",
+                "description": "Road network used by the agent"
+            },
+            "icon": {
+                "type": "string",
+                "title": "Agent icon",
+                "description": "Display icon"
+            },
+            "advanced": {
+                "type": "object",
+                "title": "Advanced agent properties",
+                "properties": {}
+            }
+        },
+        "required": ["agent_id", "agent_type", "mode", "icon"]
+    }
+
+    def __init__(self, simulation_model, agent_id, agent_type, mode, icon, **kwargs):
         """
         Initialize an agent with basic attributes (id, simulation model, etc).
 

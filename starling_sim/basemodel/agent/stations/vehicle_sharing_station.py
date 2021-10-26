@@ -9,6 +9,18 @@ class VehicleSharingStation(Station):
     Station dedicated to a shared vehicle system
     """
 
+    SCHEMA = {
+        "properties": {
+            "capacity": {
+                "type": "integer",
+                "title": "Station capacity",
+                "description": "Maximum storing capacity of the station",
+                "minimum": 0
+            }
+        },
+        "required": ["capacity"]
+    }
+
     def __init__(self, simulation_model, agent_id, origin, capacity, **kwargs):
 
         Station.__init__(self, simulation_model, agent_id, origin, **kwargs)

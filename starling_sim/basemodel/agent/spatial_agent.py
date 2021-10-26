@@ -5,6 +5,17 @@ class SpatialAgent(Agent):
     """
     Class describing a spatial agent, with a position and origin in the simulation environment.
     """
+
+    SCHEMA = {
+        "properties": {
+            "origin": {
+                "type": "integer",
+                "title": "Origin position",
+                "description": "origin position id (inferred from geometry)",
+            }
+        },
+        "required": ["origin"]
+    }
     
     def __init__(self, simulation_model, agent_id, origin, **kwargs):
 

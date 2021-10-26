@@ -7,6 +7,8 @@ class Operator(StationBasedOperator):
     This class describes the operator of the SB_VS_R model.
     """
 
+    SCHEMA = {}
+
     def __init__(self, simulation_model, agent_id, fleet_dict, stations_dict, **kwargs):
 
         super().__init__(simulation_model, agent_id, fleet_dict, stations_dict, **kwargs)

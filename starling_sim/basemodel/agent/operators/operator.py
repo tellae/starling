@@ -19,7 +19,61 @@ class Operator(Agent):
     The assignment of these requests is managed by a Dispatcher object.
     """
 
-    OPERATION_PARAMETERS_SCHEMA = None
+    OPERATION_PARAMETERS_SCHEMA = {}
+
+    SCHEMA = {
+        "properties": {
+            "fleet_dict": {
+                "type": "string",
+                "title": "Fleet population",
+                "description": "Population of the operator's fleet agents"
+            },
+            "advanced": {
+                "properties": {
+                    "staff_dict": {
+                        "type": "string",
+                        "title": "Staff population",
+                        "description": "Population of the operator's staff agents"
+                    },
+                    "depot_points": {
+                        "type": "array",
+                        "title": "Depot points",
+                        "description": "List of depot points coordinates",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            },
+                            "minItems": 2,
+                            "maxItems": 2
+                        }
+                    },
+                    "zone_polygon": {
+                        "type": "string",
+                        "title": "Service area file",
+                        "description": "Geojson input file describing the service area"
+                    },
+                    "network_file": {
+                        "type": "string",
+                        "title": "Service network file",
+                        "description": "OSM graph file for the service area"
+                    },
+                    "operation_parameters": OPERATION_PARAMETERS_SCHEMA,
+                    "parent_operator_id": {
+                        "type": "string",
+                        "title": "Parent operator ID",
+                        "description": "Identifier of the parent operator"
+                    },
+                    "extend_graph_with_stops": {
+                        "type": "boolean",
+                        "title": "Extend graph with stops",
+                        "description": "Indicate if the transport network should be extended with stop points"
+                    }
+                }
+            }
+        },
+        "required": ["fleet_dict"]
+    }
 
     def __init__(self, simulation_model, agent_id, fleet_dict, staff_dict=None, depot_points=None,
                  zone_polygon=None, network_file=None, operation_parameters=None, parent_operator_id=None,

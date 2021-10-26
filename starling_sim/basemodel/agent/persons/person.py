@@ -17,13 +17,42 @@ class Person(MovingAgent):
     """
 
     #: Dict of the profile's properties, with their specifications as a JSON schema
-    PROPERTIES = {
-        "walking_speed": {"description": "speed (in m/s) of the agents when they walk, "
-                                         "if not specified by the topology",
-                          "type": "number", "minimum": 0.01, "default": config["walking_speed"]},
-        "distance_factor": {"description": "distance factor used when computing "
-                                           "approximate trips for Person agents",
-                            "type": "number", "minimum": 0.01, "default": config["distance_factor"]}
+    SCHEMA = {
+        "properties": {
+            "destination": {
+                "type": "integer",
+                "title": "Destination position",
+                "description": "Destination position id (inferred from geometry)"
+            },
+            "origin_time": {
+                "type": "integer",
+                "title": "Activity start time (seconds)",
+                "description": "Time at which the agent will enter the simulation"
+            },
+            "advanced": {
+                "properties": {
+                    "max_tries": {
+                        "type": "integer",
+                        "title": "Maximum number of service tryouts",
+                        "description": "Number of failed attempts after which the agent will leave the simulation."
+                                       " If not specified, the number of tries is infinite.",
+                        "minimum": 0
+                    },
+                    "walking_speed": {
+                        "description": "speed (in m/s) of the agents when they walk, if not specified by the topology",
+                        "type": "number",
+                        "minimum": 0.01,
+                        "default": config["walking_speed"]},
+                    "distance_factor": {
+                        "description": "distance factor used when computing approximate trips for Person agents",
+                        "type": "number",
+                        "minimum": 0.01,
+                        "default": config["distance_factor"]
+                    }
+                }
+            },
+        },
+        "required": ["destination", "origin_time"]
     }
 
     def __init__(self, simulation_model, agent_id, origin, destination, origin_time, max_tries=None, **kwargs):
@@ -71,7 +100,7 @@ class Person(MovingAgent):
         # build a profile dict
         profile = dict()
 
-        for prop in self.PROPERTIES.keys():
+        for prop in self.SCHEMA["properties"].keys():
 
             # look for the property in the agent input_dict (one value specified for each person)
             if prop in kwargs:
@@ -82,15 +111,15 @@ class Person(MovingAgent):
                 profile[prop] = self.sim.parameters[prop]
 
             # look for the property in the default properties (no value specified, use default if possible)
-            elif "default" in self.PROPERTIES[prop]:
-                profile[prop] = self.PROPERTIES[prop]["default"]
+            elif "default" in self.SCHEMA["properties"][prop]:
+                profile[prop] = self.SCHEMA["properties"]["default"]
 
             # signal missing property
             else:
                 raise KeyError("Missing property '{}' for profile initialisation".format(prop))
 
         # validate the profile against the schema
-        schema = {"type": "object", "properties": self.PROPERTIES}
+        schema = {"type": "object", "properties": self.SCHEMA["properties"]}
         validate_against_schema(profile, schema)
 
         # set the profile attribute

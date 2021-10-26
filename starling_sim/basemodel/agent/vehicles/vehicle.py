@@ -10,6 +10,18 @@ class Vehicle(MovingAgent):
     It should be extended to implement more specific features and behaviours
     """
 
+    SCHEMA = {
+        "properties": {
+            "seats": {
+                "type": "integer",
+                "title": "Number of seats of the vehicle",
+                "description": "Capacity of the vehicle",
+                "minimum": 0
+            }
+        },
+        "required": ["seats"]
+    }
+
     def __init__(self, simulation_model, agent_id, origin, seats, **kwargs):
         """
         A vehicle have a number of seats and a list of occupants.

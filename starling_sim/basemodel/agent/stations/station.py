@@ -6,6 +6,8 @@ class Station(SpatialAgent):
     Station agent
     """
 
+    SCHEMA = {}
+
     def __init__(self, simulation_model, agent_id, origin, operator=None, **kwargs):
 
         SpatialAgent.__init__(self, simulation_model, agent_id, origin, **kwargs)

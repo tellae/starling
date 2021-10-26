@@ -6,6 +6,11 @@ class RepositioningStaff(RepositioningVehicle):
     This class describes the repositioning staff of the SB_VS_R model.
     """
 
+    SCHEMA = {
+        "properties": {},
+        "required": ["dwell_time"]
+    }
+
     def __init__(self, simulation_model, agent_id, origin, operator,
                  dwell_time, seats, **kwargs):
         super().__init__(simulation_model, agent_id, origin, operator, seats,

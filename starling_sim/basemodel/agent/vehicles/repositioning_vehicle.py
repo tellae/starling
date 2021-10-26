@@ -4,6 +4,8 @@ from starling_sim.basemodel.trace.events import StaffOperationEvent
 
 class RepositioningVehicle(ServiceVehicle):
 
+    SCHEMA = {}
+
     def process_stop_(self, stop):
 
         if stop.type == stop.REPOSITIONING:

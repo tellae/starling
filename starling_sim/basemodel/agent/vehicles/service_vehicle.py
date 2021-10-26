@@ -11,6 +11,26 @@ class ServiceVehicle(Vehicle):
     This class describes a vehicle providing transport services (pickup, dropoff)
     """
 
+    SCHEMA = {
+        "properties": {
+            "dwell_time": {
+                "type": "integer",
+                "title": "Dwell time",
+                "description": "Time spent when serving stops",
+                "minimum": 0
+            },
+            "advanced": {
+                "properties": {
+                    "trip_id": {
+                        "type": "string",
+                        "title": "Initial trip ID",
+                        "description": "Identifier of the vehicle's initial trip"
+                    }
+                }
+            }
+        }
+    }
+
     def __init__(self, simulation_model, agent_id, origin, operator, seats,
                  dwell_time=DEFAULT_DWELL_TIME, trip_id=None, **kwargs):
 
