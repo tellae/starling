@@ -1,0 +1,67 @@
+{
+  "type": "object",
+  "properties": {
+    "distance_factor": {
+      "title": "Distance factor",
+      "description": "Multiplicand applied to euclidean distance to approximate a travelling distance",
+      "type": "number",
+      "minimum": 0,
+      "default": 1.3
+    },
+    "walking_speed": {
+      "title": "Walking speed [meters/seconds]",
+      "description": "Walking speed of Person objects, used when walking speed cannot be fetched from topology",
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "default": 1.1
+    },
+    "parameters_file": {
+      "title": "Parameters filename",
+      "description": "Parameters filename used if none is provided",
+      "type": "string",
+      "pattern": "(.)*(.json)",
+      "default": "Params.json"
+    },
+    "geojson_format": {
+      "title": "GeoJSON output format",
+      "description": "Filename format of the GeoJSON output. Placeholder: {scenario}",
+      "type": "string",
+      "pattern": "(\\.geojson(\\.gz)?)$",
+      "default": "{scenario}.geojson.gz"
+    },
+    "kpi_format": {
+      "title": "KPI output format",
+      "description": "Filename format of the KPI output. Placeholders: {scenario}, {kpi_output}",
+      "type": "string",
+      "pattern": "(\\.csv(\\.gz)?)$",
+      "default": "{scenario}_{kpi_output}.csv.gz"
+    },
+    "traces_format": {
+      "title": "Traces output format",
+      "description": "Filename format of the traces output. Placeholder: {scenario}",
+      "type": "string",
+      "pattern": "(.)*(.txt)",
+      "default": "{scenario}_traces.txt"
+    },
+    "max_stop_distance": {
+      "title": "Max stop distance [meters]",
+      "description": "Maximum accepted distance between stop and node before extending graph (when extend_graph_from_stops is True)",
+      "type": "integer",
+      "minimum": 0,
+      "default": 100
+    },
+    "transfer_restriction": {
+      "title": "Transfer time restriction [seconds]",
+      "description": "Duration restriction applied to the GTFS transfer table before making it transitively closed",
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "default": 240
+    },
+    "geojson_version": {
+      "title": "GeoJSON output version",
+      "description": "Format version of the GeoJSON output. If null, use the one specified in geojson_output.py.",
+      "type": ["integer", "null"],
+      "default": null
+    }
+  }
+}

@@ -6,7 +6,7 @@ with useful methods to make an agent move in the environment
 from starling_sim.basemodel.agent.spatial_agent import SpatialAgent
 from starling_sim.basemodel.trace.events import RouteEvent, PositionChangeEvent
 from starling_sim.utils.utils import make_int
-from starling_sim.utils.constants import DEFAULT_DISTANCE_FACTOR
+from starling_sim.utils.config import config
 
 
 class MovingAgent(SpatialAgent):
@@ -176,7 +176,7 @@ class MovingAgent(SpatialAgent):
         origin = self.position
 
         if distance_factor is None:
-            distance_factor = DEFAULT_DISTANCE_FACTOR
+            distance_factor = config["distance_factor"]
 
         if destination is None:
             destination = self.tempDestination

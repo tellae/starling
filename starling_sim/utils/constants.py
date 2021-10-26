@@ -4,12 +4,6 @@ This module contains constants and default values for the simulation.
 
 # default attributes and parameters of simulation agents
 
-#: default multiplicand applied to euclidean distance to approximate a travelling distance
-DEFAULT_DISTANCE_FACTOR = 1.3
-
-#: default walking speed of Person objects (in m/s)
-DEFAULT_WALKING_SPEED = 1.1
-
 #: default dwell time of service vehicles
 DEFAULT_DWELL_TIME = 30
 
@@ -29,9 +23,6 @@ ADD_STOPS_COLUMNS = ["stop_id", "stop_name", "stop_lat", "stop_lon"]
 
 #: name of the json schema for PT_parameters
 PT_PARAMETERS_SCHEMA = "PT_parameters.schema.json"
-
-#: default name of parameters file
-DEFAULT_PARAMS_NAME = "Params.json"
 
 # base leaving codes
 
@@ -57,26 +48,8 @@ BASE_LEAVING_CODES = {
 
 # filename formats
 
-#: format of the KPI output files
-KPI_FORMAT = "{scenario}_{kpi_output}.csv.gz"
-
-#: format of the geojson output files
-GEOJSON_FORMAT = "{scenario}.geojson.gz"
-
-#: format of the trace output files
-TRACE_FORMAT = "{scenario}_traces.txt"
-
 #: format of the ALIENS operators usage diagram
 OPERATORS_USAGE_FORMAT = "{prefix}_operators.png"
 
 #: format of the ALIENS objective function graph
 OBJECTIVE_GRAPH_FORMAT = "{prefix}_objective.png"
-
-# other constants
-
-#: default maximum distance between stop and node before extending graph
-DEFAULT_MAX_STOP_DISTANCE = 100
-
-#: Duration (seconds) restriction applied to the GTFS transfer table before making is transitively closed.
-# This allows reducing the size of the resulting set of transfers.
-DEFAULT_TRANSFER_RESTRICTION = 240

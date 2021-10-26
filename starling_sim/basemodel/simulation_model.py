@@ -6,6 +6,7 @@ from starling_sim.basemodel.trace.trace import trace_simulation_end
 from starling_sim.utils.utils import import_gtfs_feed, validate_against_schema, json_load
 from starling_sim.utils.paths import schemas_folder
 from starling_sim.utils.constants import PT_PARAMETERS_SCHEMA, BASE_LEAVING_CODES
+from starling_sim.utils.config import config
 
 
 class SimulationModel:
@@ -160,10 +161,8 @@ class SimulationModel:
         """
 
         # import the gtfs timetable from the zip given in the parameters
-        transfer_restriction = None
-        if "transfer_duration_restriction" in self.parameters:
-            transfer_restriction = self.parameters["transfer_duration_restriction"]
-        self.gtfs = import_gtfs_feed(self.parameters["gtfs_timetables"], transfer_restriction)
+        restrict_transfers = config["transfer_restriction"]
+        self.gtfs = import_gtfs_feed(self.parameters["gtfs_timetables"], restrict_transfers)
 
     def setup_pt_parameters(self):
         """

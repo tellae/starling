@@ -3,7 +3,8 @@ from starling_sim.basemodel.trace.events import RequestEvent, GetVehicleEvent, L
     DestinationReachedEvent
 from starling_sim.basemodel.agent.requests import UserStop
 from starling_sim.utils.utils import validate_against_schema
-from starling_sim.utils.constants import DEFAULT_DISTANCE_FACTOR, DEFAULT_WALKING_SPEED, SUCCESS_LEAVE
+from starling_sim.utils.constants import SUCCESS_LEAVE
+from starling_sim.utils.config import config
 
 import sys
 
@@ -19,10 +20,10 @@ class Person(MovingAgent):
     PROPERTIES = {
         "walking_speed": {"description": "speed (in m/s) of the agents when they walk, "
                                          "if not specified by the topology",
-                          "type": "number", "minimum": 0.01, "default": DEFAULT_WALKING_SPEED},
+                          "type": "number", "minimum": 0.01, "default": config["walking_speed"]},
         "distance_factor": {"description": "distance factor used when computing "
                                            "approximate trips for Person agents",
-                            "type": "number", "minimum": 0.01, "default": DEFAULT_DISTANCE_FACTOR}
+                            "type": "number", "minimum": 0.01, "default": config["distance_factor"]}
     }
 
     def __init__(self, simulation_model, agent_id, origin, destination, origin_time, max_tries=None, **kwargs):

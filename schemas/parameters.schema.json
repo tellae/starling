@@ -77,27 +77,10 @@
       "title": "Geojson output",
       "description": "Boolean indicating if a geojson file should be created"
     },
-    "geojson_format": {
-      "type": "string",
-      "title": "Geojson filename format",
-      "description": "Format of the geojson output filename. Formatted with the 'scenario' placeholder.",
-      "pattern": "(\\.geojson(\\.gz)?)$"
-    },
-    "geojson_version": {
-      "title": "Geojson output version",
-      "type" : "integer",
-      "description": "Version of the geojson output format to use. If not provided, the version specified in geojson_output.py is used."
-    },
     "kpi_output": {
       "type": "boolean",
       "title": "KPI output",
       "description": "Boolean indicating if a KPI file should be created"
-    },
-    "kpi_format": {
-      "title": "KPIs filename format",
-      "description": "Format of the KPI outputs filename. Formatted with the 'scenario' and 'kpi_output' placeholders.",
-      "type": "string",
-      "pattern": "(\\.csv(\\.gz)?)$"
     },
     "simulate_routes": {
       "type": "boolean",
@@ -160,12 +143,6 @@
       },
       "title": "Routes to keep in the public transport simulation",
       "description": "List of routes that should be present in the simulation. If null, keep all routes."
-    },
-    "transfer_duration_restriction": {
-      "title": "Transfer duration restriction",
-      "description": "Duration (seconds) restriction applied to the GTFS transfer table before making is transitively closed. This allows reducing the size of the resulting set of transfers.",
-      "type": "integer",
-      "default": "$DEFAULT_TRANSFER_RESTRICTION$"
     }
   }
 }

@@ -1,6 +1,6 @@
 from starling_sim.basemodel.output.geojson_output import new_geojson_output
 from starling_sim.utils.utils import json_pretty_dump
-from starling_sim.utils.constants import KPI_FORMAT, GEOJSON_FORMAT, TRACE_FORMAT
+from starling_sim.utils.config import config
 
 import logging
 import os
@@ -55,12 +55,7 @@ class OutputFactory:
         for kpi_output in self.kpi_outputs:
 
             # build the kpi output filename
-            if "kpi_format" in simulation_model.parameters:
-                kpi_format = simulation_model.parameters["kpi_format"]
-            else:
-                kpi_format = KPI_FORMAT
-
-            kpi_filename = kpi_format.format(scenario=scenario, kpi_output=kpi_output.name)
+            kpi_filename = config["kpi_format"].format(scenario=scenario, kpi_output=kpi_output.name)
 
             # set kpi output file
             kpi_output.setup(kpi_filename, output_folder, simulation_model)
@@ -72,12 +67,7 @@ class OutputFactory:
         if self.geojson_output is not None:
 
             # build the geojson output filename
-            if "geojson_format" in simulation_model.parameters:
-                geojson_format = simulation_model.parameters["geojson_format"]
-            else:
-                geojson_format = GEOJSON_FORMAT
-
-            geojson_filename = geojson_format.format(scenario=scenario)
+            geojson_filename = config["geojson_format"].format(scenario=scenario)
 
             self.geojson_output.setup(simulation_model,
                                       geojson_filename,
@@ -97,7 +87,7 @@ class OutputFactory:
         Set the geojson_output attribute as a GeojsonOutput object.
         """
 
-        self.geojson_output = new_geojson_output(self.sim.parameters)
+        self.geojson_output = new_geojson_output()
 
     def extract_simulation(self, simulation_model):
         """
@@ -166,7 +156,7 @@ class OutputFactory:
         scenario = simulation_model.parameters["scenario"]
         model_code = simulation_model.parameters["code"]
         output_folder = simulation_model.parameters["output_folder"]
-        filepath = output_folder + TRACE_FORMAT.format(scenario=scenario)
+        filepath = output_folder + config["traces_format"].format(scenario=scenario)
 
         logging.info("Generating traces output in file {}".format(filepath))
 
