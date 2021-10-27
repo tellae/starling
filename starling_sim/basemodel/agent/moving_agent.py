@@ -160,7 +160,7 @@ class MovingAgent(SpatialAgent):
         :param length: length of the trip.
             Default is computed using duration and speed, or using euclidean distance.
         :param distance_factor: value multiplied to euclidean distance to get trip distance.
-            Default is defined by the DISTANCE_FACTOR constant.
+            Default is defined by the 'distance_factor' config value.
         :param speed: speed of the agent, used to compute duration and length
         :param mode: mode of traveling.
             Default is self.mode.

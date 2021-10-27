@@ -1,10 +1,8 @@
 from starling_sim.basemodel.agent.moving_agent import MovingAgent
 from starling_sim.basemodel.trace.events import RequestEvent, GetVehicleEvent, LeaveVehicleEvent, \
     DestinationReachedEvent
-from starling_sim.basemodel.agent.requests import UserStop
 from starling_sim.utils.utils import validate_against_schema
 from starling_sim.utils.constants import SUCCESS_LEAVE
-from starling_sim.utils.config import config
 
 import sys
 
@@ -36,18 +34,8 @@ class Person(MovingAgent):
                         "title": "Maximum number of service tryouts",
                         "description": "Number of failed attempts after which the agent will leave the simulation."
                                        " If not specified, the number of tries is infinite.",
-                        "minimum": 0
-                    },
-                    "walking_speed": {
-                        "description": "speed (in m/s) of the agents when they walk, if not specified by the topology",
-                        "type": "number",
-                        "minimum": 0.01,
-                        "default": config["walking_speed"]},
-                    "distance_factor": {
-                        "description": "distance factor used when computing approximate trips for Person agents",
-                        "type": "number",
-                        "minimum": 0.01,
-                        "default": config["distance_factor"]
+                        "minimum": 0,
+                        "default": None
                     }
                 }
             },
@@ -101,6 +89,26 @@ class Person(MovingAgent):
         profile = dict()
 
         for prop in self.SCHEMA["properties"].keys():
+
+            if prop == "advanced":
+                for adv_prop in self.SCHEMA["properties"]["advanced"]["properties"].keys():
+
+                    if adv_prop in kwargs:
+                        profile[adv_prop] = kwargs[adv_prop]
+
+                    # look for the property in the simulation parameters (same value specified for all persons)
+                    elif adv_prop in self.sim.parameters:
+                        profile[adv_prop] = self.sim.parameters[adv_prop]
+
+                    # look for the property in the default properties (no value specified, use default if possible)
+
+                    elif "default" in self.SCHEMA["properties"]["advanced"]["properties"][adv_prop]:
+                        profile[adv_prop] = self.SCHEMA["properties"]["advanced"]["properties"][adv_prop]["default"]
+
+                    # signal missing property
+                    else:
+                        raise KeyError("Missing property '{}' for profile initialisation".format(adv_prop))
+                continue
 
             # look for the property in the agent input_dict (one value specified for each person)
             if prop in kwargs:

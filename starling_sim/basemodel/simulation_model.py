@@ -82,12 +82,12 @@ class SimulationModel:
 
         This method can be extended to manage and setup other elements of the model
         """
-        schema = {}
-        for agent_type, agent_class in self.agent_type_class.items():
-            schema[agent_type] = self.get_schema(agent_class)
-        logging.info(str(json.dumps(schema, indent=4)))
-
-        exit(0)
+        # schema = {}
+        # for agent_type, agent_class in self.agent_type_class.items():
+        #     schema[agent_type] = self.get_schema(agent_class)
+        # logging.info(str(json.dumps(schema, indent=4)))
+        #
+        # exit(0)
 
         # set the parameters and initialize the random seed
         self.setup_seeds()
