@@ -29,11 +29,6 @@ class MovingAgent(SpatialAgent):
 
         self.tempDestination = None
 
-        # not used anymore
-        # self.route = None
-
-        self.simulateRoutes = self.sim.parameters["simulate_routes"]
-
     # move methods
 
     def move_(self, route=None, duration=None, check_dest=False, destination=None, dimension="time", verb=True):
