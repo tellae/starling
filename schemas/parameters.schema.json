@@ -3,7 +3,7 @@
   "description": "parameters of a simulation run",
   "type": "object",
   "required": ["code", "scenario", "limit", "seed", "date", "geojson_output", "kpi_output",
-    "simulate_routes", "dynamic_input_file", "init_input_file", "topologies"],
+    "dynamic_input_file", "init_input_file", "topologies"],
   "properties": {
     "code": {
       "type": "string",
@@ -81,11 +81,6 @@
       "type": "boolean",
       "title": "KPI output",
       "description": "Boolean indicating if a KPI file should be created"
-    },
-    "simulate_routes": {
-      "type": "boolean",
-      "title": "Route steps simulation",
-      "description": "Boolean indicating if route steps should be simulated"
     },
     "dynamic_input_file": {
       "type": ["string", "null"],
