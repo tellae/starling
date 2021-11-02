@@ -23,64 +23,12 @@
       "minimum": 1,
       "example": 4000
     },
-    "make_static": {
-      "type": "string",
-      "title": "Make inputs static",
-      "description": "Make certain inputs static, ie generate them at the beginning of the simulation. ",
-      "oneOf": [
-        {"const":  "all", "description":  "Make all inputs static."},
-        {"const":  "prebooked", "description":  "Make static the inputs with prebooked==True."},
-        {"const":  "prebooked_only", "description":  "Make static the inputs with prebooked==True and don't generate the others."},
-        {"const":  "ghosts", "description":  "Make all inputs static for the resolution, then remove prebooked from solution and insert them dynamically."}
-      ]
-    },
-    "early_dynamic_input": {
-      "type": ["integer", "null"],
-      "title": "Early dynamic input offset",
-      "description": "Offset applied to the users origin time to make them enter the simulation earlier, in seconds",
-      "example": 3600,
-      "default": 0
-    },
-    "seed": {
-      "type": "number",
-      "title": "Random seed",
-      "description": "Random seed used for the generation of random events",
-      "example": "42"
-    },
     "date": {
       "type": "string",
       "title": "Simulation date",
       "description": "Date of the simulation, used for filtering services. Format YYYY-MM-DD",
       "format": "date",
       "example": "2019-10-28"
-    },
-    "time_log": {
-      "type": "boolean",
-      "title": "Simulation time log",
-      "description": "Boolean indicating if simulation time should be logged",
-      "default": false
-    },
-    "generate_summary": {
-      "title": "Generate run summary",
-      "description": "Boolean indicating if run summary should be generated.",
-      "type": "boolean",
-      "default": false
-    },
-    "traces_output": {
-      "type": "boolean",
-      "title": "Traces output",
-      "description": "Boolean indicating if an agent traces output should be created",
-      "default": false
-    },
-    "geojson_output": {
-      "type": "boolean",
-      "title": "Geojson output",
-      "description": "Boolean indicating if a geojson file should be created"
-    },
-    "kpi_output": {
-      "type": "boolean",
-      "title": "KPI output",
-      "description": "Boolean indicating if a KPI file should be created"
     },
     "dynamic_input_file": {
       "type": ["string", "null"],
@@ -111,12 +59,6 @@
       },
       "required": ["walk"]
     },
-    "store_paths": {
-      "title": "Store shortest paths",
-      "description": "Indicates if computed shortest paths should be stored in a dict to avoid computing them again. Either a boolean or a dict with the same keys as topologies and boolean values.",
-      "type": ["boolean", "object"],
-      "default": false
-    },
     "gtfs_timetables": {
       "type": ["string", "null"],
       "title": "GTFS timetables archive",
@@ -124,20 +66,107 @@
       "pattern": "(.)*(.zip)",
       "example": "GTFS_nantes.zip"
     },
-    "line_shapes_file": {
-      "type": ["string", "null"],
-      "title": "Line shapes file",
-      "description": "Name of the file containing shapes of public transport lines",
-      "pattern": "(.)*(.csv)",
-      "example": "rennes_line_shapes.csv"
+    "geojson_output": {
+      "type": "boolean",
+      "title": "Geojson output",
+      "description": "Boolean indicating if a geojson file should be created"
     },
-    "routes": {
-      "type": ["array", "null"],
-      "items": {
-        "type": "string"
-      },
-      "title": "Routes to keep in the public transport simulation",
-      "description": "List of routes that should be present in the simulation. If null, keep all routes."
+    "kpi_output": {
+      "type": "boolean",
+      "title": "KPI output",
+      "description": "Boolean indicating if a KPI file should be created"
+    },
+    "traces_output": {
+      "type": "boolean",
+      "title": "Traces output",
+      "description": "Boolean indicating if an agent traces output should be created",
+      "default": false
+    },
+    "seed": {
+      "type": "number",
+      "title": "Random seed",
+      "description": "Random seed used for the generation of random events",
+      "example": "42"
+    },
+    "advanced": {
+      "type": "object",
+      "properties": {
+        "time_log": {
+          "type": "boolean",
+          "title": "Simulation time log",
+          "description": "Boolean indicating if simulation time should be logged",
+          "default": false
+        },
+        "generate_summary": {
+          "title": "Generate run summary",
+          "description": "Boolean indicating if run summary should be generated.",
+          "type": "boolean",
+          "default": false
+        },
+        "early_dynamic_input": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "title": "Early dynamic input offset",
+          "description": "Offset applied to the users origin time to make them enter the simulation earlier, in seconds",
+          "example": 3600,
+          "default": 0
+        },
+        "make_static": {
+          "type": "string",
+          "title": "Make inputs static",
+          "description": "Make certain inputs static, ie generate them at the beginning of the simulation. ",
+          "oneOf": [
+            {
+              "const": "all",
+              "description": "Make all inputs static."
+            },
+            {
+              "const": "prebooked",
+              "description": "Make static the inputs with prebooked==True."
+            },
+            {
+              "const": "prebooked_only",
+              "description": "Make static the inputs with prebooked==True and don't generate the others."
+            },
+            {
+              "const": "ghosts",
+              "description": "Make all inputs static for the resolution, then remove prebooked from solution and insert them dynamically."
+            }
+          ]
+        },
+        "store_paths": {
+          "title": "Store shortest paths",
+          "description": "Indicates if computed shortest paths should be stored in a dict to avoid computing them again. Either a boolean or a dict with the same keys as topologies and boolean values.",
+          "type": [
+            "boolean",
+            "object"
+          ],
+          "default": false
+        },
+        "line_shapes_file": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "title": "Line shapes file",
+          "description": "Name of the file containing shapes of public transport lines",
+          "pattern": "(.)*(.csv)",
+          "example": "rennes_line_shapes.csv"
+        },
+        "routes": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Routes to keep in the public transport simulation",
+          "description": "List of routes that should be present in the simulation. If null, keep all routes."
+        }
+      }
     }
   }
 }

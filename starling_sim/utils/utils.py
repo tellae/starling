@@ -152,6 +152,11 @@ def validate_against_schema(instance, schema, raise_exception=True):
     if isinstance(schema, str):
         schema = json_load(schemas_folder() + schema)
 
+    # put the schema advanced props at the base level (it should already be done for the instance)
+    if "advanced" in schema["properties"]:
+        schema["properties"].update(schema["properties"]["advanced"]["properties"])
+        del schema["properties"]["advanced"]
+
     # get the absolute path and setup a resolver
     schema_abs_path = 'file:///{0}/'.format(os.path.abspath(schemas_folder()).replace("\\", "/"))
     resolver = RefResolver(schema_abs_path, schema)

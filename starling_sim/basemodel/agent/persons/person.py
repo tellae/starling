@@ -120,7 +120,7 @@ class Person(MovingAgent):
 
             # look for the property in the default properties (no value specified, use default if possible)
             elif "default" in self.SCHEMA["properties"][prop]:
-                profile[prop] = self.SCHEMA["properties"]["default"]
+                profile[prop] = self.SCHEMA["properties"][prop]["default"]
 
             # signal missing property
             else:
