@@ -211,7 +211,7 @@ class Operator(Agent):
         Set the service lines shapes file according to the dedicated parameter.
         """
 
-        if "line_shapes_file" in self.sim.parameters and self.sim.parameters["line_shapes_file"] is not None:
+        if "line_shapes_file" in self.sim.parameters:
             line_shapes_path = gtfs_feeds_folder() + self.sim.parameters["line_shapes_file"]
             self.line_shapes = pd.read_csv(line_shapes_path, sep=";")
             self.line_shapes = self.line_shapes.astype({"stop_id_A": str, "stop_id_B": str})
