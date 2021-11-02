@@ -12,16 +12,16 @@
     },
     "scenario": {
       "type": "string",
-      "title": "Simulation scenario",
+      "title": "Scenario name",
       "description": "Name of the scenario simulated",
-      "example": "C2G"
+      "example": "example_scenario"
     },
     "limit": {
       "type": "integer",
-      "title": "Simulation time limit",
-      "description": "Number of simulation steps to execute",
+      "title": "Simulation time limit [seconds]",
+      "description": "Duration of the simulation",
       "minimum": 1,
-      "example": 4000
+      "default": 86400
     },
     "date": {
       "type": "string",
@@ -34,13 +34,13 @@
       "type": ["string", "null"],
       "title": "Dynamic input file",
       "description": "Name of the file containing the dynamic input",
-      "example": "CS_SB_dynamic_input.json"
+      "example": "CS_SB_dynamic_input.geojson"
     },
     "init_input_file": {
       "type": ["string", "array", "null"],
       "title": "Initialisation input file",
       "description": "Name of the file containing the initialisation input or list of file names",
-      "example": "CS_SB_init_input.json"
+      "example": "CS_SB_init_input.geojson"
     },
     "topologies": {
       "type": "object",
@@ -69,12 +69,14 @@
     "geojson_output": {
       "type": "boolean",
       "title": "Geojson output",
-      "description": "Boolean indicating if a geojson file should be created"
+      "description": "Boolean indicating if a geojson file should be created",
+      "default": true
     },
     "kpi_output": {
       "type": "boolean",
       "title": "KPI output",
-      "description": "Boolean indicating if a KPI file should be created"
+      "description": "Boolean indicating if a KPI file should be created",
+      "default": true
     },
     "traces_output": {
       "type": "boolean",
@@ -85,8 +87,8 @@
     "seed": {
       "type": "number",
       "title": "Random seed",
-      "description": "Random seed used for the generation of random events",
-      "example": "42"
+      "description": "Seed used for the generation of random events",
+      "default": 42
     },
     "advanced": {
       "type": "object",
@@ -104,10 +106,7 @@
           "default": false
         },
         "early_dynamic_input": {
-          "type": [
-            "integer",
-            "null"
-          ],
+          "type": "integer",
           "title": "Early dynamic input offset",
           "description": "Offset applied to the users origin time to make them enter the simulation earlier, in seconds",
           "example": 3600,

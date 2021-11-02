@@ -197,6 +197,13 @@ def add_defaults_and_validate(instance, schema, raise_exception=True):
     return res
 
 
+def flatten_advanced_props(instance):
+    if "advanced" in instance:
+        instance.update(instance["advanced"])
+        del instance["advanced"]
+    return instance
+
+
 # converters
 
 def get_sec(time_str):
