@@ -1,7 +1,8 @@
 from starling_sim.basemodel.trace.trace import Traced
 from starling_sim.basemodel.trace.events import InputEvent
 from starling_sim.basemodel.agent.operators.operator import Operator
-from starling_sim.utils.utils import json_load, validate_against_schema
+from starling_sim.utils.utils import json_load, validate_against_schema, \
+    add_defaults_and_validate, flatten_advanced_props
 from starling_sim.utils.constants import STOP_POINT_POPULATION
 from starling_sim.utils.paths import common_inputs_folder
 from jsonschema import ValidationError
@@ -91,12 +92,34 @@ class DynamicInput(Traced):
 
         # create the rest of the init input
         for feature in init_without_operators:
-
+            valid_feature = self.feature_schema_validation(feature)
             # generate a new agent based on the feature properties
-            self.new_agent_input(feature)
+            self.new_agent_input(valid_feature)
 
         # pre process the positions of the dynamic input
         self.pre_process_position_coordinates(self.dynamic_feature_list)
+
+        new_list = []
+        for feature in self.dynamic_feature_list:
+            valid_feature = self.feature_schema_validation(feature)
+            new_list.append(valid_feature)
+
+        self.dynamic_feature_list = new_list
+
+    def feature_schema_validation(self, feature):
+
+        agent_type = feature["properties"]["agent_type"]
+        agent_class = self.agent_type_class[agent_type]
+
+        agent_schema = self.sim.get_schema(agent_class)
+
+        props = feature["properties"]
+        flatten_advanced_props(props)
+        final_props = add_defaults_and_validate(props, agent_schema)
+
+        feature["properties"] = final_props
+
+        return feature
 
     def play_dynamic_input_(self):
         """

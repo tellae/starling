@@ -148,14 +148,8 @@ CustomValidator = validators.extend(Draft7Validator, type_checker=Draft4Validato
 
 def validate_against_schema(instance, schema, raise_exception=True):
 
-    # load the schema if a path is provided
-    if isinstance(schema, str):
-        schema = json_load(schemas_folder() + schema)
-
-    # put the schema advanced props at the base level (it should already be done for the instance)
-    if "advanced" in schema["properties"]:
-        schema["properties"].update(schema["properties"]["advanced"]["properties"])
-        del schema["properties"]["advanced"]
+    # load schema object
+    schema = load_schema(schema, False)
 
     # get the absolute path and setup a resolver
     schema_abs_path = 'file:///{0}/'.format(os.path.abspath(schemas_folder()).replace("\\", "/"))
@@ -180,13 +174,11 @@ def add_defaults_and_validate(instance, schema, raise_exception=True):
     # initialise an empty result dict
     res = copy.deepcopy(instance)
 
-    # load the schema if a path is provided
-    if isinstance(schema, str):
-        schema = json_load(schemas_folder() + schema)
+    # load schema object
+    schema = load_schema(schema)
 
     # browse the schema properties
     for prop in schema["properties"].keys():
-
         # if the property is missing and there is a default value, use default
         if prop not in instance and "default" in schema["properties"][prop]:
             res[prop] = schema["properties"][prop]["default"]
@@ -195,6 +187,26 @@ def add_defaults_and_validate(instance, schema, raise_exception=True):
     validate_against_schema(res, schema, raise_exception)
 
     return res
+
+
+def load_schema(schema, make_copy=True):
+    if isinstance(schema, str):
+        # load the schema if a path is provided
+        final_schema = json_load(schemas_folder() + schema)
+    elif isinstance(schema, dict):
+        if make_copy:
+            final_schema = copy.deepcopy(schema)
+        else:
+            final_schema = schema
+    else:
+        raise TypeError("The provided schema is neither a dict nor a path to a schema file")
+
+    # put the schema advanced props at the base level (it should already be done for the instance)
+    if "advanced" in final_schema["properties"]:
+        final_schema["properties"].update(final_schema["properties"]["advanced"]["properties"])
+        del final_schema["properties"]["advanced"]
+
+    return final_schema
 
 
 def flatten_advanced_props(instance):

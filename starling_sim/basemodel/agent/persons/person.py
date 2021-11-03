@@ -18,7 +18,7 @@ class Person(MovingAgent):
     SCHEMA = {
         "properties": {
             "destination": {
-                "type": "integer",
+                "type": "number",
                 "title": "Destination position",
                 "description": "Destination position id (inferred from geometry)"
             },
@@ -30,7 +30,7 @@ class Person(MovingAgent):
             "advanced": {
                 "properties": {
                     "max_tries": {
-                        "type": "integer",
+                        "type": ["integer", "null"],
                         "title": "Maximum number of service tryouts",
                         "description": "Number of failed attempts after which the agent will leave the simulation."
                                        " If not specified, the number of tries is infinite.",
@@ -70,8 +70,7 @@ class Person(MovingAgent):
 
         # profile of the agent, additional information that may be used by the models
         # these should be accessed using the profile dict
-        self.profile = None
-        self.init_profile(**kwargs)
+        self.profile = {}
 
         # persons start with no vehicle
         self.vehicle = None

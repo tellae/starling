@@ -9,7 +9,7 @@ class SpatialAgent(Agent):
     SCHEMA = {
         "properties": {
             "origin": {
-                "type": "integer",
+                "type": "number",
                 "title": "Origin position",
                 "description": "origin position id (inferred from geometry)",
             }

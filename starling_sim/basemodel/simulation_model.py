@@ -129,7 +129,6 @@ class SimulationModel:
             if "advanced" in class_schema["properties"]:
                 parent_schema["properties"]["advanced"]["properties"]\
                     .update(class_schema["properties"]["advanced"]["properties"])
-                del class_schema["properties"]["advanced"]
 
             parent_schema["properties"].update(class_schema["properties"])
 
