@@ -1,7 +1,6 @@
 from starling_sim.basemodel.agent.moving_agent import MovingAgent
 from starling_sim.basemodel.trace.events import RequestEvent, GetVehicleEvent, LeaveVehicleEvent, \
     DestinationReachedEvent
-from starling_sim.utils.utils import validate_against_schema
 from starling_sim.utils.constants import SUCCESS_LEAVE
 
 import sys
@@ -14,7 +13,6 @@ class Person(MovingAgent):
     It should be extended to implement more specific features and behaviours
     """
 
-    #: Dict of the profile's properties, with their specifications as a JSON schema
     SCHEMA = {
         "properties": {
             "destination": {
@@ -60,7 +58,7 @@ class Person(MovingAgent):
         :param origin_time: time at which the person should enter the simulation
         :param max_tries: maximum number of failed system tries before leaving the system.
             Default is None (infinite tries).
-        :parem fail_timeout: time waited when a request fails
+        :param fail_timeout: time waited when a request fails
         :param kwargs:
         """
 
