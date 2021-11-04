@@ -2,7 +2,7 @@
   "title": "Simulation parameters",
   "description": "Parameters of a simulation run",
   "type": "object",
-  "required": ["code", "scenario", "limit", "seed", "date", "geojson_output", "kpi_output",
+  "required": ["code", "scenario", "limit", "seed", "date", "visualisation_output", "kpi_output",
     "dynamic_input_file", "init_input_file", "topologies"],
   "properties": {
     "code": {
@@ -66,10 +66,10 @@
       "pattern": "(.)*(.zip)",
       "example": "GTFS_nantes.zip"
     },
-    "geojson_output": {
+    "visualisation_output": {
       "type": "boolean",
-      "title": "Geojson output",
-      "description": "Boolean indicating if a geojson file should be created",
+      "title": "Visualisation output",
+      "description": "Boolean indicating if a visualisation file should be created",
       "default": true
     },
     "kpi_output": {

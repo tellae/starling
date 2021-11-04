@@ -5,7 +5,7 @@
     "seed": 42,
     "date": "2019-09-19",
     "traces_output": true,
-    "geojson_output": true,
+    "visualisation_output": true,
     "kpi_output": true,
     "dynamic_input_file": "users_nantes.geojson",
     "init_input_file": ["operator.geojson", "operated_stations_nantes.geojson"],
