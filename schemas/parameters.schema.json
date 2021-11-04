@@ -13,7 +13,7 @@
     "scenario": {
       "type": "string",
       "title": "Scenario name",
-      "description": "Name of the scenario simulated",
+      "description": "Name of the simulation scenario",
       "example": "example_scenario"
     },
     "limit": {
