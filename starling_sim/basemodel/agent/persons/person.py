@@ -35,12 +35,21 @@ class Person(MovingAgent):
                 "type": ["integer", "null"],
                 "minimum": 0,
                 "default": None
+            },
+            "fail_timeout": {
+                "advanced": True,
+                "title": "Request fail timeout",
+                "description": "Time waited when a request fails",
+                "type": "integer",
+                "minimum": 0,
+                "default": 0
             }
         },
         "required": ["destination", "origin_time"]
     }
 
-    def __init__(self, simulation_model, agent_id, origin, destination, origin_time, max_tries=None, **kwargs):
+    def __init__(self, simulation_model, agent_id, origin, destination, origin_time, max_tries=None, fail_timeout=0,
+                 **kwargs):
         """
         Initialize the new Person object, as a moving agent with specific user data.
 
@@ -51,6 +60,7 @@ class Person(MovingAgent):
         :param origin_time: time at which the person should enter the simulation
         :param max_tries: maximum number of failed system tries before leaving the system.
             Default is None (infinite tries).
+        :parem fail_timeout: time waited when a request fails
         :param kwargs:
         """
 
@@ -65,14 +75,15 @@ class Person(MovingAgent):
         # number of failed system tries before leaving. If None, try indefinitely.
         self.maxTries = max_tries
 
+        # time to wait when a request fails
+        self.failTimeout = fail_timeout
+
         # profile of the agent, additional information that may be used by the models
         # these should be accessed using the profile dict
         self.profile = {}
 
         # persons start with no vehicle
         self.vehicle = None
-        # time to wait when a request fails
-        self.failTimeout = None
 
     def __str__(self):
 
