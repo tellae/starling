@@ -45,23 +45,41 @@ class Agent(Traced):
 
     @classmethod
     def get_schema(cls):
+        """
+        Get the json schema that specifies the class init parameters.
+
+        The schema is generated recursively, by adding/mixing the properties
+        of the current class to the schema of its parent class.
+
+        :return: json schema of the class init parameters
+        """
+
+        # stop recursion at Agent class
         if cls == Agent:
             return cls.SCHEMA
 
+        # start by evaluating the schema of the parent class
+        schema = copy.deepcopy(cls.__bases__[0].get_schema())
+
+        # if the current class has a specific schema, update the parent schema
         class_schema = cls.SCHEMA
-        parent_schema = copy.deepcopy(cls.__bases__[0].get_schema())
         if class_schema and cls.__bases__[0].SCHEMA != class_schema:
+
+            # remove some properties
             if "remove_props" in class_schema:
                 for prop in class_schema["remove_props"]:
-                    del parent_schema["properties"][prop]
-                    parent_schema["required"].remove(prop)
+                    del schema["properties"][prop]
+                    schema["required"].remove(prop)
+
+            # add required properties
             if "required" in class_schema:
                 for prop in class_schema["required"]:
-                    parent_schema["required"].append(prop)
+                    schema["required"].append(prop)
 
-            parent_schema["properties"].update(class_schema["properties"])
+            # update parent properties
+            schema["properties"].update(class_schema["properties"])
 
-        return parent_schema
+        return schema
 
     def __init__(self, simulation_model, agent_id, agent_type, mode, icon, **kwargs):
         """
