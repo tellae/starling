@@ -4,6 +4,7 @@ from starling_sim.utils.utils import SimulationError, LeavingSimulation
 from starling_sim.utils.constants import DEFAULT_LEAVE, SIM_ERROR_LEAVE
 
 import traceback
+import copy
 
 
 class Agent(Traced):
@@ -16,6 +17,7 @@ class Agent(Traced):
     """
 
     SCHEMA = {
+        "type": "object",
         "properties": {
             "agent_id": {
                 "type": "string",
@@ -45,6 +47,34 @@ class Agent(Traced):
         },
         "required": ["agent_id", "agent_type", "mode", "icon"]
     }
+
+    @classmethod
+    def get_schema(cls):
+        if cls == Agent:
+            return cls.SCHEMA
+
+        class_schema = cls.SCHEMA
+        parent_schema = copy.deepcopy(cls.__bases__[0].get_schema())
+        if class_schema and cls.__bases__[0].SCHEMA != class_schema:
+            if "remove_props" in class_schema:
+                for prop in class_schema["remove_props"]:
+                    del parent_schema["properties"][prop]
+                    parent_schema["required"].remove(prop)
+            if "required" in class_schema:
+                for prop in class_schema["required"]:
+                    parent_schema["required"].append(prop)
+
+            if "advanced" in class_schema["properties"]:
+                parent_schema["properties"]["advanced"]["properties"] \
+                    .update(class_schema["properties"]["advanced"]["properties"])
+
+            parent_schema["properties"].update(class_schema["properties"])
+
+        advanced = parent_schema["properties"]["advanced"]
+        del parent_schema["properties"]["advanced"]
+        parent_schema["properties"]["advanced"] = advanced
+
+        return parent_schema
 
     def __init__(self, simulation_model, agent_id, agent_type, mode, icon, **kwargs):
         """

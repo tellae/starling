@@ -11,8 +11,6 @@ class User(Person):
     This class describes a free-floating vehicle-sharing user
     """
 
-    SCHEMA = {}
-
     def __init__(self, simulation_model, agent_id, origin, destination, **kwargs):
         super().__init__(simulation_model, agent_id, origin, destination, **kwargs)
 

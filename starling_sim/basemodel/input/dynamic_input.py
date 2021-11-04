@@ -31,6 +31,8 @@ class DynamicInput(Traced):
         #: correspondence dict between agent_type and class
         self.agent_type_class = agent_type_dict
 
+        self.agent_type_schemas = None
+
         self.dynamic_feature_list = None
 
     def __str__(self):
@@ -51,6 +53,8 @@ class DynamicInput(Traced):
 
         # set the simulation model attribute
         self.sim = simulation_model
+
+        self.agent_type_schemas = self.sim.get_schemas()
 
         # set the attribute of dynamic features
 
@@ -108,10 +112,7 @@ class DynamicInput(Traced):
 
     def feature_schema_validation(self, feature):
 
-        agent_type = feature["properties"]["agent_type"]
-        agent_class = self.agent_type_class[agent_type]
-
-        agent_schema = self.sim.get_schema(agent_class)
+        agent_schema = self.agent_type_schemas[feature["properties"]["agent_type"]]
 
         props = feature["properties"]
         flatten_advanced_props(props)

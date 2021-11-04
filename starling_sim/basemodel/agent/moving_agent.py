@@ -14,8 +14,6 @@ class MovingAgent(SpatialAgent):
     This class describes an agent with the capacity of moving
     """
 
-    SCHEMA = {}
-
     def __init__(self, simulation_model, agent_id, origin, **kwargs):
         """
         Create a moving agent, setting its positional attributes and destination

@@ -48,3 +48,6 @@ class Model(SimulationModel):
 
         # event manager
         self.scheduler = Scheduler()
+
+        import json
+        print(json.dumps(self.get_agent_type_schemas(), indent=4))
