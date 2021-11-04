@@ -75,13 +75,13 @@
     "kpi_output": {
       "type": "boolean",
       "title": "KPI output",
-      "description": "Generate a KPI file",
+      "description": "Generate key performance indicator (KPI) files",
       "default": true
     },
     "traces_output": {
       "type": "boolean",
       "title": "Traces output",
-      "description": "Generate agent traces output",
+      "description": "Generate agent traces file",
       "default": false
     },
     "seed": {
