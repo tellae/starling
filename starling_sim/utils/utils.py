@@ -201,19 +201,7 @@ def load_schema(schema, make_copy=True):
     else:
         raise TypeError("The provided schema is neither a dict nor a path to a schema file")
 
-    # put the schema advanced props at the base level (it should already be done for the instance)
-    if "advanced" in final_schema["properties"]:
-        final_schema["properties"].update(final_schema["properties"]["advanced"]["properties"])
-        del final_schema["properties"]["advanced"]
-
     return final_schema
-
-
-def flatten_advanced_props(instance):
-    if "advanced" in instance:
-        instance.update(instance["advanced"])
-        del instance["advanced"]
-    return instance
 
 
 # converters

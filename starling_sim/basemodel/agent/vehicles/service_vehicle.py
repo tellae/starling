@@ -14,19 +14,16 @@ class ServiceVehicle(Vehicle):
     SCHEMA = {
         "properties": {
             "dwell_time": {
-                "type": "integer",
                 "title": "Dwell time",
                 "description": "Time spent when serving stops",
+                "type": "integer",
                 "minimum": 0
             },
-            "advanced": {
-                "properties": {
-                    "trip_id": {
-                        "type": "string",
-                        "title": "Initial trip ID",
-                        "description": "Identifier of the vehicle's initial trip"
-                    }
-                }
+            "trip_id": {
+                "advanced": True,
+                "title": "Initial trip ID",
+                "description": "Identifier of the vehicle's initial trip",
+                "type": "string"
             }
         }
     }

@@ -27,18 +27,15 @@ class Person(MovingAgent):
                 "title": "Activity start time (seconds)",
                 "description": "Time at which the agent will enter the simulation"
             },
-            "advanced": {
-                "properties": {
-                    "max_tries": {
-                        "type": ["integer", "null"],
-                        "title": "Maximum number of service tryouts",
-                        "description": "Number of failed attempts after which the agent will leave the simulation."
-                                       " If not specified, the number of tries is infinite.",
-                        "minimum": 0,
-                        "default": None
-                    }
-                }
-            },
+            "max_tries": {
+                "advanced": True,
+                "title": "Maximum number of service tryouts",
+                "description": "Number of failed attempts after which the agent will leave the simulation."
+                               " If not specified, the number of tries is infinite.",
+                "type": ["integer", "null"],
+                "minimum": 0,
+                "default": None
+            }
         },
         "required": ["destination", "origin_time"]
     }
@@ -81,56 +78,6 @@ class Person(MovingAgent):
 
         return "[id={}, origin={}, destination={}, vehicle={}]" \
             .format(self.id, self.origin, self.destination, self.vehicle)
-
-    def init_profile(self, **kwargs):
-
-        # build a profile dict
-        profile = dict()
-
-        for prop in self.SCHEMA["properties"].keys():
-
-            if prop == "advanced":
-                for adv_prop in self.SCHEMA["properties"]["advanced"]["properties"].keys():
-
-                    if adv_prop in kwargs:
-                        profile[adv_prop] = kwargs[adv_prop]
-
-                    # look for the property in the simulation parameters (same value specified for all persons)
-                    elif adv_prop in self.sim.parameters:
-                        profile[adv_prop] = self.sim.parameters[adv_prop]
-
-                    # look for the property in the default properties (no value specified, use default if possible)
-
-                    elif "default" in self.SCHEMA["properties"]["advanced"]["properties"][adv_prop]:
-                        profile[adv_prop] = self.SCHEMA["properties"]["advanced"]["properties"][adv_prop]["default"]
-
-                    # signal missing property
-                    else:
-                        raise KeyError("Missing property '{}' for profile initialisation".format(adv_prop))
-                continue
-
-            # look for the property in the agent input_dict (one value specified for each person)
-            if prop in kwargs:
-                profile[prop] = kwargs[prop]
-
-            # look for the property in the simulation parameters (same value specified for all persons)
-            elif prop in self.sim.parameters:
-                profile[prop] = self.sim.parameters[prop]
-
-            # look for the property in the default properties (no value specified, use default if possible)
-            elif "default" in self.SCHEMA["properties"][prop]:
-                profile[prop] = self.SCHEMA["properties"][prop]["default"]
-
-            # signal missing property
-            else:
-                raise KeyError("Missing property '{}' for profile initialisation".format(prop))
-
-        # validate the profile against the schema
-        schema = {"type": "object", "properties": self.SCHEMA["properties"]}
-        validate_against_schema(profile, schema)
-
-        # set the profile attribute
-        self.profile = profile
 
     def trace_event(self, event):
         """

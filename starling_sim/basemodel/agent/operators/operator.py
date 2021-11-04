@@ -28,49 +28,52 @@ class Operator(Agent):
                 "title": "Fleet population",
                 "description": "Population of the operator's fleet agents"
             },
-            "advanced": {
-                "properties": {
-                    "staff_dict": {
-                        "type": "string",
-                        "title": "Staff population",
-                        "description": "Population of the operator's staff agents"
+            "staff_dict": {
+                "advanced": True,
+                "title": "Staff population",
+                "description": "Population of the operator's staff agents",
+                "type": "string"
+            },
+            "depot_points": {
+                "advanced": True,
+                "title": "Depot points",
+                "description": "List of depot points coordinates",
+                "type": "array",
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
                     },
-                    "depot_points": {
-                        "type": "array",
-                        "title": "Depot points",
-                        "description": "List of depot points coordinates",
-                        "items": {
-                            "type": "array",
-                            "items": {
-                                "type": "number"
-                            },
-                            "minItems": 2,
-                            "maxItems": 2
-                        }
-                    },
-                    "zone_polygon": {
-                        "type": "string",
-                        "title": "Service area file",
-                        "description": "Geojson input file describing the service area"
-                    },
-                    "network_file": {
-                        "type": "string",
-                        "title": "Service network file",
-                        "description": "OSM graph file for the service area"
-                    },
-                    "operation_parameters": OPERATION_PARAMETERS_SCHEMA,
-                    "parent_operator_id": {
-                        "type": "string",
-                        "title": "Parent operator ID",
-                        "description": "Identifier of the parent operator"
-                    },
-                    "extend_graph_with_stops": {
-                        "type": "boolean",
-                        "title": "Extend graph with stops",
-                        "description": "Indicate if the transport network should be extended with stop points"
-                    }
+                    "minItems": 2,
+                    "maxItems": 2
                 }
+            },
+            "zone_polygon": {
+                "advanced": True,
+                "title": "Service area file",
+                "description": "Geojson input file describing the service area",
+                "type": "string"
+            },
+            "network_file": {
+                "advanced": True,
+                "title": "Service network file",
+                "description": "OSM graph file for the service area",
+                "type": "string"
+            },
+            "operation_parameters": OPERATION_PARAMETERS_SCHEMA,
+            "parent_operator_id": {
+                "advanced": True,
+                "title": "Parent operator ID",
+                "description": "Identifier of the parent operator",
+                "type": "string"
+            },
+            "extend_graph_with_stops": {
+                "advanced": True,
+                "title": "Extend graph with stops",
+                "description": "Indicate if the transport network should be extended with stop points",
+                "type": "boolean"
             }
+
         },
         "required": ["fleet_dict"]
     }

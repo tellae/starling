@@ -15,27 +15,25 @@ class User(Person):
                 "type": "boolean",
                 "default": True
             },
-            "advanced": {
-                "properties": {
-                    "patience": {
-                        "title": "Patience when requesting a station",
-                        "description": "user patience while waiting for a vehicle. "
-                                       "Caution, None means infinite patience",
-                        "type": ["integer", "null"],
-                        "minimum": 0,
-                        "default": DEFAULT_PATIENCE
-                    },
-                    "closest_station_evaluation": {
-                        "title": "Station distance evaluation",
-                        "description": "Determine how the distance to the stations is evaluated",
-                        "type": "string",
-                        "oneOf": [
-                            {"const": "euclidean"},
-                            {"const": "shortest_path"}
-                        ],
-                        "default": "euclidean"
-                    }
-                }
+            "patience": {
+                "advanced": True,
+                "title": "Patience when requesting a station",
+                "description": "user patience while waiting for a vehicle. "
+                               "Caution, None means infinite patience",
+                "type": ["integer", "null"],
+                "minimum": 0,
+                "default": DEFAULT_PATIENCE
+            },
+            "closest_station_evaluation": {
+                "advanced": True,
+                "title": "Station distance evaluation",
+                "description": "Determine how the distance to the stations is evaluated",
+                "type": "string",
+                "oneOf": [
+                    {"const": "euclidean"},
+                    {"const": "shortest_path"}
+                ],
+                "default": "euclidean"
             }
         },
         "required": ["has_station_info"]

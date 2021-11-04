@@ -38,11 +38,6 @@ class Agent(Traced):
                 "type": "string",
                 "title": "Agent icon",
                 "description": "Display icon"
-            },
-            "advanced": {
-                "type": "object",
-                "title": "Advanced agent properties",
-                "properties": {}
             }
         },
         "required": ["agent_id", "agent_type", "mode", "icon"]
@@ -64,15 +59,7 @@ class Agent(Traced):
                 for prop in class_schema["required"]:
                     parent_schema["required"].append(prop)
 
-            if "advanced" in class_schema["properties"]:
-                parent_schema["properties"]["advanced"]["properties"] \
-                    .update(class_schema["properties"]["advanced"]["properties"])
-
             parent_schema["properties"].update(class_schema["properties"])
-
-        advanced = parent_schema["properties"]["advanced"]
-        del parent_schema["properties"]["advanced"]
-        parent_schema["properties"]["advanced"] = advanced
 
         return parent_schema
 

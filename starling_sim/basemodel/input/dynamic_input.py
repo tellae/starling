@@ -2,7 +2,7 @@ from starling_sim.basemodel.trace.trace import Traced
 from starling_sim.basemodel.trace.events import InputEvent
 from starling_sim.basemodel.agent.operators.operator import Operator
 from starling_sim.utils.utils import json_load, validate_against_schema, \
-    add_defaults_and_validate, flatten_advanced_props
+    add_defaults_and_validate
 from starling_sim.utils.constants import STOP_POINT_POPULATION
 from starling_sim.utils.paths import common_inputs_folder
 from jsonschema import ValidationError
@@ -54,7 +54,7 @@ class DynamicInput(Traced):
         # set the simulation model attribute
         self.sim = simulation_model
 
-        self.agent_type_schemas = self.sim.get_schemas()
+        self.agent_type_schemas = self.sim.get_agent_type_schemas()
 
         # set the attribute of dynamic features
 
@@ -115,7 +115,6 @@ class DynamicInput(Traced):
         agent_schema = self.agent_type_schemas[feature["properties"]["agent_type"]]
 
         props = feature["properties"]
-        flatten_advanced_props(props)
         final_props = add_defaults_and_validate(props, agent_schema)
 
         feature["properties"] = final_props

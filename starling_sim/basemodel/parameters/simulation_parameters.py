@@ -5,7 +5,7 @@ This module manages the parameters of the simulation
 import logging
 from copy import deepcopy
 
-from starling_sim.utils.utils import json_load, validate_against_schema, flatten_advanced_props
+from starling_sim.utils.utils import json_load, validate_against_schema
 from starling_sim.utils import paths
 
 
@@ -30,9 +30,6 @@ class SimulationParameters:
             param_schema_path = paths.schemas_folder() + self.BASE_PARAM_SCHEMA
 
         self.schema = json_load(param_schema_path)
-
-        # update the parameters with the advanced props
-        flatten_advanced_props(parameters)
 
         # parameters validation
         validate_against_schema(parameters, self.schema)
