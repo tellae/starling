@@ -4,7 +4,6 @@ from starling_sim.basemodel.agent.stations.station import Station
 from starling_sim.utils.utils import geopandas_polygon_from_points, points_in_zone, json_load, validate_against_schema
 from starling_sim.utils.paths import gtfs_feeds_folder, schemas_folder
 from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
-from collections import OrderedDict
 
 import pandas as pd
 
@@ -77,6 +76,16 @@ class Operator(Agent):
         },
         "required": ["fleet_dict"]
     }
+
+    # "routes": {
+    #   "advanced":  true,
+    #   "type": "array",
+    #   "items": {
+    #     "type": "string"
+    #   },
+    #   "title": "Routes to keep in the public transport simulation",
+    #   "description": "List of route ids that should be present in the simulation. If null, keep all routes."
+    # }
 
     def __init__(self, simulation_model, agent_id, fleet_dict, staff_dict=None, depot_points=None,
                  zone_polygon=None, network_file=None, operation_parameters=None, parent_operator_id=None,
