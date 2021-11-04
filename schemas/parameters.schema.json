@@ -1,6 +1,6 @@
 {
-  "title": "parameters",
-  "description": "parameters of a simulation run",
+  "title": "Simulation parameters",
+  "description": "Parameters of a simulation run",
   "type": "object",
   "required": ["code", "scenario", "limit", "seed", "date", "geojson_output", "kpi_output",
     "dynamic_input_file", "init_input_file", "topologies"],
