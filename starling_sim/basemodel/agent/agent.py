@@ -81,6 +81,10 @@ class Agent(Traced):
         self.type = agent_type
         self.mode = mode
         self.icon = icon
+
+        # the agent profile contains all the additional properties of the input dict
+        self.profile = kwargs
+
         self.name = None
         self.main_process = None
         self.current_process = None

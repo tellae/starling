@@ -78,10 +78,6 @@ class Person(MovingAgent):
         # time to wait when a request fails
         self.failTimeout = fail_timeout
 
-        # profile of the agent, additional information that may be used by the models
-        # these should be accessed using the profile dict
-        self.profile = {}
-
         # persons start with no vehicle
         self.vehicle = None
 

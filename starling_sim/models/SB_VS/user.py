@@ -42,9 +42,6 @@ class User(Person):
     def __init__(self, simulation_model, agent_id, origin, destination, **kwargs):
 
         super().__init__(simulation_model, agent_id, origin, destination, **kwargs)
-        self.profile["closest_station_evaluation"] = kwargs["closest_station_evaluation"]
-        self.profile["patience"] = kwargs["patience"]
-        self.profile["has_station_info"] = kwargs["has_station_info"]
 
         # remember the failed stations
         self.failed_stations_ids = []
