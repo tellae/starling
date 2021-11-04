@@ -69,19 +69,19 @@
     "visualisation_output": {
       "type": "boolean",
       "title": "Visualisation output",
-      "description": "Boolean indicating if a visualisation file should be created",
+      "description": "Generate a visualisation file",
       "default": true
     },
     "kpi_output": {
       "type": "boolean",
       "title": "KPI output",
-      "description": "Boolean indicating if a KPI file should be created",
+      "description": "Generate a KPI file",
       "default": true
     },
     "traces_output": {
       "type": "boolean",
       "title": "Traces output",
-      "description": "Boolean indicating if an agent traces output should be created",
+      "description": "Generate agent traces output",
       "default": false
     },
     "seed": {
@@ -94,13 +94,13 @@
       "advanced": true,
       "type": "boolean",
       "title": "Simulation time log",
-      "description": "Boolean indicating if simulation time should be logged",
+      "description": "Log simulation time every 3600 seconds (used for run monitoring)",
       "default": false
     },
     "generate_summary": {
       "advanced": true,
       "title": "Generate run summary",
-      "description": "Boolean indicating if run summary should be generated.",
+      "description": "Generate a simulation run summary",
       "type": "boolean",
       "default": false
     },
@@ -139,7 +139,7 @@
     "store_paths": {
       "advanced":  true,
       "title": "Store shortest paths",
-      "description": "Indicates if computed shortest paths should be stored in a dict to avoid computing them again. Either a boolean or a dict with the same keys as topologies and boolean values.",
+      "description": "Store computed shortest paths in a dict to avoid computing them again. Either a boolean or a dict with the same keys as topologies and boolean values.",
       "type": [
         "boolean",
         "object"
