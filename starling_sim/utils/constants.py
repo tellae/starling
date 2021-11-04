@@ -7,9 +7,6 @@ This module contains constants and default values for the simulation.
 #: default dwell time of service vehicles
 DEFAULT_DWELL_TIME = 30
 
-# default patience
-DEFAULT_PATIENCE = None
-
 # keys and names used in the simulation
 
 #: name of the population containing the simulation stop points

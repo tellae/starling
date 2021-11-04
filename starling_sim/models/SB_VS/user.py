@@ -1,5 +1,4 @@
 from starling_sim.basemodel.agent.persons.person import Person
-from starling_sim.utils.constants import DEFAULT_PATIENCE
 
 
 class User(Person):
@@ -22,7 +21,7 @@ class User(Person):
                                "Caution, None means infinite patience",
                 "type": ["integer", "null"],
                 "minimum": 0,
-                "default": DEFAULT_PATIENCE
+                "default": None
             },
             "closest_station_evaluation": {
                 "advanced": True,
