@@ -85,6 +85,14 @@ class Operator(Agent):
     #   },
     #   "title": "Routes to keep in the public transport simulation",
     #   "description": "List of route ids that should be present in the simulation. If null, keep all routes."
+    # },
+    # "line_shapes_file": {
+    #   "advanced":  true,
+    #   "type": "string",
+    #   "title": "Line shapes file",
+    #   "description": "Name of the file containing shapes of public transport lines (stored with GTFS feeds)",
+    #   "pattern": "(.)*(.csv)",
+    #   "example": "rennes_line_shapes.csv"
     # }
 
     def __init__(self, simulation_model, agent_id, fleet_dict, staff_dict=None, depot_points=None,
@@ -223,8 +231,8 @@ class Operator(Agent):
         Set the service lines shapes file according to the dedicated parameter.
         """
 
-        if "line_shapes_file" in self.sim.parameters:
-            line_shapes_path = gtfs_feeds_folder() + self.sim.parameters["line_shapes_file"]
+        if "line_shapes_file" in self.operationParameters:
+            line_shapes_path = gtfs_feeds_folder() + self.operationParameters["line_shapes_file"]
             self.line_shapes = pd.read_csv(line_shapes_path, sep=";")
             self.line_shapes = self.line_shapes.astype({"stop_id_A": str, "stop_id_B": str})
 

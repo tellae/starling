@@ -145,14 +145,6 @@
         "object"
       ],
       "default": false
-    },
-    "line_shapes_file": {
-      "advanced":  true,
-      "type": "string",
-      "title": "Line shapes file",
-      "description": "Name of the file containing shapes of public transport lines (stored with GTFS feeds)",
-      "pattern": "(.)*(.csv)",
-      "example": "rennes_line_shapes.csv"
     }
   }
 }
