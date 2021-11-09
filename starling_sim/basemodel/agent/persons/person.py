@@ -15,6 +15,12 @@ class Person(MovingAgent):
 
     SCHEMA = {
         "properties": {
+            "mode": {
+                "type": "string",
+                "title": "Default network",
+                "description": "Road network used by the agent",
+                "default": "walk"
+            },
             "destination": {
                 "type": "number",
                 "title": "Destination position",
