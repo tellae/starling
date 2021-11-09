@@ -36,7 +36,7 @@ class Person(MovingAgent):
             },
             "fail_timeout": {
                 "advanced": True,
-                "title": "Request fail timeout",
+                "title": "Request fail timeout [seconds]",
                 "description": "Time waited when a request fails",
                 "type": "integer",
                 "minimum": 0,

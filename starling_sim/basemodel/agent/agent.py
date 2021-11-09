@@ -65,23 +65,33 @@ class Agent(Traced):
         class_schema = cls.SCHEMA
         if class_schema and cls.__bases__[0].SCHEMA != class_schema:
 
-            # remove some properties
-            if "remove_props" in class_schema:
-                for prop in class_schema["remove_props"]:
-                    del schema["properties"][prop]
-                    schema["required"].remove(prop)
+            for keyword in class_schema.keys():
 
-            # add required properties
-            if "required" in class_schema:
-                for prop in class_schema["required"]:
-                    schema["required"].append(prop)
+                # remove some properties
+                if keyword == "remove_props":
+                    for prop in class_schema["remove_props"]:
+                        del schema["properties"][prop]
+                        if prop in schema["required"]:
+                            schema["required"].remove(prop)
 
-            # update parent properties
-            schema["properties"].update(class_schema["properties"])
+                # add required properties
+                elif keyword == "required":
+                    for prop in class_schema["required"]:
+                        schema["required"].append(prop)
+
+                # update the schema properties
+                elif keyword == "properties":
+                    schema["properties"].update(class_schema["properties"])
+
+                else:
+                    if keyword in schema:
+                        schema[keyword].update(class_schema[keyword])
+                    else:
+                        schema[keyword] = class_schema[keyword]
 
         return schema
 
-    def __init__(self, simulation_model, agent_id, agent_type, mode, icon, **kwargs):
+    def __init__(self, simulation_model, agent_id, agent_type, mode, icon=None, **kwargs):
         """
         Initialize an agent with basic attributes (id, simulation model, etc).
 

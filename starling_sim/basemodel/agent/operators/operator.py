@@ -74,7 +74,8 @@ class Operator(Agent):
             }
 
         },
-        "required": ["fleet_dict"]
+        "required": ["fleet_dict"],
+        "remove_props": ["icon"]
     }
 
     # "routes": {
