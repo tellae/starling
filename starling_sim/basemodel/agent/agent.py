@@ -1,6 +1,6 @@
 from starling_sim.basemodel.trace.trace import Traced
 from starling_sim.basemodel.trace.events import InputEvent, WaitEvent, LeaveSimulationEvent
-from starling_sim.utils.utils import SimulationError, LeavingSimulation
+from starling_sim.utils.utils import SimulationError, LeavingSimulation, load_schema
 from starling_sim.utils.constants import DEFAULT_LEAVE, SIM_ERROR_LEAVE
 
 import traceback
@@ -88,6 +88,16 @@ class Agent(Traced):
                         schema[keyword].update(class_schema[keyword])
                     else:
                         schema[keyword] = class_schema[keyword]
+
+        if "operation_parameters" in schema["properties"]:
+            operation_parameters_schema = cls.OPERATION_PARAMETERS_SCHEMA
+            if isinstance(operation_parameters_schema, str):
+                operation_parameters_schema = load_schema(operation_parameters_schema)
+            if "operation_parameters" in schema["properties"]:
+                schema["properties"]["operation_parameters"]["properties"]\
+                    .update(operation_parameters_schema["properties"])
+                for prop in operation_parameters_schema["required"]:
+                    schema["properties"]["operation_parameters"]["required"].append(prop)
 
         return schema
 

@@ -1,5 +1,6 @@
 {
   "type": "object",
+  "required": ["dispatcher"],
   "properties": {
     "dispatcher": {
       "title": "Service dispatcher",
@@ -47,11 +48,10 @@
     },
     "routes": {
       "description": "Route ids filter applied to the gtfs before selecting the service stop points.",
-      "type": ["array", "null"],
+      "type": "array",
       "items": {
         "type": "string"
-      },
-      "default": null
+      }
     },
     "pickup_time_window": {
       "type": "integer",

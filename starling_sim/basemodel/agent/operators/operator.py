@@ -18,7 +18,12 @@ class Operator(Agent):
     The assignment of these requests is managed by a Dispatcher object.
     """
 
-    OPERATION_PARAMETERS_SCHEMA = {}
+    OPERATION_PARAMETERS_SCHEMA = {
+        "type": "object",
+        "title": "Operation parameters",
+        "required": [],
+        "properties": {}
+    }
 
     SCHEMA = {
         "properties": {
