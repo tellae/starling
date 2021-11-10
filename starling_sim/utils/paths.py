@@ -26,11 +26,11 @@ Global structure of the repository
     |   |
     │   ├── basemodel           # base classes of the framework
     │   ├── models              # concrete models extending the basemodel
+    |   ├── schemas             # json schemas
     │   └── utils               # programming utils
     |
     ├── tools                   # tools for the simulation runs
     ├── data                    # data folder
-    ├── schemas                 # json schemas
     ├── tests                   # testing
     ├── docs                    # documentation files and scripts
     ├── main.py
@@ -233,7 +233,8 @@ def scenario_output_folder(model_code, scenario):
         env_output_folder = os.environ["OUTPUT_FOLDER"]
         # check that the folder exists
         if not os.path.isdir(env_output_folder):
-            raise IOError("Environment variable OUTPUT_FOLDER does not point to a folder")
+            raise IOError(
+                "Environment variable OUTPUT_FOLDER does not point to a folder")
 
         # add missing folder separator
         if not env_output_folder.endswith(_SEP):
@@ -255,7 +256,7 @@ def schemas_folder():
     """
     Path to the schemas folder.
     """
-    return starling_folder() + SCHEMAS_FOLDER_NAME + _SEP
+    return os.path.dirname(__file__) + _SEP + ".." + SCHEMAS_FOLDER_NAME + _SEP
 
 
 def model_import_path(starling_pkg, model_code):
