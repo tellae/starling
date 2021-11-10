@@ -256,7 +256,7 @@ def schemas_folder():
     """
     Path to the schemas folder.
     """
-    return os.path.dirname(__file__) + _SEP + ".." + SCHEMAS_FOLDER_NAME + _SEP
+    return os.path.join(os.path.dirname(__file__), "..", SCHEMAS_FOLDER_NAME) + _SEP
 
 
 def model_import_path(starling_pkg, model_code):
