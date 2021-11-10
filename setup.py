@@ -1,6 +1,4 @@
 """
-[Even though this setup script is displayed here, Starling is not distributed on PyPi yet]
-
 Starling setup script.
 
 See license in LICENSE.txt.
@@ -52,5 +50,6 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     classifiers=CLASSIFIERS,
     python_requires='>=3.6',
-    install_requires=INSTALL_REQUIRES
+    install_requires=INSTALL_REQUIRES,
+    include_package_data=True
 )
