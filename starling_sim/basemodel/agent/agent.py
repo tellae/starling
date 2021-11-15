@@ -93,11 +93,10 @@ class Agent(Traced):
             operation_parameters_schema = cls.OPERATION_PARAMETERS_SCHEMA
             if isinstance(operation_parameters_schema, str):
                 operation_parameters_schema = load_schema(operation_parameters_schema)
-            if "operation_parameters" in schema["properties"]:
-                schema["properties"]["operation_parameters"]["properties"]\
-                    .update(operation_parameters_schema["properties"])
-                for prop in operation_parameters_schema["required"]:
-                    schema["properties"]["operation_parameters"]["required"].append(prop)
+            schema["properties"]["operation_parameters"]["properties"]\
+                .update(operation_parameters_schema["properties"])
+            for prop in operation_parameters_schema["required"]:
+                schema["properties"]["operation_parameters"]["required"].append(prop)
 
         return schema
 
