@@ -101,6 +101,8 @@ class Operator(Agent):
     #   "example": "rennes_line_shapes.csv"
     # }
 
+    DISPATCHERS = {}
+
     def __init__(self, simulation_model, agent_id, fleet_dict, staff_dict=None, depot_points=None,
                  zone_polygon=None, network_file=None, operation_parameters=None, parent_operator_id=None,
                  extend_graph_with_stops=False, **kwargs):
@@ -416,6 +418,38 @@ class Operator(Agent):
         """
         Initialise the punctual_dispatcher and online_dispatcher attributes.
         """
+
+        if "dispatcher" not in self.operationParameters:
+            return
+
+        dispatcher = self.operationParameters["dispatcher"]
+
+        if dispatcher not in self.DISPATCHERS:
+            raise ValueError("Unsupported operation parameter 'dispatcher' value '{}' (see schema)".format(dispatcher))
+
+        dispatcher_classes = self.DISPATCHERS[dispatcher]
+
+        parameters = self.dispatcher_parameters()
+
+        try:
+
+            if "online" in dispatcher_classes:
+                self.online_dispatcher = dispatcher_classes["online"].__new__(dispatcher_classes["online"])
+                self.online_dispatcher.__init__(**parameters)
+
+            if "punctual" in dispatcher_classes:
+                self.punctual_dispatcher = dispatcher_classes["punctual"].__new__(dispatcher_classes["punctual"])
+                self.punctual_dispatcher .__init__(**parameters)
+
+        except (TypeError, KeyError) as e:
+            raise ValueError("Instantiation of operator dispatcher failed with message :\n {}".format(str(e)), 30)
+
+    def dispatcher_parameters(self):
+        return {
+            "simulation_model": self.sim,
+            "operator": self,
+            "verb": True
+        }
 
     # new requests management
 
