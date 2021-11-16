@@ -63,19 +63,7 @@ class Operator(Agent):
                 "description": "Geojson input file describing the service area",
                 "type": "string"
             },
-            "network_file": {
-                "advanced": True,
-                "title": "Service network file",
-                "description": "OSM graph file for the service area",
-                "type": "string"
-            },
             "operation_parameters": OPERATION_PARAMETERS_SCHEMA,
-            "parent_operator_id": {
-                "advanced": True,
-                "title": "Parent operator ID",
-                "description": "Identifier of the parent operator",
-                "type": "string"
-            },
             "extend_graph_with_stops": {
                 "advanced": True,
                 "title": "Extend graph with stops",
@@ -108,8 +96,8 @@ class Operator(Agent):
 
     DISPATCHERS = {}
 
-    def __init__(self, simulation_model, agent_id, fleet_dict, mode=None, dispatcher=None, staff_dict=None, depot_points=None,
-                 zone_polygon=None, network_file=None, operation_parameters=None, parent_operator_id=None,
+    def __init__(self, simulation_model, agent_id, fleet_dict, mode=None, dispatcher=None, staff_dict=None,
+                 depot_points=None, zone_polygon=None, operation_parameters=None,
                  extend_graph_with_stops=False, **kwargs):
         """
         Initialise the service operator with the relevant properties.
@@ -123,9 +111,7 @@ class Operator(Agent):
         :param staff_dict: name of the population that contains the operator's staff
         :param depot_points: list of coordinates of the operator depot points
         :param zone_polygon: list of GPS points delimiting the service zone
-        :param network_file: file describing a topology specific to the service
         :param operation_parameters: additional parameters used for service operation
-        :param parent_operator_id: id of the parent operator, if there is one
         :param extend_graph_with_stops: boolean indicating if the graph should be extended with the stop points
         :param kwargs:
         """
@@ -135,7 +121,7 @@ class Operator(Agent):
         # data structures containing the service information
 
         # parent operator id
-        self.parentOperatorId = parent_operator_id
+        self.parentOperatorId = None
 
         # parameters determining the service operation
         self.operationParameters = None
@@ -168,10 +154,6 @@ class Operator(Agent):
         # GeoDataFrame representing the service zone of the operator
         self.serviceZone = None
         self.init_zone(zone_polygon)
-
-        # a Topology object specific to this operator (smaller graph)
-        self.serviceTopology = None
-        self.init_topology(network_file)
 
         # a dict of the service stop points {id: StopPoint}
         self.stopPoints = dict()
@@ -274,19 +256,6 @@ class Operator(Agent):
             raise TypeError("The zone_polygon parameter must be either an input filename or a list of coordinates")
 
         self.serviceZone = service_zone
-
-    def init_topology(self, network_file):
-        """
-        Set a topology for the operator if a file is provided.
-
-        The topology will be used by the operator to compute paths
-        and distances in its service zone. Its smaller size should
-        reduce computation times.
-
-        If network_file is None, use the fleet (or staff ?) topology.
-
-        :param network_file: init file for the topology, or None
-        """
 
     def init_depot_points(self, depot_points_coord):
         """
