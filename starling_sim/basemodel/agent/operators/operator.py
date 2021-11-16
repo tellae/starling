@@ -27,6 +27,11 @@ class Operator(Agent):
 
     SCHEMA = {
         "properties": {
+            "dispatcher": {
+                "title": "Dispatch method",
+                "description": "Name of the dispatch method used by the operator",
+                "type": "string"
+            },
             "fleet_dict": {
                 "type": "string",
                 "title": "Fleet population",
@@ -103,7 +108,7 @@ class Operator(Agent):
 
     DISPATCHERS = {}
 
-    def __init__(self, simulation_model, agent_id, fleet_dict, staff_dict=None, depot_points=None,
+    def __init__(self, simulation_model, agent_id, fleet_dict, mode=None, dispatcher=None, staff_dict=None, depot_points=None,
                  zone_polygon=None, network_file=None, operation_parameters=None, parent_operator_id=None,
                  extend_graph_with_stops=False, **kwargs):
         """
@@ -125,7 +130,7 @@ class Operator(Agent):
         :param kwargs:
         """
 
-        Agent.__init__(self, simulation_model, agent_id, **kwargs)
+        Agent.__init__(self, simulation_model, agent_id, mode=mode, **kwargs)
 
         # data structures containing the service information
 
@@ -198,7 +203,7 @@ class Operator(Agent):
         # dispatcher called to handle requests online
         self.online_dispatcher = None
 
-        self.init_dispatchers()
+        self.init_dispatchers(dispatcher)
 
     # attributes initialisation methods
 
@@ -220,12 +225,15 @@ class Operator(Agent):
         if self.OPERATION_PARAMETERS_SCHEMA is not None:
 
             # validate given dict against schema
-            operation_param_schema = json_load(schemas_folder() + self.OPERATION_PARAMETERS_SCHEMA)
+            if isinstance(self.OPERATION_PARAMETERS_SCHEMA, str):
+                operation_param_schema = json_load(schemas_folder() + self.OPERATION_PARAMETERS_SCHEMA)
+            else:
+                operation_param_schema = self.OPERATION_PARAMETERS_SCHEMA
             validate_against_schema(self.operationParameters, self.OPERATION_PARAMETERS_SCHEMA)
 
             # complete the parameters with the schema default values
             for param in operation_param_schema["properties"].keys():
-                if param not in self.operationParameters:
+                if param not in self.operationParameters and "default" in operation_param_schema["properties"][param]:
                     self.operationParameters[param] = operation_param_schema["properties"][param]["default"]
 
     def init_service_info(self):
@@ -297,7 +305,7 @@ class Operator(Agent):
                 else:
                     depot_modes = list(self.mode.values())
                 position = self.sim.environment.nearest_node_in_modes(coord, depot_modes)
-                depot = Station(self.sim, depot_id, position)
+                depot = Station(self.sim, depot_id, position, mode=self.mode["fleet"], agent_type=None)
                 self.depotPoints[depot_id] = depot
 
     def init_stops(self):
@@ -414,15 +422,13 @@ class Operator(Agent):
         else:
             return None
 
-    def init_dispatchers(self):
+    def init_dispatchers(self, dispatcher):
         """
         Initialise the punctual_dispatcher and online_dispatcher attributes.
         """
 
-        if "dispatcher" not in self.operationParameters:
+        if dispatcher is None:
             return
-
-        dispatcher = self.operationParameters["dispatcher"]
 
         if dispatcher not in self.DISPATCHERS:
             raise ValueError("Unsupported operation parameter 'dispatcher' value '{}' (see schema)".format(dispatcher))

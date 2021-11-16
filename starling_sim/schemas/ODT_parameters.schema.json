@@ -1,18 +1,7 @@
 {
   "type": "object",
-  "required": ["dispatcher"],
+  "required": [],
   "properties": {
-    "dispatcher": {
-      "title": "Service dispatcher",
-      "description": "Dispatcher used for the on-demand transport service.",
-      "type": "string",
-      "oneOf": [
-        {"const":  "periodic_greedy", "description":  "Periodic greedy insertions."},
-        {"const":  "static_alns", "description":  "ALIENS resolution of the static demand at time 1."},
-        {"const":  "mixed_alns", "description":  "ALIENS resolution of the static demand at time 1 and greedy insertions of the dynamic demand."}
-      ],
-      "default": "periodic_greedy"
-    },
     "service_start": {
       "type": ["integer", "null"],
       "description": "Time at which the on-demand transport service starts, in seconds",

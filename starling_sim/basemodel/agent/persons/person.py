@@ -22,7 +22,7 @@ class Person(MovingAgent):
                 "default": "walk"
             },
             "destination": {
-                "type": "number",
+                "type": ["number", "string"],
                 "title": "Destination position",
                 "description": "Destination position id (inferred from geometry)"
             },
