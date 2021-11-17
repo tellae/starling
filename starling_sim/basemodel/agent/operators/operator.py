@@ -1,7 +1,8 @@
 from starling_sim.basemodel.agent.agent import Agent
 from starling_sim.basemodel.agent.requests import TripRequest, StopPoint
 from starling_sim.basemodel.agent.stations.station import Station
-from starling_sim.utils.utils import geopandas_polygon_from_points, points_in_zone, json_load, validate_against_schema
+from starling_sim.utils.utils import geopandas_polygon_from_points, points_in_zone, json_load, \
+    load_schema, validate_against_schema
 from starling_sim.utils.paths import gtfs_feeds_folder, schemas_folder
 from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
 
@@ -63,13 +64,14 @@ class Operator(Agent):
                 "description": "Geojson input file describing the service area",
                 "type": "string"
             },
-            "operation_parameters": OPERATION_PARAMETERS_SCHEMA,
             "extend_graph_with_stops": {
                 "advanced": True,
                 "title": "Extend graph with stops",
                 "description": "Indicate if the transport network should be extended with stop points",
-                "type": "boolean"
-            }
+                "type": "boolean",
+                "default": False
+            },
+            "operation_parameters": OPERATION_PARAMETERS_SCHEMA,
 
         },
         "required": ["fleet_dict"],
@@ -95,6 +97,44 @@ class Operator(Agent):
     # }
 
     DISPATCHERS = {}
+
+    @classmethod
+    def get_schema(cls):
+
+        schema = cls.compute_schema()
+
+        if len(cls.DISPATCHERS) > 0:
+
+            enum = []
+
+            for key in cls.DISPATCHERS.keys():
+
+                if key == "default":
+                    schema["properties"]["dispatcher"]["default"] = cls.DISPATCHERS[key]
+                elif key == "required" and cls.DISPATCHERS[key]:
+                    if "dispatcher" not in schema["required"]:
+                        schema["required"].append("dispatcher")
+                else:
+                    enum.append(key)
+
+            schema["properties"]["dispatcher"]["enum"] = enum
+
+        return schema
+
+    @classmethod
+    def compute_schema(cls):
+
+        schema = super().compute_schema()
+
+        operation_parameters_schema = cls.OPERATION_PARAMETERS_SCHEMA
+        if isinstance(operation_parameters_schema, str):
+            operation_parameters_schema = load_schema(operation_parameters_schema)
+        schema["properties"]["operation_parameters"]["properties"] \
+            .update(operation_parameters_schema["properties"])
+        for prop in operation_parameters_schema["required"]:
+            schema["properties"]["operation_parameters"]["required"].append(prop)
+
+        return schema
 
     def __init__(self, simulation_model, agent_id, fleet_dict, mode=None, dispatcher=None, staff_dict=None,
                  depot_points=None, zone_polygon=None, operation_parameters=None,

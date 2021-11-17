@@ -46,6 +46,17 @@ class Agent(Traced):
     @classmethod
     def get_schema(cls):
         """
+        Compute and return the class parameters schema.
+
+        This is the place to add eventual schema post-processing
+
+        :return: class schema
+        """
+        return cls.compute_schema()
+
+    @classmethod
+    def compute_schema(cls):
+        """
         Get the json schema that specifies the class init parameters.
 
         The schema is generated recursively, by adding/mixing the properties
@@ -55,48 +66,42 @@ class Agent(Traced):
         """
 
         # stop recursion at Agent class
-        if cls == Agent:
-            return cls.SCHEMA
+        parent_class = cls.__bases__[0]
+        if issubclass(parent_class, Agent):
 
-        # start by evaluating the schema of the parent class
-        schema = copy.deepcopy(cls.__bases__[0].get_schema())
+            # start by evaluating the schema of the parent class
+            schema = copy.deepcopy(parent_class.compute_schema())
 
-        # if the current class has a specific schema, update the parent schema
-        class_schema = cls.SCHEMA
-        if class_schema and cls.__bases__[0].SCHEMA != class_schema:
+            # if the current class has a specific schema, update the parent schema
+            class_schema = cls.SCHEMA
+            if class_schema and parent_class.SCHEMA != class_schema:
 
-            for keyword in class_schema.keys():
+                for keyword in class_schema.keys():
 
-                # remove some properties
-                if keyword == "remove_props":
-                    for prop in class_schema["remove_props"]:
-                        del schema["properties"][prop]
-                        if prop in schema["required"]:
-                            schema["required"].remove(prop)
+                    # remove some properties
+                    if keyword == "remove_props":
+                        for prop in class_schema["remove_props"]:
+                            del schema["properties"][prop]
+                            if prop in schema["required"]:
+                                schema["required"].remove(prop)
 
-                # add required properties
-                elif keyword == "required":
-                    for prop in class_schema["required"]:
-                        schema["required"].append(prop)
+                    # add required properties
+                    elif keyword == "required":
+                        for prop in class_schema["required"]:
+                            schema["required"].append(prop)
 
-                # update the schema properties
-                elif keyword == "properties":
-                    schema["properties"].update(class_schema["properties"])
+                    # update the schema properties
+                    elif keyword == "properties":
+                        schema["properties"].update(class_schema["properties"])
 
-                else:
-                    if keyword in schema:
-                        schema[keyword].update(class_schema[keyword])
                     else:
-                        schema[keyword] = class_schema[keyword]
+                        if keyword in schema:
+                            schema[keyword].update(class_schema[keyword])
+                        else:
+                            schema[keyword] = class_schema[keyword]
 
-        if "operation_parameters" in schema["properties"]:
-            operation_parameters_schema = cls.OPERATION_PARAMETERS_SCHEMA
-            if isinstance(operation_parameters_schema, str):
-                operation_parameters_schema = load_schema(operation_parameters_schema)
-            schema["properties"]["operation_parameters"]["properties"]\
-                .update(operation_parameters_schema["properties"])
-            for prop in operation_parameters_schema["required"]:
-                schema["properties"]["operation_parameters"]["required"].append(prop)
+        else:
+            schema = cls.SCHEMA
 
         return schema
 
