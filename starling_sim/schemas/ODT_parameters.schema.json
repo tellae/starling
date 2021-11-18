@@ -35,13 +35,6 @@
       ],
       "default": "gtfs"
     },
-    "routes": {
-      "description": "Route ids filter applied to the gtfs before selecting the service stop points.",
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
     "pickup_time_window": {
       "type": "integer",
       "description": "Authorised delay after requested pickup time, in seconds",

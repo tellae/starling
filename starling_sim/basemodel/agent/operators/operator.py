@@ -23,16 +23,21 @@ class Operator(Agent):
         "type": "object",
         "title": "Operation parameters",
         "required": [],
-        "properties": {}
+        "properties": {
+            "routes": {
+              "advanced":  True,
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "title": "GTFS routes to keep in the public transport simulation",
+              "description": "List of route ids that should be present in the simulation. If null, keep all routes."
+            }
+        }
     }
 
     SCHEMA = {
         "properties": {
-            "dispatcher": {
-                "title": "Dispatch method",
-                "description": "Name of the dispatch method used by the operator",
-                "type": "string"
-            },
             "fleet_dict": {
                 "type": "string",
                 "title": "Fleet population",
@@ -72,7 +77,6 @@ class Operator(Agent):
                 "default": False
             },
             "operation_parameters": OPERATION_PARAMETERS_SCHEMA,
-
         },
         "required": ["fleet_dict"],
         "remove_props": ["icon"]
@@ -107,17 +111,58 @@ class Operator(Agent):
 
             enum = []
 
+            operation_parameters_schema = schema["properties"]["operation_parameters"]
+
             for key in cls.DISPATCHERS.keys():
 
-                if key == "default":
-                    schema["properties"]["dispatcher"]["default"] = cls.DISPATCHERS[key]
-                elif key == "required" and cls.DISPATCHERS[key]:
-                    if "dispatcher" not in schema["required"]:
-                        schema["required"].append("dispatcher")
+                if "title" in cls.DISPATCHERS[key]:
+                    title = cls.DISPATCHERS[key]["title"]
                 else:
-                    enum.append(key)
+                    title = key
 
-            schema["properties"]["dispatcher"]["enum"] = enum
+                dispatchers_ops = dict()
+                required_dispatchers_ops = []
+
+                if "online" in cls.DISPATCHERS[key]:
+                    online_schema = cls.DISPATCHERS[key]["online"].SCHEMA
+                    if isinstance(online_schema, str):
+                        online_schema = load_schema(online_schema)
+                    dispatchers_ops = {
+                        **online_schema["properties"]
+                    }
+                    if "required" in online_schema:
+                        for prop in online_schema["required"]:
+                            if prop not in required_dispatchers_ops:
+                                required_dispatchers_ops.append(prop)
+
+                if "punctual" in cls.DISPATCHERS[key]:
+                    punctual_schema = cls.DISPATCHERS[key]["punctual"].SCHEMA
+                    if isinstance(punctual_schema, str):
+                        punctual_schema = load_schema(punctual_schema)
+                    dispatchers_ops = {
+                        **punctual_schema["properties"]
+                    }
+                    if "required" in punctual_schema:
+                        for prop in punctual_schema["required"]:
+                            if prop not in required_dispatchers_ops:
+                                required_dispatchers_ops.append(prop)
+
+                dispatcher_schema = {
+                    "title": title,
+                    "properties": {
+                        "dispatcher": {
+                            "type": "string",
+                            "const": key,
+                            "title": "Dispatch method"
+                        },
+                        **dispatchers_ops
+                    },
+                    "required": required_dispatchers_ops
+                }
+
+                enum.append(dispatcher_schema)
+
+            operation_parameters_schema["oneOf"] = enum
 
         return schema
 
@@ -126,17 +171,17 @@ class Operator(Agent):
 
         schema = super().compute_schema()
 
+        parent_class = cls.__bases__[0]
         operation_parameters_schema = cls.OPERATION_PARAMETERS_SCHEMA
-        if isinstance(operation_parameters_schema, str):
-            operation_parameters_schema = load_schema(operation_parameters_schema)
-        schema["properties"]["operation_parameters"]["properties"] \
-            .update(operation_parameters_schema["properties"])
-        for prop in operation_parameters_schema["required"]:
-            schema["properties"]["operation_parameters"]["required"].append(prop)
+        if issubclass(parent_class, Operator) \
+                and operation_parameters_schema != parent_class.OPERATION_PARAMETERS_SCHEMA:
+            if isinstance(operation_parameters_schema, str):
+                operation_parameters_schema = load_schema(operation_parameters_schema)
+            cls.update_class_schema(schema["properties"]["operation_parameters"], operation_parameters_schema, cls, False)
 
         return schema
 
-    def __init__(self, simulation_model, agent_id, fleet_dict, mode=None, dispatcher=None, staff_dict=None,
+    def __init__(self, simulation_model, agent_id, fleet_dict, mode=None, staff_dict=None,
                  depot_points=None, zone_polygon=None, operation_parameters=None,
                  extend_graph_with_stops=False, **kwargs):
         """
@@ -225,7 +270,7 @@ class Operator(Agent):
         # dispatcher called to handle requests online
         self.online_dispatcher = None
 
-        self.init_dispatchers(dispatcher)
+        self.init_dispatchers()
 
     # attributes initialisation methods
 
@@ -431,13 +476,15 @@ class Operator(Agent):
         else:
             return None
 
-    def init_dispatchers(self, dispatcher):
+    def init_dispatchers(self):
         """
         Initialise the punctual_dispatcher and online_dispatcher attributes.
         """
 
-        if dispatcher is None:
+        if "dispatcher" not in self.operationParameters:
             return
+        else:
+            dispatcher = self.operationParameters["dispatcher"]
 
         if dispatcher not in self.DISPATCHERS:
             raise ValueError("Unsupported operation parameter 'dispatcher' value '{}' (see schema)".format(dispatcher))
