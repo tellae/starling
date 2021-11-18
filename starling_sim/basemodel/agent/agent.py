@@ -76,7 +76,7 @@ class Agent(Traced):
             # if the current class has a specific schema, update the parent schema
             class_schema = cls.SCHEMA
             if class_schema and parent_class.SCHEMA != class_schema:
-                cls.update_class_schema(schema, class_schema, cls, False)
+                cls.update_class_schema(schema, class_schema, cls)
 
         else:
             schema = cls.SCHEMA

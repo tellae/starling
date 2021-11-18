@@ -82,24 +82,6 @@ class Operator(Agent):
         "remove_props": ["icon"]
     }
 
-    # "routes": {
-    #   "advanced":  true,
-    #   "type": "array",
-    #   "items": {
-    #     "type": "string"
-    #   },
-    #   "title": "Routes to keep in the public transport simulation",
-    #   "description": "List of route ids that should be present in the simulation. If null, keep all routes."
-    # },
-    # "line_shapes_file": {
-    #   "advanced":  true,
-    #   "type": "string",
-    #   "title": "Line shapes file",
-    #   "description": "Name of the file containing shapes of public transport lines (stored with GTFS feeds)",
-    #   "pattern": "(.)*(.csv)",
-    #   "example": "rennes_line_shapes.csv"
-    # }
-
     DISPATCHERS = {}
 
     @classmethod
@@ -177,7 +159,7 @@ class Operator(Agent):
                 and operation_parameters_schema != parent_class.OPERATION_PARAMETERS_SCHEMA:
             if isinstance(operation_parameters_schema, str):
                 operation_parameters_schema = load_schema(operation_parameters_schema)
-            cls.update_class_schema(schema["properties"]["operation_parameters"], operation_parameters_schema, cls, False)
+            cls.update_class_schema(schema["properties"]["operation_parameters"], operation_parameters_schema, cls)
 
         return schema
 
