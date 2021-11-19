@@ -28,8 +28,9 @@ class Person(MovingAgent):
             },
             "origin_time": {
                 "type": "integer",
-                "title": "Activity start time (seconds)",
-                "description": "Time at which the agent will enter the simulation"
+                "title": "Activity start time [seconds]",
+                "description": "Time at which the agent will enter the simulation",
+                "minimum": 1
             },
             "max_tries": {
                 "advanced": True,
