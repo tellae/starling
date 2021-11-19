@@ -84,12 +84,6 @@
       "description": "Generate agent traces file",
       "default": false
     },
-    "seed": {
-      "type": "number",
-      "title": "Random seed",
-      "description": "Seed used for the generation of random events",
-      "default": 42
-    },
     "time_log": {
       "advanced": true,
       "type": "boolean",
@@ -145,6 +139,13 @@
         "object"
       ],
       "default": false
+    },
+    "seed": {
+      "advanced": true,
+      "type": "number",
+      "title": "Random seed",
+      "description": "Seed used for the generation of random events",
+      "default": 42
     }
   }
 }
