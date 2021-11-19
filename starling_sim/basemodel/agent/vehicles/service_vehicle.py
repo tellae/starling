@@ -1,7 +1,6 @@
 from starling_sim.basemodel.agent.vehicles.vehicle import Vehicle
 from starling_sim.basemodel.trace.events import IdleEvent, RequestEvent, StopEvent, StaffOperationEvent
 from starling_sim.basemodel.agent.requests import Stop
-from starling_sim.utils.constants import DEFAULT_DWELL_TIME
 
 from copy import copy
 
@@ -17,7 +16,8 @@ class ServiceVehicle(Vehicle):
                 "title": "Dwell time",
                 "description": "Time spent when serving stops",
                 "type": "integer",
-                "minimum": 0
+                "minimum": 0,
+                "default": 30
             },
             "trip_id": {
                 "advanced": True,
@@ -29,7 +29,7 @@ class ServiceVehicle(Vehicle):
     }
 
     def __init__(self, simulation_model, agent_id, origin, operator, seats,
-                 dwell_time=DEFAULT_DWELL_TIME, trip_id=None, **kwargs):
+                 dwell_time=30, trip_id=None, **kwargs):
 
         super().__init__(simulation_model, agent_id, origin, seats, **kwargs)
 
