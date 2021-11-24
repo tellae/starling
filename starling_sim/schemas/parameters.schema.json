@@ -33,13 +33,13 @@
     "dynamic_input_file": {
       "type": ["string", "null"],
       "title": "Dynamic input file",
-      "description": "Name of the file containing the dynamic input",
+      "description": "File containing the dynamic input",
       "example": "CS_SB_dynamic_input.geojson"
     },
     "init_input_file": {
       "type": ["string", "array", "null"],
-      "title": "Initialisation input file",
-      "description": "Name of the file containing the initialisation input or list of file names",
+      "title": "Initialisation input files",
+      "description": "File(s) containing the initialisation input",
       "example": "CS_SB_init_input.geojson"
     },
     "topologies": {
