@@ -438,7 +438,7 @@ class Operator(Agent):
         :return: newly generated ServiceVehicle
         """
 
-        if "operator" not in feature["properties"] or feature["properties"]["operator"] != self:
+        if "operator_id" not in feature["properties"] or feature["properties"]["operator_id"] != self.id:
             self.log_message("Error in the 'operator' field for the generation of "
                              "a service vehicle : {}".format(feature), 30)
             return
