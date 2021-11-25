@@ -28,8 +28,8 @@ class ServiceVehicle(Vehicle):
         }
     }
 
-    def __init__(self, simulation_model, agent_id, origin, operator, seats,
-                 dwell_time=30, trip_id=None, **kwargs):
+    def __init__(self, simulation_model, agent_id, origin, seats, 
+                 operator_id, dwell_time=30, trip_id=None, **kwargs):
 
         super().__init__(simulation_model, agent_id, origin, seats, **kwargs)
 
@@ -43,7 +43,7 @@ class ServiceVehicle(Vehicle):
         self.dwellTime = dwell_time
 
         # service operator, managing the fleet
-        self.operator = operator
+        self.operator = self.sim.agentPopulation.get_agent(operator_id)
 
         # planning of the service vehicle, consists in a list of Stop objects
         self.planning = []

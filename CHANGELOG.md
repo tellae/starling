@@ -1,14 +1,10 @@
 # Changelog
-All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## Unreleased
+### 0.5.1 (2021-11-10)
 
-### Added
-
-- zone_polygon parameter can now be an input filename (geojson) instead of coordinates
-- Option --data-folder in main.py to specify the data folder
+## 0.5.0 (2021-11-10)
 
 ## 0.4.0 (2021-06-29)
 
