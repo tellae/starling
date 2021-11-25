@@ -177,16 +177,34 @@ def add_defaults_and_validate(instance, schema, raise_exception=True):
     # load schema object
     schema = load_schema(schema)
 
-    # browse the schema properties
-    for prop in schema["properties"].keys():
-        # if the property is missing and there is a default value, use default
-        if prop not in instance and "default" in schema["properties"][prop]:
-            res[prop] = schema["properties"][prop]["default"]
+    # add default properties to the schema
+    add_defaults(res, schema)
 
     # validate the final instance against the schema
     validate_against_schema(res, schema, raise_exception)
 
     return res
+
+
+def add_defaults(instance, schema, current_prop=None):
+
+    if schema["type"] == "object" and "default" not in schema:
+        for prop in schema["properties"].keys():
+
+            if current_prop is None:
+                prop_instance = instance
+            else:
+                if current_prop in instance:
+                    prop_instance = instance[current_prop]
+                else:
+                    prop_instance = dict()
+                    instance[current_prop] = prop_instance
+
+            add_defaults(prop_instance, schema["properties"][prop], prop)
+
+    else:
+        if current_prop not in instance and "default" in schema:
+            instance[current_prop] = schema["default"]
 
 
 def load_schema(schema, make_copy=True):

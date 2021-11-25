@@ -13,9 +13,6 @@ PUBLIC_TRANSPORT_TYPE = "public_transport"
 #: required DataFrame columns of the table describing the stop points when calling add_stops()
 ADD_STOPS_COLUMNS = ["stop_id", "stop_name", "stop_lat", "stop_lon"]
 
-#: name of the json schema for PT_parameters
-PT_PARAMETERS_SCHEMA = "PT_parameters.schema.json"
-
 # base leaving codes
 
 #: default leaving code, when the loop terminates without LeavingSimulation exception

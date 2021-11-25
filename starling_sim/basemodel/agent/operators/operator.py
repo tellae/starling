@@ -38,6 +38,24 @@ class Operator(Agent):
 
     SCHEMA = {
         "properties": {
+            "mode": {
+                "type": "object",
+                "title": "Operator networks",
+                "description": "Networks of the operator's agents",
+                "properties": {
+                    "fleet": {
+                        "title": "Fleet network",
+                        "description": "Default network of the operator's fleet",
+                        "type": "string"
+                    },
+                    "staff": {
+                        "title": "Staff network",
+                        "description": "Default network of the operator's staff",
+                        "type": "string"
+                    },
+                },
+                "required": ["fleet"]
+            },
             "fleet_dict": {
                 "type": "string",
                 "title": "Fleet population",

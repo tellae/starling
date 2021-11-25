@@ -87,7 +87,8 @@ class DynamicInput(Traced):
             agent_class = self.agent_type_class[agent_type]
 
             if issubclass(agent_class, Operator):
-                self.new_agent_input(feature)
+                valid_feature = self.feature_schema_validation(feature)
+                self.new_agent_input(valid_feature)
             else:
                 init_without_operators.append(feature)
 
