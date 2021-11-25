@@ -24,8 +24,14 @@ class ServiceVehicle(Vehicle):
                 "title": "Initial trip ID",
                 "description": "Identifier of the vehicle's initial trip",
                 "type": "string"
+            },
+            "operator_id": {
+                "title": "Operator ID",
+                "description": "ID of the operator managing this agent",
+                "type": "string"
             }
-        }
+        },
+        "required": ["operator_id"]
     }
 
     def __init__(self, simulation_model, agent_id, origin, seats, 
