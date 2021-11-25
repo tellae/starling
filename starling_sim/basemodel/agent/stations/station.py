@@ -6,11 +6,22 @@ class Station(SpatialAgent):
     Station agent
     """
 
-    def __init__(self, simulation_model, agent_id, origin, operator=None, **kwargs):
+    SCHEMA = {
+        "properties": {
+            "operator_id": {
+                "title": "Operator ID",
+                "description": "ID of the operator managing this agent",
+                "type": "string"
+            }
+        }
+    }
+
+    def __init__(self, simulation_model, agent_id, origin, operator_id=None, **kwargs):
 
         SpatialAgent.__init__(self, simulation_model, agent_id, origin, **kwargs)
 
-        self.operator = operator
+        if operator_id is not None:
+            self.operator = self.sim.agentPopulation.get_agent(operator_id)
 
     def __str__(self):
 

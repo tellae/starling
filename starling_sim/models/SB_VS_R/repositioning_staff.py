@@ -6,9 +6,9 @@ class RepositioningStaff(RepositioningVehicle):
     This class describes the repositioning staff of the SB_VS_R model.
     """
 
-    def __init__(self, simulation_model, agent_id, origin, operator,
+    def __init__(self, simulation_model, agent_id, origin,
                  dwell_time, seats, **kwargs):
-        super().__init__(simulation_model, agent_id, origin, operator, seats,
+        super().__init__(simulation_model, agent_id, origin, seats,
                          dwell_time=dwell_time, **kwargs)
 
     def loop_(self):

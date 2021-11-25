@@ -147,6 +147,10 @@ class DynamicInput(Traced):
         # get the agent input dict
         input_dict = feature["properties"]
 
+        if "operator_id" in input_dict:
+            # link with operator
+            self.add_key_operator(input_dict)
+
         # pre-process the agent input dict
         self.pre_process_input_dict(input_dict)
 
@@ -564,17 +568,24 @@ class DynamicInput(Traced):
 
         input_dict[key] = stop_point.position
 
-    def add_key_operator(self, input_dict, input_service=None, operator_id=None, operator_population=None):
+    def add_key_operator(self, input_dict):
 
         # get the operator id, look in the input dict if not provided
-        if operator_id is None:
-            operator_id = input_dict["operator_id"]
+        operator_id = input_dict["operator_id"]
 
         # get the operator
-        operator = self.sim.agentPopulation.get_agent(operator_id, operator_population)
+        operator = self.sim.agentPopulation.get_agent(operator_id)
 
-        # set the "operator" key in input dict
-        input_dict["operator"] = operator
+        populations = [input_dict["agent_type"]]
+        if "population" in input_dict:
+            populations.append(input_dict["population"])
+
+        if operator.fleet_name in populations:
+            input_service = "fleet"
+        elif operator.staff_dict_name in populations:
+            input_service = "staff"
+        else:
+            return
 
         # set others keys according to input service
         if input_service is None:
@@ -598,7 +609,7 @@ class DynamicInput(Traced):
                     self.log_message("Input mode of '{}' agent {} ({}) differs from operator's mode ({})"
                                      .format(input_service, input_dict["agent_id"],
                                              input_dict["mode"], operator.mode[input_service]), 40)
-                    exit(1)
+                    raise ValueError("Conflict between operator's mode and its fleet/staff's mode")
 
             # set the input population
             if input_service == "fleet":

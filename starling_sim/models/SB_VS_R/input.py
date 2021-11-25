@@ -32,9 +32,6 @@ class Input(DynamicInput):
             # add station population
             input_dict["population"] = operator.stations_dict_name
 
-            # add operator
-            self.add_key_operator(input_dict, operator_population="operator")
-
         elif input_dict["agent_type"] == "user":
 
             super().pre_process_input_dict(input_dict)
@@ -54,12 +51,7 @@ class Input(DynamicInput):
             operator = self.sim.agentPopulation.population["operator"][input_dict["operator_id"]]
             input_dict["origin"] = list(operator.depotPoints.values())[0].position
 
-            # add operator
-            self.add_key_operator(input_dict, "staff", operator_population="operator")
-
         elif input_dict["agent_type"] == "vehicle":
             operator = self.sim.agentPopulation.population["operator"][input_dict["operator_id"]]
             vehicle_station = operator.stations[input_dict["station"]]
             input_dict["origin"] = vehicle_station.position
-
-            self.add_key_operator(input_dict, "fleet", operator_population="operator")
