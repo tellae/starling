@@ -87,8 +87,7 @@ class DynamicInput(Traced):
             agent_class = self.agent_type_class[agent_type]
 
             if issubclass(agent_class, Operator):
-                valid_feature = self.feature_schema_validation(feature)
-                self.new_agent_input(valid_feature)
+                self.new_agent_input(feature)
             else:
                 init_without_operators.append(feature)
 
@@ -97,19 +96,12 @@ class DynamicInput(Traced):
 
         # create the rest of the init input
         for feature in init_without_operators:
-            valid_feature = self.feature_schema_validation(feature)
+
             # generate a new agent based on the feature properties
-            self.new_agent_input(valid_feature)
+            self.new_agent_input(feature)
 
         # pre process the positions of the dynamic input
         self.pre_process_position_coordinates(self.dynamic_feature_list)
-
-        new_list = []
-        for feature in self.dynamic_feature_list:
-            valid_feature = self.feature_schema_validation(feature)
-            new_list.append(valid_feature)
-
-        self.dynamic_feature_list = new_list
 
     def feature_schema_validation(self, feature):
 
@@ -163,7 +155,10 @@ class DynamicInput(Traced):
         :param feature:
         :return:
         """
-        print(feature["properties"])
+
+        # validate the feature and add
+        feature = self.feature_schema_validation(feature)
+
         # validate the agent feature against the json schema
         if not validate_against_schema(feature, self.AGENT_FEATURE_SCHEMA, raise_exception=False):
             return

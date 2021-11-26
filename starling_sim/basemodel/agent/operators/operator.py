@@ -283,25 +283,9 @@ class Operator(Agent):
 
         :param operation_parameters: dict of operational parameters
         """
-
+        if operation_parameters is None:
+            operation_parameters = dict()
         self.operationParameters = operation_parameters
-
-        if self.operationParameters is None:
-            self.operationParameters = dict()
-
-        if self.OPERATION_PARAMETERS_SCHEMA is not None:
-
-            # validate given dict against schema
-            if isinstance(self.OPERATION_PARAMETERS_SCHEMA, str):
-                operation_param_schema = json_load(schemas_folder() + self.OPERATION_PARAMETERS_SCHEMA)
-            else:
-                operation_param_schema = self.OPERATION_PARAMETERS_SCHEMA
-            validate_against_schema(self.operationParameters, self.OPERATION_PARAMETERS_SCHEMA)
-
-            # complete the parameters with the schema default values
-            for param in operation_param_schema["properties"].keys():
-                if param not in self.operationParameters and "default" in operation_param_schema["properties"][param]:
-                    self.operationParameters[param] = operation_param_schema["properties"][param]["default"]
 
     def init_service_info(self):
         """
