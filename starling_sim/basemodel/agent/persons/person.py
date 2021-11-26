@@ -53,8 +53,7 @@ class Person(MovingAgent):
         "required": ["destination", "origin_time"]
     }
 
-    def __init__(self, simulation_model, agent_id, origin, destination, origin_time, max_tries=None, fail_timeout=0,
-                 **kwargs):
+    def __init__(self, simulation_model, agent_id, origin, destination, origin_time, **kwargs):
         """
         Initialize the new Person object, as a moving agent with specific user data.
 
@@ -78,10 +77,10 @@ class Person(MovingAgent):
         self.originTime = origin_time
 
         # number of failed system tries before leaving. If None, try indefinitely.
-        self.maxTries = max_tries
+        self.maxTries = self.profile["max_tries"]
 
         # time to wait when a request fails
-        self.failTimeout = fail_timeout
+        self.failTimeout = self.profile["fail_timeout"]
 
         # persons start with no vehicle
         self.vehicle = None

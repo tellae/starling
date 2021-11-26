@@ -163,7 +163,7 @@ class DynamicInput(Traced):
         :param feature:
         :return:
         """
-
+        print(feature["properties"])
         # validate the agent feature against the json schema
         if not validate_against_schema(feature, self.AGENT_FEATURE_SCHEMA, raise_exception=False):
             return

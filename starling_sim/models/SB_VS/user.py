@@ -35,7 +35,7 @@ class User(Person):
                 "default": "euclidean"
             }
         },
-        "required": ["has_station_info"]
+        "required": ["has_station_info", "closest_station_evaluation"]
     }
 
     def __init__(self, simulation_model, agent_id, origin, destination, **kwargs):

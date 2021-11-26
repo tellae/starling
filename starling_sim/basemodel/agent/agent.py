@@ -65,7 +65,7 @@ class Agent(Traced):
 
         :return: json schema of the class init parameters
         """
-        logging.debug("Generating schema  of " + cls.__name__)
+
         # stop recursion at Agent class
         parent_class = cls.__bases__[0]
         if issubclass(parent_class, Agent):
@@ -80,7 +80,6 @@ class Agent(Traced):
 
         else:
             schema = cls.SCHEMA
-            logging.debug("")
 
         return schema
 
