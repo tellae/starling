@@ -162,7 +162,6 @@ def validate_against_schema(instance, schema, raise_exception=True):
         return True
     except ValidationError as e:
         if raise_exception:
-            logging.log(40, "JSON Schema validation error")
             raise e
         else:
             logging.log(30, "JSON Schema validation of :\n\n{}\n\nfailed with message:\n\n {} ".format(instance, e))

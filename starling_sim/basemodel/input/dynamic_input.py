@@ -22,8 +22,6 @@ class DynamicInput(Traced):
     dynamically adds agents in the environment during the simulation.
     """
 
-    AGENT_FEATURE_SCHEMA = "AgentFeature.schema.json"
-
     def __init__(self, agent_type_dict):
 
         super().__init__("INPUT")
@@ -105,11 +103,17 @@ class DynamicInput(Traced):
 
     def feature_schema_validation(self, feature):
 
-        agent_schema = self.agent_type_schemas[feature["properties"]["agent_type"]]
+        # validate against Feature schema
+        validate_against_schema(feature, "geojson/Feature.json")
 
+        # test if the feature has an 'agent_type' property
+        if "agent_type" not in feature["properties"]:
+            raise KeyError("Error in {} : input features must contain an 'agent_type' property".format(feature))
+
+        # validate and set defaults using the schema corresponding to the agent type
+        agent_schema = self.agent_type_schemas[feature["properties"]["agent_type"]]
         props = feature["properties"]
         final_props = add_defaults_and_validate(props, agent_schema)
-
         feature["properties"] = final_props
 
         return feature
@@ -156,11 +160,11 @@ class DynamicInput(Traced):
         :return:
         """
 
-        # validate the feature and add
-        feature = self.feature_schema_validation(feature)
-
-        # validate the agent feature against the json schema
-        if not validate_against_schema(feature, self.AGENT_FEATURE_SCHEMA, raise_exception=False):
+        # validate the feature and add default values
+        try:
+            feature = self.feature_schema_validation(feature)
+        except Exception as e:
+            self.log_message("Agent input was not completed due to the following error : {}".format(str(e)), 30)
             return
 
         # get the agent input dict
@@ -201,7 +205,7 @@ class DynamicInput(Traced):
             # initialise the new agent
             try:
                 new_agent.__init__(self.sim, **input_dict)
-            except (TypeError, KeyError, ValidationError) as e:
+            except (TypeError, KeyError, ValidationError):
                 # if the initialisation fails, log and leave
                 self.log_message("Instantiation of {}  failed with message :\n {}"
                                  .format(self.agent_type_class[agent_type], traceback.format_exc()), 30)
