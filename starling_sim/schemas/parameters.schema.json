@@ -110,7 +110,7 @@
       "advanced":  true,
       "type": "string",
       "title": "Make inputs static",
-      "description": "Make certain inputs static, ie generate them at the beginning of the simulation. ",
+      "description": "Make certain inputs static, ie generate them at the beginning of the simulation.",
       "oneOf": [
         {
           "const": "all",
@@ -126,7 +126,7 @@
         },
         {
           "const": "ghosts",
-          "description": "Make all inputs static for the resolution, then remove prebooked from solution and insert them dynamically."
+          "description": "Make all inputs static for the resolution, then remove prebooked==False from solution and insert them dynamically."
         }
       ]
     },
