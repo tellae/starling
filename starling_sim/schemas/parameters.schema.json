@@ -2,7 +2,7 @@
   "title": "Simulation parameters",
   "description": "Parameters of a simulation run",
   "type": "object",
-  "required": ["code", "scenario", "limit", "seed", "date", "visualisation_output", "kpi_output",
+  "required": ["code", "scenario", "limit", "seed", "visualisation_output", "kpi_output",
     "dynamic_input_file", "init_input_file", "topologies"],
   "properties": {
     "code": {
@@ -15,20 +15,6 @@
       "title": "Scenario name",
       "description": "Name of the simulation scenario",
       "example": "example_scenario"
-    },
-    "limit": {
-      "type": "integer",
-      "title": "Simulation time limit [seconds]",
-      "description": "Duration of the simulation",
-      "minimum": 1,
-      "default": 86400
-    },
-    "date": {
-      "type": "string",
-      "title": "Simulation date",
-      "description": "Date of the simulation, used for filtering services. Format YYYY-MM-DD",
-      "format": "date",
-      "example": "2019-10-28"
     },
     "dynamic_input_file": {
       "type": ["string", "null"],
@@ -66,19 +52,30 @@
       "pattern": "(.)*(.zip)",
       "example": "GTFS_nantes.zip"
     },
+    "limit": {
+      "advanced": true,
+      "type": "integer",
+      "title": "Simulation time limit [seconds]",
+      "description": "Duration of the simulation",
+      "minimum": 1,
+      "default": 86400
+    },
     "visualisation_output": {
+      "advanced": true,
       "type": "boolean",
       "title": "Visualisation output",
       "description": "Generate a visualisation file",
       "default": true
     },
     "kpi_output": {
+      "advanced":  true,
       "type": "boolean",
       "title": "KPI output",
       "description": "Generate key performance indicator (KPI) files",
       "default": true
     },
     "traces_output": {
+      "advanced":  true,
       "type": "boolean",
       "title": "Traces output",
       "description": "Generate agent traces file",
@@ -266,5 +263,20 @@
       },
       "required": ["max_nearest_stops", "max_distance_nearest_stops", "cost_dict", "route_choice_parameters"]
     }
+  },
+  "if": {
+    "required": ["gtfs_timetables"]
+  },
+  "then": {
+    "properties": {
+      "date": {
+        "type": "string",
+        "title": "Simulation date",
+        "description": "Date of the simulation, used for filtering services. Format YYYY-MM-DD",
+        "format": "date",
+        "example": "2019-10-28"
+      }
+    },
+    "required": ["date"]
   }
 }
