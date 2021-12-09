@@ -12,6 +12,12 @@ class StationBasedOperator(Operator):
                 "type": "string",
                 "title": "Stations population",
                 "description": "Population of the operator's station agents"
+            },
+            "staff_dict": {
+                "x-display": "",
+                "title": "Staff population",
+                "description": "Population of the operator's staff agents",
+                "type": "string"
             }
         },
         "required": ["stations_dict"]

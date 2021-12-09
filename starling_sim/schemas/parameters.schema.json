@@ -47,7 +47,7 @@
     },
     "gtfs_timetables": {
       "type": "string",
-      "title": "GTFS timetables archive",
+      "title": "GTFS timetables",
       "description": "Name of the archive containing the gtfs timetables, placed in the GTFS feeds folder",
       "pattern": "(.)*(.zip)",
       "example": "GTFS_nantes.zip"

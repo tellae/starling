@@ -62,10 +62,16 @@ class Operator(Agent):
                 "description": "Population of the operator's fleet agents"
             },
             "staff_dict": {
-                "advanced": True,
+                "x-display": "hidden",
                 "title": "Staff population",
                 "description": "Population of the operator's staff agents",
                 "type": "string"
+            },
+            "zone_polygon": {
+                "x-display": "hidden",
+                "title": "Service area file",
+                "description": "Geojson input file describing the service area",
+                "type": "string",
             },
             "depot_points": {
                 "advanced": True,
@@ -81,16 +87,10 @@ class Operator(Agent):
                     "maxItems": 2
                 }
             },
-            "zone_polygon": {
-                "advanced": True,
-                "title": "Service area file",
-                "description": "Geojson input file describing the service area",
-                "type": "string"
-            },
             "extend_graph_with_stops": {
                 "advanced": True,
                 "title": "Extend graph with stops",
-                "description": "Indicate if the transport network should be extended with stop points",
+                "description": "Extend the graph with service stop points",
                 "type": "boolean",
                 "default": False
             },
@@ -317,8 +317,6 @@ class Operator(Agent):
             filepath = self.sim.parameters["input_folder"] + zone_polygon
             geojson = json_load(filepath)
             service_zone = geopandas_polygon_from_points(geojson["features"][0]["geometry"]["coordinates"][0])
-        elif isinstance(zone_polygon, list):
-            service_zone = geopandas_polygon_from_points(zone_polygon)
         elif zone_polygon is None:
             service_zone = None
         else:
