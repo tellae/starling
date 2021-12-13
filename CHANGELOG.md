@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.7.0 (2021-12-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* major changes in the inputs specifications, described with json schemas
+Simulation parameters:
+**gtfs_timetables** can no longer be null (None in Python)
+**line_shapes** can no longer be null 
+**routes** can no longer be null
+**early_dynamic_input** can no longer be null
+renamed **geojson_output** into **visualisation_output**
+**routes** removed, now fetched in operation parameters (of relevant models)
+**line_shapes_file** removed, now fetched in operation parameters
+renamed **PT_parameters** into **user_routing_parameters**
+
+PT_parameters (in simulation parameters, now renamed 'user_routing_parameters')
+
+**journey_time_range** removed (now specified as a dispatcher option in operation parameters)
+**max_nb_trips** removed (now specified as a dispatcher option in operation parameters)
+**additional_transfers** removed (now specified as a dispatcher option in operation parameters)
+**no_journey_timeout** removed (now using the **fail_timeout** param of Person class)
+**nb_journey_trials** removed (now using the **max_tries** param of Person class)
+**nb_seats** moved to PublicTransportOperator operation parameters
+**service_vehicle_prefix** moved to PublicTransportOperator operation parameters
+**use_shortest_path** moved to PublicTransportOperator operation parameters
+**multi_source** moved to PublicTransportOperator operation parameters
+
+### Features
+
+* models schemas ([#32](https://github.com/tellae/starling/issues/32)) ([c2fe3b2](https://github.com/tellae/starling/commit/c2fe3b24af7193e9bcf28d2e49b0da73b3cdfa8f))
+
 ### 0.5.1 (2021-11-10)
 
 ## 0.5.0 (2021-11-10)
