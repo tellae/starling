@@ -4,6 +4,8 @@ from starling_sim.utils.utils import SimulationError, LeavingSimulation
 from starling_sim.utils.constants import DEFAULT_LEAVE, SIM_ERROR_LEAVE
 
 import traceback
+import copy
+import logging
 
 
 class Agent(Traced):
@@ -15,7 +17,109 @@ class Agent(Traced):
     simulated in a specific model.
     """
 
-    def __init__(self, simulation_model, agent_id, agent_type=None, mode=None, icon=None, **kwargs):
+    SCHEMA = {
+        "type": "object",
+        "properties": {
+            "agent_id": {
+                "type": "string",
+                "title": "Agent ID",
+                "description": "Unique identifier"
+            },
+            "agent_type": {
+                "type": "string",
+                "title": "Agent type",
+                "description": "One of the model's agent types"
+            },
+            "mode": {
+                "type": "string",
+                "title": "Default network",
+                "description": "Road network used by the agent"
+            },
+            "icon": {
+                "type": "string",
+                "title": "Agent icon",
+                "description": "Display icon"
+            }
+        },
+        "required": ["agent_id", "agent_type", "mode", "icon"]
+    }
+
+    @classmethod
+    def get_schema(cls):
+        """
+        Compute and return the class parameters schema.
+
+        This is the place to add eventual schema post-processing
+
+        :return: class schema
+        """
+        return cls.compute_schema()
+
+    @classmethod
+    def compute_schema(cls):
+        """
+        Get the json schema that specifies the class init parameters.
+
+        The schema is generated recursively, by adding/mixing the properties
+        of the current class to the schema of its parent class.
+
+        :return: json schema of the class init parameters
+        """
+
+        # stop recursion at Agent class
+        parent_class = cls.__bases__[0]
+        if issubclass(parent_class, Agent):
+
+            # start by evaluating the schema of the parent class
+            schema = copy.deepcopy(parent_class.compute_schema())
+
+            # if the current class has a specific schema, update the parent schema
+            class_schema = cls.SCHEMA
+            if class_schema and parent_class.SCHEMA != class_schema:
+                cls.update_class_schema(schema, class_schema, cls)
+
+        else:
+            schema = cls.SCHEMA
+
+        return schema
+
+    def update_class_schema(base_schema, class_schema, the_class, catch_error=True):
+        try:
+            for keyword in class_schema.keys():
+
+                # custom remove_props keyword, used for removing properties of parent schema
+                if keyword == "remove_props":
+                    for prop in class_schema["remove_props"]:
+                        # remove the property from the base schema
+                        del base_schema["properties"][prop]
+                        # remove the property from the base schema required
+                        if prop in base_schema["required"]:
+                            base_schema["required"].remove(prop)
+
+                # add the required properties to the parent schema
+                elif keyword == "required":
+                    for prop in class_schema["required"]:
+                        if prop not in base_schema["required"]:
+                            base_schema["required"].append(prop)
+
+                # update and complete the parent schema properties
+                elif keyword == "properties":
+                    base_schema["properties"].update(class_schema["properties"])
+
+                # add/replace other attributes
+                else:
+                    base_schema[keyword] = class_schema[keyword]
+
+        except Exception as e:
+            if catch_error:
+                raise SimulationError("Schema generation of class {} failed with the following error: {}"
+                                      .format(the_class.__name__, str(e)))
+            else:
+                raise e
+
+    update_class_schema = staticmethod(update_class_schema)
+
+    def __init__(self, simulation_model, agent_id, agent_type, mode, icon=None, **kwargs):
         """
         Initialize an agent with basic attributes (id, simulation model, etc).
 
@@ -33,6 +137,10 @@ class Agent(Traced):
         self.type = agent_type
         self.mode = mode
         self.icon = icon
+
+        # the agent profile contains all the additional properties of the input dict
+        self.profile = kwargs
+
         self.name = None
         self.main_process = None
         self.current_process = None

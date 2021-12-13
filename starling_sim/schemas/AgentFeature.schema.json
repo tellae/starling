@@ -1,9 +1,0 @@
-{
-  "title": "Agent feature",
-  "description": "Input feature of a simulation agent",
-  "type": "object",
-  "allOf": [{"$ref":  "geojson/Feature.json"}],
-  "properties": {
-    "properties": {"$ref": "AgentProperties.schema.json"}
-    }
-}

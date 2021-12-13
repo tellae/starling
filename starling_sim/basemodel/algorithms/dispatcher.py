@@ -1,7 +1,8 @@
 import numpy as np
+from abc import ABC
 
 
-class Dispatcher:
+class Dispatcher(ABC):
     """
     This class describes a dispatcher for a transport service.
 
@@ -14,7 +15,11 @@ class Dispatcher:
     in the operator operationParameters attribute.
     """
 
-    NAME = "unnamed dispatcher"
+    #: json schema for the operation parameters
+    SCHEMA = {
+        "type": "object",
+        "properties": {}
+    }
 
     def __init__(self, simulation_model, operator, verb=False):
         """
@@ -24,24 +29,35 @@ class Dispatcher:
         various situations to realise a dispatch.
 
         :param simulation_model: SimulationModel
-        :param operator: operator of the dispatched service
+        :param operator: id of the operator of the dispatched service
         :param verb: verbose boolean
         """
 
+        #: simulation object
         self.sim = simulation_model
+
+        #: transport operator id
         self.operator = operator
+
+        #: operation parameters
         self.operationParameters = self.operator.operationParameters
+
+        #: verbose option
         self.verb = verb
 
-        # dispatch algorithm
+        #: dispatch algorithm
         self.algorithm = None
         self.init_algorithm()
 
-        # algorithm result
+        #: algorithm result
         self.result = None
 
-        # online request, in case of online dispatch
+        #: online request, in case of online dispatch
         self.online_request = None
+
+    @property
+    def name(self):
+        return self.__class__.__name__
 
     def init_algorithm(self):
         """
@@ -101,11 +117,13 @@ class Dispatcher:
         :param lvl:
         """
 
-        # add the name of the dispatcher as a prefix
-        message = "{} : {}".format(self.NAME, message)
+        if self.verb or lvl >= 30:
 
-        # log message using the operator method
-        self.operator.log_message(message, lvl=lvl)
+            # add the name of the dispatcher as a prefix
+            message = "{} : {}".format(self.name, message)
+
+            # log message using the operator method
+            self.operator.log_message(message, lvl=lvl)
 
     # utils
 

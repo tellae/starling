@@ -1,10 +1,10 @@
 from starling_sim.basemodel.agent.agent import Agent
 from starling_sim.basemodel.agent.requests import TripRequest, StopPoint
 from starling_sim.basemodel.agent.stations.station import Station
-from starling_sim.utils.utils import geopandas_polygon_from_points, points_in_zone, json_load, validate_against_schema
+from starling_sim.utils.utils import geopandas_polygon_from_points, points_in_zone, json_load, \
+    load_schema, validate_against_schema
 from starling_sim.utils.paths import gtfs_feeds_folder, schemas_folder
 from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
-from collections import OrderedDict
 
 import pandas as pd
 
@@ -19,10 +19,170 @@ class Operator(Agent):
     The assignment of these requests is managed by a Dispatcher object.
     """
 
-    OPERATION_PARAMETERS_SCHEMA = None
+    OPERATION_PARAMETERS_SCHEMA = {
+        "type": "object",
+        "title": "Operation parameters",
+        "required": [],
+        "properties": {
+            "routes": {
+              "advanced":  True,
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "title": "GTFS routes to keep in the public transport simulation",
+              "description": "List of route ids that should be present in the simulation. If null, keep all routes."
+            }
+        }
+    }
 
-    def __init__(self, simulation_model, agent_id, fleet_dict, staff_dict=None, depot_points=None,
-                 zone_polygon=None, network_file=None, operation_parameters=None, parent_operator_id=None,
+    SCHEMA = {
+        "properties": {
+            "mode": {
+                "type": "object",
+                "title": "Operator networks",
+                "description": "Networks of the operator's agents",
+                "properties": {
+                    "fleet": {
+                        "title": "Fleet network",
+                        "description": "Default network of the operator's fleet",
+                        "type": "string"
+                    },
+                    "staff": {
+                        "title": "Staff network",
+                        "description": "Default network of the operator's staff",
+                        "type": "string"
+                    },
+                },
+                "required": ["fleet"]
+            },
+            "fleet_dict": {
+                "type": "string",
+                "title": "Fleet population",
+                "description": "Population of the operator's fleet agents"
+            },
+            "staff_dict": {
+                "x-display": "hidden",
+                "title": "Staff population",
+                "description": "Population of the operator's staff agents",
+                "type": "string"
+            },
+            "zone_polygon": {
+                "x-display": "hidden",
+                "title": "Service area file",
+                "description": "Geojson input file describing the service area",
+                "type": "string",
+            },
+            "depot_points": {
+                "advanced": True,
+                "title": "Depot points",
+                "description": "List of depot points coordinates",
+                "type": "array",
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                }
+            },
+            "extend_graph_with_stops": {
+                "advanced": True,
+                "title": "Extend graph with stops",
+                "description": "Extend the graph with service stop points",
+                "type": "boolean",
+                "default": False
+            },
+            "operation_parameters": OPERATION_PARAMETERS_SCHEMA,
+        },
+        "required": ["fleet_dict"],
+        "remove_props": ["icon"]
+    }
+
+    DISPATCHERS = {}
+
+    @classmethod
+    def get_schema(cls):
+
+        schema = cls.compute_schema()
+
+        if len(cls.DISPATCHERS) > 0:
+
+            enum = []
+
+            operation_parameters_schema = schema["properties"]["operation_parameters"]
+
+            for key in cls.DISPATCHERS.keys():
+
+                if "title" in cls.DISPATCHERS[key]:
+                    title = cls.DISPATCHERS[key]["title"]
+                else:
+                    title = key
+
+                dispatchers_ops = dict()
+                required_dispatchers_ops = []
+
+                if "online" in cls.DISPATCHERS[key]:
+                    online_schema = cls.DISPATCHERS[key]["online"].SCHEMA
+                    if isinstance(online_schema, str):
+                        online_schema = load_schema(online_schema)
+                    dispatchers_ops = {
+                        **online_schema["properties"]
+                    }
+                    if "required" in online_schema:
+                        for prop in online_schema["required"]:
+                            if prop not in required_dispatchers_ops:
+                                required_dispatchers_ops.append(prop)
+
+                if "punctual" in cls.DISPATCHERS[key]:
+                    punctual_schema = cls.DISPATCHERS[key]["punctual"].SCHEMA
+                    if isinstance(punctual_schema, str):
+                        punctual_schema = load_schema(punctual_schema)
+                    dispatchers_ops = {
+                        **punctual_schema["properties"]
+                    }
+                    if "required" in punctual_schema:
+                        for prop in punctual_schema["required"]:
+                            if prop not in required_dispatchers_ops:
+                                required_dispatchers_ops.append(prop)
+
+                dispatcher_schema = {
+                    "title": title,
+                    "properties": {
+                        "dispatcher": {
+                            "type": "string",
+                            "const": key,
+                            "title": "Dispatch method"
+                        },
+                        **dispatchers_ops
+                    },
+                    "required": required_dispatchers_ops
+                }
+
+                enum.append(dispatcher_schema)
+
+            operation_parameters_schema["oneOf"] = enum
+
+        return schema
+
+    @classmethod
+    def compute_schema(cls):
+
+        schema = super().compute_schema()
+
+        parent_class = cls.__bases__[0]
+        operation_parameters_schema = cls.OPERATION_PARAMETERS_SCHEMA
+        if issubclass(parent_class, Operator) \
+                and operation_parameters_schema != parent_class.OPERATION_PARAMETERS_SCHEMA:
+            if isinstance(operation_parameters_schema, str):
+                operation_parameters_schema = load_schema(operation_parameters_schema)
+            cls.update_class_schema(schema["properties"]["operation_parameters"], operation_parameters_schema, cls)
+
+        return schema
+
+    def __init__(self, simulation_model, agent_id, fleet_dict, mode=None, staff_dict=None,
+                 depot_points=None, zone_polygon=None, operation_parameters=None,
                  extend_graph_with_stops=False, **kwargs):
         """
         Initialise the service operator with the relevant properties.
@@ -36,19 +196,17 @@ class Operator(Agent):
         :param staff_dict: name of the population that contains the operator's staff
         :param depot_points: list of coordinates of the operator depot points
         :param zone_polygon: list of GPS points delimiting the service zone
-        :param network_file: file describing a topology specific to the service
         :param operation_parameters: additional parameters used for service operation
-        :param parent_operator_id: id of the parent operator, if there is one
         :param extend_graph_with_stops: boolean indicating if the graph should be extended with the stop points
         :param kwargs:
         """
 
-        Agent.__init__(self, simulation_model, agent_id, **kwargs)
+        Agent.__init__(self, simulation_model, agent_id, mode=mode, **kwargs)
 
         # data structures containing the service information
 
         # parent operator id
-        self.parentOperatorId = parent_operator_id
+        self.parentOperatorId = None
 
         # parameters determining the service operation
         self.operationParameters = None
@@ -81,10 +239,6 @@ class Operator(Agent):
         # GeoDataFrame representing the service zone of the operator
         self.serviceZone = None
         self.init_zone(zone_polygon)
-
-        # a Topology object specific to this operator (smaller graph)
-        self.serviceTopology = None
-        self.init_topology(network_file)
 
         # a dict of the service stop points {id: StopPoint}
         self.stopPoints = dict()
@@ -129,22 +283,9 @@ class Operator(Agent):
 
         :param operation_parameters: dict of operational parameters
         """
-
+        if operation_parameters is None:
+            operation_parameters = dict()
         self.operationParameters = operation_parameters
-
-        if self.operationParameters is None:
-            self.operationParameters = dict()
-
-        if self.OPERATION_PARAMETERS_SCHEMA is not None:
-
-            # validate given dict against schema
-            operation_param_schema = json_load(schemas_folder() + self.OPERATION_PARAMETERS_SCHEMA)
-            validate_against_schema(self.operationParameters, self.OPERATION_PARAMETERS_SCHEMA)
-
-            # complete the parameters with the schema default values
-            for param in operation_param_schema["properties"].keys():
-                if param not in self.operationParameters:
-                    self.operationParameters[param] = operation_param_schema["properties"][param]["default"]
 
     def init_service_info(self):
         """
@@ -157,8 +298,8 @@ class Operator(Agent):
         Set the service lines shapes file according to the dedicated parameter.
         """
 
-        if "line_shapes_file" in self.sim.parameters and self.sim.parameters["line_shapes_file"] is not None:
-            line_shapes_path = gtfs_feeds_folder() + self.sim.parameters["line_shapes_file"]
+        if "line_shapes_file" in self.operationParameters:
+            line_shapes_path = gtfs_feeds_folder() + self.operationParameters["line_shapes_file"]
             self.line_shapes = pd.read_csv(line_shapes_path, sep=";")
             self.line_shapes = self.line_shapes.astype({"stop_id_A": str, "stop_id_B": str})
 
@@ -176,27 +317,12 @@ class Operator(Agent):
             filepath = self.sim.parameters["input_folder"] + zone_polygon
             geojson = json_load(filepath)
             service_zone = geopandas_polygon_from_points(geojson["features"][0]["geometry"]["coordinates"][0])
-        elif isinstance(zone_polygon, list):
-            service_zone = geopandas_polygon_from_points(zone_polygon)
         elif zone_polygon is None:
             service_zone = None
         else:
             raise TypeError("The zone_polygon parameter must be either an input filename or a list of coordinates")
 
         self.serviceZone = service_zone
-
-    def init_topology(self, network_file):
-        """
-        Set a topology for the operator if a file is provided.
-
-        The topology will be used by the operator to compute paths
-        and distances in its service zone. Its smaller size should
-        reduce computation times.
-
-        If network_file is None, use the fleet (or staff ?) topology.
-
-        :param network_file: init file for the topology, or None
-        """
 
     def init_depot_points(self, depot_points_coord):
         """
@@ -215,7 +341,7 @@ class Operator(Agent):
                 else:
                     depot_modes = list(self.mode.values())
                 position = self.sim.environment.nearest_node_in_modes(coord, depot_modes)
-                depot = Station(self.sim, depot_id, position)
+                depot = Station(self.sim, depot_id, position, mode=self.mode["fleet"], agent_type=None)
                 self.depotPoints[depot_id] = depot
 
     def init_stops(self):
@@ -336,6 +462,38 @@ class Operator(Agent):
         """
         Initialise the punctual_dispatcher and online_dispatcher attributes.
         """
+
+        if "dispatcher" not in self.operationParameters:
+            return
+        else:
+            dispatcher = self.operationParameters["dispatcher"]
+
+        if dispatcher not in self.DISPATCHERS:
+            raise ValueError("Unsupported operation parameter 'dispatcher' value '{}' (see schema)".format(dispatcher))
+
+        dispatcher_classes = self.DISPATCHERS[dispatcher]
+
+        parameters = self.dispatcher_parameters()
+
+        try:
+
+            if "online" in dispatcher_classes:
+                self.online_dispatcher = dispatcher_classes["online"].__new__(dispatcher_classes["online"])
+                self.online_dispatcher.__init__(**parameters)
+
+            if "punctual" in dispatcher_classes:
+                self.punctual_dispatcher = dispatcher_classes["punctual"].__new__(dispatcher_classes["punctual"])
+                self.punctual_dispatcher .__init__(**parameters)
+
+        except (TypeError, KeyError) as e:
+            raise ValueError("Instantiation of operator dispatcher failed with message :\n {}".format(str(e)), 30)
+
+    def dispatcher_parameters(self):
+        return {
+            "simulation_model": self.sim,
+            "operator": self,
+            "verb": True
+        }
 
     # new requests management
 

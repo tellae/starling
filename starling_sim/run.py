@@ -1,8 +1,9 @@
 import argparse
 import logging
 import os
+import json
 
-from starling_sim.model_simulator import model_codes, launch_simulation
+from starling_sim.model_simulator import launch_simulation, ModelSimulator
 from starling_sim.utils.data_tree import create_data_tree, import_examples
 from starling_sim.utils.simulation_logging import DEFAULT_LOGGER_LEVEL, setup_logging
 from starling_sim.utils.test_models import launch_tests
@@ -54,6 +55,12 @@ def run_main():
                         help="Change the path to the data folder",
                         default=None)
 
+    parser.add_argument("-J", "--json-schema",
+                        help="generate json schemas for each agent type of the model",
+                        metavar="MODEL_CODE",
+                        type=str,
+                        action="store")
+
     parser.add_argument("-v", "--version",
                         action="version",
                         version=__version__)
@@ -70,6 +77,12 @@ def run_main():
         else:
             input_args.level = DEFAULT_LOGGER_LEVEL
     setup_logging(input_args.level)
+
+    if input_args.json_schema is not None:
+        model_class = ModelSimulator.get_model_class(input_args.json_schema, input_args.package)
+        schemas = model_class.get_agent_type_schemas()
+        print(json.dumps(schemas, indent=4))
+        exit(0)
 
     # documentation generation
     if input_args.sphinx:

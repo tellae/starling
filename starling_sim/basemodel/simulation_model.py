@@ -3,9 +3,8 @@ import logging
 import numpy
 
 from starling_sim.basemodel.trace.trace import trace_simulation_end
-from starling_sim.utils.utils import import_gtfs_feed, validate_against_schema, json_load
-from starling_sim.utils.paths import schemas_folder
-from starling_sim.utils.constants import PT_PARAMETERS_SCHEMA, BASE_LEAVING_CODES
+from starling_sim.utils.utils import import_gtfs_feed
+from starling_sim.utils.constants import BASE_LEAVING_CODES
 from starling_sim.utils.config import config
 
 
@@ -66,9 +65,6 @@ class SimulationModel:
 
         # complete, unfiltered gtfs timetable, if relevant
         self.gtfs = None
-        
-        # public transport parameters if relevant
-        self.PT_parameters = None
 
         # TODO : data structure to store simulation information (e.g. demand)
         # self.data = None
@@ -92,10 +88,6 @@ class SimulationModel:
         if "gtfs_timetables" in self.parameters:
             logging.info("GTFS tables setup")
             self.setup_gtfs()
-
-        if "PT_parameters" in self.parameters:
-            logging.info("PT parameters setup")
-            self.setup_pt_parameters()
 
         logging.info("Dynamic input setup")
         self.dynamicInput.setup(self)
@@ -164,29 +156,12 @@ class SimulationModel:
         restrict_transfers = config["transfer_restriction"]
         self.gtfs = import_gtfs_feed(self.parameters["gtfs_timetables"], restrict_transfers)
 
-    def setup_pt_parameters(self):
-        """
-        Setup the public transport parameters dict of the simulation.
+    @classmethod
+    def get_agent_type_schemas(cls):
 
-        Import from the simulation parameters,
-        complete with default values of the schema
-        and validate against schema
-        """
+        agent_type_class = cls.agent_type_class
+        schemas = dict()
+        for agent_type in agent_type_class.keys():
+            schemas[agent_type] = agent_type_class[agent_type].get_schema()
 
-        pt_param_schema = json_load(schemas_folder() + PT_PARAMETERS_SCHEMA)
-
-        # get PT parameters dict
-        if "PT_parameters" in self.parameters:
-            pt_params = self.parameters["PT_parameters"]
-        else:
-            pt_params = dict()
-
-        validate_against_schema(pt_params, pt_param_schema)
-
-        # complete PT parameters with default values
-        for prop in pt_param_schema["properties"].keys():
-            if prop not in pt_params:
-                pt_params[prop] = pt_param_schema["properties"][prop]["default"]
-
-        # set the PT parameters attribute
-        self.PT_parameters = pt_params
+        return schemas

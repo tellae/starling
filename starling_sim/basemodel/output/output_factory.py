@@ -109,7 +109,7 @@ class OutputFactory:
             self.generate_kpi_output(simulation_model)
 
         # geojson output
-        if simulation_model.parameters["geojson_output"]:
+        if simulation_model.parameters["visualisation_output"]:
             self.generate_geojson_output(simulation_model)
 
     def generate_run_summary(self, simulation_model):

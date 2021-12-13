@@ -2,14 +2,6 @@
 This module contains constants and default values for the simulation.
 """
 
-# default attributes and parameters of simulation agents
-
-#: default dwell time of service vehicles
-DEFAULT_DWELL_TIME = 30
-
-# default patience
-DEFAULT_PATIENCE = None
-
 # keys and names used in the simulation
 
 #: name of the population containing the simulation stop points
@@ -20,9 +12,6 @@ PUBLIC_TRANSPORT_TYPE = "public_transport"
 
 #: required DataFrame columns of the table describing the stop points when calling add_stops()
 ADD_STOPS_COLUMNS = ["stop_id", "stop_name", "stop_lat", "stop_lon"]
-
-#: name of the json schema for PT_parameters
-PT_PARAMETERS_SCHEMA = "PT_parameters.schema.json"
 
 # base leaving codes
 

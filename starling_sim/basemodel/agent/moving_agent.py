@@ -27,11 +27,6 @@ class MovingAgent(SpatialAgent):
 
         self.tempDestination = None
 
-        # not used anymore
-        # self.route = None
-
-        self.simulateRoutes = self.sim.parameters["simulate_routes"]
-
     # move methods
 
     def move_(self, route=None, duration=None, check_dest=False, destination=None, dimension="time", verb=True):
@@ -163,7 +158,7 @@ class MovingAgent(SpatialAgent):
         :param length: length of the trip.
             Default is computed using duration and speed, or using euclidean distance.
         :param distance_factor: value multiplied to euclidean distance to get trip distance.
-            Default is defined by the DISTANCE_FACTOR constant.
+            Default is defined by the 'distance_factor' config value.
         :param speed: speed of the agent, used to compute duration and length
         :param mode: mode of traveling.
             Default is self.mode.

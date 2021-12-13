@@ -6,6 +6,23 @@ class StationBasedOperator(Operator):
     Class describing an operator of a station-based shared vehicle service
     """
 
+    SCHEMA = {
+        "properties": {
+            "stations_dict": {
+                "type": "string",
+                "title": "Stations population",
+                "description": "Population of the operator's station agents"
+            },
+            "staff_dict": {
+                "x-display": "",
+                "title": "Staff population",
+                "description": "Population of the operator's staff agents",
+                "type": "string"
+            }
+        },
+        "required": ["stations_dict"]
+    }
+
     def __init__(self, simulation_model, agent_id, fleet_dict, stations_dict, **kwargs):
 
         super().__init__(simulation_model, agent_id, fleet_dict, **kwargs)

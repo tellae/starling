@@ -148,9 +148,8 @@ CustomValidator = validators.extend(Draft7Validator, type_checker=Draft4Validato
 
 def validate_against_schema(instance, schema, raise_exception=True):
 
-    # load the schema if a path is provided
-    if isinstance(schema, str):
-        schema = json_load(schemas_folder() + schema)
+    # load schema object
+    schema = load_schema(schema, False)
 
     # get the absolute path and setup a resolver
     schema_abs_path = 'file:///{0}/'.format(os.path.abspath(schemas_folder()).replace("\\", "/"))
@@ -163,7 +162,6 @@ def validate_against_schema(instance, schema, raise_exception=True):
         return True
     except ValidationError as e:
         if raise_exception:
-            logging.log(40, "JSON Schema validation error")
             raise e
         else:
             logging.log(30, "JSON Schema validation of :\n\n{}\n\nfailed with message:\n\n {} ".format(instance, e))
@@ -175,21 +173,52 @@ def add_defaults_and_validate(instance, schema, raise_exception=True):
     # initialise an empty result dict
     res = copy.deepcopy(instance)
 
-    # load the schema if a path is provided
-    if isinstance(schema, str):
-        schema = json_load(schemas_folder() + schema)
+    # load schema object
+    schema = load_schema(schema)
 
-    # browse the schema properties
-    for prop in schema["properties"].keys():
-
-        # if the property is missing and there is a default value, use default
-        if prop not in instance and "default" in schema["properties"][prop]:
-            res[prop] = schema["properties"][prop]["default"]
+    # add default properties to the schema
+    add_defaults(res, schema)
 
     # validate the final instance against the schema
     validate_against_schema(res, schema, raise_exception)
 
     return res
+
+
+def add_defaults(instance, schema, current_prop=None):
+
+    if schema["type"] == "object" and "default" not in schema:
+        for prop in schema["properties"].keys():
+
+            if current_prop is None:
+                prop_instance = instance
+            else:
+                if current_prop in instance:
+                    prop_instance = instance[current_prop]
+                else:
+                    prop_instance = dict()
+                    instance[current_prop] = prop_instance
+
+            add_defaults(prop_instance, schema["properties"][prop], prop)
+
+    else:
+        if current_prop not in instance and "default" in schema:
+            instance[current_prop] = schema["default"]
+
+
+def load_schema(schema, make_copy=True):
+    if isinstance(schema, str):
+        # load the schema if a path is provided
+        final_schema = json_load(schemas_folder() + schema)
+    elif isinstance(schema, dict):
+        if make_copy:
+            final_schema = copy.deepcopy(schema)
+        else:
+            final_schema = schema
+    else:
+        raise TypeError("The provided schema is neither a dict nor a path to a schema file")
+
+    return final_schema
 
 
 # converters

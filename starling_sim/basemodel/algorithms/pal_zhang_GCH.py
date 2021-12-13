@@ -9,6 +9,76 @@ class PalZhangGCH(Algorithm):
 
     NAME = "PalZhangGCH"
 
+    SCHEMA = {
+        "type": "object",
+        "properties": {
+            "start_times": {
+                "title": "Relocation start times",
+                "description": "Times at which relocations will be performed",
+                "type": "array",
+                "items": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "default": [25000]
+            },
+            "durations": {
+                "title": "Relocation durations",
+                "description": "Durations of each relocation operation",
+                "type": "array",
+                "items": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "default": [12000]
+            },
+            "neighbor": {
+                "title": "Neighbor evaluation method",
+                "description": "Method for evaluating the station where the next relocation will take place",
+                "type": "string",
+                "oneOf": [
+                    {"const": "util", "title": "Station with max utility (operations/time)"},
+                    {"const": "nearest", "title": "Nearest station"},
+                    {"const": "random", "title": "Random station"}
+                ],
+                "default": "util"
+            },
+            "threshold": {
+                "type": "object",
+                "properties": {
+                    "min": {
+                        "title": "Lower stock threshold",
+                        "description": "Avoided lower stock threshold, if possible. "
+                                       "If integer, distance from empty station. "
+                                       "If between 0 and 1, the distance is computed as a fraction of "
+                                       "the station capacity",
+                        "type": "number",
+                        "default": 0.1
+                    },
+                    "max": {
+                        "title": "Upper stock threshold",
+                        "description": "Avoided upper stock threshold, if possible. "
+                                       "If integer, distance from the station capacity. "
+                                       "If between 0 and 1, the distance is computed as a fraction of "
+                                       "the station capacity",
+                        "type": "number",
+                        "default": 0.1
+                    }
+                }
+            },
+            "priority_threshold": {
+                "title": "Priority threshold",
+                "description": "Prioritised threshold when both cannot be respected",
+                "type": "string",
+                "oneOf": [
+                    {"const": "max", "title": "Maximum"},
+                    {"const": "min", "title": "Minimum"}
+                ],
+                "default": "max"
+            }
+        }
+    }
+
     def __init__(self, simulation_model, operator, verb=False):
 
         super().__init__(simulation_model=simulation_model, operator=operator, verb=verb)
@@ -16,12 +86,10 @@ class PalZhangGCH(Algorithm):
         # PalZhangGCH parameters
 
         # start times of the repositioning operations
-        self.start_times = self.operator.operationParameters["start_time"]
-        if isinstance(self.start_times, int):
-            self.start_times = [self.start_times]
+        self.start_times = self.operator.operationParameters["start_times"]
 
         # duration of the operations
-        self.duration = self.operator.operationParameters["duration"]
+        self.durations = self.operator.operationParameters["durations"]
 
         # mode of neighbor selection
         self.neighbor = self.operator.operationParameters["neighbor"]
@@ -79,12 +147,10 @@ class PalZhangGCH(Algorithm):
         self.current_node = self.depot.id
         self.current_time = self.sim.scheduler.now()
 
-        if self.duration is not None:
-            if isinstance(self.duration, list):
-                i = self.start_times.index(self.current_time)
-                duration = self.duration[i]
-            else:
-                duration = self.duration
+        if self.durations is not None:
+            i = self.start_times.index(self.current_time)
+            duration = self.durations[i]
+
             self.time_limit = self.current_time + duration
 
         self.operations_needed = self.compute_operations_needed()

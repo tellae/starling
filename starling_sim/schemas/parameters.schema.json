@@ -1,9 +1,9 @@
 {
-  "title": "parameters",
-  "description": "parameters of a simulation run",
+  "title": "Simulation parameters",
+  "description": "Parameters of a simulation run",
   "type": "object",
-  "required": ["code", "scenario", "limit", "seed", "date", "geojson_output", "kpi_output",
-    "simulate_routes", "dynamic_input_file", "init_input_file", "topologies"],
+  "required": ["code", "scenario", "limit", "seed", "visualisation_output", "kpi_output",
+    "dynamic_input_file", "init_input_file", "topologies"],
   "properties": {
     "code": {
       "type": "string",
@@ -12,92 +12,21 @@
     },
     "scenario": {
       "type": "string",
-      "title": "Simulation scenario",
-      "description": "Name of the scenario simulated",
-      "example": "C2G"
-    },
-    "limit": {
-      "type": "integer",
-      "title": "Simulation time limit",
-      "description": "Number of simulation steps to execute",
-      "minimum": 1,
-      "example": 4000
-    },
-    "make_static": {
-      "type": "string",
-      "title": "Make inputs static",
-      "description": "Make certain inputs static, ie generate them at the beginning of the simulation. ",
-      "oneOf": [
-        {"const":  "all", "description":  "Make all inputs static."},
-        {"const":  "prebooked", "description":  "Make static the inputs with prebooked==True."},
-        {"const":  "prebooked_only", "description":  "Make static the inputs with prebooked==True and don't generate the others."},
-        {"const":  "ghosts", "description":  "Make all inputs static for the resolution, then remove prebooked from solution and insert them dynamically."}
-      ]
-    },
-    "early_dynamic_input": {
-      "type": ["integer", "null"],
-      "title": "Early dynamic input offset",
-      "description": "Offset applied to the users origin time to make them enter the simulation earlier, in seconds",
-      "example": 3600,
-      "default": 0
-    },
-    "seed": {
-      "type": "number",
-      "title": "Random seed",
-      "description": "Random seed used for the generation of random events",
-      "example": "42"
-    },
-    "date": {
-      "type": "string",
-      "title": "Simulation date",
-      "description": "Date of the simulation, used for filtering services. Format YYYY-MM-DD",
-      "format": "date",
-      "example": "2019-10-28"
-    },
-    "time_log": {
-      "type": "boolean",
-      "title": "Simulation time log",
-      "description": "Boolean indicating if simulation time should be logged",
-      "default": false
-    },
-    "generate_summary": {
-      "title": "Generate run summary",
-      "description": "Boolean indicating if run summary should be generated.",
-      "type": "boolean",
-      "default": false
-    },
-    "traces_output": {
-      "type": "boolean",
-      "title": "Traces output",
-      "description": "Boolean indicating if an agent traces output should be created",
-      "default": false
-    },
-    "geojson_output": {
-      "type": "boolean",
-      "title": "Geojson output",
-      "description": "Boolean indicating if a geojson file should be created"
-    },
-    "kpi_output": {
-      "type": "boolean",
-      "title": "KPI output",
-      "description": "Boolean indicating if a KPI file should be created"
-    },
-    "simulate_routes": {
-      "type": "boolean",
-      "title": "Route steps simulation",
-      "description": "Boolean indicating if route steps should be simulated"
+      "title": "Scenario name",
+      "description": "Name of the simulation scenario",
+      "example": "example_scenario"
     },
     "dynamic_input_file": {
       "type": ["string", "null"],
       "title": "Dynamic input file",
-      "description": "Name of the file containing the dynamic input",
-      "example": "CS_SB_dynamic_input.json"
+      "description": "File containing the dynamic input",
+      "example": "CS_SB_dynamic_input.geojson"
     },
     "init_input_file": {
       "type": ["string", "array", "null"],
-      "title": "Initialisation input file",
-      "description": "Name of the file containing the initialisation input or list of file names",
-      "example": "CS_SB_init_input.json"
+      "title": "Initialisation input files",
+      "description": "File(s) containing the initialisation input",
+      "example": "CS_SB_init_input.geojson"
     },
     "topologies": {
       "type": "object",
@@ -116,33 +45,238 @@
       },
       "required": ["walk"]
     },
-    "store_paths": {
-      "title": "Store shortest paths",
-      "description": "Indicates if computed shortest paths should be stored in a dict to avoid computing them again. Either a boolean or a dict with the same keys as topologies and boolean values.",
-      "type": ["boolean", "object"],
-      "default": false
-    },
     "gtfs_timetables": {
-      "type": ["string", "null"],
-      "title": "GTFS timetables archive",
-      "description": "Name of the archive containing the gtfs timetables, placed in the gtfs_feeds data folder",
+      "type": "string",
+      "title": "GTFS timetables",
+      "description": "Name of the archive containing the gtfs timetables, placed in the GTFS feeds folder",
       "pattern": "(.)*(.zip)",
       "example": "GTFS_nantes.zip"
     },
-    "line_shapes_file": {
-      "type": ["string", "null"],
-      "title": "Line shapes file",
-      "description": "Name of the file containing shapes of public transport lines",
-      "pattern": "(.)*(.csv)",
-      "example": "rennes_line_shapes.csv"
+    "limit": {
+      "advanced": true,
+      "type": "integer",
+      "title": "Simulation time limit [seconds]",
+      "description": "Duration of the simulation",
+      "minimum": 1,
+      "default": 86400
     },
-    "routes": {
-      "type": ["array", "null"],
-      "items": {
-        "type": "string"
+    "visualisation_output": {
+      "advanced": true,
+      "type": "boolean",
+      "title": "Visualisation output",
+      "description": "Generate a visualisation file",
+      "default": true
+    },
+    "kpi_output": {
+      "advanced":  true,
+      "type": "boolean",
+      "title": "KPI output",
+      "description": "Generate key performance indicator (KPI) files",
+      "default": true
+    },
+    "traces_output": {
+      "advanced":  true,
+      "type": "boolean",
+      "title": "Traces output",
+      "description": "Generate agent traces file",
+      "default": false
+    },
+    "time_log": {
+      "advanced": true,
+      "type": "boolean",
+      "title": "Simulation time log",
+      "description": "Log simulation time every 3600 seconds (used for run monitoring)",
+      "default": false
+    },
+    "generate_summary": {
+      "advanced": true,
+      "title": "Generate run summary",
+      "description": "Generate a simulation run summary",
+      "type": "boolean",
+      "default": false
+    },
+    "early_dynamic_input": {
+      "advanced":  true,
+      "type": "integer",
+      "title": "Early dynamic input offset [seconds]",
+      "description": "Offset applied to the users origin time to make them enter the simulation earlier, in seconds",
+      "example": 3600,
+      "default": 0
+    },
+    "make_static": {
+      "advanced":  true,
+      "type": "string",
+      "title": "Make inputs static",
+      "description": "Make certain inputs static, ie generate them at the beginning of the simulation.",
+      "oneOf": [
+        {
+          "const": "all",
+          "description": "Make all inputs static."
+        },
+        {
+          "const": "prebooked",
+          "description": "Make static the inputs with prebooked==True."
+        },
+        {
+          "const": "prebooked_only",
+          "description": "Make static the inputs with prebooked==True and don't generate the others."
+        },
+        {
+          "const": "ghosts",
+          "description": "Make all inputs static for the resolution, then remove prebooked==False from solution and insert them dynamically."
+        }
+      ]
+    },
+    "store_paths": {
+      "advanced":  true,
+      "title": "Store shortest paths",
+      "description": "Store computed shortest paths in a dict to avoid computing them again. Either a boolean or a dict with the same keys as topologies and boolean values.",
+      "type": [
+        "boolean",
+        "object"
+      ],
+      "default": false
+    },
+    "seed": {
+      "advanced": true,
+      "type": "number",
+      "title": "Random seed",
+      "description": "Seed used for the generation of random events",
+      "default": 42
+    },
+    "user_routing_parameters": {
+      "advanced": true,
+      "type": "object",
+      "title": "User routing parameters",
+      "description": "These parameters are used in models including public and on-demand transport",
+      "properties": {
+        "max_nearest_stops": {
+          "title": "Maximum number of considered stops",
+          "description": "Number of stops around origin and destination considered by the users when computing journeys",
+          "type": "integer",
+          "minimum": 1,
+          "default": 10
+        },
+        "max_distance_nearest_stops": {
+          "title": "Nearest stops maximum distance [meters]",
+          "description": "Maximum distance accepted when looking for the nearest stops of origin and destination",
+          "type": "integer",
+          "minimum": 0,
+          "default": 1000
+        },
+        "cost_dict": {
+          "type": "object",
+          "properties": {
+            "0": {
+              "type": "number",
+              "title": "Tramway route cost",
+              "description": "Multiplicative factor of the time spent in tramways"
+            },
+            "1": {
+              "type": "number",
+              "title": "Subway route cost",
+              "description": "Multiplicative factor of the time spent in subways"
+            },
+            "2": {
+              "type": "number",
+              "title": "Train route cost",
+              "description": "Multiplicative factor of the time spent in trains"
+            },
+            "3": {
+              "type": "number",
+              "title": "Bus route cost",
+              "description": "Multiplicative factor of the time spent in buses"
+            },
+            "4": {
+              "type": "number",
+              "title": "On-demand route cost",
+              "description": "Multiplicative factor of the time spent in on-demand transports"
+            },
+            "-1": {
+              "type": "number",
+              "title": "Walked route cost",
+              "description": "Multiplicative factor of the time spent walking"
+            },
+            "first_wait": {
+              "type": "number",
+              "title": "First waiting time cost",
+              "description": "Multiplicative factor of the first waiting time. Default will use 'wait'"
+            },
+            "wait": {
+              "type": "number",
+              "title": "Waiting time cost",
+              "description": "Multiplicative factor of the time spent waiting"
+            },
+            "transfer": {
+              "type": "number",
+              "title": "Transfer cost [seconds]",
+              "description": "Cost value of a transfer"
+            }
+          },
+          "default": {
+            "0": 1,
+            "1": 1,
+            "2": 1,
+            "3": 1,
+            "4": 1,
+            "-1": 1.5,
+            "wait": 1.5,
+            "first_wait": 0.5,
+            "transfer": 600
+          }
+        },
+        "route_choice_parameters": {
+          "type": "object",
+          "description": "Parameters of the decision mode among different journeys",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Route choice method",
+              "description": "Name of the decision mode",
+              "enum": [
+                "earliest",
+                "min_weight",
+                "modified_berliaire_1999"
+              ],
+              "default": "min_weight"
+            },
+            "teta": {
+              "type": "number",
+              "title": "Teta parameter (modified_berliaire_1999)",
+              "description": "Teta parameter for the modified_berliaire_1999 method",
+              "default": 0.2
+            },
+            "beta": {
+              "type": "number",
+              "title": "Beta parameter (modified_berliaire_1999)",
+              "description": "Beta parameter for the modified_berliaire_1999 method",
+              "default": -0.3
+            }
+          },
+          "default": {
+            "name": "modified_berliaire_1999",
+            "teta": 0.2,
+            "beta": -0.3
+          },
+          "required": ["name"]
+        }
       },
-      "title": "Routes to keep in the public transport simulation",
-      "description": "List of routes that should be present in the simulation. If null, keep all routes."
+      "required": ["max_nearest_stops", "max_distance_nearest_stops", "cost_dict", "route_choice_parameters"]
     }
+  },
+  "if": {
+    "required": ["gtfs_timetables"]
+  },
+  "then": {
+    "properties": {
+      "date": {
+        "type": "string",
+        "title": "Simulation date",
+        "description": "Date of the simulation, used for filtering services. Format YYYY-MM-DD",
+        "format": "date",
+        "example": "2019-10-28"
+      }
+    },
+    "required": ["date"]
   }
 }

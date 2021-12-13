@@ -4,7 +4,7 @@ from starling_sim.basemodel.algorithms.pal_zhang_GCH import PalZhangGCH
 
 class PalZhangGreedyDispatcher(Dispatcher):
 
-    NAME = "PalZhangGreedyDispatcher"
+    SCHEMA = PalZhangGCH.SCHEMA
 
     def __init__(self, simulation_model, operator, verb=False):
 

@@ -1,10 +1,7 @@
 from starling_sim.basemodel.agent.moving_agent import MovingAgent
 from starling_sim.basemodel.trace.events import RequestEvent, GetVehicleEvent, LeaveVehicleEvent, \
     DestinationReachedEvent
-from starling_sim.basemodel.agent.requests import UserStop
-from starling_sim.utils.utils import validate_against_schema
 from starling_sim.utils.constants import SUCCESS_LEAVE
-from starling_sim.utils.config import config
 
 import sys
 
@@ -16,17 +13,47 @@ class Person(MovingAgent):
     It should be extended to implement more specific features and behaviours
     """
 
-    #: Dict of the profile's properties, with their specifications as a JSON schema
-    PROPERTIES = {
-        "walking_speed": {"description": "speed (in m/s) of the agents when they walk, "
-                                         "if not specified by the topology",
-                          "type": "number", "minimum": 0.01, "default": config["walking_speed"]},
-        "distance_factor": {"description": "distance factor used when computing "
-                                           "approximate trips for Person agents",
-                            "type": "number", "minimum": 0.01, "default": config["distance_factor"]}
+    SCHEMA = {
+        "properties": {
+            "mode": {
+                "type": "string",
+                "title": "Default network",
+                "description": "Road network used by the agent",
+                "default": "walk"
+            },
+            "destination": {
+                "type": ["number", "string"],
+                "title": "Destination position",
+                "description": "Destination position id (inferred from geometry)"
+            },
+            "origin_time": {
+                "type": "integer",
+                "title": "Activity start time [seconds]",
+                "description": "Time at which the agent will enter the simulation",
+                "minimum": 1
+            },
+            "max_tries": {
+                "advanced": True,
+                "title": "Maximum number of service tryouts",
+                "description": "Number of failed attempts after which the agent will leave the simulation."
+                               " If not specified, the number of tries is infinite.",
+                "type": ["integer", "null"],
+                "minimum": 0,
+                "default": None
+            },
+            "fail_timeout": {
+                "advanced": True,
+                "title": "Request fail timeout [seconds]",
+                "description": "Time waited when a request fails",
+                "type": "integer",
+                "minimum": 0,
+                "default": 0
+            }
+        },
+        "required": ["destination", "origin_time"]
     }
 
-    def __init__(self, simulation_model, agent_id, origin, destination, origin_time, max_tries=None, **kwargs):
+    def __init__(self, simulation_model, agent_id, origin, destination, origin_time, **kwargs):
         """
         Initialize the new Person object, as a moving agent with specific user data.
 
@@ -37,6 +64,7 @@ class Person(MovingAgent):
         :param origin_time: time at which the person should enter the simulation
         :param max_tries: maximum number of failed system tries before leaving the system.
             Default is None (infinite tries).
+        :param fail_timeout: time waited when a request fails
         :param kwargs:
         """
 
@@ -49,52 +77,18 @@ class Person(MovingAgent):
         self.originTime = origin_time
 
         # number of failed system tries before leaving. If None, try indefinitely.
-        self.maxTries = max_tries
+        self.maxTries = self.profile["max_tries"]
 
-        # profile of the agent, additional information that may be used by the models
-        # these should be accessed using the profile dict
-        self.profile = None
-        self.init_profile(**kwargs)
+        # time to wait when a request fails
+        self.failTimeout = self.profile["fail_timeout"]
 
         # persons start with no vehicle
         self.vehicle = None
-        # time to wait when a request fails
-        self.failTimeout = None
 
     def __str__(self):
 
         return "[id={}, origin={}, destination={}, vehicle={}]" \
             .format(self.id, self.origin, self.destination, self.vehicle)
-
-    def init_profile(self, **kwargs):
-
-        # build a profile dict
-        profile = dict()
-
-        for prop in self.PROPERTIES.keys():
-
-            # look for the property in the agent input_dict (one value specified for each person)
-            if prop in kwargs:
-                profile[prop] = kwargs[prop]
-
-            # look for the property in the simulation parameters (same value specified for all persons)
-            elif prop in self.sim.parameters:
-                profile[prop] = self.sim.parameters[prop]
-
-            # look for the property in the default properties (no value specified, use default if possible)
-            elif "default" in self.PROPERTIES[prop]:
-                profile[prop] = self.PROPERTIES[prop]["default"]
-
-            # signal missing property
-            else:
-                raise KeyError("Missing property '{}' for profile initialisation".format(prop))
-
-        # validate the profile against the schema
-        schema = {"type": "object", "properties": self.PROPERTIES}
-        validate_against_schema(profile, schema)
-
-        # set the profile attribute
-        self.profile = profile
 
     def trace_event(self, event):
         """
