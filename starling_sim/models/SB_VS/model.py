@@ -5,7 +5,7 @@ from starling_sim.models.SB_VS.input import Input
 from starling_sim.models.SB_VS.output import Output
 from starling_sim.basemodel.schedule.scheduler import Scheduler
 from starling_sim.models.SB_VS.user import User
-from starling_sim.basemodel.agent.vehicles.vehicle import Vehicle
+from starling_sim.basemodel.agent.vehicles.station_based_vehicle import StationBasedVehicle
 from starling_sim.basemodel.agent.stations.vehicle_sharing_station import VehicleSharingStation
 
 
@@ -18,7 +18,7 @@ class Model(SimulationModel):
 
     agent_type_class = {
         "user": User,
-        "vehicle": Vehicle,
+        "vehicle": StationBasedVehicle,
         "station": VehicleSharingStation
     }
 

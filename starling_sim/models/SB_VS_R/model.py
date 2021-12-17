@@ -7,7 +7,7 @@ from starling_sim.basemodel.schedule.scheduler import Scheduler
 from starling_sim.models.SB_VS_R.operator import Operator
 from starling_sim.models.SB_VS_R.repositioning_staff import RepositioningStaff
 from starling_sim.models.SB_VS.user import User
-from starling_sim.basemodel.agent.vehicles.vehicle import Vehicle
+from starling_sim.basemodel.agent.vehicles.station_based_vehicle import StationBasedVehicle
 from starling_sim.basemodel.agent.stations.vehicle_sharing_station import VehicleSharingStation
 
 
@@ -19,7 +19,7 @@ class Model(SimulationModel):
 
     agent_type_class = {
         "user": User,
-        "vehicle": Vehicle,
+        "vehicle": StationBasedVehicle,
         "station": VehicleSharingStation,
         "staff": RepositioningStaff,
         "operator": Operator
