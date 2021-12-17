@@ -11,7 +11,6 @@ class RepositioningStaff(RepositioningVehicle):
         "required": ["dwell_time"]
     }
 
-
     def __init__(self, simulation_model, agent_id, origin,
                  dwell_time, seats, **kwargs):
         super().__init__(simulation_model, agent_id, origin, seats,

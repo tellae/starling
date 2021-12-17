@@ -160,13 +160,6 @@ class DynamicInput(Traced):
         :return:
         """
 
-        # validate the feature and add default values
-        try:
-            feature = self.feature_schema_validation(feature)
-        except Exception as e:
-            self.log_message("Agent input was not completed due to the following error : {}".format(str(e)), 30)
-            return
-
         # get the agent input dict
         input_dict = feature["properties"]
 
@@ -176,6 +169,15 @@ class DynamicInput(Traced):
 
         # pre-process the agent input dict
         self.pre_process_input_dict(input_dict)
+
+        # validate the feature and add default values
+        try:
+            feature = self.feature_schema_validation(feature)
+        except Exception as e:
+            self.log_message("Agent input was not completed due to the following error : {}".format(str(e)), 30)
+            return
+
+        input_dict = feature["properties"]
 
         # the agent is associated to the population of its type and other provided populations
         if "population" in input_dict:
@@ -360,10 +362,11 @@ class DynamicInput(Traced):
                                      "using the feature geometry is preferred", 30)
                     origin_coordinates = [input_dict["origin_lon"], input_dict["origin_lat"]]
 
-                inputs.append(input_dict)
-                keys.append("origin")
-                lon.append(origin_coordinates[0])
-                lat.append(origin_coordinates[1])
+                if origin_coordinates != [0, 0]:
+                    inputs.append(input_dict)
+                    keys.append("origin")
+                    lon.append(origin_coordinates[0])
+                    lat.append(origin_coordinates[1])
 
             destination_coordinates = self.get_position_coordinates_from_feature(feature, "destination")
             if destination_coordinates is not None:
@@ -375,10 +378,11 @@ class DynamicInput(Traced):
                                      "using the feature geometry is preferred", 30)
                     destination_coordinates = [input_dict["destination_lon"], input_dict["destination_lat"]]
 
-                inputs.append(input_dict)
-                keys.append("destination")
-                lon.append(destination_coordinates[0])
-                lat.append(destination_coordinates[1])
+                if destination_coordinates != [0, 0]:
+                    inputs.append(input_dict)
+                    keys.append("destination")
+                    lon.append(destination_coordinates[0])
+                    lat.append(destination_coordinates[1])
 
             # if there are coordinates inputs, add them to the modes dict
             if len(inputs) != 0:
