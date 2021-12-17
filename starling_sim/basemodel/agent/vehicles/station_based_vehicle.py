@@ -14,6 +14,7 @@ class StationBasedVehicle(Vehicle):
                 "type": "string"
             }
         },
+        "required": ["station"],
         "remove_props": ["origin"]
     }
 
