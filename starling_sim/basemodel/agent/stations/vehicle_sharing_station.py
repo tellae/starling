@@ -177,9 +177,9 @@ class VehicleSharingStation(Station):
 
     def loop_(self):
 
-        yield self.execute_process(self.spend_time_(0))
-
         # generate vehicles at this station
         if self.stock_generation is not None:
             self.create_station_based_vehicles(self.stock_generation)
+
+        yield self.execute_process(self.spend_time_())
 
