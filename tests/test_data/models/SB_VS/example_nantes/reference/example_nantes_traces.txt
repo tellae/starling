@@ -122,250 +122,250 @@ Trace of dynamicInput
 [0, InputEvent]: generatedElement=[id=7570, position=1294763581, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [0, InputEvent]: generatedElement=[id=7580, position=1760819005, capacity=21, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [0, InputEvent]: generatedElement=[id=7581, position=295551780, capacity=20, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
-[0, InputEvent]: generatedElement=[id=B-7505-1, origin=315882175, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7505-2, origin=315882175, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7507-1, origin=292314348, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7507-2, origin=292314348, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7523-1, origin=1261901706, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7523-2, origin=1261901706, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7531-1, origin=1558759043, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7531-2, origin=1558759043, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7532-1, origin=2904422540, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7532-2, origin=2904422540, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7542-1, origin=7041920212, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7542-2, origin=7041920212, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7544-1, origin=1569015686, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7544-2, origin=1569015686, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7549-1, origin=2125049866, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7549-2, origin=2125049866, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7555-1, origin=272118322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7555-2, origin=272118322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7562-1, origin=5562508314, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7562-2, origin=5562508314, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7563-1, origin=307965916, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7563-2, origin=307965916, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7568-1, origin=4755048008, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7568-2, origin=4755048008, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7578-1, origin=1968204000, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7578-2, origin=1968204000, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7584-1, origin=4306261638, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7584-2, origin=4306261638, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7586-1, origin=7106699893, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7586-2, origin=7106699893, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7477-1, origin=2847322810, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7477-2, origin=2847322810, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7491-1, origin=288118639, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7491-2, origin=288118639, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7510-1, origin=2188213716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7510-2, origin=2188213716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7516-1, origin=1634801230, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7516-2, origin=1634801230, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7521-1, origin=216440811, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7521-2, origin=216440811, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7536-1, origin=336115376, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7536-2, origin=336115376, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7538-1, origin=302423355, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7538-2, origin=302423355, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7552-1, origin=652535143, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7552-2, origin=652535143, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7554-1, origin=272118269, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7554-2, origin=272118269, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7576-1, origin=6329171524, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7576-2, origin=6329171524, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7582-1, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7582-2, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7588-1, origin=568840519, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7588-2, origin=568840519, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7591-1, origin=290854795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7591-2, origin=290854795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7594-1, origin=1891184481, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7594-2, origin=1891184481, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7482-1, origin=315258285, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7482-2, origin=315258285, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7483-1, origin=632973543, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7483-2, origin=632973543, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7485-1, origin=294029953, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7485-2, origin=294029953, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7493-1, origin=2847396201, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7493-2, origin=2847396201, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7497-1, origin=7678131317, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7497-2, origin=7678131317, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7500-1, origin=303800554, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7500-2, origin=303800554, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7503-1, origin=292672036, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7503-2, origin=292672036, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7509-1, origin=1557433256, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7509-2, origin=1557433256, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7511-1, origin=2044526701, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7511-2, origin=2044526701, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7513-1, origin=305615940, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7513-2, origin=305615940, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7517-1, origin=5414886981, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7517-2, origin=5414886981, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7522-1, origin=4980354928, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7522-2, origin=4980354928, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7541-1, origin=4348385892, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7541-2, origin=4348385892, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7543-1, origin=4136186950, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7543-2, origin=4136186950, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7546-1, origin=303382694, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7546-2, origin=303382694, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7558-1, origin=902474893, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7558-2, origin=902474893, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7561-1, origin=629117500, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7561-2, origin=629117500, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7566-1, origin=1730332322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7566-2, origin=1730332322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7569-1, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7569-2, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7572-1, origin=2533396687, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7572-2, origin=2533396687, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7575-1, origin=4557493440, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7575-2, origin=4557493440, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7583-1, origin=305779877, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7583-2, origin=305779877, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7587-1, origin=335895716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7587-2, origin=335895716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7476-1, origin=3141438537, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7476-2, origin=3141438537, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7488-1, origin=287431463, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7488-2, origin=287431463, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7494-1, origin=3679335007, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7494-2, origin=3679335007, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7495-1, origin=289440002, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7495-2, origin=289440002, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7518-1, origin=1395099946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7518-2, origin=1395099946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7524-1, origin=7798230369, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7524-2, origin=7798230369, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7525-1, origin=279635052, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7525-2, origin=279635052, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7529-1, origin=1548581176, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7529-2, origin=1548581176, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7530-1, origin=360946943, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7530-2, origin=360946943, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7539-1, origin=283446454, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7539-2, origin=283446454, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7556-1, origin=5321970136, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7556-2, origin=5321970136, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7560-1, origin=309348865, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7560-2, origin=309348865, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7585-1, origin=4306261634, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7585-2, origin=4306261634, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7590-1, origin=303743752, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7590-2, origin=303743752, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7592-1, origin=270767546, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7592-2, origin=270767546, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7481-1, origin=315857168, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7481-2, origin=315857168, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7490-1, origin=286359266, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7490-2, origin=286359266, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7498-1, origin=1714277972, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7498-2, origin=1714277972, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7504-1, origin=1636695625, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7504-2, origin=1636695625, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7534-1, origin=1557945595, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7534-2, origin=1557945595, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7537-1, origin=6399558981, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7537-2, origin=6399558981, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7551-1, origin=279634990, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7551-2, origin=279634990, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7559-1, origin=303279783, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7559-2, origin=303279783, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7571-1, origin=330312113, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7571-2, origin=330312113, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7574-1, origin=5308155327, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7574-2, origin=5308155327, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7577-1, origin=635337341, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7577-2, origin=635337341, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7579-1, origin=293265059, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7579-2, origin=293265059, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7593-1, origin=1980168386, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7593-2, origin=1980168386, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7484-1, origin=1976600453, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7484-2, origin=1976600453, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7489-1, origin=1756231045, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7489-2, origin=1756231045, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7496-1, origin=277456640, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7496-2, origin=277456640, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7514-1, origin=1215289450, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7514-2, origin=1215289450, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7533-1, origin=1557674398, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7533-2, origin=1557674398, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7535-1, origin=281121892, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7535-2, origin=281121892, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7547-1, origin=303614872, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7547-2, origin=303614872, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7548-1, origin=5161769946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7548-2, origin=5161769946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7553-1, origin=3051685748, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7553-2, origin=3051685748, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7557-1, origin=287401603, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7557-2, origin=287401603, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7565-1, origin=1703008697, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7565-2, origin=1703008697, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7573-1, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7573-2, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7589-1, origin=7211378218, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7589-2, origin=7211378218, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7474-1, origin=303172103, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7474-2, origin=303172103, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7480-1, origin=1557439834, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7480-2, origin=1557439834, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7487-1, origin=290027760, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7487-2, origin=290027760, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7492-1, origin=1557675795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7492-2, origin=1557675795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7502-1, origin=5574896232, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7502-2, origin=5574896232, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7508-1, origin=301893435, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7508-2, origin=301893435, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7512-1, origin=1737307952, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7512-2, origin=1737307952, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7519-1, origin=6125651880, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7519-2, origin=6125651880, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7520-1, origin=339037617, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7520-2, origin=339037617, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7527-1, origin=1557631264, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7527-2, origin=1557631264, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7528-1, origin=2405215111, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7528-2, origin=2405215111, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7540-1, origin=1557678696, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7540-2, origin=1557678696, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7564-1, origin=288464028, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7564-2, origin=288464028, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7595-1, origin=295823383, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7595-2, origin=295823383, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7475-1, origin=292348618, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7475-2, origin=292348618, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7478-1, origin=2417854742, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7478-2, origin=2417854742, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7479-1, origin=3383262202, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7479-2, origin=3383262202, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7486-1, origin=294029946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7486-2, origin=294029946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7499-1, origin=286359257, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7499-2, origin=286359257, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7501-1, origin=315882188, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7501-2, origin=315882188, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7506-1, origin=306511079, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7506-2, origin=306511079, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7515-1, origin=5150384472, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7515-2, origin=5150384472, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7526-1, origin=1557439318, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7526-2, origin=1557439318, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7545-1, origin=286359240, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7545-2, origin=286359240, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7550-1, origin=360946837, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7550-2, origin=360946837, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7567-1, origin=270768412, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7567-2, origin=270768412, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7570-1, origin=1294763581, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7570-2, origin=1294763581, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7580-1, origin=1760819005, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7580-2, origin=1760819005, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7581-1, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
-[0, InputEvent]: generatedElement=[id=B-7581-2, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7505-1, origin=315882175, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7505-2, origin=315882175, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7507-1, origin=292314348, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7507-2, origin=292314348, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7523-1, origin=1261901706, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7523-2, origin=1261901706, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7531-1, origin=1558759043, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7531-2, origin=1558759043, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7532-1, origin=2904422540, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7532-2, origin=2904422540, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7542-1, origin=7041920212, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7542-2, origin=7041920212, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7544-1, origin=1569015686, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7544-2, origin=1569015686, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7549-1, origin=2125049866, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7549-2, origin=2125049866, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7555-1, origin=272118322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7555-2, origin=272118322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7562-1, origin=5562508314, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7562-2, origin=5562508314, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7563-1, origin=307965916, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7563-2, origin=307965916, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7568-1, origin=4755048008, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7568-2, origin=4755048008, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7578-1, origin=1968204000, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7578-2, origin=1968204000, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7584-1, origin=4306261638, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7584-2, origin=4306261638, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7586-1, origin=7106699893, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7586-2, origin=7106699893, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7477-1, origin=2847322810, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7477-2, origin=2847322810, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7491-1, origin=288118639, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7491-2, origin=288118639, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7510-1, origin=2188213716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7510-2, origin=2188213716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7516-1, origin=1634801230, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7516-2, origin=1634801230, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7521-1, origin=216440811, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7521-2, origin=216440811, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7536-1, origin=336115376, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7536-2, origin=336115376, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7538-1, origin=302423355, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7538-2, origin=302423355, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7552-1, origin=652535143, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7552-2, origin=652535143, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7554-1, origin=272118269, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7554-2, origin=272118269, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7576-1, origin=6329171524, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7576-2, origin=6329171524, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7582-1, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7582-2, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7588-1, origin=568840519, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7588-2, origin=568840519, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7591-1, origin=290854795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7591-2, origin=290854795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7594-1, origin=1891184481, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7594-2, origin=1891184481, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7482-1, origin=315258285, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7482-2, origin=315258285, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7483-1, origin=632973543, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7483-2, origin=632973543, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7485-1, origin=294029953, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7485-2, origin=294029953, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7493-1, origin=2847396201, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7493-2, origin=2847396201, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7497-1, origin=7678131317, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7497-2, origin=7678131317, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7500-1, origin=303800554, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7500-2, origin=303800554, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7503-1, origin=292672036, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7503-2, origin=292672036, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7509-1, origin=1557433256, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7509-2, origin=1557433256, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7511-1, origin=2044526701, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7511-2, origin=2044526701, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7513-1, origin=305615940, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7513-2, origin=305615940, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7517-1, origin=5414886981, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7517-2, origin=5414886981, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7522-1, origin=4980354928, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7522-2, origin=4980354928, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7541-1, origin=4348385892, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7541-2, origin=4348385892, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7543-1, origin=4136186950, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7543-2, origin=4136186950, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7546-1, origin=303382694, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7546-2, origin=303382694, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7558-1, origin=902474893, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7558-2, origin=902474893, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7561-1, origin=629117500, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7561-2, origin=629117500, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7566-1, origin=1730332322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7566-2, origin=1730332322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7569-1, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7569-2, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7572-1, origin=2533396687, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7572-2, origin=2533396687, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7575-1, origin=4557493440, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7575-2, origin=4557493440, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7583-1, origin=305779877, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7583-2, origin=305779877, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7587-1, origin=335895716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7587-2, origin=335895716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7476-1, origin=3141438537, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7476-2, origin=3141438537, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7488-1, origin=287431463, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7488-2, origin=287431463, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7494-1, origin=3679335007, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7494-2, origin=3679335007, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7495-1, origin=289440002, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7495-2, origin=289440002, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7518-1, origin=1395099946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7518-2, origin=1395099946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7524-1, origin=7798230369, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7524-2, origin=7798230369, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7525-1, origin=279635052, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7525-2, origin=279635052, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7529-1, origin=1548581176, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7529-2, origin=1548581176, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7530-1, origin=360946943, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7530-2, origin=360946943, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7539-1, origin=283446454, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7539-2, origin=283446454, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7556-1, origin=5321970136, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7556-2, origin=5321970136, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7560-1, origin=309348865, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7560-2, origin=309348865, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7585-1, origin=4306261634, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7585-2, origin=4306261634, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7590-1, origin=303743752, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7590-2, origin=303743752, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7592-1, origin=270767546, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7592-2, origin=270767546, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7481-1, origin=315857168, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7481-2, origin=315857168, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7490-1, origin=286359266, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7490-2, origin=286359266, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7498-1, origin=1714277972, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7498-2, origin=1714277972, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7504-1, origin=1636695625, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7504-2, origin=1636695625, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7534-1, origin=1557945595, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7534-2, origin=1557945595, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7537-1, origin=6399558981, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7537-2, origin=6399558981, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7551-1, origin=279634990, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7551-2, origin=279634990, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7559-1, origin=303279783, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7559-2, origin=303279783, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7571-1, origin=330312113, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7571-2, origin=330312113, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7574-1, origin=5308155327, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7574-2, origin=5308155327, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7577-1, origin=635337341, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7577-2, origin=635337341, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7579-1, origin=293265059, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7579-2, origin=293265059, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7593-1, origin=1980168386, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7593-2, origin=1980168386, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7484-1, origin=1976600453, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7484-2, origin=1976600453, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7489-1, origin=1756231045, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7489-2, origin=1756231045, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7496-1, origin=277456640, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7496-2, origin=277456640, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7514-1, origin=1215289450, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7514-2, origin=1215289450, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7533-1, origin=1557674398, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7533-2, origin=1557674398, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7535-1, origin=281121892, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7535-2, origin=281121892, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7547-1, origin=303614872, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7547-2, origin=303614872, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7548-1, origin=5161769946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7548-2, origin=5161769946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7553-1, origin=3051685748, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7553-2, origin=3051685748, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7557-1, origin=287401603, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7557-2, origin=287401603, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7565-1, origin=1703008697, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7565-2, origin=1703008697, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7573-1, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7573-2, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7589-1, origin=7211378218, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7589-2, origin=7211378218, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7474-1, origin=303172103, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7474-2, origin=303172103, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7480-1, origin=1557439834, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7480-2, origin=1557439834, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7487-1, origin=290027760, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7487-2, origin=290027760, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7492-1, origin=1557675795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7492-2, origin=1557675795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7502-1, origin=5574896232, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7502-2, origin=5574896232, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7508-1, origin=301893435, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7508-2, origin=301893435, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7512-1, origin=1737307952, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7512-2, origin=1737307952, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7519-1, origin=6125651880, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7519-2, origin=6125651880, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7520-1, origin=339037617, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7520-2, origin=339037617, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7527-1, origin=1557631264, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7527-2, origin=1557631264, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7528-1, origin=2405215111, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7528-2, origin=2405215111, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7540-1, origin=1557678696, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7540-2, origin=1557678696, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7564-1, origin=288464028, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7564-2, origin=288464028, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7595-1, origin=295823383, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7595-2, origin=295823383, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7475-1, origin=292348618, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7475-2, origin=292348618, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7478-1, origin=2417854742, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7478-2, origin=2417854742, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7479-1, origin=3383262202, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7479-2, origin=3383262202, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7486-1, origin=294029946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7486-2, origin=294029946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7499-1, origin=286359257, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7499-2, origin=286359257, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7501-1, origin=315882188, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7501-2, origin=315882188, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7506-1, origin=306511079, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7506-2, origin=306511079, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7515-1, origin=5150384472, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7515-2, origin=5150384472, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7526-1, origin=1557439318, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7526-2, origin=1557439318, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7545-1, origin=286359240, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7545-2, origin=286359240, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7550-1, origin=360946837, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7550-2, origin=360946837, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7567-1, origin=270768412, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7567-2, origin=270768412, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7570-1, origin=1294763581, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7570-2, origin=1294763581, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7580-1, origin=1760819005, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7580-2, origin=1760819005, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7581-1, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
+[0, InputEvent]: generatedElement=[id=B-7581-2, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [22534, InputEvent]: generatedElement=[id=user-17.1, origin=5714349813, destination=2257654891, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
 [24010, InputEvent]: generatedElement=[id=user-0.3, origin=303418981, destination=364706951, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
 [24012, InputEvent]: generatedElement=[id=user-5.1, origin=616790542, destination=1729162181, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
@@ -939,277 +939,277 @@ Trace of agent user-21.3
 [32231, DestinationReachedEvent]: arrivalTime=32231
 [32231, LeaveSimulationEvent]: agent=[id=user-21.3, origin=1679443684, destination=5231037971, vehicle=None], cause=SUCCESS
 Trace of agent B-7562-1
-[0, InputEvent]: generatedElement=[id=B-7562-1, origin=5562508314, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7562-1, origin=5562508314, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25083, GetVehicleEvent]: agent=user-2.1, getVehicle=B-7562-1
 [25083, RouteEvent]: mode=bike, start=5562508314, end=7678131317, duration=463, distance=1925
 [25546, LeaveVehicleEvent]: agent=user-2.1, leaveVehicle=B-7562-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7562-1, origin=5562508314, seats=1], cause=END_OF_SIM
 Trace of agent B-7562-2
-[0, InputEvent]: generatedElement=[id=B-7562-2, origin=5562508314, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7562-2, origin=5562508314, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25101, GetVehicleEvent]: agent=user-4.2, getVehicle=B-7562-2
 [25101, RouteEvent]: mode=bike, start=5562508314, end=1557433256, duration=703, distance=2914
 [25804, LeaveVehicleEvent]: agent=user-4.2, leaveVehicle=B-7562-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7562-2, origin=5562508314, seats=1], cause=END_OF_SIM
 Trace of agent B-7563-1
-[0, InputEvent]: generatedElement=[id=B-7563-1, origin=307965916, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7563-1, origin=307965916, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25932, GetVehicleEvent]: agent=user-10.1, getVehicle=B-7563-1
 [25932, RouteEvent]: mode=bike, start=307965916, end=306511079, duration=705, distance=2942
 [26637, LeaveVehicleEvent]: agent=user-10.1, leaveVehicle=B-7563-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7563-1, origin=307965916, seats=1], cause=END_OF_SIM
 Trace of agent B-7563-2
-[0, InputEvent]: generatedElement=[id=B-7563-2, origin=307965916, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7563-2, origin=307965916, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25937, GetVehicleEvent]: agent=user-10.2, getVehicle=B-7563-2
 [25937, RouteEvent]: mode=bike, start=307965916, end=1557433256, duration=703, distance=2935
 [26640, LeaveVehicleEvent]: agent=user-10.2, leaveVehicle=B-7563-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7563-2, origin=307965916, seats=1], cause=END_OF_SIM
 Trace of agent B-7578-1
-[0, InputEvent]: generatedElement=[id=B-7578-1, origin=1968204000, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7578-1, origin=1968204000, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25078, GetVehicleEvent]: agent=user-0.1, getVehicle=B-7578-1
 [25078, RouteEvent]: mode=bike, start=1968204000, end=294029946, duration=576, distance=2390
 [25654, LeaveVehicleEvent]: agent=user-0.1, leaveVehicle=B-7578-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7578-1, origin=1968204000, seats=1], cause=END_OF_SIM
 Trace of agent B-7582-1
-[0, InputEvent]: generatedElement=[id=B-7582-1, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7582-1, origin=295551780, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25645, GetVehicleEvent]: agent=user-14.3, getVehicle=B-7582-1
 [25645, RouteEvent]: mode=bike, start=295551780, end=3383262202, duration=726, distance=3024
 [26371, LeaveVehicleEvent]: agent=user-14.3, leaveVehicle=B-7582-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7582-1, origin=295551780, seats=1], cause=END_OF_SIM
 Trace of agent B-7588-1
-[0, InputEvent]: generatedElement=[id=B-7588-1, origin=568840519, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7588-1, origin=568840519, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25790, GetVehicleEvent]: agent=user-6.2, getVehicle=B-7588-1
 [25790, RouteEvent]: mode=bike, start=568840519, end=5414886981, duration=651, distance=2717
 [26441, LeaveVehicleEvent]: agent=user-6.2, leaveVehicle=B-7588-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7588-1, origin=568840519, seats=1], cause=END_OF_SIM
 Trace of agent B-7588-2
-[0, InputEvent]: generatedElement=[id=B-7588-2, origin=568840519, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7588-2, origin=568840519, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25795, GetVehicleEvent]: agent=user-6.1, getVehicle=B-7588-2
 [25795, RouteEvent]: mode=bike, start=568840519, end=1395099946, duration=738, distance=3072
 [26533, LeaveVehicleEvent]: agent=user-6.1, leaveVehicle=B-7588-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7588-2, origin=568840519, seats=1], cause=END_OF_SIM
 Trace of agent B-7591-1
-[0, InputEvent]: generatedElement=[id=B-7591-1, origin=290854795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7591-1, origin=290854795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24969, GetVehicleEvent]: agent=user-1.1, getVehicle=B-7591-1
 [24969, RouteEvent]: mode=bike, start=290854795, end=1557433256, duration=784, distance=3277
 [25753, LeaveVehicleEvent]: agent=user-1.1, leaveVehicle=B-7591-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7591-1, origin=290854795, seats=1], cause=END_OF_SIM
 Trace of agent B-7591-2
-[0, InputEvent]: generatedElement=[id=B-7591-2, origin=290854795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7591-2, origin=290854795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25331, GetVehicleEvent]: agent=user-1.2, getVehicle=B-7591-2
 [25331, RouteEvent]: mode=bike, start=290854795, end=1557433256, duration=784, distance=3277
 [26115, LeaveVehicleEvent]: agent=user-1.2, leaveVehicle=B-7591-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7591-2, origin=290854795, seats=1], cause=END_OF_SIM
 Trace of agent B-7513-1
-[0, InputEvent]: generatedElement=[id=B-7513-1, origin=305615940, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7513-1, origin=305615940, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25361, GetVehicleEvent]: agent=user-16.4, getVehicle=B-7513-1
 [25361, RouteEvent]: mode=bike, start=305615940, end=1395099946, duration=348, distance=1452
 [25709, LeaveVehicleEvent]: agent=user-16.4, leaveVehicle=B-7513-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7513-1, origin=305615940, seats=1], cause=END_OF_SIM
 Trace of agent B-7513-2
-[0, InputEvent]: generatedElement=[id=B-7513-2, origin=305615940, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7513-2, origin=305615940, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25430, GetVehicleEvent]: agent=user-16.3, getVehicle=B-7513-2
 [25430, RouteEvent]: mode=bike, start=305615940, end=5414886981, duration=261, distance=1097
 [25691, LeaveVehicleEvent]: agent=user-16.3, leaveVehicle=B-7513-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7513-2, origin=305615940, seats=1], cause=END_OF_SIM
 Trace of agent B-7561-1
-[0, InputEvent]: generatedElement=[id=B-7561-1, origin=629117500, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7561-1, origin=629117500, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24984, GetVehicleEvent]: agent=user-4.4, getVehicle=B-7561-1
 [24984, RouteEvent]: mode=bike, start=629117500, end=2188213716, duration=647, distance=2677
 [25631, LeaveVehicleEvent]: agent=user-4.4, leaveVehicle=B-7561-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7561-1, origin=629117500, seats=1], cause=END_OF_SIM
 Trace of agent B-7561-2
-[0, InputEvent]: generatedElement=[id=B-7561-2, origin=629117500, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7561-2, origin=629117500, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25061, GetVehicleEvent]: agent=user-4.3, getVehicle=B-7561-2
 [25061, RouteEvent]: mode=bike, start=629117500, end=294029946, duration=473, distance=1982
 [25534, LeaveVehicleEvent]: agent=user-4.3, leaveVehicle=B-7561-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7561-2, origin=629117500, seats=1], cause=END_OF_SIM
 Trace of agent B-7566-1
-[0, InputEvent]: generatedElement=[id=B-7566-1, origin=1730332322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7566-1, origin=1730332322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25626, GetVehicleEvent]: agent=user-9.4, getVehicle=B-7566-1
 [25626, RouteEvent]: mode=bike, start=1730332322, end=1548581176, duration=1092, distance=4547
 [26718, LeaveVehicleEvent]: agent=user-9.4, leaveVehicle=B-7566-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7566-1, origin=1730332322, seats=1], cause=END_OF_SIM
 Trace of agent B-7566-2
-[0, InputEvent]: generatedElement=[id=B-7566-2, origin=1730332322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7566-2, origin=1730332322, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26079, GetVehicleEvent]: agent=user-9.2, getVehicle=B-7566-2
 [26079, RouteEvent]: mode=bike, start=1730332322, end=3051685748, duration=1163, distance=4842
 [27242, LeaveVehicleEvent]: agent=user-9.2, leaveVehicle=B-7566-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7566-2, origin=1730332322, seats=1], cause=END_OF_SIM
 Trace of agent B-7572-1
-[0, InputEvent]: generatedElement=[id=B-7572-1, origin=2533396687, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7572-1, origin=2533396687, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24782, GetVehicleEvent]: agent=user-14.1, getVehicle=B-7572-1
 [24782, RouteEvent]: mode=bike, start=2533396687, end=2417854742, duration=684, distance=2852
 [25466, LeaveVehicleEvent]: agent=user-14.1, leaveVehicle=B-7572-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7572-1, origin=2533396687, seats=1], cause=END_OF_SIM
 Trace of agent B-7572-2
-[0, InputEvent]: generatedElement=[id=B-7572-2, origin=2533396687, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7572-2, origin=2533396687, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24913, GetVehicleEvent]: agent=user-14.2, getVehicle=B-7572-2
 [24913, RouteEvent]: mode=bike, start=2533396687, end=286359266, duration=793, distance=3298
 [25706, LeaveVehicleEvent]: agent=user-14.2, leaveVehicle=B-7572-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7572-2, origin=2533396687, seats=1], cause=END_OF_SIM
 Trace of agent B-7575-1
-[0, InputEvent]: generatedElement=[id=B-7575-1, origin=4557493440, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7575-1, origin=4557493440, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25651, GetVehicleEvent]: agent=user-11.1, getVehicle=B-7575-1
 [25651, RouteEvent]: mode=bike, start=4557493440, end=279635052, duration=813, distance=3393
 [26464, LeaveVehicleEvent]: agent=user-11.1, leaveVehicle=B-7575-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7575-1, origin=4557493440, seats=1], cause=END_OF_SIM
 Trace of agent B-7583-1
-[0, InputEvent]: generatedElement=[id=B-7583-1, origin=305779877, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7583-1, origin=305779877, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25405, GetVehicleEvent]: agent=user-15.1, getVehicle=B-7583-1
 [25405, RouteEvent]: mode=bike, start=305779877, end=360946943, duration=730, distance=3034
 [26135, LeaveVehicleEvent]: agent=user-15.1, leaveVehicle=B-7583-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7583-1, origin=305779877, seats=1], cause=END_OF_SIM
 Trace of agent B-7583-2
-[0, InputEvent]: generatedElement=[id=B-7583-2, origin=305779877, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7583-2, origin=305779877, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25679, GetVehicleEvent]: agent=user-11.2, getVehicle=B-7583-2
 [25679, RouteEvent]: mode=bike, start=305779877, end=279635052, duration=663, distance=2765
 [26342, LeaveVehicleEvent]: agent=user-11.2, leaveVehicle=B-7583-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7583-2, origin=305779877, seats=1], cause=END_OF_SIM
 Trace of agent B-7587-1
-[0, InputEvent]: generatedElement=[id=B-7587-1, origin=335895716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7587-1, origin=335895716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [27949, GetVehicleEvent]: agent=user-19.2, getVehicle=B-7587-1
 [27949, RouteEvent]: mode=bike, start=335895716, end=1558759043, duration=1117, distance=4664
 [29066, LeaveVehicleEvent]: agent=user-19.2, leaveVehicle=B-7587-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7587-1, origin=335895716, seats=1], cause=END_OF_SIM
 Trace of agent B-7587-2
-[0, InputEvent]: generatedElement=[id=B-7587-2, origin=335895716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7587-2, origin=335895716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [28366, GetVehicleEvent]: agent=user-19.1, getVehicle=B-7587-2
 [28366, RouteEvent]: mode=bike, start=335895716, end=1261901706, duration=1303, distance=5441
 [29669, LeaveVehicleEvent]: agent=user-19.1, leaveVehicle=B-7587-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7587-2, origin=335895716, seats=1], cause=END_OF_SIM
 Trace of agent B-7560-1
-[0, InputEvent]: generatedElement=[id=B-7560-1, origin=309348865, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7560-1, origin=309348865, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26902, GetVehicleEvent]: agent=user-6.4, getVehicle=B-7560-1
 [26902, RouteEvent]: mode=bike, start=309348865, end=5414886981, duration=463, distance=1933
 [27365, LeaveVehicleEvent]: agent=user-6.4, leaveVehicle=B-7560-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7560-1, origin=309348865, seats=1], cause=END_OF_SIM
 Trace of agent B-7560-2
-[0, InputEvent]: generatedElement=[id=B-7560-2, origin=309348865, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7560-2, origin=309348865, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26926, GetVehicleEvent]: agent=user-6.3, getVehicle=B-7560-2
 [26926, RouteEvent]: mode=bike, start=309348865, end=5161769946, duration=438, distance=1832
 [27364, LeaveVehicleEvent]: agent=user-6.3, leaveVehicle=B-7560-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7560-2, origin=309348865, seats=1], cause=END_OF_SIM
 Trace of agent B-7592-1
-[0, InputEvent]: generatedElement=[id=B-7592-1, origin=270767546, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7592-1, origin=270767546, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25993, GetVehicleEvent]: agent=user-8.2, getVehicle=B-7592-1
 [25993, RouteEvent]: mode=bike, start=270767546, end=7798230369, duration=705, distance=2947
 [26698, LeaveVehicleEvent]: agent=user-8.2, leaveVehicle=B-7592-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7592-1, origin=270767546, seats=1], cause=END_OF_SIM
 Trace of agent B-7592-2
-[0, InputEvent]: generatedElement=[id=B-7592-2, origin=270767546, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7592-2, origin=270767546, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26019, GetVehicleEvent]: agent=user-8.1, getVehicle=B-7592-2
 [26019, RouteEvent]: mode=bike, start=270767546, end=7798230369, duration=705, distance=2947
 [26724, LeaveVehicleEvent]: agent=user-8.1, leaveVehicle=B-7592-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7592-2, origin=270767546, seats=1], cause=END_OF_SIM
 Trace of agent B-7498-1
-[0, InputEvent]: generatedElement=[id=B-7498-1, origin=1714277972, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7498-1, origin=1714277972, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24040, GetVehicleEvent]: agent=user-0.3, getVehicle=B-7498-1
 [24040, RouteEvent]: mode=bike, start=1714277972, end=3383262202, duration=676, distance=2822
 [24716, LeaveVehicleEvent]: agent=user-0.3, leaveVehicle=B-7498-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7498-1, origin=1714277972, seats=1], cause=END_OF_SIM
 Trace of agent B-7498-2
-[0, InputEvent]: generatedElement=[id=B-7498-2, origin=1714277972, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7498-2, origin=1714277972, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24393, GetVehicleEvent]: agent=user-0.2, getVehicle=B-7498-2
 [24393, RouteEvent]: mode=bike, start=1714277972, end=2847396201, duration=569, distance=2369
 [24962, LeaveVehicleEvent]: agent=user-0.2, leaveVehicle=B-7498-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7498-2, origin=1714277972, seats=1], cause=END_OF_SIM
 Trace of agent B-7571-1
-[0, InputEvent]: generatedElement=[id=B-7571-1, origin=330312113, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7571-1, origin=330312113, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25632, GetVehicleEvent]: agent=user-13.4, getVehicle=B-7571-1
 [25632, RouteEvent]: mode=bike, start=330312113, end=315882188, duration=907, distance=3775
 [26539, LeaveVehicleEvent]: agent=user-13.4, leaveVehicle=B-7571-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7571-1, origin=330312113, seats=1], cause=END_OF_SIM
 Trace of agent B-7571-2
-[0, InputEvent]: generatedElement=[id=B-7571-2, origin=330312113, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7571-2, origin=330312113, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25798, GetVehicleEvent]: agent=user-13.2, getVehicle=B-7571-2
 [25798, RouteEvent]: mode=bike, start=330312113, end=294029953, duration=845, distance=3522
 [26643, LeaveVehicleEvent]: agent=user-13.2, leaveVehicle=B-7571-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7571-2, origin=330312113, seats=1], cause=END_OF_SIM
 Trace of agent B-7574-1
-[0, InputEvent]: generatedElement=[id=B-7574-1, origin=5308155327, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7574-1, origin=5308155327, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [31044, GetVehicleEvent]: agent=user-21.3, getVehicle=B-7574-1
 [31044, RouteEvent]: mode=bike, start=5308155327, end=287431463, duration=1139, distance=4757
 [32183, LeaveVehicleEvent]: agent=user-21.3, leaveVehicle=B-7574-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7574-1, origin=5308155327, seats=1], cause=END_OF_SIM
 Trace of agent B-7574-2
-[0, InputEvent]: generatedElement=[id=B-7574-2, origin=5308155327, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7574-2, origin=5308155327, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [31182, GetVehicleEvent]: agent=user-21.2, getVehicle=B-7574-2
 [31182, RouteEvent]: mode=bike, start=5308155327, end=286359257, duration=1154, distance=4817
 [32336, LeaveVehicleEvent]: agent=user-21.2, leaveVehicle=B-7574-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7574-2, origin=5308155327, seats=1], cause=END_OF_SIM
 Trace of agent B-7577-1
-[0, InputEvent]: generatedElement=[id=B-7577-1, origin=635337341, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7577-1, origin=635337341, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29669, GetVehicleEvent]: agent=user-21.1, getVehicle=B-7577-1
 [29669, RouteEvent]: mode=bike, start=635337341, end=286359257, duration=548, distance=2287
 [30217, LeaveVehicleEvent]: agent=user-21.1, leaveVehicle=B-7577-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7577-1, origin=635337341, seats=1], cause=END_OF_SIM
 Trace of agent B-7579-1
-[0, InputEvent]: generatedElement=[id=B-7579-1, origin=293265059, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7579-1, origin=293265059, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29865, GetVehicleEvent]: agent=user-20.1, getVehicle=B-7579-1
 [29865, RouteEvent]: mode=bike, start=293265059, end=1557945595, duration=762, distance=3185
 [30627, LeaveVehicleEvent]: agent=user-20.1, leaveVehicle=B-7579-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7579-1, origin=293265059, seats=1], cause=END_OF_SIM
 Trace of agent B-7514-1
-[0, InputEvent]: generatedElement=[id=B-7514-1, origin=1215289450, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7514-1, origin=1215289450, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [22600, GetVehicleEvent]: agent=user-17.1, getVehicle=B-7514-1
 [22600, RouteEvent]: mode=bike, start=1215289450, end=4755048008, duration=973, distance=4051
 [23573, LeaveVehicleEvent]: agent=user-17.1, leaveVehicle=B-7514-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7514-1, origin=1215289450, seats=1], cause=END_OF_SIM
 Trace of agent B-7514-2
-[0, InputEvent]: generatedElement=[id=B-7514-2, origin=1215289450, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7514-2, origin=1215289450, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29454, GetVehicleEvent]: agent=user-21.4, getVehicle=B-7514-2
 [29454, RouteEvent]: mode=bike, start=1215289450, end=315882188, duration=326, distance=1358
 [29780, LeaveVehicleEvent]: agent=user-21.4, leaveVehicle=B-7514-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7514-2, origin=1215289450, seats=1], cause=END_OF_SIM
 Trace of agent B-7547-1
-[0, InputEvent]: generatedElement=[id=B-7547-1, origin=303614872, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7547-1, origin=303614872, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24902, GetVehicleEvent]: agent=user-16.1, getVehicle=B-7547-1
 [24902, RouteEvent]: mode=bike, start=303614872, end=5161769946, duration=281, distance=1177
 [25183, LeaveVehicleEvent]: agent=user-16.1, leaveVehicle=B-7547-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7547-1, origin=303614872, seats=1], cause=END_OF_SIM
 Trace of agent B-7547-2
-[0, InputEvent]: generatedElement=[id=B-7547-2, origin=303614872, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7547-2, origin=303614872, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24968, GetVehicleEvent]: agent=user-16.2, getVehicle=B-7547-2
 [24968, RouteEvent]: mode=bike, start=303614872, end=1737307952, duration=395, distance=1651
 [25363, LeaveVehicleEvent]: agent=user-16.2, leaveVehicle=B-7547-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7547-2, origin=303614872, seats=1], cause=END_OF_SIM
 Trace of agent B-7557-1
-[0, InputEvent]: generatedElement=[id=B-7557-1, origin=287401603, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7557-1, origin=287401603, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26058, GetVehicleEvent]: agent=user-4.1, getVehicle=B-7557-1
 [26058, RouteEvent]: mode=bike, start=287401603, end=2847322810, duration=486, distance=2018
 [26544, LeaveVehicleEvent]: agent=user-4.1, leaveVehicle=B-7557-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7557-1, origin=287401603, seats=1], cause=END_OF_SIM
 Trace of agent B-7589-1
-[0, InputEvent]: generatedElement=[id=B-7589-1, origin=7211378218, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7589-1, origin=7211378218, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24276, GetVehicleEvent]: agent=user-5.1, getVehicle=B-7589-1
 [24276, RouteEvent]: mode=bike, start=7211378218, end=3383262202, duration=660, distance=2749
 [24936, LeaveVehicleEvent]: agent=user-5.1, leaveVehicle=B-7589-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7589-1, origin=7211378218, seats=1], cause=END_OF_SIM
 Trace of agent B-7487-1
-[0, InputEvent]: generatedElement=[id=B-7487-1, origin=290027760, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7487-1, origin=290027760, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25737, GetVehicleEvent]: agent=user-9.3, getVehicle=B-7487-1
 [25737, RouteEvent]: mode=bike, start=290027760, end=360946943, duration=962, distance=3991
 [26699, LeaveVehicleEvent]: agent=user-9.3, leaveVehicle=B-7487-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7487-1, origin=290027760, seats=1], cause=END_OF_SIM
 Trace of agent B-7487-2
-[0, InputEvent]: generatedElement=[id=B-7487-2, origin=290027760, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7487-2, origin=290027760, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26924, GetVehicleEvent]: agent=user-9.1, getVehicle=B-7487-2
 [26924, RouteEvent]: mode=bike, start=290027760, end=3051685748, duration=1022, distance=4248
 [27946, LeaveVehicleEvent]: agent=user-9.1, leaveVehicle=B-7487-2
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7487-2, origin=290027760, seats=1], cause=END_OF_SIM
 Trace of agent B-7515-1
-[0, InputEvent]: generatedElement=[id=B-7515-1, origin=5150384472, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7515-1, origin=5150384472, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25102, GetVehicleEvent]: agent=user-15.2, getVehicle=B-7515-1
 [25102, RouteEvent]: mode=bike, start=5150384472, end=360946943, duration=556, distance=2326
 [25658, LeaveVehicleEvent]: agent=user-15.2, leaveVehicle=B-7515-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7515-1, origin=5150384472, seats=1], cause=END_OF_SIM
 Trace of agent B-7570-1
-[0, InputEvent]: generatedElement=[id=B-7570-1, origin=1294763581, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7570-1, origin=1294763581, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25689, GetVehicleEvent]: agent=user-13.3, getVehicle=B-7570-1
 [25689, RouteEvent]: mode=bike, start=1294763581, end=315882175, duration=846, distance=3531
 [26535, LeaveVehicleEvent]: agent=user-13.3, leaveVehicle=B-7570-1
 [35000.0, LeaveSimulationEvent]: agent=[id=B-7570-1, origin=1294763581, seats=1], cause=END_OF_SIM
 Trace of agent B-7570-2
-[0, InputEvent]: generatedElement=[id=B-7570-2, origin=1294763581, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.vehicle.Vehicle'>
+[0, InputEvent]: generatedElement=[id=B-7570-2, origin=1294763581, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25715, GetVehicleEvent]: agent=user-13.1, getVehicle=B-7570-2
 [25715, RouteEvent]: mode=bike, start=1294763581, end=294029953, duration=833, distance=3475
 [26548, LeaveVehicleEvent]: agent=user-13.1, leaveVehicle=B-7570-2

@@ -20,6 +20,7 @@ class Station(SpatialAgent):
 
         SpatialAgent.__init__(self, simulation_model, agent_id, origin, **kwargs)
 
+        self.operator = None
         if operator_id is not None:
             self.operator = self.sim.agentPopulation.get_agent(operator_id)
 
