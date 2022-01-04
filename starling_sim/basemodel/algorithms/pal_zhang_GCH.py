@@ -336,7 +336,7 @@ class PalZhangGCH(Algorithm):
 
             # compute travel time to other stations
             travel_time[station.id] = self.sim.environment.topologies[self.vehicle_mode]\
-                .shortest_path_length(current_station.position, station.position, "time")
+                .shortest_path_length(current_station.position, station.position, None)
 
         # evaluate the next neighbor according to the neighbor parameter
         if self.neighbor == "nearest":
@@ -372,7 +372,7 @@ class PalZhangGCH(Algorithm):
             origin_station = self.sim.environment.euclidean_n_closest(origin, self.operator.stations.values(), 1)[0]
 
             travel_time = self.sim.environment.topologies["walk"]\
-                .shortest_path_length(origin, origin_station.position, "time")
+                .shortest_path_length(origin, origin_station.position, None)
             origin_station_time = origin_time + travel_time
 
             demand_dict[origin_station.id].append([origin_station_time, -1])
@@ -381,7 +381,7 @@ class PalZhangGCH(Algorithm):
                                                                            self.operator.stations.values(), 1)[0]
 
             travel_time = self.sim.environment.topologies[self.operator.mode["fleet"]]\
-                .shortest_path_length(origin_station.position, destination_station.position, "time")
+                .shortest_path_length(origin_station.position, destination_station.position, None)
 
             destination_station_time = origin_station_time + travel_time
             demand_dict[destination_station.id].append([destination_station_time, 1])

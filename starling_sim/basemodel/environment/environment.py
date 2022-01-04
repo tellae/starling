@@ -96,7 +96,7 @@ class Environment:
     # TODO : Move to subclass ? Not very pretty
     # environment utils
 
-    def compute_route_data(self, route, duration, origin, destination, dimension, mode):
+    def compute_route_data(self, route, duration, origin, destination, parameters, mode):
         """
         Compute a route data from the given parameters
 
@@ -106,17 +106,18 @@ class Environment:
             If None, use the "time" links of the environment
         :param origin: origin used for the shortest path computation
         :param destination: destination used for the shortest path computation
-        :param dimension: dimension minimised in the shortest path computation
+        :param parameters: agent specific parameters used for path evaluation
         :param mode: mode of the move
         :return: route_data={"route": position_list, "length": length_list, "time": time_list}
         """
 
         # if route is None, compute the path from <origin> to <destination>
         # which minimises <dimension>
-        length = None
+        time = None
         if route is None:
             # compute shortest path
-            route, length = self.topologies[mode].dijkstra_shortest_path_and_length(origin, destination, dimension)
+            route, time, length = self.topologies[mode].dijkstra_shortest_path_and_length(origin, destination,
+                                                                                          parameters)
 
         # store route in a dict
         route_data = {"route": route}
@@ -138,8 +139,8 @@ class Environment:
             self.add_route_data(route_data, mode, "time")
 
         # check that the duration fits (to avoid round-up error)
-        if duration is None and length is not None:
-            duration = length
+        if duration is None and time is not None:
+            duration = time
 
         time_sum = sum(route_data["time"])
 
@@ -255,17 +256,18 @@ class Environment:
 
             return agent_localisation
 
-    def compute_network_distance(self, source, target, mode, dimension="time", return_path=False):
+    def compute_network_distance(self, source, target, mode, parameters=None, return_path=False):
 
         # if no mode is given, return None
         if mode is None:
             logging.warning("No mode provided for network distance computation")
             return None
         else:
+            path, duration, _ = self.topologies[mode].dijkstra_shortest_path_and_length(source, target, parameters)
             if return_path:
-                return self.topologies[mode].dijkstra_shortest_path_and_length(source, target, dimension)
+                return path, duration
             else:
-                return self.topologies[mode].shortest_path_length(source, target, dimension)
+                return duration
 
     def compute_euclidean_distance(self, position1, position2, mode=None):
 

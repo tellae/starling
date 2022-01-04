@@ -144,7 +144,7 @@ class Dispatcher(ABC):
         for i in range(len(stop_points)):
 
             origin = self.operator.stopPoints[stop_points[i]].position
-            _, lengths = self.sim.environment.topologies[mode].dijkstra_shortest_path_and_length(origin, None, dimension)
+            _, lengths = self.sim.environment.topologies[mode].compute_dijkstra_path(origin, None, dimension)
 
             for j in range(len(stop_points)):
                 matrix[i, j] = int(lengths[self.operator.stopPoints[stop_points[j]].position])
