@@ -1,4 +1,5 @@
 from abc import ABC
+import json
 
 
 class NetworkDisutility(ABC):
@@ -35,3 +36,15 @@ class NetworkDisutility(ABC):
         :param parameters: agent specific parameters
         """
         raise NotImplementedError()
+
+    def get_parameters_hash(parameters):
+        """
+        Get the hash of the given disutility parameters.
+
+        :param parameters:
+
+        :return: hash of the parameters, associated to the computed disutility.
+        """
+        return "hash"
+        # return hash(json.dumps(parameters, sort_keys=True))
+    get_parameters_hash = staticmethod(get_parameters_hash)

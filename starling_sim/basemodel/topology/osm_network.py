@@ -10,8 +10,6 @@ from starling_sim.utils.utils import json_load, osm_graph_from_file
 class OSMNetwork(Topology):
     """
     Open Street Map network topology
-
-    Stores the network as a networkx graph
     """
 
     def __init__(self, transport_mode, network_file=None, speed_file=None, graph=None, store_paths=False):

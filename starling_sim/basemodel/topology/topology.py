@@ -113,7 +113,7 @@ class Topology(ABC):
         if origin is None or destination is None:
             raise ValueError("Cannot evaluate path, origin or destination is None")
 
-        param_hash = self.get_parameters_hash(parameters)
+        param_hash = self.disutility.get_parameters_hash(parameters)
 
         od = (origin, destination)
 
@@ -214,8 +214,3 @@ class Topology(ABC):
         :return: list of nearest nodes
         """
         raise NotImplementedError()
-
-    def get_parameters_hash(_):
-        # TODO
-        return "hash"
-    get_parameters_hash = staticmethod(get_parameters_hash)
