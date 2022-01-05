@@ -14,8 +14,6 @@ class OSMNetwork(Topology):
     Stores the network as a networkx graph
     """
 
-    IMPORT_ERROR = "Cannot import OSM network : "
-
     def __init__(self, transport_mode, network_file=None, speed_file=None, graph=None, store_paths=False):
         """
         Create the topology structure, without initializing the network
@@ -76,10 +74,10 @@ class OSMNetwork(Topology):
         d["speed"] = speed
 
         # round the length values
-        d["length"] = round(d["length"])
+        d[self.LENGTH_ATTRIBUTE] = round(d[self.LENGTH_ATTRIBUTE])
 
         # time is valued in seconds
-        d["time"] = round(3600 * ((d['length'] / 1000) / speed))
+        d[self.TIME_ATTRIBUTE] = round(3600 * ((d[self.LENGTH_ATTRIBUTE] / 1000) / speed))
 
     def position_localisation(self, position):
 

@@ -11,6 +11,9 @@ class Topology(ABC):
     Networks are stored as NetworkX graphs.
     """
 
+    TIME_ATTRIBUTE = "time"
+    LENGTH_ATTRIBUTE = "length"
+
     def __init__(self, transport_mode, store_paths=False):
         """
         The constructor should not instantiate the topology data structure,
@@ -62,12 +65,11 @@ class Topology(ABC):
 
     def add_time_and_length(self, u, v, d):
         """
-        Add time and length attributes to the graph edge.
+        Set the TIME_ATTRIBUTE and LENGTH_ATTRIBUTE attributes on the graph edge.
 
-        :param u:
-        :param v:
-        :param d:
-        :return:
+        :param u: edge origin
+        :param v: edge destination
+        :param d: edge data
         """
         raise NotImplementedError()
 
@@ -148,8 +150,8 @@ class Topology(ABC):
         current_position = path[0]
 
         for next_position in path[1:]:
-            total_duration += self.get_edge_data(current_position, next_position, "time")
-            total_length += self.get_edge_data(current_position, next_position, "length")
+            total_duration += self.get_edge_data(current_position, next_position, self.TIME_ATTRIBUTE)
+            total_length += self.get_edge_data(current_position, next_position, self.LENGTH_ATTRIBUTE)
             current_position = next_position
 
         return total_duration, total_length
