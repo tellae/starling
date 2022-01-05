@@ -10,8 +10,9 @@ class NetworkDisutility(ABC):
     a shortest path algorithm.
     """
 
-    def __init__(self):
+    def __init__(self, topology):
 
+        self.topology = topology
         self.default_parameters = {}
 
     def pre_process_edge(self, u, v, d):
@@ -45,6 +46,7 @@ class NetworkDisutility(ABC):
 
         :return: hash of the parameters, associated to the computed disutility.
         """
-        return "hash"
-        # return hash(json.dumps(parameters, sort_keys=True))
+        print(parameters)
+        return str(hash(json.dumps(parameters, sort_keys=True)))
+
     get_parameters_hash = staticmethod(get_parameters_hash)

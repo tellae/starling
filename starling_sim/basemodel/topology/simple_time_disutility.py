@@ -1,5 +1,4 @@
 from starling_sim.basemodel.topology.network_disutility import NetworkDisutility
-from starling_sim.basemodel.topology.topology import Topology
 
 
 class SimpleTimeDisutility(NetworkDisutility):
@@ -10,4 +9,4 @@ class SimpleTimeDisutility(NetworkDisutility):
     """
 
     def compute_edge_disutility(self, u, v, d, parameters):
-        return d[Topology.TIME_ATTRIBUTE]
+        return d[self.topology.TIME_ATTRIBUTE]

@@ -27,10 +27,11 @@ class Topology(ABC):
         self.graph = None
 
         # disutility class
-        self.disutility = SimpleTimeDisutility()
+        self.disutility = SimpleTimeDisutility(self)
         self.parameters_hash = {
-            "hash": {}
+            self.disutility.get_parameters_hash(self.disutility.default_parameters): self.disutility.default_parameters
         }
+        print(self.parameters_hash)
 
         # paths storage
         self.store_paths = store_paths
@@ -113,6 +114,12 @@ class Topology(ABC):
         if origin is None or destination is None:
             raise ValueError("Cannot evaluate path, origin or destination is None")
 
+        # evaluate the disutility parameters
+        if parameters is None:
+            parameters = {}
+        for default in self.disutility.default_parameters:
+            if default not in parameters:
+                parameters[default] = self.disutility.default_parameters[default]
         param_hash = self.disutility.get_parameters_hash(parameters)
 
         od = (origin, destination)
