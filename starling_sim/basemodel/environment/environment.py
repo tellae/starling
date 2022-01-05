@@ -67,31 +67,31 @@ class Environment:
         for topology in self.topologies.values():
             topology.setup()
 
-    def periodic_update_(self, period):
-        """
-        Periodically update the simulation environment using the topology update method
-
-        :param period: Update period, put 0 for no updates
-        :return:
-        """
-
-        if period == 0:
-            return
-
-        # Log periodic_update
-        logging.debug("Start periodical environment update, period=" + period)
-
-        while period:
-
-            # Wait for period to elapse
-            yield self.sim.scheduler.timeout(period)
-
-            # Log new update
-            logging.debug("Environment update")
-
-            # Update
-            for topology in self.topologies.values():
-                topology.update()
+    # def periodic_update_(self, period):
+    #     """
+    #     Periodically update the simulation environment using the topology update method
+    #
+    #     :param period: Update period, put 0 for no updates
+    #     :return:
+    #     """
+    #
+    #     if period == 0:
+    #         return
+    #
+    #     # Log periodic_update
+    #     logging.debug("Start periodical environment update, period=" + period)
+    #
+    #     while period:
+    #
+    #         # Wait for period to elapse
+    #         yield self.sim.scheduler.timeout(period)
+    #
+    #         # Log new update
+    #         logging.debug("Environment update")
+    #
+    #         # Update
+    #         for topology in self.topologies.values():
+    #             topology.update()
 
     # TODO : Move to subclass ? Not very pretty
     # environment utils

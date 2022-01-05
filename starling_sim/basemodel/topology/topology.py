@@ -55,10 +55,21 @@ class Topology(ABC):
             self.compute_disutilities(u, v, d)
 
     def init_graph(self):
-        pass
+        """
+        Initialise the network graph from any data source.
+        """
+        raise NotImplementedError()
 
     def add_time_and_length(self, u, v, d):
-        pass
+        """
+        Add time and length attributes to the graph edge.
+
+        :param u:
+        :param v:
+        :param d:
+        :return:
+        """
+        raise NotImplementedError()
 
     def compute_disutilities(self, u, v, d):
         """
@@ -72,14 +83,6 @@ class Topology(ABC):
         for param_hash in self.parameters_hash:
             parameters = self.parameters_hash[param_hash]
             d[param_hash] = self.disutility.compute_edge_disutility(u, v, d, parameters)
-
-    # TODO : remove
-    def update(self):
-        """
-        Update the topology state
-
-        :return:
-        """
 
     # path evaluation
 
