@@ -111,7 +111,7 @@ class Environment:
         :return: route_data={"route": position_list, "length": length_list, "time": time_list}
         """
 
-        # if route is None, compute the path from <origin> to <destination> which minimises disutility
+        # if route is None, compute the path from <origin> to <destination> which minimises weight
         time = None
         if route is None:
             # compute shortest path

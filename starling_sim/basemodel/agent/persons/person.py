@@ -217,7 +217,7 @@ class Person(MovingAgent):
             Default is self.position.
         :param n: simplify the computation to the n euclidean closest nodes.
             Default is 1, we look at the euclidean closest node .
-        :param parameters: agent parameters for computing the disutility
+        :param parameters: agent parameters for computing weight
         :param return_path: boolean indicating if the path should be returned.
             Default is False.
         :return: closest_node, or (closest_node, path) if return_path

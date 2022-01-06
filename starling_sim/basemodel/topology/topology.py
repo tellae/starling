@@ -1,4 +1,4 @@
-from starling_sim.basemodel.topology.simple_time_disutility import SimpleTimeDisutility
+from starling_sim.basemodel.topology.simple_time_weight import SimpleTimeWeight
 
 import networkx as nx
 from abc import ABC
@@ -26,10 +26,10 @@ class Topology(ABC):
         # networkx graph representation of the network
         self.graph = None
 
-        # disutility class
-        self.disutility = SimpleTimeDisutility(self)
+        # weight class
+        self.weight = SimpleTimeWeight(self)
         self.parameters_hash = {
-            self.disutility.get_parameters_hash(self.disutility.default_parameters): self.disutility.default_parameters
+            self.weight.get_parameters_hash(self.weight.default_parameters): self.weight.default_parameters
         }
 
         # paths storage
@@ -44,18 +44,18 @@ class Topology(ABC):
         Prepare the topology for the simulation run.
 
         Initialise the network graph, set relevant attributes
-        and compute disutility values for path evaluation.
+        and compute weight values for path evaluation.
         """
 
         self.init_graph()
 
         for u, v, d in self.graph.edges(data=True):
 
-            self.disutility.pre_process_edge(u, v, d)
+            self.weight.pre_process_edge(u, v, d)
 
             self.add_time_and_length(u, v, d)
 
-            self.compute_disutilities(u, v, d)
+            self.compute_weights(u, v, d)
 
     def init_graph(self):
         """
@@ -73,9 +73,9 @@ class Topology(ABC):
         """
         raise NotImplementedError()
 
-    def compute_disutilities(self, u, v, d):
+    def compute_weights(self, u, v, d):
         """
-        For each edge, set a value for each disutility hash.
+        For each edge, set a value for each weight hash.
 
         :param u:
         :param v:
@@ -84,7 +84,7 @@ class Topology(ABC):
 
         for param_hash in self.parameters_hash:
             parameters = self.parameters_hash[param_hash]
-            d[param_hash] = self.disutility.compute_edge_disutility(u, v, d, parameters)
+            d[param_hash] = self.weight.compute_edge_weight(u, v, d, parameters)
 
     # path evaluation
 
@@ -92,12 +92,12 @@ class Topology(ABC):
         _, duration, _ = self.dijkstra_shortest_path_and_length(origin, destination, parameters)
         return duration
 
-    def dijkstra_shortest_path_and_length(self, origin, destination, parameters, return_disutility=False):
+    def dijkstra_shortest_path_and_length(self, origin, destination, parameters, return_weight=False):
         """
-        Find the path from origin to destination with minimum the total disutility.
+        Find the path from origin to destination with minimum the total weight.
 
         Get the hash corresponding to the parameters and call Dijkstra's algorithm
-        on the corresponding utility values.
+        on the corresponding weight values.
 
         Raises an exception if origin or destination is None,
         instead of computing all shortest path (which is what NetworkX would do)
@@ -105,7 +105,7 @@ class Topology(ABC):
         :param origin: origin position
         :param destination: destination position
         :param parameters: parameters defining the utility
-        :param return_disutility: also return the total disutility
+        :param return_weight: also return the total weight
 
         :return: path (list of positions), duration, length
         """
@@ -113,33 +113,33 @@ class Topology(ABC):
         if origin is None or destination is None:
             raise ValueError("Cannot evaluate path, origin or destination is None")
 
-        # evaluate the disutility parameters
+        # evaluate the weight parameters
         if parameters is None:
             parameters = {}
         else:
-            raise ValueError("Disutility parameters are not accepted yet, please set them to None")
-        for default in self.disutility.default_parameters:
+            raise ValueError("Weight parameters are not accepted yet, please set them to None")
+        for default in self.weight.default_parameters:
             if default not in parameters:
-                parameters[default] = self.disutility.default_parameters[default]
-        param_hash = self.disutility.get_parameters_hash(parameters)
+                parameters[default] = self.weight.default_parameters[default]
+        param_hash = self.weight.get_parameters_hash(parameters)
 
         od = (origin, destination)
 
         if self.store_paths and od in self.paths[param_hash]:
-            path, duration, length, disutility = self.paths[param_hash][od]
+            path, duration, length, total_weight = self.paths[param_hash][od]
         else:
             self.shortest_path_count += 1
 
-            disutility, path = nx.single_source_dijkstra(self.graph, origin, target=destination,
-                                                         weight=param_hash)
+            total_weight, path = nx.single_source_dijkstra(self.graph, origin, target=destination,
+                                                           weight=param_hash)
 
             duration, length = self.evaluate_path_duration_and_length(path)
 
             if self.store_paths:
-                self.paths[param_hash][od] = path, duration, length, disutility
+                self.paths[param_hash][od] = path, duration, length, total_weight
 
-        if return_disutility:
-            return path, duration, length, disutility
+        if return_weight:
+            return path, duration, length, total_weight
         else:
             return path, duration, length
 
