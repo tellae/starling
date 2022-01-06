@@ -213,10 +213,10 @@ class User(Person):
             if self.vehicle is None:
 
                 best_station = self.sim.environment.closest_object(self.position, considered_stations,
-                                                                   True, "walk", dimension="time", n=3)
+                                                                   True, "walk", n=3)
             else:
                 best_station = self.sim.environment.closest_object(self.destination, considered_stations,
-                                                                   False, "walk", dimension="time", n=3)
+                                                                   False, "walk", n=3)
         else:
             raise ValueError("Unsupported value {} for 'closest_station_evaluation' option."
                              .format(self.profile["closest_station_evaluation"]))

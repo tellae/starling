@@ -63,8 +63,7 @@ class User(Person):
         # compute closest vehicle
         closest_vehicle, route = self.sim.environment.\
             closest_object(self.position, vehicles, True,
-                           "walk", dimension="time",
-                           return_path=True, n=3)
+                           "walk", return_path=True, n=3)
 
         # if no vehicle available, fail
         if closest_vehicle is None:

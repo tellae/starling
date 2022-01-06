@@ -67,36 +67,36 @@ class Environment:
         for topology in self.topologies.values():
             topology.setup()
 
-    def periodic_update_(self, period):
-        """
-        Periodically update the simulation environment using the topology update method
-
-        :param period: Update period, put 0 for no updates
-        :return:
-        """
-
-        if period == 0:
-            return
-
-        # Log periodic_update
-        logging.debug("Start periodical environment update, period=" + period)
-
-        while period:
-
-            # Wait for period to elapse
-            yield self.sim.scheduler.timeout(period)
-
-            # Log new update
-            logging.debug("Environment update")
-
-            # Update
-            for topology in self.topologies.values():
-                topology.update()
+    # def periodic_update_(self, period):
+    #     """
+    #     Periodically update the simulation environment using the topology update method
+    #
+    #     :param period: Update period, put 0 for no updates
+    #     :return:
+    #     """
+    #
+    #     if period == 0:
+    #         return
+    #
+    #     # Log periodic_update
+    #     logging.debug("Start periodical environment update, period=" + period)
+    #
+    #     while period:
+    #
+    #         # Wait for period to elapse
+    #         yield self.sim.scheduler.timeout(period)
+    #
+    #         # Log new update
+    #         logging.debug("Environment update")
+    #
+    #         # Update
+    #         for topology in self.topologies.values():
+    #             topology.update()
 
     # TODO : Move to subclass ? Not very pretty
     # environment utils
 
-    def compute_route_data(self, route, duration, origin, destination, dimension, mode):
+    def compute_route_data(self, route, duration, origin, destination, parameters, mode):
         """
         Compute a route data from the given parameters
 
@@ -106,17 +106,17 @@ class Environment:
             If None, use the "time" links of the environment
         :param origin: origin used for the shortest path computation
         :param destination: destination used for the shortest path computation
-        :param dimension: dimension minimised in the shortest path computation
+        :param parameters: agent specific parameters used for path evaluation
         :param mode: mode of the move
         :return: route_data={"route": position_list, "length": length_list, "time": time_list}
         """
 
-        # if route is None, compute the path from <origin> to <destination>
-        # which minimises <dimension>
-        length = None
+        # if route is None, compute the path from <origin> to <destination> which minimises weight
+        time = None
         if route is None:
             # compute shortest path
-            route, length = self.topologies[mode].dijkstra_shortest_path_and_length(origin, destination, dimension)
+            route, time, length = self.topologies[mode].dijkstra_shortest_path_and_length(origin, destination,
+                                                                                          parameters)
 
         # store route in a dict
         route_data = {"route": route}
@@ -138,8 +138,8 @@ class Environment:
             self.add_route_data(route_data, mode, "time")
 
         # check that the duration fits (to avoid round-up error)
-        if duration is None and length is not None:
-            duration = length
+        if duration is None and time is not None:
+            duration = time
 
         time_sum = sum(route_data["time"])
 
@@ -255,17 +255,18 @@ class Environment:
 
             return agent_localisation
 
-    def compute_network_distance(self, source, target, mode, dimension="time", return_path=False):
+    def compute_network_distance(self, source, target, mode, parameters=None, return_path=False):
 
         # if no mode is given, return None
         if mode is None:
             logging.warning("No mode provided for network distance computation")
             return None
         else:
+            path, duration, _ = self.topologies[mode].dijkstra_shortest_path_and_length(source, target, parameters)
             if return_path:
-                return self.topologies[mode].dijkstra_shortest_path_and_length(source, target, dimension)
+                return path, duration
             else:
-                return self.topologies[mode].shortest_path_length(source, target, dimension)
+                return duration
 
     def compute_euclidean_distance(self, position1, position2, mode=None):
 
@@ -283,7 +284,7 @@ class Environment:
         return dist
 
     def distance_dict_between(self, position, obj_list, distance_type, n=None, maximum_distance=None,
-                              position_lambda=None, mode=None, is_origin=True, dimension="time", return_path=False):
+                              position_lambda=None, mode=None, is_origin=True, parameters=None, return_path=False):
 
         # distance dictionary
         distance_dict = dict()
@@ -301,10 +302,10 @@ class Environment:
                 if is_origin:
 
                     distance_res = self.compute_network_distance(position, self.get_position(obj, position_lambda),
-                                                                 mode, dimension, return_path)
+                                                                 mode, parameters, return_path)
                 else:
                     distance_res = self.compute_network_distance(self.get_position(obj, position_lambda),
-                                                                 position, mode, dimension, return_path)
+                                                                 position, mode, parameters, return_path)
 
             elif distance_type == "euclidean":
                 distance_res = self.compute_euclidean_distance(position,
@@ -351,7 +352,7 @@ class Environment:
 
         return sorted_list
 
-    def closest_object(self, position, obj_list, is_origin, mode, dimension="time",
+    def closest_object(self, position, obj_list, is_origin, mode, parameters=None,
                        position_lambda=None, return_path=False, n=None):
         """
         Find the object of the list that is closest to the given position.
@@ -364,7 +365,7 @@ class Environment:
         :param obj_list:
         :param is_origin: boolean indicating if the
         :param mode:
-        :param dimension:
+        :param parameters:
         :param position_lambda:
         :param return_path:
         :param n:
@@ -383,7 +384,7 @@ class Environment:
         # do the network distance computation and keep the closest object
         distance_dict = self.distance_dict_between(position, obj_list, "network",
                                                    position_lambda=position_lambda, mode=mode, is_origin=is_origin,
-                                                   dimension=dimension, return_path=return_path)
+                                                   parameters=parameters, return_path=return_path)
         if return_path:
             closest_object = min(list(distance_dict.keys()),
                                  key=lambda x: distance_dict[x][1])

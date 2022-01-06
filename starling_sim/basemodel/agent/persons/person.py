@@ -124,12 +124,12 @@ class Person(MovingAgent):
 
     # simulation interactions
 
-    def move_shortest_with_vehicle_(self, destination=None, dimension="time"):
+    def move_shortest_with_vehicle_(self, destination=None, parameters=None):
         """
         Call self.vehicle's move method.
 
         :param destination: agent destination, default is self.tempDestination
-        :param dimension: minimised path length metric, default is time
+        :param parameters: agent specific parameters used for path evaluation
         :return: yield the moving process of the agent's vehicle
         """
 
@@ -142,7 +142,7 @@ class Person(MovingAgent):
             return
         else:
             yield self.execute_process(
-                self.vehicle.move_(destination=destination, dimension=dimension))
+                self.vehicle.move_(destination=destination, parameters=parameters))
 
     def walk_to_destination_(self):
         """
@@ -204,7 +204,7 @@ class Person(MovingAgent):
         self.vehicle = None
 
     def closest_walkable_node_of(self, mode, position=None, n=1,
-                                 dimension="time", return_path=False):
+                                 parameters=None, return_path=False):
         """
         Compute the closest node of the given mode that can be reached by walking.
 
@@ -217,8 +217,7 @@ class Person(MovingAgent):
             Default is self.position.
         :param n: simplify the computation to the n euclidean closest nodes.
             Default is 1, we look at the euclidean closest node .
-        :param dimension: dimension minimised for the shortest path.
-            Default is "time".
+        :param parameters: agent parameters for computing weight
         :param return_path: boolean indicating if the path should be returned.
             Default is False.
         :return: closest_node, or (closest_node, path) if return_path
@@ -233,7 +232,7 @@ class Person(MovingAgent):
 
         result = self.sim.environment.\
             closest_object(position, intersection_set, True, "walk",
-                           dimension=dimension, position_lambda=lambda x: x,
+                           parameters=parameters, position_lambda=lambda x: x,
                            return_path=return_path, n=n)
 
         return result

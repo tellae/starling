@@ -29,7 +29,7 @@ class MovingAgent(SpatialAgent):
 
     # move methods
 
-    def move_(self, route=None, duration=None, check_dest=False, destination=None, dimension="time", verb=True):
+    def move_(self, route=None, duration=None, check_dest=False, destination=None, parameters=None, verb=True):
         """
         Compute a route with the given parameters and follow it.
 
@@ -37,7 +37,7 @@ class MovingAgent(SpatialAgent):
         :param duration: total duration of the move
         :param check_dest: boolean indicating the destination changes should be checked while following the route
         :param destination: used for computing the route. If None, self.tempDest is used
-        :param dimension: used for computing the route. Default is "time"
+        :param parameters: agent specific parameters used for path evaluation
         :param verb: boolean indicating if a message should be displayed when calling the function
 
         :return: yield one or several processes during the route execution
@@ -56,7 +56,7 @@ class MovingAgent(SpatialAgent):
 
         # get move's route data
         route_data = self.sim.environment.compute_route_data(
-            route, duration, self.position, destination, dimension, mode)
+            route, duration, self.position, destination, parameters, mode)
 
         # execute route data
         yield self.execute_process(self.follow_route_data_(route_data, check_dest, mode, verb))
