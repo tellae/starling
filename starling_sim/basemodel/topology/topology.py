@@ -31,7 +31,6 @@ class Topology(ABC):
         self.parameters_hash = {
             self.disutility.get_parameters_hash(self.disutility.default_parameters): self.disutility.default_parameters
         }
-        print(self.parameters_hash)
 
         # paths storage
         self.store_paths = store_paths
@@ -117,6 +116,8 @@ class Topology(ABC):
         # evaluate the disutility parameters
         if parameters is None:
             parameters = {}
+        else:
+            raise ValueError("Disutility parameters are not accepted yet, please set them to None")
         for default in self.disutility.default_parameters:
             if default not in parameters:
                 parameters[default] = self.disutility.default_parameters[default]

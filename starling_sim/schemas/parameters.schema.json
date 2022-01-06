@@ -135,7 +135,7 @@
         "boolean",
         "object"
       ],
-      "default": false
+      "default": true
     },
     "seed": {
       "advanced": true,

@@ -111,8 +111,7 @@ class Environment:
         :return: route_data={"route": position_list, "length": length_list, "time": time_list}
         """
 
-        # if route is None, compute the path from <origin> to <destination>
-        # which minimises <dimension>
+        # if route is None, compute the path from <origin> to <destination> which minimises disutility
         time = None
         if route is None:
             # compute shortest path
@@ -285,7 +284,7 @@ class Environment:
         return dist
 
     def distance_dict_between(self, position, obj_list, distance_type, n=None, maximum_distance=None,
-                              position_lambda=None, mode=None, is_origin=True, dimension="time", return_path=False):
+                              position_lambda=None, mode=None, is_origin=True, parameters=None, return_path=False):
 
         # distance dictionary
         distance_dict = dict()
@@ -303,10 +302,10 @@ class Environment:
                 if is_origin:
 
                     distance_res = self.compute_network_distance(position, self.get_position(obj, position_lambda),
-                                                                 mode, dimension, return_path)
+                                                                 mode, parameters, return_path)
                 else:
                     distance_res = self.compute_network_distance(self.get_position(obj, position_lambda),
-                                                                 position, mode, dimension, return_path)
+                                                                 position, mode, parameters, return_path)
 
             elif distance_type == "euclidean":
                 distance_res = self.compute_euclidean_distance(position,
@@ -353,7 +352,7 @@ class Environment:
 
         return sorted_list
 
-    def closest_object(self, position, obj_list, is_origin, mode, dimension="time",
+    def closest_object(self, position, obj_list, is_origin, mode, parameters=None,
                        position_lambda=None, return_path=False, n=None):
         """
         Find the object of the list that is closest to the given position.
@@ -366,7 +365,7 @@ class Environment:
         :param obj_list:
         :param is_origin: boolean indicating if the
         :param mode:
-        :param dimension:
+        :param parameters:
         :param position_lambda:
         :param return_path:
         :param n:
@@ -385,7 +384,7 @@ class Environment:
         # do the network distance computation and keep the closest object
         distance_dict = self.distance_dict_between(position, obj_list, "network",
                                                    position_lambda=position_lambda, mode=mode, is_origin=is_origin,
-                                                   dimension=dimension, return_path=return_path)
+                                                   parameters=parameters, return_path=return_path)
         if return_path:
             closest_object = min(list(distance_dict.keys()),
                                  key=lambda x: distance_dict[x][1])

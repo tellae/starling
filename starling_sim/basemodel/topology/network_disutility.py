@@ -46,7 +46,6 @@ class NetworkDisutility(ABC):
 
         :return: hash of the parameters, associated to the computed disutility.
         """
-        print(parameters)
         return str(hash(json.dumps(parameters, sort_keys=True)))
 
     get_parameters_hash = staticmethod(get_parameters_hash)
