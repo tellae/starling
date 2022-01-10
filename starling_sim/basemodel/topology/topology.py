@@ -1,7 +1,15 @@
 from starling_sim.basemodel.topology.simple_time_weight import SimpleTimeWeight
+from starling_sim.basemodel.topology.bike_weight_osm import BikeWeightOSM
+from starling_sim.basemodel.topology.network_weight import NetworkWeight
 
 import networkx as nx
 from abc import ABC
+
+# this shouldn't be here, doesn't allow adding new weights
+NETWORK_WEIGHT_CLASSES = {
+    "simple_time_weight": SimpleTimeWeight,
+    "bike_weight_osm": BikeWeightOSM
+}
 
 
 class Topology(ABC):
@@ -14,7 +22,7 @@ class Topology(ABC):
     TIME_ATTRIBUTE = "time"
     LENGTH_ATTRIBUTE = "length"
 
-    def __init__(self, transport_mode, store_paths=False):
+    def __init__(self, transport_mode, weight_class=None, store_paths=False):
         """
         The constructor should not instantiate the topology data structure,
         which is done in the setup method
@@ -27,7 +35,19 @@ class Topology(ABC):
         self.graph = None
 
         # weight class
-        self.weight = SimpleTimeWeight(self)
+        self.weight = None
+        if weight_class is not None:
+            if weight_class not in NETWORK_WEIGHT_CLASSES:
+                raise ValueError("Unknown weight class key '{}'".format(weight_class))
+            else:
+                weight_class = NETWORK_WEIGHT_CLASSES[weight_class]
+        else:
+            weight_class = SimpleTimeWeight
+
+        self.weight = weight_class.__new__(weight_class)
+        assert (isinstance(self.weight, NetworkWeight))
+        self.weight.__init__(self)
+
         self.parameters_hash = {
             self.weight.get_parameters_hash(self.weight.default_parameters): self.weight.default_parameters
         }
