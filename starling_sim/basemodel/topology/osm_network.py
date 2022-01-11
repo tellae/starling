@@ -12,17 +12,19 @@ class OSMNetwork(Topology):
     Open Street Map network topology
     """
 
-    def __init__(self, transport_mode, network_file=None, speed_file=None, graph=None, store_paths=False):
+    def __init__(self, transport_mode, weight_class=None, store_paths=False,
+                 network_file=None, speed_file=None, graph=None):
         """
         Create the topology structure, without initializing the network
 
         :param transport_mode: type of the given network
+        :param weight_class: class used for defining weight
+        :param store_paths: boolean indicating if shortest paths should be stored
         :param network_file: graphml file for network import
         :param speed_file: json file containing the link speeds
         :param graph: graph object for direct initialisation
-        :param store_paths: boolean indicating if shortest paths should be stored
         """
-        super().__init__(transport_mode, store_paths)
+        super().__init__(transport_mode, weight_class=weight_class, store_paths=store_paths)
 
         self.network_file = network_file
         self.speed_file = speed_file

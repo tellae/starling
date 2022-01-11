@@ -29,10 +29,14 @@ class Environment:
         else:
             store_paths = False
 
+        weight_class = None
+
         for mode, info in topologies_dict.items():
 
             network_file = info[0]
             speeds_file = info[1]
+            if len(info) == 3:
+                weight_class = info[2]
 
             # see if paths of this topology should be stored
             if isinstance(store_paths, dict):
@@ -45,8 +49,8 @@ class Environment:
 
             # create a topology object according to the given network type
             if network == "osm":
-                topology = OSMNetwork(mode, network_file, speeds_file, store_paths=store)
-
+                topology = OSMNetwork(mode, network_file=network_file, speed_file=speeds_file,
+                                      store_paths=store, weight_class=weight_class)
             else:
                 logging.error("Unknown network type {}".format(network))
                 continue

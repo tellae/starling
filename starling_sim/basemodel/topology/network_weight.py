@@ -10,10 +10,12 @@ class NetworkWeight(ABC):
     a shortest path algorithm.
     """
 
+    DEFAULT_PARAMETERS = {}
+
     def __init__(self, topology):
 
         self.topology = topology
-        self.default_parameters = {}
+        self.default_parameters = self.DEFAULT_PARAMETERS
 
     def pre_process_edge(self, u, v, d):
         """
