@@ -1,6 +1,5 @@
 from starling_sim.basemodel.topology.simple_time_weight import SimpleTimeWeight
 from starling_sim.basemodel.topology.bike_weight_osm import BikeWeightOSM
-from starling_sim.basemodel.topology.network_weight import NetworkWeight
 
 import networkx as nx
 from abc import ABC
