@@ -36,18 +36,7 @@ class Topology(ABC):
 
         # weight class
         self.weight = None
-        if weight_class is not None:
-            if weight_class not in NETWORK_WEIGHT_CLASSES:
-                raise ValueError("Unknown weight class key '{}'".format(weight_class))
-            else:
-                weight_class = NETWORK_WEIGHT_CLASSES[weight_class]
-        else:
-            weight_class = SimpleTimeWeight
-
-        self.weight = weight_class.__new__(weight_class)
-        assert (isinstance(self.weight, NetworkWeight))
-        self.weight.__init__(self)
-
+        self.init_weight(weight_class)
         self.parameters_hash = {
             self.weight.get_parameters_hash(self.weight.default_parameters): self.weight.default_parameters
         }
@@ -58,6 +47,22 @@ class Topology(ABC):
         self.shortest_path_count = 0
 
     # graph initialisation and setup
+
+    def init_weight(self, weight_class):
+        """
+        Initialise the weight class.
+
+        :param weight_class: weight class key
+        """
+
+        if weight_class is not None:
+            if weight_class not in NETWORK_WEIGHT_CLASSES:
+                raise ValueError("Unknown weight class key '{}'".format(weight_class))
+        else:
+            weight_class = "simple_time_weight"
+
+        self.weight = NETWORK_WEIGHT_CLASSES[weight_class].__new__(NETWORK_WEIGHT_CLASSES[weight_class])
+        self.weight.__init__(self)
 
     def setup(self):
         """
