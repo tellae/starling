@@ -40,7 +40,9 @@ class Dispatcher(ABC):
         self.operator = operator
 
         #: operation parameters
-        self.operationParameters = self.operator.operationParameters
+        self.operationParameters = None
+        if operator is not None:
+            self.operationParameters = self.operator.operationParameters
 
         #: verbose option
         self.verb = verb
