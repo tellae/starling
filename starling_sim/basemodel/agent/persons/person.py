@@ -124,11 +124,12 @@ class Person(MovingAgent):
 
     # simulation interactions
 
-    def move_shortest_with_vehicle_(self, destination=None, parameters=None):
+    def move_shortest_with_vehicle_(self, destination=None, duration=None, parameters=None):
         """
         Call self.vehicle's move method.
 
         :param destination: agent destination, default is self.tempDestination
+        :param duration: total duration of the move
         :param parameters: agent specific parameters used for path evaluation
         :return: yield the moving process of the agent's vehicle
         """
@@ -142,7 +143,7 @@ class Person(MovingAgent):
             return
         else:
             yield self.execute_process(
-                self.vehicle.move_(destination=destination, parameters=parameters))
+                self.vehicle.move_(destination=destination, duration=duration, parameters=parameters))
 
     def walk_to_destination_(self):
         """

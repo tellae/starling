@@ -51,7 +51,7 @@ class MovingAgent(SpatialAgent):
             destination = self.tempDestination
 
         # ignore moves to current position
-        if destination == self.position:
+        if destination == self.position and duration is None:
             return
 
         # get move's route data
@@ -82,7 +82,7 @@ class MovingAgent(SpatialAgent):
                              .format(route[0], self.position), 40)
             raise ValueError(route)
         # check route length
-        if len(route) in [0, 1]:
+        if len(route) == 0:
             return
 
         # log agent movement
