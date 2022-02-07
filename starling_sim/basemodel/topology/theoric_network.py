@@ -16,11 +16,14 @@ class theoricNetwork(Topology):
 
     def init_graph(self):
         nb_stations = len(self.geography["C"])
-        self.graph = ntx.complete_graph(nb_stations)
+        self.graph = ntx.complete_graph(nb_stations, ntx.MultiDiGraph())
         self.graph.add_edges_from([(i,i) for i in range(nb_stations)])
         time = "WalkingTime" if self.mode == "walk" else "RidingTime"
         for idx, w in np.ndenumerate(self.geography[time]):
-            self.graph.edges[idx]["0"] = {"time":w, "length":w}
+            self.graph.edges[idx[0], idx[1], 0]["time"] = w
+            self.graph.edges[idx[0], idx[1], 0]["length"] = w
+            self.graph.edges[idx[1], idx[0], 0]["time"] = w
+            self.graph.edges[idx[1], idx[0], 0]["length"] = w
 
     def add_time_and_length(self, u, v, d):
         pass

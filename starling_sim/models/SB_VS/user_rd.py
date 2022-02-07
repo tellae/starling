@@ -20,11 +20,11 @@ class User(SB_VS_user):
         else:
 
             # if round trip, move to current position with duration equal to round_trip parameter
-            if "origin_station" in self.profile and "destination_station" in self.profile \
-                    and self.profile["origin_station"] == self.profile["destination_station"]:
-                self.log_message("Round trip !")
-                self.tempDestination = self.sim.agentPopulation["station"][self.profile["destination_station"]].position
-                yield self.execute_process(self.move_shortest_with_vehicle_(duration=self.profile["round_trip"]))
+            # if "origin_station" in self.profile and "destination_station" in self.profile \
+            #         and self.profile["origin_station"] == self.profile["destination_station"]:
+            #     self.log_message("Round trip !")
+            #     self.tempDestination = self.sim.agentPopulation["station"][self.profile["destination_station"]].position
+            #     yield self.execute_process(self.move_shortest_with_vehicle_(duration=self.profile["round_trip"]))
 
             # loop on trying to leave vehicle at station closest to dest
             yield self.execute_process(self.request_loop_())

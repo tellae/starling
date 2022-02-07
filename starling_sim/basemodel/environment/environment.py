@@ -49,9 +49,9 @@ class Environment:
                 store = store_paths
 
             # create a topology object according to the given network type
-#            if network == "osm":
-#                topology = OSMNetwork(mode, network_file=network_file, speed_file=speeds_file,
-#                                      store_paths=store, weight_class=weight_class)
+            # if network == "osm":
+            #     topology = OSMNetwork(mode, network_file=network_file, speed_file=speeds_file,
+            #                           store_paths=store, weight_class=weight_class)
             if True:
                 topology = theoricNetwork(mode, network_file, weight_class=weight_class, store_paths=store)
             else:
