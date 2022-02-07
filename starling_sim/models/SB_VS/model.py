@@ -4,7 +4,8 @@ from starling_sim.basemodel.environment.environment import Environment
 from starling_sim.models.SB_VS.input import Input
 from starling_sim.models.SB_VS.output import Output
 from starling_sim.basemodel.schedule.scheduler import Scheduler
-from starling_sim.models.SB_VS.user import User
+# from starling_sim.models.SB_VS.user import User
+from starling_sim.models.SB_VS.user_rd import User
 from starling_sim.basemodel.agent.vehicles.station_based_vehicle import StationBasedVehicle
 from starling_sim.basemodel.agent.stations.vehicle_sharing_station import VehicleSharingStation
 
