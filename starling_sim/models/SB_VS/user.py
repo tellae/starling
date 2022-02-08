@@ -32,7 +32,7 @@ class User(Person):
                     {"const": "euclidean"},
                     {"const": "shortest_path"}
                 ],
-                "default": "euclidean"
+                "default": "shortest_path"
             }
         },
         "required": ["has_station_info", "closest_station_evaluation"]
@@ -209,14 +209,16 @@ class User(Person):
 
         # TODO : return path and use it
         elif self.profile["closest_station_evaluation"] == "shortest_path":
-
+            # n is equal to 3 in the original model
+            # n = 3
+            n = None
             if self.vehicle is None:
 
                 best_station = self.sim.environment.closest_object(self.position, considered_stations,
-                                                                   True, "walk", n=3)
+                                                                   True, "walk", n=n)
             else:
                 best_station = self.sim.environment.closest_object(self.destination, considered_stations,
-                                                                   False, "walk", n=3)
+                                                                   False, "walk", n=n)
         else:
             raise ValueError("Unsupported value {} for 'closest_station_evaluation' option."
                              .format(self.profile["closest_station_evaluation"]))
