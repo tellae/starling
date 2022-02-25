@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.7.2 (2022-02-25)
+
+
+### Features
+
+* added a new config parameter 'stop_sequence_separator' ([6207cc5](https://github.com/tellae/starling/commit/6207cc5eb9fc3fd2004e88150d0ebea2bce6518a))
+
 ### 0.7.1 (2022-01-26)
 
 
