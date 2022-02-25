@@ -62,6 +62,12 @@
       "description": "Format version of the GeoJSON output. If null, use the one specified in geojson_output.py.",
       "type": ["integer", "null"],
       "default": null
+    },
+    "stop_sequence_separator": {
+      "title": "Stop sequence separator",
+      "description": "Separator used to build stop sequences in GTFS",
+      "type": ["string"],
+      "default": "-"
     }
   }
 }
