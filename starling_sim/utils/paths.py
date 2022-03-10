@@ -223,7 +223,7 @@ def scenario_input_folder(model_code, scenario):
     return scenario_folder(model_code, scenario) + INPUT_FOLDER_NAME + _SEP
 
 
-def scenario_parameters_file(model_code, scenario):
+def scenario_parameters_filepath(model_code, scenario):
     """
     Path to the parameters file of the given scenario.
 

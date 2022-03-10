@@ -125,7 +125,7 @@ def test_model(model_code, pkg):
 def test_scenario(model_code, pkg, scenario):
 
     # get the scenario parameters file
-    parameters_path = paths.scenario_parameters_file(model_code, scenario)
+    parameters_path = paths.scenario_parameters_filepath(model_code, scenario)
 
     # test the existance of the scenario
     if not os.path.exists(parameters_path):
