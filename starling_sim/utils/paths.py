@@ -138,6 +138,9 @@ INPUT_FOLDER_NAME = "inputs"
 #: name of the output folder
 OUTPUT_FOLDER_NAME = "outputs"
 
+#: unique parameters filename
+PARAMETERS_FILENAME = "Params.json"
+
 #: format of the model import string
 _MODEL_IMPORT_FORMAT = "{starling_pkg}.models.{model_code}.model"
 
@@ -218,6 +221,16 @@ def scenario_input_folder(model_code, scenario):
     :param scenario: name of the scenario
     """
     return scenario_folder(model_code, scenario) + INPUT_FOLDER_NAME + _SEP
+
+
+def scenario_parameters_file(model_code, scenario):
+    """
+    Path to the parameters file of the given scenario.
+
+    :param model_code: code of the model
+    :param scenario: name of the scenario
+    """
+    return scenario_input_folder(model_code, scenario) + PARAMETERS_FILENAME
 
 
 def scenario_output_folder(model_code, scenario):
