@@ -3,6 +3,7 @@ This module manages the parameters of the simulation
 """
 
 import logging
+import os
 from copy import deepcopy
 
 from starling_sim.utils.utils import json_load, validate_against_schema
@@ -130,6 +131,10 @@ class ParametersFromFile(SimulationParameters):
         Initialisation of the param dict by reading params in a json file
         :param filepath:
         """
+
+        # check that the parameters file has the correct name
+        if os.path.basename(filepath) != paths.PARAMETERS_FILENAME:
+            raise ValueError("The parameters file must be named " + paths.PARAMETERS_FILENAME)
 
         # read json
         json_param = json_load(filepath)
