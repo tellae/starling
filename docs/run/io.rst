@@ -59,10 +59,7 @@ These files can be read using the *gtfs-kit* library.
 Simulation scenario data
 ------------------------
 
-For each scenario, the specific input data must be stored in the input folder
-(see :data:`~starling_sim.utils.paths.INPUT_FOLDER_NAME)`.
-
-For each scenario, the specific input data must be stored in the :data:`~starling_sim.utils.paths.scenario_inputs_folder`.
+For each scenario, the specific input data must be stored in the :data:`~starling_sim.utils.paths.scenario_input_folder`.
 
 For the dynamic and initialisation input files, they can also be stored in the
 :data:`~starling_sim.utils.paths.common_inputs_folder`, in order to share the files between several scenarios.
@@ -71,34 +68,31 @@ The framework looks in the common inputs folder if it does not find the files in
 Parameters file
 +++++++++++++++
 
-The parameters file is a .json file that contains values for several simulation parameters.
+The parameters file must be named as :data:`~starling_sim.utils.paths.PARAMETERS_FILENAME` and placed in the
+scenario inputs folder. It is a .json file that contains values for several
+simulation parameters and files.
 
 Among other things, it contains the simulation model code and the scenario name, which must be consistent with
 where the parameters file is stored. It also contains the paths or filename of the other input files of the scenario.
 
 For a complete description of the format of the parameters file, see its JSON schema:
 
-.. literalinclude:: ../../schemas/parameters.schema.json
+.. literalinclude:: ../../starling_sim/schemas/parameters.schema.json
     :language: json
 
 Dynamic input file
 ++++++++++++++++++
 
 The dynamic input file is a .geojson file that contains a representation of the dynamic agents of the simulation.
+Here, dynamic means that agents are introduced in the course of the simulation, according to their ``origin_time`` key.
 
-Here, dynamic means that agents are introduced in the course of the simulation, according to their "origin_time" key.
-For now, this file is dedicated to the description of the transport users.
+Agent inputs are described using `Geojson <https://geojson.org/>`_ Feature objects
+with specific properties. JSON schemas for the agents of a model can be generated using the ``-J``
+(or ``--json-schema``) option of main.py
 
-The JSON schema describing these agents is:
+.. code-block:: bash
 
-.. literalinclude:: ../../schemas/AgentFeature.schema.json
-    :language: json
-
-As you can see, agents are described using `Geojson <https://geojson.org/>`_ Feature objects
-with additional properties. These properties are described by this second JSON schema:
-
-.. literalinclude:: ../../schemas/AgentProperties.schema.json
-    :language: json
+    python3 main.py -J SB_VS
 
 The agent features are fetched by :class:`~starling_sim.basemodel.input.dynamic_input.DynamicInput` (or any class
 that inherits from it) in order to initialise simulation agents.
