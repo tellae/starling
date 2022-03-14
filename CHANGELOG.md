@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.7.3 (2022-03-14)
+
+
+### Features
+
+* unify parameters filename ([#41](https://github.com/tellae/starling/issues/41)) ([93fdd22](https://github.com/tellae/starling/commit/93fdd2250e70065bc49cd6329ced5d62456e7c56))
+
 ### 0.7.2 (2022-02-25)
 
 
