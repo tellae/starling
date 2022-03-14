@@ -15,13 +15,6 @@
       "exclusiveMinimum": 0,
       "default": 1.1
     },
-    "parameters_file": {
-      "title": "Parameters filename",
-      "description": "Parameters filename used if none is provided",
-      "type": "string",
-      "pattern": "(.)*(.json)",
-      "default": "Params.json"
-    },
     "geojson_format": {
       "title": "GeoJSON output format",
       "description": "Filename format of the GeoJSON output. Placeholder: {scenario}",

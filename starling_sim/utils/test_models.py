@@ -3,7 +3,6 @@ from starling_sim.model_simulator import model_codes
 from starling_sim.utils.simulation_logging import TEST_LOGGER
 from starling_sim.utils.utils import gz_decompression
 from starling_sim.utils import paths
-from starling_sim.utils.config import config
 
 import os
 import subprocess
@@ -126,7 +125,7 @@ def test_model(model_code, pkg):
 def test_scenario(model_code, pkg, scenario):
 
     # get the scenario parameters file
-    parameters_path = paths.scenario_input_folder(model_code, scenario) + config["parameters_file"]
+    parameters_path = paths.scenario_parameters_filepath(model_code, scenario)
 
     # test the existance of the scenario
     if not os.path.exists(parameters_path):
