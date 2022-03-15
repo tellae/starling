@@ -233,6 +233,32 @@ def scenario_parameters_filepath(model_code, scenario):
     return scenario_input_folder(model_code, scenario) + PARAMETERS_FILENAME
 
 
+def scenario_input_filepath(model_code, scenario, filename):
+    """
+    Get the path to the scenario input file (dynamic or initialisation file).
+
+    First, look in the scenario input folder. If the file is not found,
+    look in the common inputs folder. If the file is not there,
+    raise a FileNotFoundError.
+
+    :param model_code: code of the model
+    :param scenario: name of the scenario
+    :param filename: name of the input file
+    """
+
+    # complete the file path with the input folder path
+    filepath = scenario_input_folder(model_code, scenario) + filename
+
+    # if the file does not exist, look in the common inputs folder
+    if not os.path.exists(filepath):
+        filepath = common_inputs_folder() + filename
+        if not os.path.exists(filepath):
+            raise FileNotFoundError("Input file {} not found in scenario inputs folder "
+                                    "or common inputs folder".format(filename))
+
+    return filepath
+
+
 def scenario_output_folder(model_code, scenario):
     """
     Path to the output folder of the given scenario.
