@@ -4,7 +4,7 @@ from starling_sim.basemodel.agent.operators.operator import Operator
 from starling_sim.utils.utils import json_load, validate_against_schema, \
     add_defaults_and_validate
 from starling_sim.utils.constants import STOP_POINT_POPULATION
-from starling_sim.utils.paths import scenario_input_filepath
+from starling_sim.utils.paths import scenario_agent_input_filepath
 from jsonschema import ValidationError
 from json import JSONDecodeError
 
@@ -261,7 +261,7 @@ class DynamicInput(Traced):
 
         # get the path to the input file
         parameters = self.sim.parameters
-        filepath = scenario_input_filepath(parameters["code"], parameters["scenario"], filename)
+        filepath = scenario_agent_input_filepath(parameters["code"], parameters["scenario"], filename)
 
         # read the dict contained in input file
         try:

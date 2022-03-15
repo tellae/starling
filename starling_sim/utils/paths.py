@@ -233,7 +233,7 @@ def scenario_parameters_filepath(model_code, scenario):
     return scenario_input_folder(model_code, scenario) + PARAMETERS_FILENAME
 
 
-def scenario_input_filepath(model_code, scenario, filename):
+def scenario_agent_input_filepath(model_code, scenario, filename):
     """
     Get the path to the scenario input file (dynamic or initialisation file).
 
