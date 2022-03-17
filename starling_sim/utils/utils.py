@@ -498,8 +498,11 @@ def stops_table_from_geojson(geojson_path):
         if "stop_name" not in properties:
             properties["stop_name"] = "Stop point {id}".format(id=properties["stop_id"])
 
+        # convert properties to DataFrame
+        properties = pd.DataFrame([properties])
+
         # append a new row
-        stops_table = stops_table.append(properties, ignore_index=True)
+        stops_table = pd.concat([stops_table, properties], ignore_index=True)
 
     return stops_table
 

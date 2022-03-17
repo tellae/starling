@@ -4,7 +4,7 @@ from starling_sim.basemodel.agent.operators.operator import Operator
 from starling_sim.utils.utils import json_load, validate_against_schema, \
     add_defaults_and_validate
 from starling_sim.utils.constants import STOP_POINT_POPULATION
-from starling_sim.utils.paths import common_inputs_folder
+from starling_sim.utils.paths import scenario_agent_input_filepath
 from jsonschema import ValidationError
 from json import JSONDecodeError
 
@@ -259,15 +259,9 @@ class DynamicInput(Traced):
         if filename is None:
             return []
 
-        # complete the file path with the input folder path
-        filepath = self.sim.parameters["input_folder"] + filename
-
-        # if the file does not exist, look in the common inputs folder
-        if not os.path.exists(filepath):
-            filepath = common_inputs_folder() + filename
-            if not os.path.exists(filepath):
-                raise FileNotFoundError("Input file {} not found in scenario inputs folder "
-                                        "or common inputs folder".format(filename))
+        # get the path to the input file
+        parameters = self.sim.parameters
+        filepath = scenario_agent_input_filepath(parameters["code"], parameters["scenario"], filename)
 
         # read the dict contained in input file
         try:
