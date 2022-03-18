@@ -14,7 +14,21 @@ DESC = "Agent-based framework for mobility simulation"
 # get long description from README.md
 # with open("README.md", "r") as fh:
 #     LONG_DESC = fh.read()
-LONG_DESC = "Long description of the Starling project (TODO)"
+LONG_DESC = r"""
+**Starling** is an agent-based framework for mobility simulation. Users can download and model walkable, drivable, or
+bikeable urban networks with a single line of Python code, and then easily
+analyze and visualize them. You can just as easily download and work with
+amenities/points of interest, building footprints, elevation data, street
+bearings/orientations, speed/travel time, and network routing.
+Citation info: Boeing, G. 2017. `OSMnx: New Methods for Acquiring,
+Constructing, Analyzing, and Visualizing Complex Street Networks`_.
+*Computers, Environment and Urban Systems* 65, 126-139.
+doi:10.1016/j.compenvurbsys.2017.05.004
+Read the `docs`_ or see usage examples and demos on `GitHub`_.
+.. _GitHub: https://github.com/gboeing/osmnx-examples
+.. _docs: https://osmnx.readthedocs.io
+.. _OSMnx\: New Methods for Acquiring, Constructing, Analyzing, and Visualizing Complex Street Networks: http://geoffboeing.com/publications/osmnx-complex-street-networks/
+"""
 
 # list of classifiers from the PyPI classifiers trove
 CLASSIFIERS = [
