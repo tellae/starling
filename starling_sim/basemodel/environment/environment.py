@@ -140,6 +140,10 @@ class Environment:
                 total_length = sum(route_data["length"])
                 speed = float(total_length) / duration
 
+                # TODO : check if correct : if speed is 0, set it to 1 instead
+                if speed == 0:
+                    speed = 1
+
             self.add_route_data(route_data, mode, "time", speed=speed)
         else:
             self.add_route_data(route_data, mode, "time")
