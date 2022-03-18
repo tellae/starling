@@ -38,3 +38,58 @@ class User(SB_VS_user):
                 yield self.execute_process(self.walk_to_destination_())
 
             return
+
+    def best_station_for(self):
+        """
+        Return the best station according to the agent's state.
+
+        It corresponds to the closest station to either current position
+        or destination, depending on the agent having a vehicle or not.
+        Some stations may be ignored (e.g. empty stations), depending on the information
+        detained by the agent
+
+        :return: Station object, or None if no station is found
+        """
+
+        # compute stations to consider for closest search
+        considered_stations = []
+
+        for station in self.sim.agentPopulation["station"].values():
+
+            # don't consider the stations where the request already failed
+            # if station.id in self.failed_stations_ids:
+            #     continue
+
+            if self.profile["has_station_info"]:
+                # don't consider empty stations if looking for a vehicle, and vice-versa
+                if (self.vehicle is None and station.nb_products() == 0) or \
+                        (self.vehicle is not None and station.nb_products() == station.capacity):
+                    continue
+
+            considered_stations.append(station)
+
+        dist_dict = {}
+
+        # get the total travel time for each station
+        for station in considered_stations:
+
+            # if user doesn't have a vehicle : walk to station and bike to destination
+            if self.vehicle is None:
+                destination_station = self.sim.agentPopulation.get_agent(self.profile["destination_station"], "station")
+                dist_dict[station.id] = self.sim.environment.topologies[self.mode].shortest_path_length(
+                    self.position, station.position, None) \
+                    + self.sim.environment.topologies[station.mode].shortest_path_length(
+                    station.position, destination_station.position, None)
+            # if user has a vehicle : bike to station and walk to destination
+            else:
+                destination_station = self.sim.agentPopulation.get_agent(self.profile["destination_station"], "station")
+                dist_dict[station.id] = self.sim.environment.topologies[station.mode].shortest_path_length(
+                    self.position, station.position, None) + self.sim.environment.topologies[
+                                            self.mode].shortest_path_length(
+                    station.position, destination_station.position, None)
+
+        # get the minimal travel time station
+        best_station = min(dist_dict, key=dist_dict.get)
+        best_station = self.sim.agentPopulation.get_agent(best_station, "station")
+
+        return best_station
