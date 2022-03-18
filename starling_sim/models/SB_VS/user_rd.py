@@ -19,14 +19,15 @@ class User(SB_VS_user):
             self.leave_simulation("FAIL_GET")
         else:
 
-            # if round trip, move to current position with duration equal to round_trip parameter
-            # if "origin_station" in self.profile and "destination_station" in self.profile \
-            #         and self.profile["origin_station"] == self.profile["destination_station"]:
-            #     self.log_message("Round trip !")
-            #     self.tempDestination = self.sim.agentPopulation["station"][self.profile["destination_station"]].position
-            #     yield self.execute_process(self.move_shortest_with_vehicle_(duration=self.profile["round_trip"]))
+             #if round trip, move to current position with duration equal to round_trip parameter
+            if "origin_station" in self.profile and "destination_station" in self.profile \
+                     and self.profile["origin_station"] == self.profile["destination_station"]:
+                self.log_message("Round trip !")
+                self.tempDestination = self.sim.agentPopulation["station"][self.profile["destination_station"]].position
+                 #yield self.execute_process(self.move_shortest_with_vehicle_(duration=self.profile["round_trip"]))
+                yield self.execute_process(self.move_shortest_with_vehicle_(duration=30*60))
 
-            # loop on trying to leave vehicle at station closest to dest
+             # loop on trying to leave vehicle at station closest to dest
             yield self.execute_process(self.request_loop_())
 
             # should not have a vehicle
@@ -37,4 +38,3 @@ class User(SB_VS_user):
                 yield self.execute_process(self.walk_to_destination_())
 
             return
-
