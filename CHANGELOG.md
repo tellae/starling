@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.7.7 (2022-03-23)
+
+
+### Features
+
+* added a PlanningChange exception to interrupt service vehicle loops ([#46](https://github.com/tellae/starling/issues/46)) ([436039e](https://github.com/tellae/starling/commit/436039e2b2ca13a87456aab2aa06af099d20c7fc))
+
 ### 0.7.6 (2022-03-22)
 
 
