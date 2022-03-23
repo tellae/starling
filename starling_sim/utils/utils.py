@@ -51,6 +51,13 @@ class SimulationError(LeavingSimulation):
     """
 
 
+class PlanningChange(Exception):
+    """
+    Exception raised to interrupt a service vehicle loop
+    when its planning has changed.
+    """
+
+
 # json utils
 
 def json_dump(data, filepath):
