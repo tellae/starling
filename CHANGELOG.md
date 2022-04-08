@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.7.8 (2022-04-08)
+
+
+### Bug Fixes
+
+* handle case when GTFS is not provided ([#47](https://github.com/tellae/starling/issues/47)) ([cd35969](https://github.com/tellae/starling/commit/cd35969451b36ac6628795f46e9086889ba8298e))
+
 ### 0.7.7 (2022-03-23)
 
 
