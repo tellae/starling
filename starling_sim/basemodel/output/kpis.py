@@ -694,8 +694,9 @@ class TransferKPI(KPI):
 
     def setup(self, simulation_model):
 
-        self.trips = simulation_model.gtfs.trips
-        self.routes = simulation_model.gtfs.routes
+        if simulation_model.gtfs is not None:
+            self.trips = simulation_model.gtfs.trips
+            self.routes = simulation_model.gtfs.routes
 
     def new_indicator_dict(self):
 
@@ -925,7 +926,7 @@ def get_direction_of_trip(trips, trip_id):
 
 def get_route_short_name_of_trip(trips, routes, trip_id):
 
-    if trip_id is None:
+    if trips is None or routes is None or trip_id is None:
         return None
 
     trip_table = trips.loc[trips["trip_id"] == trip_id, "route_id"]
