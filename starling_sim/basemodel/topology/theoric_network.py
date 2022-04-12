@@ -25,7 +25,6 @@ class theoricNetwork(Topology):
             self.graph.edges[idx[0], idx[1], 0]["time"] = val
             self.graph.edges[idx[0], idx[1], 0]["length"] = val
 
-
     def add_time_and_length(self, u, v, d):
         pass
 
