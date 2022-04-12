@@ -36,7 +36,8 @@ class SimulationParameters:
         validate_against_schema(parameters, self.schema)
 
         # change date format from YYYY-MM-DD to YYYYMMDD
-        parameters["date"] = parameters["date"].replace("-", "")
+        if "date" in parameters:
+            parameters["date"] = parameters["date"].replace("-", "")
 
         self._parametersDict = parameters
 

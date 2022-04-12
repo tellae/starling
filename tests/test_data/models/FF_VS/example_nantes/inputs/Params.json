@@ -3,7 +3,6 @@
     "scenario": "example_nantes",
     "limit": 35000,
     "seed": 42,
-    "date": "2019-09-19",
     "traces_output": true,
     "visualisation_output": true,
     "kpi_output": true,
