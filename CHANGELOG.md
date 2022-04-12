@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.7.9 (2022-04-12)
+
+
+### Bug Fixes
+
+* missing date parameter crash ([#48](https://github.com/tellae/starling/issues/48)) ([10d5b03](https://github.com/tellae/starling/commit/10d5b03e28e9f761ca438c39079ddd2466f51b42))
+
 ### 0.7.8 (2022-04-08)
 
 
