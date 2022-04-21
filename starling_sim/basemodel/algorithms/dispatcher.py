@@ -16,10 +16,7 @@ class Dispatcher(ABC):
     """
 
     #: json schema for the operation parameters
-    SCHEMA = {
-        "type": "object",
-        "properties": {}
-    }
+    SCHEMA = {"type": "object", "properties": {}}
 
     def __init__(self, simulation_model, operator, verb=False):
         """
@@ -146,7 +143,9 @@ class Dispatcher(ABC):
         for i in range(len(stop_points)):
 
             origin = self.operator.stopPoints[stop_points[i]].position
-            _, lengths = self.sim.environment.topologies[mode].compute_dijkstra_path(origin, None, dimension)
+            _, lengths = self.sim.environment.topologies[mode].compute_dijkstra_path(
+                origin, None, dimension
+            )
 
             for j in range(len(stop_points)):
                 matrix[i, j] = int(lengths[self.operator.stopPoints[stop_points[j]].position])

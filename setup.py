@@ -50,7 +50,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
-    "License :: CeCILL-B Free Software License Agreement (CECILL-B)"
+    "License :: CeCILL-B Free Software License Agreement (CECILL-B)",
 ]
 
 # only specify install_requires if not in RTD environment
@@ -73,7 +73,7 @@ setuptools.setup(
     url="https://github.com/tellae/starling",
     packages=setuptools.find_packages() + ["starling_sim/schemas"],
     classifiers=CLASSIFIERS,
-    python_requires='>=3.6',
+    python_requires=">=3.6",
     install_requires=INSTALL_REQUIRES,
-    include_package_data=True
+    include_package_data=True,
 )

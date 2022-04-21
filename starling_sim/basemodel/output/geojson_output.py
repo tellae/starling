@@ -10,21 +10,47 @@ from starling_sim.basemodel.agent.moving_agent import MovingAgent
 from starling_sim.basemodel.agent.operators.operator import Operator
 from starling_sim.basemodel.output.feature_factory import *
 from starling_sim.basemodel.agent.stations.station import Station
-from starling_sim.utils.utils import json_dump, new_feature_collection, gz_compression, gz_decompression
+from starling_sim.utils.utils import (
+    json_dump,
+    new_feature_collection,
+    gz_compression,
+    gz_decompression,
+)
 from starling_sim.utils.config import config
 
 from abc import ABC
 
 # list of supported icons for the geojson format
-ICON_LIST = ["user", "user-01", "user-02", "user-03", "user-04", "user-05", "user-06",
-             "user-07", "user-08", "user-09", "user-10", "stop_point",
-             "station", "car", "bike", "bus", "subway", "tram", "train", "odt", "truck"]
+ICON_LIST = [
+    "user",
+    "user-01",
+    "user-02",
+    "user-03",
+    "user-04",
+    "user-05",
+    "user-06",
+    "user-07",
+    "user-08",
+    "user-09",
+    "user-10",
+    "stop_point",
+    "station",
+    "car",
+    "bike",
+    "bus",
+    "subway",
+    "tram",
+    "train",
+    "odt",
+    "truck",
+]
 
 # default version of the geojson output format
 CURRENT_GEOJSON_VERSION = 1
 
 
 # Abstract Base Class for the geojson output generation
+
 
 class GeojsonOutput(ABC):
     """
@@ -171,6 +197,7 @@ class GeojsonOutput(ABC):
 
 # Classes for the generation of geojson output
 
+
 class GeojsonOutput1(GeojsonOutput):
 
     VERSION = "1.0"
@@ -248,13 +275,17 @@ class GeojsonOutput0(GeojsonOutput):
         elif isinstance(element, StopPoint):
 
             self.current_feature = create_point_feature(self, element, icon_type="stop_point")
-            self.current_feature["properties"]["position"] = [self.current_feature["geometry"]["coordinates"]] * 2
+            self.current_feature["properties"]["position"] = [
+                self.current_feature["geometry"]["coordinates"]
+            ] * 2
             self.current_feature["properties"]["duration"] = [0, 99999]
 
         elif isinstance(element, Station):
 
             self.current_feature = create_point_feature(self, element, icon_type="station")
-            self.current_feature["properties"]["position"] = [self.current_feature["geometry"]["coordinates"]] * 2
+            self.current_feature["properties"]["position"] = [
+                self.current_feature["geometry"]["coordinates"]
+            ] * 2
             self.current_feature["properties"]["duration"] = [0, 99999]
 
         elif isinstance(element, SpatialAgent):
@@ -266,6 +297,7 @@ class GeojsonOutput0(GeojsonOutput):
 
 
 # function for the creation of a geojson output instance of the correct version
+
 
 def new_geojson_output():
     """
@@ -288,7 +320,11 @@ def new_geojson_output():
     elif geojson_version == 1:
         geojson_output = GeojsonOutput1()
     else:
-        logging.warning("Unknown geojson format version {}. Give only the main version number.".format(geojson_version))
+        logging.warning(
+            "Unknown geojson format version {}. Give only the main version number.".format(
+                geojson_version
+            )
+        )
         geojson_output = None
 
     return geojson_output

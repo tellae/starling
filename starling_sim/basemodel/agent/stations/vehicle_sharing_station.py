@@ -17,12 +17,12 @@ class VehicleSharingStation(Station):
                 "type": "integer",
                 "title": "Station capacity",
                 "description": "Maximum storing capacity of the station",
-                "minimum": 0
+                "minimum": 0,
             },
             "stock_generation": {
                 "title": "Stock generation information",
                 "description": "Information for the dynamic generation of vehicles at the station. "
-                               "Generation is performed after the initialisation of the static inputs.",
+                "Generation is performed after the initialisation of the static inputs.",
                 "type": "object",
                 "properties": {
                     "generated_stock": {
@@ -30,34 +30,36 @@ class VehicleSharingStation(Station):
                         "description": "Generated vehicle stock of the station",
                         "type": "integer",
                         "minimum": 0,
-                        "default": 0
+                        "default": 0,
                     },
                     "id_format": {
                         "title": "ID format",
                         "description": "ID format of the generated agents. Placeholders: {station}, {count}",
                         "type": "string",
-                        "default": "B-{station}-{count}"
+                        "default": "B-{station}-{count}",
                     },
                     "seats": {
                         "title": "Vehicles seats",
                         "description": "Number of seats of the generated vehicles",
                         "type": "integer",
                         "minimum": 0,
-                        "default": 1
+                        "default": 1,
                     },
                     "icon": {
                         "title": "Vehicles icon",
                         "description": "Icon of the generated vehicles",
                         "type": "string",
-                        "default": "bike"
-                    }
-                }
-            }
+                        "default": "bike",
+                    },
+                },
+            },
         },
-        "required": ["capacity"]
+        "required": ["capacity"],
     }
 
-    def __init__(self, simulation_model, agent_id, origin, capacity, stock_generation=None, **kwargs):
+    def __init__(
+        self, simulation_model, agent_id, origin, capacity, stock_generation=None, **kwargs
+    ):
 
         Station.__init__(self, simulation_model, agent_id, origin, **kwargs)
 
@@ -69,16 +71,19 @@ class VehicleSharingStation(Station):
 
     def __str__(self):
 
-        return "[id={}, position={}, capacity={}, initialStock={}]" \
-            .format(self.id, self.position, self.capacity, self.initial_stock)
+        return "[id={}, position={}, capacity={}, initialStock={}]".format(
+            self.id, self.position, self.capacity, self.initial_stock
+        )
 
     def create_station_based_vehicles(self, stock_generation):
 
         generated_stock = stock_generation["generated_stock"]
 
         if generated_stock > self.capacity:
-            raise ValueError("Provided initial stock exceeds the station's capacity "
-                             "(initialising station {})".format(self.id))
+            raise ValueError(
+                "Provided initial stock exceeds the station's capacity "
+                "(initialising station {})".format(self.id)
+            )
 
         # get agent_type of the model StationBasedVehicle agent
         station_based_vehicle_type = None
@@ -87,17 +92,21 @@ class VehicleSharingStation(Station):
                 station_based_vehicle_type = agent_type
                 break
         if station_based_vehicle_type is None:
-            raise ValueError("Could not find an agent class that corresponds to a station-based vehicle")
+            raise ValueError(
+                "Could not find an agent class that corresponds to a station-based vehicle"
+            )
 
         for i in range(generated_stock):
 
             input_dict = {
-                "agent_id": stock_generation["id_format"].format(station=self.id, count=self.initial_stock),
+                "agent_id": stock_generation["id_format"].format(
+                    station=self.id, count=self.initial_stock
+                ),
                 "agent_type": station_based_vehicle_type,
                 "mode": self.mode,
                 "icon": stock_generation["icon"],
                 "seats": stock_generation["seats"],
-                "station": self.id
+                "station": self.id,
             }
 
             if self.operator is not None:
@@ -126,8 +135,7 @@ class VehicleSharingStation(Station):
         :return: StationRequest object
         """
 
-        request = StationRequest(agent, self.sim.scheduler.now(),
-                                 self, StationRequest.GET_REQUEST)
+        request = StationRequest(agent, self.sim.scheduler.now(), self, StationRequest.GET_REQUEST)
 
         request.set_request_event(self.store.get())
 
@@ -155,15 +163,17 @@ class VehicleSharingStation(Station):
 
         if self.check(product):
 
-            request = StationRequest(agent, self.sim.scheduler.now(),
-                                     self, StationRequest.PUT_REQUEST)
+            request = StationRequest(
+                agent, self.sim.scheduler.now(), self, StationRequest.PUT_REQUEST
+            )
 
             request.set_request_event(self.store.put(product))
 
             return request
         else:
-            self.log_message("Received wrong type of product ({}) from {}"
-                             .format(type(product), agent.id))
+            self.log_message(
+                "Received wrong type of product ({}) from {}".format(type(product), agent.id)
+            )
             return None
 
     def set_products(self, products):
@@ -182,4 +192,3 @@ class VehicleSharingStation(Station):
             self.create_station_based_vehicles(self.stock_generation)
 
         yield self.execute_process(self.spend_time_())
-

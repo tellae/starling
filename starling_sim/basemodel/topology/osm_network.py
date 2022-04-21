@@ -12,8 +12,15 @@ class OSMNetwork(Topology):
     Open Street Map network topology
     """
 
-    def __init__(self, transport_mode, weight_class=None, store_paths=False,
-                 network_file=None, speed_file=None, graph=None):
+    def __init__(
+        self,
+        transport_mode,
+        weight_class=None,
+        store_paths=False,
+        network_file=None,
+        speed_file=None,
+        graph=None,
+    ):
         """
         Create the topology structure, without initializing the network
 
@@ -40,14 +47,22 @@ class OSMNetwork(Topology):
                 raise ValueError("Network file provided is {}".format(self.network_file))
 
             else:
-                logging.debug("Importing OSM graph for mode '{}' from file {}".format(self.mode, self.network_file))
+                logging.debug(
+                    "Importing OSM graph for mode '{}' from file {}".format(
+                        self.mode, self.network_file
+                    )
+                )
                 self.graph = osm_graph_from_file(self.network_file)
 
         if self.speed_file is None:
             logging.error("No speed file provided for topology initialisation")
             raise ValueError("Speed file provided is {}".format(self.network_file))
         else:
-            logging.debug("Importing graph speeds for mode '{}' from file {}".format(self.mode, self.speed_file))
+            logging.debug(
+                "Importing graph speeds for mode '{}' from file {}".format(
+                    self.mode, self.speed_file
+                )
+            )
             self.speeds = json_load(graph_speeds_folder() + self.speed_file)
 
     def add_time_and_length(self, u, v, d):

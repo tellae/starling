@@ -163,7 +163,11 @@ class OdtWaitsKPI(KPI):
 
     def new_indicator_dict(self):
 
-        self.indicator_dict = {self.KEY_PICKUP_WAIT: "", self.KEY_DETOUR: "", self.KEY_DIRECT_TRIP: ""}
+        self.indicator_dict = {
+            self.KEY_PICKUP_WAIT: "",
+            self.KEY_DETOUR: "",
+            self.KEY_DIRECT_TRIP: "",
+        }
 
     def update(self, event, agent):
         """
@@ -251,9 +255,14 @@ class SuccessKPI(KPI):
 
     def new_indicator_dict(self):
 
-        base_dict = {self.KEY_FAILED_GET: 0, self.KEY_SUCCESS_GET: 0,
-                     self.KEY_FAILED_PUT: 0, self.KEY_SUCCESS_PUT: 0,
-                     self.KEY_FAILED_REQUEST: 0, self.KEY_SUCCESS_REQUEST: 0}
+        base_dict = {
+            self.KEY_FAILED_GET: 0,
+            self.KEY_SUCCESS_GET: 0,
+            self.KEY_FAILED_PUT: 0,
+            self.KEY_SUCCESS_PUT: 0,
+            self.KEY_FAILED_REQUEST: 0,
+            self.KEY_SUCCESS_REQUEST: 0,
+        }
 
         self.indicator_dict = base_dict
 
@@ -298,15 +307,21 @@ class StaffOperationKPI(KPI):
 
     def __init__(self):
         super().__init__()
-        self.keys = [self.KEY_FAILED_GET_STAFF, self.KEY_SUCCESS_GET_STAFF,
-                     self.KEY_FAILED_PUT_STAFF, self.KEY_SUCCESS_PUT_STAFF]
+        self.keys = [
+            self.KEY_FAILED_GET_STAFF,
+            self.KEY_SUCCESS_GET_STAFF,
+            self.KEY_FAILED_PUT_STAFF,
+            self.KEY_SUCCESS_PUT_STAFF,
+        ]
 
     def new_indicator_dict(self):
 
-        self.indicator_dict = {self.KEY_FAILED_GET_STAFF: 0,
-                               self.KEY_SUCCESS_GET_STAFF: 0,
-                               self.KEY_FAILED_PUT_STAFF: 0,
-                               self.KEY_SUCCESS_PUT_STAFF: 0}
+        self.indicator_dict = {
+            self.KEY_FAILED_GET_STAFF: 0,
+            self.KEY_SUCCESS_GET_STAFF: 0,
+            self.KEY_FAILED_PUT_STAFF: 0,
+            self.KEY_SUCCESS_PUT_STAFF: 0,
+        }
 
     def update(self, event, agent):
         """
@@ -354,8 +369,15 @@ class OccupationKPI(KPI):
 
         super().__init__()
 
-        self.keys = [self.KEY_EMPTY_TIME, self.KEY_EMPTY_DISTANCE, self.KEY_FULL_TIME, self.KEY_FULL_DISTANCE,
-                     self.KEY_STOCK_TIME, self.KEY_STOCK_DISTANCE, self.KEY_MAX_STOCK]
+        self.keys = [
+            self.KEY_EMPTY_TIME,
+            self.KEY_EMPTY_DISTANCE,
+            self.KEY_FULL_TIME,
+            self.KEY_FULL_DISTANCE,
+            self.KEY_STOCK_TIME,
+            self.KEY_STOCK_DISTANCE,
+            self.KEY_MAX_STOCK,
+        ]
 
         self.capacity = None
         self.currentStock = None
@@ -367,10 +389,15 @@ class OccupationKPI(KPI):
         Initialize the time and distance counts to 0.
         """
 
-        self.indicator_dict = {self.KEY_EMPTY_TIME: 0, self.KEY_EMPTY_DISTANCE: 0,
-                               self.KEY_FULL_TIME: 0, self.KEY_FULL_DISTANCE: 0,
-                               self.KEY_STOCK_TIME: 0, self.KEY_STOCK_DISTANCE: 0,
-                               self.KEY_MAX_STOCK: 0}
+        self.indicator_dict = {
+            self.KEY_EMPTY_TIME: 0,
+            self.KEY_EMPTY_DISTANCE: 0,
+            self.KEY_FULL_TIME: 0,
+            self.KEY_FULL_DISTANCE: 0,
+            self.KEY_STOCK_TIME: 0,
+            self.KEY_STOCK_DISTANCE: 0,
+            self.KEY_MAX_STOCK: 0,
+        }
         self.capacity = None
         self.currentStock = None
         self.previousTime = 0
@@ -575,7 +602,13 @@ class ChargeKPI(KPI):
         self.trips = None
         self.routes = None
 
-        self.keys = [self.KEY_TRIP_ID, self.KEY_TIME, self.KEY_STOP_ID, self.KEY_BOARD_TYPE, self.KEY_VALUE]
+        self.keys = [
+            self.KEY_TRIP_ID,
+            self.KEY_TIME,
+            self.KEY_STOP_ID,
+            self.KEY_BOARD_TYPE,
+            self.KEY_VALUE,
+        ]
 
         if self.public_transport:
             self.keys = [self.KEY_ROUTE_ID, self.KEY_TRIP_DIRECTION] + self.keys
@@ -641,8 +674,12 @@ class ChargeKPI(KPI):
         self.indicator_dict[self.KEY_STOP_ID].append(get_stop_id_of_event(event))
 
         if self.public_transport:
-            self.indicator_dict[self.KEY_ROUTE_ID].append(get_route_id_of_trip(self.trips, trip_id, event))
-            self.indicator_dict[self.KEY_TRIP_DIRECTION].append(get_direction_of_trip(self.trips, trip_id))
+            self.indicator_dict[self.KEY_ROUTE_ID].append(
+                get_route_id_of_trip(self.trips, trip_id, event)
+            )
+            self.indicator_dict[self.KEY_TRIP_DIRECTION].append(
+                get_direction_of_trip(self.trips, trip_id)
+            )
 
 
 class TransferKPI(KPI):
@@ -677,9 +714,17 @@ class TransferKPI(KPI):
         self.trips = None
         self.routes = None
 
-        self.keys = [self.KEY_WALK_DIST, self.KEY_WALK_DURATION, self.KEY_WAIT_TIME,
-                     self.KEY_FROM_ROUTE, self.KEY_FROM_TRIP, self.KEY_FROM_STOP,
-                     self.KEY_TO_ROUTE, self.KEY_TO_TRIP, self.KEY_TO_STOP]
+        self.keys = [
+            self.KEY_WALK_DIST,
+            self.KEY_WALK_DURATION,
+            self.KEY_WAIT_TIME,
+            self.KEY_FROM_ROUTE,
+            self.KEY_FROM_TRIP,
+            self.KEY_FROM_STOP,
+            self.KEY_TO_ROUTE,
+            self.KEY_TO_TRIP,
+            self.KEY_TO_STOP,
+        ]
 
         # transfer variables
         self.current_walk_distance = 0
@@ -700,10 +745,18 @@ class TransferKPI(KPI):
 
     def new_indicator_dict(self):
 
-        self.indicator_dict = {self.KEY_ID: [], self.KEY_WALK_DIST: [],
-                               self.KEY_WALK_DURATION: [], self.KEY_WAIT_TIME: [],
-                               self.KEY_FROM_ROUTE: [], self.KEY_FROM_TRIP: [], self.KEY_FROM_STOP: [],
-                               self.KEY_TO_ROUTE: [], self.KEY_TO_TRIP: [], self.KEY_TO_STOP: []}
+        self.indicator_dict = {
+            self.KEY_ID: [],
+            self.KEY_WALK_DIST: [],
+            self.KEY_WALK_DURATION: [],
+            self.KEY_WAIT_TIME: [],
+            self.KEY_FROM_ROUTE: [],
+            self.KEY_FROM_TRIP: [],
+            self.KEY_FROM_STOP: [],
+            self.KEY_TO_ROUTE: [],
+            self.KEY_TO_TRIP: [],
+            self.KEY_TO_STOP: [],
+        }
 
     def update(self, event, agent):
 
@@ -767,12 +820,14 @@ class TransferKPI(KPI):
         self.indicator_dict[self.KEY_WALK_DIST].append(self.current_walk_distance)
         self.indicator_dict[self.KEY_WALK_DURATION].append(self.current_walk_duration)
         self.indicator_dict[self.KEY_WAIT_TIME].append(self.current_wait_time)
-        self.indicator_dict[self.KEY_FROM_ROUTE].append(get_route_short_name_of_trip(self.trips, self.routes,
-                                                                                     self.from_trip))
+        self.indicator_dict[self.KEY_FROM_ROUTE].append(
+            get_route_short_name_of_trip(self.trips, self.routes, self.from_trip)
+        )
         self.indicator_dict[self.KEY_FROM_TRIP].append(self.from_trip)
         self.indicator_dict[self.KEY_FROM_STOP].append(self.from_stop)
-        self.indicator_dict[self.KEY_TO_ROUTE].append(get_route_short_name_of_trip(self.trips, self.routes,
-                                                                                   self.to_trip))
+        self.indicator_dict[self.KEY_TO_ROUTE].append(
+            get_route_short_name_of_trip(self.trips, self.routes, self.to_trip)
+        )
         self.indicator_dict[self.KEY_TO_TRIP].append(self.to_trip)
         self.indicator_dict[self.KEY_TO_STOP].append(self.to_stop)
 
@@ -830,6 +885,7 @@ class TransferKPI(KPI):
 #
 #             self.indicator_dict[self.KEY_JOURNEY_SEQUENCE] = self.indicator_dict[self.KEY_JOURNEY_SEQUENCE][:-1]
 #
+
 
 class DestinationReachedKPI(KPI):
     """

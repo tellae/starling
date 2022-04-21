@@ -14,9 +14,9 @@ class SpatialAgent(Agent):
                 "description": "origin position id (inferred from geometry)",
             }
         },
-        "required": ["origin"]
+        "required": ["origin"],
     }
-    
+
     def __init__(self, simulation_model, agent_id, origin, **kwargs):
 
         Agent.__init__(self, simulation_model, agent_id, **kwargs)

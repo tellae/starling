@@ -19,7 +19,7 @@ class BikeWeightOSM(NetworkWeight):
         "facility.length": -0.74,
         "separate_facility.length": -1.80,
         "bridge": 5.41,
-        "bridge.facility": -2.83
+        "bridge.facility": -2.83,
     }
 
     def pre_process_edge(self, u, v, d):
@@ -53,13 +53,13 @@ class BikeWeightOSM(NetworkWeight):
 
         total_weight += parameters["link_constant"]
 
-        total_weight += parameters["length"]*length
+        total_weight += parameters["length"] * length
 
         # if d["slope"] > 4:
         #     total_weight += parameters["upslope>4.length"]*length
 
         if d["bike_facility"] == "separate":
-            total_weight += parameters["separate_facility.length"]*length
+            total_weight += parameters["separate_facility.length"] * length
         elif d["bike_facility"] == "yes":
             total_weight += parameters["facility.length"] * length
 
@@ -73,4 +73,3 @@ class BikeWeightOSM(NetworkWeight):
             total_weight = 0.01
 
         return total_weight
-

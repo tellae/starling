@@ -7,11 +7,7 @@ class Operator(StationBasedOperator):
     This class describes the operator of the SB_VS_R model.
     """
 
-    DISPATCHERS = {
-        "PZ": {
-            "punctual": PalZhangGreedyDispatcher
-        }
-    }
+    DISPATCHERS = {"PZ": {"punctual": PalZhangGreedyDispatcher}}
 
     def __init__(self, simulation_model, agent_id, fleet_dict, stations_dict, **kwargs):
 

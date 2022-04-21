@@ -30,7 +30,9 @@ class User(Person):
 
         # get closest point to destination on the adequate topology and move to it
         vehicle_mode = self.vehicle.mode
-        self.tempDestination = self.closest_walkable_node_of(vehicle_mode, position=self.destination)
+        self.tempDestination = self.closest_walkable_node_of(
+            vehicle_mode, position=self.destination
+        )
         yield self.execute_process(self.move_shortest_with_vehicle_())
 
         # leave vehicle
@@ -49,8 +51,7 @@ class User(Person):
         """
 
         # create a new request
-        vehicle_request = Request(self, self.sim.scheduler.now(),
-                                  request_type=Request.GET_REQUEST)
+        vehicle_request = Request(self, self.sim.scheduler.now(), request_type=Request.GET_REQUEST)
 
         # get relevant vehicles
         vehicles = []
@@ -61,9 +62,9 @@ class User(Person):
                 vehicles.append(vehicle)
 
         # compute closest vehicle
-        closest_vehicle, route = self.sim.environment.\
-            closest_object(self.position, vehicles, True,
-                           "walk", return_path=True, n=3)
+        closest_vehicle, route = self.sim.environment.closest_object(
+            self.position, vehicles, True, "walk", return_path=True, n=3
+        )
 
         # if no vehicle available, fail
         if closest_vehicle is None:

@@ -52,12 +52,21 @@ def launch_tests(model_code_list, pkg):
             paths._DATA_FOLDER = TEST_DATA_FOLDER
 
             # copy the environment and demand input file
-            starling_test_data_env = paths.starling_folder() + TEST_DATA_FOLDER + paths.ENVIRONMENT_FOLDER_NAME + "/"
-            starling_test_data_demand = paths.starling_folder() + TEST_DATA_FOLDER + paths.COMMON_INPUTS_FOLDER \
-                + "/" + DEMAND_INPUT_FILE
+            starling_test_data_env = (
+                paths.starling_folder() + TEST_DATA_FOLDER + paths.ENVIRONMENT_FOLDER_NAME + "/"
+            )
+            starling_test_data_demand = (
+                paths.starling_folder()
+                + TEST_DATA_FOLDER
+                + paths.COMMON_INPUTS_FOLDER
+                + "/"
+                + DEMAND_INPUT_FILE
+            )
             shutil.copytree(starling_test_data_env, paths.environment_folder())
-            shutil.copy(starling_test_data_demand,
-                        TEST_DATA_FOLDER + paths.COMMON_INPUTS_FOLDER + "/" + DEMAND_INPUT_FILE)
+            shutil.copy(
+                starling_test_data_demand,
+                TEST_DATA_FOLDER + paths.COMMON_INPUTS_FOLDER + "/" + DEMAND_INPUT_FILE,
+            )
 
             # run the tests for the local models
             test_models(local_models, pkg)
@@ -165,12 +174,15 @@ def compare_scenario_outputs(model_code, scenario):
             gz_decompression(test_scenario_output_folder + output_file)
 
     # get the reference files
-    scenario_expected_outputs_folder = paths.scenario_folder(model_code, scenario) + REFERENCE_OUTPUTS_FOLDER_NAME + "/"
+    scenario_expected_outputs_folder = (
+        paths.scenario_folder(model_code, scenario) + REFERENCE_OUTPUTS_FOLDER_NAME + "/"
+    )
     expected_output_files_list = os.listdir(scenario_expected_outputs_folder)
 
     # compare the files
-    match, mismatch, errors = filecmp.cmpfiles(test_scenario_output_folder, scenario_expected_outputs_folder,
-                                               expected_output_files_list)
+    match, mismatch, errors = filecmp.cmpfiles(
+        test_scenario_output_folder, scenario_expected_outputs_folder, expected_output_files_list
+    )
 
     # raise errors if mismatch or error
 

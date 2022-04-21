@@ -19,8 +19,9 @@ class Request:
 
     STR_LIST = ["structure", "position", "type"]
 
-    def __init__(self, agent, timestamp, structure=None,
-                 position=None, request_type=None, prebooked=None):
+    def __init__(
+        self, agent, timestamp, structure=None, position=None, request_type=None, prebooked=None
+    ):
         """
         Creation of a new request.
 
@@ -123,8 +124,7 @@ class Request:
         :return: string with some of the request information
         """
 
-        fill_string = "requestTime=" + str(self.timestamp) + ", agent=" \
-                      + str(self.agent.id)
+        fill_string = "requestTime=" + str(self.timestamp) + ", agent=" + str(self.agent.id)
 
         for attr_name in self.STR_LIST:
             attribute = self.__getattribute__(attr_name)
@@ -157,8 +157,7 @@ class StationRequest(Request):
         :param request_type: type of the request
         """
 
-        super().__init__(agent, timestamp,
-                         structure=station, request_type=request_type)
+        super().__init__(agent, timestamp, structure=station, request_type=request_type)
 
 
 class TripRequest(Request):
@@ -299,8 +298,17 @@ class UserStop(Stop):
     using the setup_stops method.
     """
 
-    def __init__(self, stop_type, position, request_id, requested_time=None, max_time=None, max_travel_time=None,
-                 stop_point_id=None, trip_id=None):
+    def __init__(
+        self,
+        stop_type,
+        position,
+        request_id,
+        requested_time=None,
+        max_time=None,
+        max_travel_time=None,
+        stop_point_id=None,
+        trip_id=None,
+    ):
         """
         Creation of a new user stop.
 
@@ -425,11 +433,20 @@ class UserStop(Stop):
         :return: string with some of the user stop information
         """
 
-        fill_string = "[requestId={}, stopType={}, position={}, arrivalTime={}, " \
-                      "departureTime={}, requestedTime={}, maxTime={}]"
+        fill_string = (
+            "[requestId={}, stopType={}, position={}, arrivalTime={}, "
+            "departureTime={}, requestedTime={}, maxTime={}]"
+        )
 
-        return fill_string.format(self.requestId, self.type, self.position,
-                                  self.arrivalTime, self.departureTime, self.requestedTime, self.maxTime)
+        return fill_string.format(
+            self.requestId,
+            self.type,
+            self.position,
+            self.arrivalTime,
+            self.departureTime,
+            self.requestedTime,
+            self.maxTime,
+        )
 
     def __repr__(self):
 
@@ -494,7 +511,6 @@ class StopPoint(Stop):
 
 
 class Operation(Stop):
-
     def __init__(self, stop_type, position, total, targets=None, station_id=None):
         """
         Creation of a new operation.
@@ -524,8 +540,9 @@ class Operation(Stop):
         :return: string with some of the operation information
         """
 
-        return "[type={}, total={}, position={}, station={}]"\
-            .format(self.type, self.total, self.position, self.station)
+        return "[type={}, total={}, position={}, station={}]".format(
+            self.type, self.total, self.position, self.station
+        )
 
     def __repr__(self):
 

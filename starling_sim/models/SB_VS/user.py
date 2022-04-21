@@ -12,30 +12,27 @@ class User(Person):
                 "title": "Station stock information",
                 "description": "Indicate if user has access to vehicle availability of the stations",
                 "type": "boolean",
-                "default": True
+                "default": True,
             },
             "patience": {
                 "advanced": True,
                 "title": "Patience when requesting a station",
                 "description": "user patience while waiting for a vehicle. "
-                               "Caution, None means infinite patience",
+                "Caution, None means infinite patience",
                 "type": ["integer", "null"],
                 "minimum": 0,
-                "default": None
+                "default": None,
             },
             "closest_station_evaluation": {
                 "advanced": True,
                 "title": "Station distance evaluation",
                 "description": "Determine how the distance to the stations is evaluated",
                 "type": "string",
-                "oneOf": [
-                    {"const": "euclidean"},
-                    {"const": "shortest_path"}
-                ],
-                "default": "euclidean"
-            }
+                "oneOf": [{"const": "euclidean"}, {"const": "shortest_path"}],
+                "default": "euclidean",
+            },
         },
-        "required": ["has_station_info", "closest_station_evaluation"]
+        "required": ["has_station_info", "closest_station_evaluation"],
     }
 
     def __init__(self, simulation_model, agent_id, origin, destination, **kwargs):
@@ -138,7 +135,8 @@ class User(Person):
         while not quitting:
             start = self.sim.scheduler.now()
             result = yield self.execute_process(
-                self.wait_for_request_(station_request, self.profile["patience"]))
+                self.wait_for_request_(station_request, self.profile["patience"])
+            )
 
             # trace wait event
             wait_sequence += [self.sim.scheduler.now() - start]
@@ -193,8 +191,9 @@ class User(Person):
 
             if self.profile["has_station_info"]:
                 # don't consider empty stations if looking for a vehicle, and vice-versa
-                if (self.vehicle is None and station.nb_products() == 0) or \
-                        (self.vehicle is not None and station.nb_products() == station.capacity):
+                if (self.vehicle is None and station.nb_products() == 0) or (
+                    self.vehicle is not None and station.nb_products() == station.capacity
+                ):
                     continue
 
             considered_stations.append(station)
@@ -203,23 +202,32 @@ class User(Person):
         if self.profile["closest_station_evaluation"] == "euclidean":
 
             if self.vehicle is None:
-                best_station = self.sim.environment.euclidean_n_closest(self.position, considered_stations, 1)[0]
+                best_station = self.sim.environment.euclidean_n_closest(
+                    self.position, considered_stations, 1
+                )[0]
             else:
-                best_station = self.sim.environment.euclidean_n_closest(self.destination, considered_stations, 1)[0]
+                best_station = self.sim.environment.euclidean_n_closest(
+                    self.destination, considered_stations, 1
+                )[0]
 
         # TODO : return path and use it
         elif self.profile["closest_station_evaluation"] == "shortest_path":
 
             if self.vehicle is None:
 
-                best_station = self.sim.environment.closest_object(self.position, considered_stations,
-                                                                   True, "walk", n=3)
+                best_station = self.sim.environment.closest_object(
+                    self.position, considered_stations, True, "walk", n=3
+                )
             else:
-                best_station = self.sim.environment.closest_object(self.destination, considered_stations,
-                                                                   False, "walk", n=3)
+                best_station = self.sim.environment.closest_object(
+                    self.destination, considered_stations, False, "walk", n=3
+                )
         else:
-            raise ValueError("Unsupported value {} for 'closest_station_evaluation' option."
-                             .format(self.profile["closest_station_evaluation"]))
+            raise ValueError(
+                "Unsupported value {} for 'closest_station_evaluation' option.".format(
+                    self.profile["closest_station_evaluation"]
+                )
+            )
 
         return best_station
 

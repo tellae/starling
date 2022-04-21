@@ -8,11 +8,7 @@ import logging
 import time
 import importlib
 
-models_dict = {
-    "SB_VS": SB_VS_model,
-    "SB_VS_R": SB_VS_R_model,
-    "FF_VS": FF_VS_model
-}
+models_dict = {"SB_VS": SB_VS_model, "SB_VS_R": SB_VS_R_model, "FF_VS": FF_VS_model}
 
 model_codes = list(models_dict.keys())
 
@@ -68,8 +64,9 @@ class ModelSimulator:
         try:
             simulation_model = model_class(simulation_parameters)
         except TypeError as e:
-            logging.error("Instantiation of {} failed with message :\n {}"
-                          .format(model_class.__name__, e))
+            logging.error(
+                "Instantiation of {} failed with message :\n {}".format(model_class.__name__, e)
+            )
             raise e
 
         # initialise and return the ModelSimulator object
@@ -100,15 +97,19 @@ class ModelSimulator:
             try:
                 module = importlib.import_module(model_path)
             except ModuleNotFoundError:
-                raise ModuleNotFoundError("Cannot find the module '{}'.\n"
-                                          "    Maybe there is an error in the model code ? "
-                                          "Or maybe you forgot to use the -p option of main.py ?".format(model_path))
+                raise ModuleNotFoundError(
+                    "Cannot find the module '{}'.\n"
+                    "    Maybe there is an error in the model code ? "
+                    "Or maybe you forgot to use the -p option of main.py ?".format(model_path)
+                )
 
             # try to get the Model class from the model module
             try:
                 model_class = module.Model
             except AttributeError as e:
-                logging.error("Cannot find the class Model in {}.models.{}.model".format(pkg, model_code))
+                logging.error(
+                    "Cannot find the class Model in {}.models.{}.model".format(pkg, model_code)
+                )
                 raise e
 
         return model_class
@@ -132,9 +133,13 @@ def launch_simulation(parameters_path, pkg):
     simulation_parameters = parameters_from_file(parameters_path)
 
     # init the simulator
-    logging.info("Initializing simulator for the model code "
-                 + simulation_parameters["code"] + ", scenario "
-                 + simulation_parameters["scenario"] + "\n")
+    logging.info(
+        "Initializing simulator for the model code "
+        + simulation_parameters["code"]
+        + ", scenario "
+        + simulation_parameters["scenario"]
+        + "\n"
+    )
     simulator = ModelSimulator.init_simulator_from_parameters(simulation_parameters, pkg)
 
     # setup the simulator

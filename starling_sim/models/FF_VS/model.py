@@ -15,19 +15,11 @@ class Model(SimulationModel):
 
     name = "Free-floating vehicle-sharing model"
 
-    agent_type_class = {
-        "user": User,
-        "vehicle": Vehicle
-    }
+    agent_type_class = {"user": User, "vehicle": Vehicle}
 
-    leaving_codes = {
-        "FAIL_GET": "Failed to get a vehicle"
-    }
+    leaving_codes = {"FAIL_GET": "Failed to get a vehicle"}
 
-    modes = {
-        "user": ["walk"],
-        "vehicle": [None, "walk"]
-    }
+    modes = {"user": ["walk"], "vehicle": [None, "walk"]}
 
     def __init__(self, parameters):
         """

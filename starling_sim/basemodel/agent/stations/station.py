@@ -11,7 +11,7 @@ class Station(SpatialAgent):
             "operator_id": {
                 "title": "Operator ID",
                 "description": "ID of the operator managing this agent",
-                "type": "string"
+                "type": "string",
             }
         }
     }
@@ -26,5 +26,4 @@ class Station(SpatialAgent):
 
     def __str__(self):
 
-        return "[id={}, position={}]" \
-            .format(self.id, self.position)
+        return "[id={}, position={}]".format(self.id, self.position)
