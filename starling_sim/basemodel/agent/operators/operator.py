@@ -36,7 +36,7 @@ class Operator(Agent):
                 "title": "GTFS routes to keep in the public transport simulation",
                 "description": "List of route ids that should be present in the simulation. If null, keep all routes.",
             }
-        },
+        }
     }
 
     SCHEMA = {
