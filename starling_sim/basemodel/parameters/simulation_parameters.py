@@ -49,8 +49,11 @@ class SimulationParameters:
         """
 
         if item not in self._parametersDict:
-            logging.error("Trying to access unknown parameter '" + str(item)
-                          + "'. Does it appears in the parameter entry ?")
+            logging.error(
+                "Trying to access unknown parameter '"
+                + str(item)
+                + "'. Does it appears in the parameter entry ?"
+            )
             raise KeyError("The parameter '" + str(item) + "' does not exist")
 
         return self._parametersDict[item]
@@ -64,8 +67,7 @@ class SimulationParameters:
         """
 
         if key in self._parametersDict:
-            logging.warning("Replacing already existing parameter '"
-                            + str(key) + "'")
+            logging.warning("Replacing already existing parameter '" + str(key) + "'")
 
         self._parametersDict[key] = value
 
@@ -145,6 +147,7 @@ class ParametersFromFile(SimulationParameters):
 
 
 # parameters management
+
 
 def parameters_from_file(param_path):
     """

@@ -1,5 +1,10 @@
 from starling_sim.basemodel.agent.vehicles.vehicle import Vehicle
-from starling_sim.basemodel.trace.events import IdleEvent, RequestEvent, StopEvent, StaffOperationEvent
+from starling_sim.basemodel.trace.events import (
+    IdleEvent,
+    RequestEvent,
+    StopEvent,
+    StaffOperationEvent,
+)
 from starling_sim.basemodel.agent.requests import Stop
 
 from copy import copy
@@ -17,25 +22,34 @@ class ServiceVehicle(Vehicle):
                 "description": "Time spent when serving stops",
                 "type": "integer",
                 "minimum": 0,
-                "default": 30
+                "default": 30,
             },
             "trip_id": {
                 "advanced": True,
                 "title": "Initial trip ID",
                 "description": "Identifier of the vehicle's initial trip",
-                "type": "string"
+                "type": "string",
             },
             "operator_id": {
                 "title": "Operator ID",
                 "description": "ID of the operator managing this agent",
-                "type": "string"
-            }
+                "type": "string",
+            },
         },
-        "required": ["operator_id"]
+        "required": ["operator_id"],
     }
 
-    def __init__(self, simulation_model, agent_id, origin, seats, 
-                 operator_id, dwell_time=30, trip_id=None, **kwargs):
+    def __init__(
+        self,
+        simulation_model,
+        agent_id,
+        origin,
+        seats,
+        operator_id,
+        dwell_time=30,
+        trip_id=None,
+        **kwargs
+    ):
 
         super().__init__(simulation_model, agent_id, origin, seats, **kwargs)
 
@@ -212,8 +226,9 @@ class ServiceVehicle(Vehicle):
         # log if process time is not now
         process_time = user_stop.get_process_time()
         if process_time is not None and process_time != self.sim.scheduler.now():
-            self.log_message("Stop {} should be processed at {}"
-                             .format(user_stop, process_time), 30)
+            self.log_message(
+                "Stop {} should be processed at {}".format(user_stop, process_time), 30
+            )
 
         request = self.operator.requests[user_stop.requestId]
         agent_id = request.agent.id
@@ -239,8 +254,9 @@ class ServiceVehicle(Vehicle):
                 return request
 
         else:
-            self.log_message("Unknown stop type for service vehicle : {}"
-                             .format(user_stop.type), 30)
+            self.log_message(
+                "Unknown stop type for service vehicle : {}".format(user_stop.type), 30
+            )
             return None
 
     def pickup(self, stop):
@@ -294,7 +310,10 @@ class ServiceVehicle(Vehicle):
 
         # trace detour
         if request.directTravelTime is not None:
-            detour = int((request.dropoff.arrivalTime - request.pickup.departureTime) - request.directTravelTime)
+            detour = int(
+                (request.dropoff.arrivalTime - request.pickup.departureTime)
+                - request.directTravelTime
+            )
             request.waitSequence += [detour]
 
         # leave service vehicle
@@ -409,7 +428,9 @@ class ServiceVehicle(Vehicle):
             # vehicle starts being idle
             self.isIdle = True
             start_time = self.sim.scheduler.now()
-            yield self.signalEvent_ | self.execute_process(self.operator.idle_behaviour_(self), True)
+            yield self.signalEvent_ | self.execute_process(
+                self.operator.idle_behaviour_(self), True
+            )
 
             # trace idle time
             self.isIdle = False

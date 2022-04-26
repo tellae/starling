@@ -49,8 +49,13 @@ class Environment:
 
             # create a topology object according to the given network type
             if network == "osm":
-                topology = OSMNetwork(mode, network_file=network_file, speed_file=speeds_file,
-                                      store_paths=store, weight_class=weight_class)
+                topology = OSMNetwork(
+                    mode,
+                    network_file=network_file,
+                    speed_file=speeds_file,
+                    store_paths=store,
+                    weight_class=weight_class,
+                )
             else:
                 logging.error("Unknown network type {}".format(network))
                 continue
@@ -119,8 +124,9 @@ class Environment:
         time = None
         if route is None:
             # compute shortest path
-            route, time, length = self.topologies[mode].dijkstra_shortest_path_and_length(origin, destination,
-                                                                                          parameters)
+            route, time, length = self.topologies[mode].dijkstra_shortest_path_and_length(
+                origin, destination, parameters
+            )
 
         # store route in a dict
         route_data = {"route": route}
@@ -176,13 +182,15 @@ class Environment:
             if data == "time" and speed is not None:
 
                 # use the speed for computing "time" data, if provided
-                move_data = float(route_data["length"][i])/speed + remainder
+                move_data = float(route_data["length"][i]) / speed + remainder
 
             else:
 
                 # use the environment links data
-                move_data = self.topologies[mode].get_edge_data(
-                    previous_position, route[i], data) + remainder
+                move_data = (
+                    self.topologies[mode].get_edge_data(previous_position, route[i], data)
+                    + remainder
+                )
 
             # update remainder
             remainder = move_data - int(move_data)
@@ -209,7 +217,7 @@ class Environment:
         for index, row in shape_table.iterrows():
 
             # append localisation to route
-            if row["sequence"] == len(shape_table)+1:
+            if row["sequence"] == len(shape_table) + 1:
                 route.append(operator.stopPoints[to_stop].position)
             else:
                 route.append((row["lat"], row["lon"]))
@@ -223,7 +231,7 @@ class Environment:
             if row["sequence"] == len(shape_table) + 1:
                 time = duration - sum(times)
             else:
-                time = duration*row["distance_proportion"] + time_remainder
+                time = duration * row["distance_proportion"] + time_remainder
                 time_remainder = time - int(time)
             times.append(int(time))
 
@@ -236,10 +244,12 @@ class Environment:
 
         # define lambda as obj.position if none is provided
         if position_lambda is None:
+
             def position_lambda(node):
                 return node.position
 
         return position_lambda(obj)
+
     get_position = staticmethod(get_position)
 
     def get_localisation(self, node, mode=None):
@@ -266,7 +276,9 @@ class Environment:
             logging.warning("No mode provided for network distance computation")
             return None
         else:
-            path, duration, _ = self.topologies[mode].dijkstra_shortest_path_and_length(source, target, parameters)
+            path, duration, _ = self.topologies[mode].dijkstra_shortest_path_and_length(
+                source, target, parameters
+            )
             if return_path:
                 return path, duration
             else:
@@ -280,15 +292,28 @@ class Environment:
 
         # geopy would return a distance even if one localisation is None, caution
         if loc1 is None or loc2 is None:
-            logging.warning("One of the given localisations is None, "
-                            "computed euclidean distance will be false")
+            logging.warning(
+                "One of the given localisations is None, "
+                "computed euclidean distance will be false"
+            )
 
-        dist = 1000*distance.great_circle(loc1, loc2).kilometers
+        dist = 1000 * distance.great_circle(loc1, loc2).kilometers
 
         return dist
 
-    def distance_dict_between(self, position, obj_list, distance_type, n=None, maximum_distance=None,
-                              position_lambda=None, mode=None, is_origin=True, parameters=None, return_path=False):
+    def distance_dict_between(
+        self,
+        position,
+        obj_list,
+        distance_type,
+        n=None,
+        maximum_distance=None,
+        position_lambda=None,
+        mode=None,
+        is_origin=True,
+        parameters=None,
+        return_path=False,
+    ):
 
         # distance dictionary
         distance_dict = dict()
@@ -305,15 +330,26 @@ class Environment:
             if distance_type == "network":
                 if is_origin:
 
-                    distance_res = self.compute_network_distance(position, self.get_position(obj, position_lambda),
-                                                                 mode, parameters, return_path)
+                    distance_res = self.compute_network_distance(
+                        position,
+                        self.get_position(obj, position_lambda),
+                        mode,
+                        parameters,
+                        return_path,
+                    )
                 else:
-                    distance_res = self.compute_network_distance(self.get_position(obj, position_lambda),
-                                                                 position, mode, parameters, return_path)
+                    distance_res = self.compute_network_distance(
+                        self.get_position(obj, position_lambda),
+                        position,
+                        mode,
+                        parameters,
+                        return_path,
+                    )
 
             elif distance_type == "euclidean":
-                distance_res = self.compute_euclidean_distance(position,
-                                                               self.get_position(obj, position_lambda), mode)
+                distance_res = self.compute_euclidean_distance(
+                    position, self.get_position(obj, position_lambda), mode
+                )
 
             else:
                 logging.warning("Unknown distance type : " + str(distance_type))
@@ -346,18 +382,34 @@ class Environment:
         # return the distance dictionary
         return distance_dict
 
-    def euclidean_n_closest(self, position, obj_list, n, maximum_distance=None, position_lambda=None):
+    def euclidean_n_closest(
+        self, position, obj_list, n, maximum_distance=None, position_lambda=None
+    ):
 
-        distance_dict = self.distance_dict_between(position, obj_list, "euclidean", n=n,
-                                                   maximum_distance=maximum_distance,
-                                                   position_lambda=position_lambda)
+        distance_dict = self.distance_dict_between(
+            position,
+            obj_list,
+            "euclidean",
+            n=n,
+            maximum_distance=maximum_distance,
+            position_lambda=position_lambda,
+        )
 
         sorted_list = sorted(distance_dict.keys(), key=lambda x: distance_dict[x])
 
         return sorted_list
 
-    def closest_object(self, position, obj_list, is_origin, mode, parameters=None,
-                       position_lambda=None, return_path=False, n=None):
+    def closest_object(
+        self,
+        position,
+        obj_list,
+        is_origin,
+        mode,
+        parameters=None,
+        position_lambda=None,
+        return_path=False,
+        n=None,
+    ):
         """
         Find the object of the list that is closest to the given position.
 
@@ -382,20 +434,26 @@ class Environment:
         # look only at the n (euclidean) closest objects
         if n is not None:
 
-            obj_list = self.euclidean_n_closest(position=position, obj_list=obj_list,
-                                                n=n, position_lambda=position_lambda)
+            obj_list = self.euclidean_n_closest(
+                position=position, obj_list=obj_list, n=n, position_lambda=position_lambda
+            )
 
         # do the network distance computation and keep the closest object
-        distance_dict = self.distance_dict_between(position, obj_list, "network",
-                                                   position_lambda=position_lambda, mode=mode, is_origin=is_origin,
-                                                   parameters=parameters, return_path=return_path)
+        distance_dict = self.distance_dict_between(
+            position,
+            obj_list,
+            "network",
+            position_lambda=position_lambda,
+            mode=mode,
+            is_origin=is_origin,
+            parameters=parameters,
+            return_path=return_path,
+        )
         if return_path:
-            closest_object = min(list(distance_dict.keys()),
-                                 key=lambda x: distance_dict[x][1])
+            closest_object = min(list(distance_dict.keys()), key=lambda x: distance_dict[x][1])
             return closest_object, distance_dict[closest_object][0]
         else:
-            closest_object = min(list(distance_dict.keys()),
-                                 key=lambda x: distance_dict[x])
+            closest_object = min(list(distance_dict.keys()), key=lambda x: distance_dict[x])
             return closest_object
 
     def nearest_node_in_modes(self, localisation, modes):
@@ -543,7 +601,9 @@ class Environment:
 
             topology.graph.add_node(node_id, **properties)
 
-    def add_stops_correspondence(self, stops_table, modes, extend_graph, max_distance=config["max_stop_distance"]):
+    def add_stops_correspondence(
+        self, stops_table, modes, extend_graph, max_distance=config["max_stop_distance"]
+    ):
         """
         Add a 'nearest_node' column to the given table containing the stop's nearest environment position.
 
@@ -572,15 +632,17 @@ class Environment:
             # compute euclidean distance
             nearest_loc = self.get_localisation(nearest_node, modes[0])
             stop_loc = [row["stop_lat"], row["stop_lon"]]
-            eucl_dist = 1000*distance.great_circle(nearest_loc, stop_loc).kilometers
+            eucl_dist = 1000 * distance.great_circle(nearest_loc, stop_loc).kilometers
 
             # set correspondence
             if eucl_dist > max_distance and extend_graph:
 
                 # extend the graph : add a new node at stop location
-                self.add_node(row["stop_id"],
-                              {"y": row["stop_lat"], "x": row["stop_lon"],
-                               "osmid": row["stop_id"]}, modes)
+                self.add_node(
+                    row["stop_id"],
+                    {"y": row["stop_lat"], "x": row["stop_lon"], "osmid": row["stop_id"]},
+                    modes,
+                )
 
                 # update the stop's nearest node
                 stops_table.loc[index, "nearest_node"] = row["stop_id"]

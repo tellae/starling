@@ -22,22 +22,17 @@ class Model(SimulationModel):
         "vehicle": StationBasedVehicle,
         "station": VehicleSharingStation,
         "staff": RepositioningStaff,
-        "operator": Operator
+        "operator": Operator,
     }
 
-    leaving_codes = {
-        "FAIL_GET": "Failed to get a vehicle"
-    }
+    leaving_codes = {"FAIL_GET": "Failed to get a vehicle"}
 
     modes = {
         "user": ["walk"],
         "vehicle": ["station"],
         "station": [None, "walk", "staff"],
         "staff": [None],
-        "operator": {
-            "staff": "staff",
-            "fleet": "station"
-        }
+        "operator": {"staff": "staff", "fleet": "station"},
     }
 
     def __init__(self, parameters):

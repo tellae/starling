@@ -12,7 +12,9 @@ class PalZhangGreedyDispatcher(Dispatcher):
 
     def init_algorithm(self):
 
-        self.algorithm = PalZhangGCH(simulation_model=self.sim, operator=self.operator, verb=self.verb)
+        self.algorithm = PalZhangGCH(
+            simulation_model=self.sim, operator=self.operator, verb=self.verb
+        )
 
     def setup_dispatch(self):
 

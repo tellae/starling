@@ -5,10 +5,7 @@ import networkx as nx
 from abc import ABC
 
 # this shouldn't be here, doesn't allow adding new weights
-NETWORK_WEIGHT_CLASSES = {
-    "simple_time_weight": SimpleTimeWeight,
-    "bike_weight_osm": BikeWeightOSM
-}
+NETWORK_WEIGHT_CLASSES = {"simple_time_weight": SimpleTimeWeight, "bike_weight_osm": BikeWeightOSM}
 
 
 class Topology(ABC):
@@ -37,7 +34,9 @@ class Topology(ABC):
         self.weight = None
         self.init_weight(weight_class)
         self.parameters_hash = {
-            self.weight.get_parameters_hash(self.weight.default_parameters): self.weight.default_parameters
+            self.weight.get_parameters_hash(
+                self.weight.default_parameters
+            ): self.weight.default_parameters
         }
 
         # paths storage
@@ -60,7 +59,9 @@ class Topology(ABC):
         else:
             weight_class = "simple_time_weight"
 
-        self.weight = NETWORK_WEIGHT_CLASSES[weight_class].__new__(NETWORK_WEIGHT_CLASSES[weight_class])
+        self.weight = NETWORK_WEIGHT_CLASSES[weight_class].__new__(
+            NETWORK_WEIGHT_CLASSES[weight_class]
+        )
         self.weight.__init__(self)
 
     def setup(self):
@@ -116,7 +117,9 @@ class Topology(ABC):
         _, duration, _ = self.dijkstra_shortest_path_and_length(origin, destination, parameters)
         return duration
 
-    def dijkstra_shortest_path_and_length(self, origin, destination, parameters, return_weight=False):
+    def dijkstra_shortest_path_and_length(
+        self, origin, destination, parameters, return_weight=False
+    ):
         """
         Find the path from origin to destination with minimum the total weight.
 
@@ -154,8 +157,9 @@ class Topology(ABC):
         else:
             self.shortest_path_count += 1
 
-            total_weight, path = nx.single_source_dijkstra(self.graph, origin, target=destination,
-                                                           weight=param_hash)
+            total_weight, path = nx.single_source_dijkstra(
+                self.graph, origin, target=destination, weight=param_hash
+            )
 
             duration, length = self.evaluate_path_duration_and_length(path)
 
@@ -168,7 +172,9 @@ class Topology(ABC):
             return path, duration, length
 
     def compute_dijkstra_path(self, origin, destination, weight):
-        length, path = nx.single_source_dijkstra(self.graph, origin, target=destination, weight=weight)
+        length, path = nx.single_source_dijkstra(
+            self.graph, origin, target=destination, weight=weight
+        )
         return path, length
 
     def evaluate_path_duration_and_length(self, path):
@@ -182,8 +188,12 @@ class Topology(ABC):
         current_position = path[0]
 
         for next_position in path[1:]:
-            total_duration += self.get_edge_data(current_position, next_position, self.TIME_ATTRIBUTE)
-            total_length += self.get_edge_data(current_position, next_position, self.LENGTH_ATTRIBUTE)
+            total_duration += self.get_edge_data(
+                current_position, next_position, self.TIME_ATTRIBUTE
+            )
+            total_length += self.get_edge_data(
+                current_position, next_position, self.LENGTH_ATTRIBUTE
+            )
             current_position = next_position
 
         return total_duration, total_length

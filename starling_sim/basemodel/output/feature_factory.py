@@ -1,4 +1,8 @@
-from starling_sim.utils.utils import new_point_feature, new_line_string_feature, new_multi_polygon_feature
+from starling_sim.utils.utils import (
+    new_point_feature,
+    new_line_string_feature,
+    new_multi_polygon_feature,
+)
 from starling_sim.basemodel.trace.events import InputEvent, RouteEvent, PositionChangeEvent
 
 import logging
@@ -15,7 +19,9 @@ def create_point_feature(geojson_output, element, agent_id=None, icon_type=None,
     return feature
 
 
-def create_line_string_feature(geojson_output, element, agent_id=None, icon_type=None, agent_type=None):
+def create_line_string_feature(
+    geojson_output, element, agent_id=None, icon_type=None, agent_type=None
+):
 
     localisations, timestamps = get_element_line_string(geojson_output, element)
     feature = new_line_string_feature(localisations)
@@ -27,7 +33,9 @@ def create_line_string_feature(geojson_output, element, agent_id=None, icon_type
     return feature
 
 
-def create_multi_polygon_feature(geojson_output, element, agent_id=None, icon_type=None, agent_type=None):
+def create_multi_polygon_feature(
+    geojson_output, element, agent_id=None, icon_type=None, agent_type=None
+):
 
     polygon_list = get_element_multi_polygon(geojson_output, element)
     feature = new_multi_polygon_feature(polygon_list)
@@ -100,10 +108,9 @@ def get_element_line_string(geojson_output, element):
             mode = event.mode
 
             # get the list of route localisations and timestamps
-            route_positions, route_timestamps = \
-                route_localisations(event,
-                                    geojson_output.sim.parameters["limit"],
-                                    geojson_output.graphs[mode])
+            route_positions, route_timestamps = route_localisations(
+                event, geojson_output.sim.parameters["limit"], geojson_output.graphs[mode]
+            )
 
             # add it to the agent's lists
             localisations = localisations + route_positions
@@ -119,7 +126,9 @@ def get_element_line_string(geojson_output, element):
             localisations.append(geojson_output.graphs[mode].position_localisation(event.origin))
             timestamps.append(event.timestamp)
 
-            localisations.append(geojson_output.graphs[mode].position_localisation(event.destination))
+            localisations.append(
+                geojson_output.graphs[mode].position_localisation(event.destination)
+            )
             timestamps.append(event.timestamp + event.duration)
 
         i += 1

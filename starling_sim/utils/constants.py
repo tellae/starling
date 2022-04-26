@@ -29,10 +29,10 @@ SIM_ERROR_LEAVE = "SIM_ERROR"
 
 #: dict of base leaving codes and their descriptions
 BASE_LEAVING_CODES = {
-        DEFAULT_LEAVE: "No explicit leave call",
-        SUCCESS_LEAVE: "Successful loop",
-        END_OF_SIM_LEAVE: "End of simulation",
-        SIM_ERROR_LEAVE: "Simulation error"
+    DEFAULT_LEAVE: "No explicit leave call",
+    SUCCESS_LEAVE: "Successful loop",
+    END_OF_SIM_LEAVE: "End of simulation",
+    SIM_ERROR_LEAVE: "Simulation error",
 }
 
 # filename formats

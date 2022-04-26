@@ -60,8 +60,9 @@ class DictPopulation(AgentPopulation):
 
         for population_name in population_names:
             if agent.id in self.population[population_name]:
-                logging.warning("Replacing existing agent {} in population {}"
-                                .format(agent.id, population_name))
+                logging.warning(
+                    "Replacing existing agent {} in population {}".format(agent.id, population_name)
+                )
 
             self.population[population_name][agent.id] = agent
 

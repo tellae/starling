@@ -55,7 +55,9 @@ class OutputFactory:
         for kpi_output in self.kpi_outputs:
 
             # build the kpi output filename
-            kpi_filename = config["kpi_format"].format(scenario=scenario, kpi_output=kpi_output.name)
+            kpi_filename = config["kpi_format"].format(
+                scenario=scenario, kpi_output=kpi_output.name
+            )
 
             # set kpi output file
             kpi_output.setup(kpi_filename, output_folder, simulation_model)
@@ -69,9 +71,7 @@ class OutputFactory:
             # build the geojson output filename
             geojson_filename = config["geojson_format"].format(scenario=scenario)
 
-            self.geojson_output.setup(simulation_model,
-                                      geojson_filename,
-                                      output_folder)
+            self.geojson_output.setup(simulation_model, geojson_filename, output_folder)
 
     def setup_kpi_output(self):
         """
@@ -96,12 +96,16 @@ class OutputFactory:
         It must be extended to generate the output using specific methods.
         """
 
-        if "traces_output" in simulation_model.parameters \
-                and simulation_model.parameters["traces_output"]:
+        if (
+            "traces_output" in simulation_model.parameters
+            and simulation_model.parameters["traces_output"]
+        ):
             self.generate_trace_output(simulation_model)
 
-        if "generate_summary" in simulation_model.parameters \
-                and simulation_model.parameters["generate_summary"]:
+        if (
+            "generate_summary" in simulation_model.parameters
+            and simulation_model.parameters["generate_summary"]
+        ):
             self.generate_run_summary(simulation_model)
 
         # kpi output
@@ -118,8 +122,12 @@ class OutputFactory:
 
         :param simulation_model:
         """
-        filepath = simulation_model.parameters["output_folder"] + "/" \
-            + simulation_model.parameters["scenario"] + "_summary.json"
+        filepath = (
+            simulation_model.parameters["output_folder"]
+            + "/"
+            + simulation_model.parameters["scenario"]
+            + "_summary.json"
+        )
 
         json_pretty_dump(simulation_model.runSummary, filepath)
 

@@ -72,7 +72,7 @@ import logging
 
 
 #: logging format of the base logger
-BASE_LOGGER_FORMAT = '%(levelname)s :: %(message)s'
+BASE_LOGGER_FORMAT = "%(levelname)s :: %(message)s"
 
 #: default logging level of the simulations
 DEFAULT_LOGGER_LEVEL = 13

@@ -16,21 +16,15 @@ class PalZhangGCH(Algorithm):
                 "title": "Relocation start times",
                 "description": "Times at which relocations will be performed",
                 "type": "array",
-                "items": {
-                    "type": "integer",
-                    "minimum": 0
-                },
-                "default": [25000]
+                "items": {"type": "integer", "minimum": 0},
+                "default": [25000],
             },
             "durations": {
                 "title": "Relocation durations",
                 "description": "Durations of each relocation operation",
                 "type": "array",
-                "items": {
-                    "type": "integer",
-                    "minimum": 0
-                },
-                "default": [12000]
+                "items": {"type": "integer", "minimum": 0},
+                "default": [12000],
             },
             "neighbor": {
                 "title": "Neighbor evaluation method",
@@ -39,9 +33,9 @@ class PalZhangGCH(Algorithm):
                 "oneOf": [
                     {"const": "util", "title": "Station with max utility (operations/time)"},
                     {"const": "nearest", "title": "Nearest station"},
-                    {"const": "random", "title": "Random station"}
+                    {"const": "random", "title": "Random station"},
                 ],
-                "default": "util"
+                "default": "util",
             },
             "threshold": {
                 "type": "object",
@@ -49,22 +43,22 @@ class PalZhangGCH(Algorithm):
                     "min": {
                         "title": "Lower stock threshold",
                         "description": "Avoided lower stock threshold, if possible. "
-                                       "If integer, distance from empty station. "
-                                       "If between 0 and 1, the distance is computed as a fraction of "
-                                       "the station capacity",
+                        "If integer, distance from empty station. "
+                        "If between 0 and 1, the distance is computed as a fraction of "
+                        "the station capacity",
                         "type": "number",
-                        "default": 0.1
+                        "default": 0.1,
                     },
                     "max": {
                         "title": "Upper stock threshold",
                         "description": "Avoided upper stock threshold, if possible. "
-                                       "If integer, distance from the station capacity. "
-                                       "If between 0 and 1, the distance is computed as a fraction of "
-                                       "the station capacity",
+                        "If integer, distance from the station capacity. "
+                        "If between 0 and 1, the distance is computed as a fraction of "
+                        "the station capacity",
                         "type": "number",
-                        "default": 0.1
-                    }
-                }
+                        "default": 0.1,
+                    },
+                },
             },
             "priority_threshold": {
                 "title": "Priority threshold",
@@ -72,11 +66,11 @@ class PalZhangGCH(Algorithm):
                 "type": "string",
                 "oneOf": [
                     {"const": "max", "title": "Maximum"},
-                    {"const": "min", "title": "Minimum"}
+                    {"const": "min", "title": "Minimum"},
                 ],
-                "default": "max"
-            }
-        }
+                "default": "max",
+            },
+        },
     }
 
     def __init__(self, simulation_model, operator, verb=False):
@@ -188,14 +182,22 @@ class PalZhangGCH(Algorithm):
                     elif op_needed > 0:
                         failed_put += op_needed
 
-                get_event = StaffOperationEvent(self.sim.scheduler.now(), self.vehicle, 0, failed_get)
-                put_event = StaffOperationEvent(self.sim.scheduler.now(), self.vehicle, 0, failed_put)
+                get_event = StaffOperationEvent(
+                    self.sim.scheduler.now(), self.vehicle, 0, failed_get
+                )
+                put_event = StaffOperationEvent(
+                    self.sim.scheduler.now(), self.vehicle, 0, failed_put
+                )
                 self.vehicle.trace_event(get_event)
                 self.vehicle.trace_event(put_event)
                 break
 
-            operation = Operation(Operation.REPOSITIONING, next_node_position,
-                                  max_operations[next_node], station_id=next_node)
+            operation = Operation(
+                Operation.REPOSITIONING,
+                next_node_position,
+                max_operations[next_node],
+                station_id=next_node,
+            )
 
             operation.arrivalTime = int(self.current_time + travel_time)
             operation.departureTime = int(self.current_time + travel_time + self.vehicle_dwell_time)
@@ -237,12 +239,12 @@ class PalZhangGCH(Algorithm):
         capacity = station.capacity
 
         if 0 < self.threshold["min"] < 1:
-            threshold_min = int(self.threshold["min"]*capacity)
+            threshold_min = int(self.threshold["min"] * capacity)
         else:
             threshold_min = self.threshold["min"]
 
         if 0 < self.threshold["max"] < 1:
-            threshold_max = int((1-self.threshold["max"])*capacity)
+            threshold_max = int((1 - self.threshold["max"]) * capacity)
         else:
             threshold_max = capacity - self.threshold["max"]
 
@@ -335,15 +337,18 @@ class PalZhangGCH(Algorithm):
                 continue
 
             # compute travel time to other stations
-            travel_time[station.id] = self.sim.environment.topologies[self.vehicle_mode]\
-                .shortest_path_length(current_station.position, station.position, None)
+            travel_time[station.id] = self.sim.environment.topologies[
+                self.vehicle_mode
+            ].shortest_path_length(current_station.position, station.position, None)
 
         # evaluate the next neighbor according to the neighbor parameter
         if self.neighbor == "nearest":
             neighbor = min(travel_time, key=travel_time.get)
         elif self.neighbor == "util":
+
             def utility(s):
                 return float(abs(max_operations[s])) / max(1, travel_time[s])
+
             neighbor = max(travel_time, key=utility)
         elif self.neighbor == "random":
             neighbor = random.sample(list(travel_time.keys()), 1)[0]
@@ -360,7 +365,9 @@ class PalZhangGCH(Algorithm):
 
     def init_demand_dict(self):
 
-        features = self.sim.dynamicInput.feature_list_from_file(self.sim.parameters["dynamic_input_file"])
+        features = self.sim.dynamicInput.feature_list_from_file(
+            self.sim.parameters["dynamic_input_file"]
+        )
         self.sim.dynamicInput.pre_process_position_coordinates(features)
         demand_dict = {station: [] for station in self.operator.stations.keys()}
 
@@ -369,19 +376,24 @@ class PalZhangGCH(Algorithm):
             destination = user_dict["properties"]["destination"]
             origin_time = user_dict["properties"]["origin_time"]
 
-            origin_station = self.sim.environment.euclidean_n_closest(origin, self.operator.stations.values(), 1)[0]
+            origin_station = self.sim.environment.euclidean_n_closest(
+                origin, self.operator.stations.values(), 1
+            )[0]
 
-            travel_time = self.sim.environment.topologies["walk"]\
-                .shortest_path_length(origin, origin_station.position, None)
+            travel_time = self.sim.environment.topologies["walk"].shortest_path_length(
+                origin, origin_station.position, None
+            )
             origin_station_time = origin_time + travel_time
 
             demand_dict[origin_station.id].append([origin_station_time, -1])
 
-            destination_station = self.sim.environment.euclidean_n_closest(destination,
-                                                                           self.operator.stations.values(), 1)[0]
+            destination_station = self.sim.environment.euclidean_n_closest(
+                destination, self.operator.stations.values(), 1
+            )[0]
 
-            travel_time = self.sim.environment.topologies[self.operator.mode["fleet"]]\
-                .shortest_path_length(origin_station.position, destination_station.position, None)
+            travel_time = self.sim.environment.topologies[
+                self.operator.mode["fleet"]
+            ].shortest_path_length(origin_station.position, destination_station.position, None)
 
             destination_station_time = origin_station_time + travel_time
             demand_dict[destination_station.id].append([destination_station_time, 1])

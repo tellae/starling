@@ -253,8 +253,10 @@ def scenario_agent_input_filepath(model_code, scenario, filename):
     if not os.path.exists(filepath):
         filepath = common_inputs_folder() + filename
         if not os.path.exists(filepath):
-            raise FileNotFoundError("Input file {} not found in scenario inputs folder "
-                                    "or common inputs folder".format(filename))
+            raise FileNotFoundError(
+                "Input file {} not found in scenario inputs folder "
+                "or common inputs folder".format(filename)
+            )
 
     return filepath
 
@@ -272,8 +274,7 @@ def scenario_output_folder(model_code, scenario):
         env_output_folder = os.environ["OUTPUT_FOLDER"]
         # check that the folder exists
         if not os.path.isdir(env_output_folder):
-            raise IOError(
-                "Environment variable OUTPUT_FOLDER does not point to a folder")
+            raise IOError("Environment variable OUTPUT_FOLDER does not point to a folder")
 
         # add missing folder separator
         if not env_output_folder.endswith(_SEP):
@@ -306,6 +307,7 @@ def model_import_path(starling_pkg, model_code):
     :param model_code: code of the model
     """
     return _MODEL_IMPORT_FORMAT.format(starling_pkg=starling_pkg, model_code=model_code)
+
 
 # #: local prefix
 # path_prefix = "./"

@@ -19,10 +19,11 @@ from numbers import Integral
 from jsonschema import Draft7Validator, Draft4Validator, validators, ValidationError, RefResolver
 from starling_sim.utils.paths import schemas_folder, gtfs_feeds_folder, osm_graphs_folder
 
-pd.set_option('display.expand_frame_repr', False)
+pd.set_option("display.expand_frame_repr", False)
 
 
 # Starling exceptions
+
 
 class StarlingException(Exception):
     """
@@ -59,6 +60,7 @@ class PlanningChange(Exception):
 
 
 # json utils
+
 
 def json_dump(data, filepath):
     """
@@ -101,6 +103,7 @@ def json_load(filepath):
 
 # compression utils
 
+
 def gz_compression(filepath, delete_source=True):
     """
     Compress the given file using gzip.
@@ -112,8 +115,8 @@ def gz_compression(filepath, delete_source=True):
     """
 
     # compress the file using gzip
-    with open(filepath, 'rb') as f_in:
-        with gzip.open(filepath + ".gz", 'wb') as f_out:
+    with open(filepath, "rb") as f_in:
+        with gzip.open(filepath + ".gz", "wb") as f_out:
             shutil.copyfileobj(f_in, f_out)
 
     # delete source file if asked
@@ -135,11 +138,14 @@ def gz_decompression(filepath, delete_source=True):
 
     # test if the file ends with .gz
     if not filepath.endswith(".gz"):
-        logging.log(30, "File to decompress does not end with '.gz'. Continuing without decompressing the file.")
+        logging.log(
+            30,
+            "File to decompress does not end with '.gz'. Continuing without decompressing the file.",
+        )
 
     # decompress the file unsing gzip
-    with gzip.open(filepath, 'rb') as f_in:
-        with open(filepath[:-3], 'wb') as f_out:
+    with gzip.open(filepath, "rb") as f_in:
+        with open(filepath[:-3], "wb") as f_out:
             shutil.copyfileobj(f_in, f_out)
 
     # delete source file if asked
@@ -159,7 +165,7 @@ def validate_against_schema(instance, schema, raise_exception=True):
     schema = load_schema(schema, False)
 
     # get the absolute path and setup a resolver
-    schema_abs_path = 'file:///{0}/'.format(os.path.abspath(schemas_folder()).replace("\\", "/"))
+    schema_abs_path = "file:///{0}/".format(os.path.abspath(schemas_folder()).replace("\\", "/"))
     resolver = RefResolver(schema_abs_path, schema)
     validator = CustomValidator(schema=schema, resolver=resolver)
 
@@ -171,7 +177,12 @@ def validate_against_schema(instance, schema, raise_exception=True):
         if raise_exception:
             raise e
         else:
-            logging.log(30, "JSON Schema validation of :\n\n{}\n\nfailed with message:\n\n {} ".format(instance, e))
+            logging.log(
+                30,
+                "JSON Schema validation of :\n\n{}\n\nfailed with message:\n\n {} ".format(
+                    instance, e
+                ),
+            )
             return False
 
 
@@ -230,11 +241,12 @@ def load_schema(schema, make_copy=True):
 
 # converters
 
+
 def get_sec(time_str):
     """Get Seconds from time."""
 
     # HH:MM:SS to seconds
-    h, m, s = time_str.split(':')
+    h, m, s = time_str.split(":")
     return int(h) * 3600 + int(m) * 60 + int(s)
 
 
@@ -275,10 +287,7 @@ def new_point_feature(point_localisation=None, properties=None):
         point_localisation = [0, 0]
 
     # create  the feature geometry
-    geometry = {
-        "type": "Point",
-        "coordinates": point_localisation
-    }
+    geometry = {"type": "Point", "coordinates": point_localisation}
 
     return new_feature(geometry, properties)
 
@@ -286,10 +295,7 @@ def new_point_feature(point_localisation=None, properties=None):
 def new_line_string_feature(linestring, properties=None):
 
     # create  the feature geometry
-    geometry = {
-        "type": "LineString",
-        "coordinates": linestring
-    }
+    geometry = {"type": "LineString", "coordinates": linestring}
 
     return new_feature(geometry, properties)
 
@@ -304,10 +310,7 @@ def new_multi_polygon_feature(polygon_list, properties=None):
     """
 
     # create  the feature geometry
-    geometry = {
-        "type": "MultiPolygon",
-        "coordinates": polygon_list
-    }
+    geometry = {"type": "MultiPolygon", "coordinates": polygon_list}
 
     return new_feature(geometry, properties)
 
@@ -319,11 +322,7 @@ def new_feature(geometry, properties=None):
         properties = dict()
 
     # build a geojson feature
-    feature = {
-        "type": "Feature",
-        "geometry": geometry,
-        "properties": properties
-    }
+    feature = {"type": "Feature", "geometry": geometry, "properties": properties}
 
     return feature
 
@@ -340,15 +339,13 @@ def new_feature_collection(features=None):
         features = []
 
     # build a geojson feature collection
-    feature_collection = {
-        "type": "FeatureCollection",
-        "features": features
-    }
+    feature_collection = {"type": "FeatureCollection", "features": features}
 
     return feature_collection
 
 
 # shapes functions
+
 
 def shapely_polygon_from_points(points, reverse=False):
     """
@@ -393,12 +390,14 @@ def geopandas_points_from_localisations(localisations):
 
     if isinstance(localisations, tuple) or isinstance(localisations, list):
         # create a DataFrame containing the point coordinates
-        localisations = pd.DataFrame({"lat": localisations[0], "lon": localisations[1]},
-                                     columns=["lat", "lon"], index=[0])
+        localisations = pd.DataFrame(
+            {"lat": localisations[0], "lon": localisations[1]}, columns=["lat", "lon"], index=[0]
+        )
 
     # create a GeoDataFrame from df
     gdf = geopandas.GeoDataFrame(
-        localisations, geometry=geopandas.points_from_xy(localisations.lon, localisations.lat))
+        localisations, geometry=geopandas.points_from_xy(localisations.lon, localisations.lat)
+    )
 
     # set epsg
     gdf.set_crs("epsg:4326")
@@ -514,14 +513,18 @@ def stops_table_from_geojson(geojson_path):
     return stops_table
 
 
-def stop_table_from_gtfs(gtfs_feed, routes=None, zone=None, fixed_stops=None, active_stops_only=False):
+def stop_table_from_gtfs(
+    gtfs_feed, routes=None, zone=None, fixed_stops=None, active_stops_only=False
+):
 
     result_table = pd.DataFrame()
 
     gtfs_stops = gtfs_feed.get_stops().copy()
 
     if fixed_stops is not None:
-        result_table = pd.concat([result_table, gtfs_stops[gtfs_stops["stop_id"].isin(fixed_stops)]], sort=False)
+        result_table = pd.concat(
+            [result_table, gtfs_stops[gtfs_stops["stop_id"].isin(fixed_stops)]], sort=False
+        )
 
     if active_stops_only:
         stop_times = gtfs_feed.get_stop_times()
@@ -539,7 +542,9 @@ def stop_table_from_gtfs(gtfs_feed, routes=None, zone=None, fixed_stops=None, ac
         gtfs_stops = gtfs_stops[gtfs_stops["in_zone"]]
 
         # remove stops areas
-        gtfs_stops = gtfs_stops[(gtfs_stops["location_type"] == 0) | (gtfs_stops["location_type"].isna())]
+        gtfs_stops = gtfs_stops[
+            (gtfs_stops["location_type"] == 0) | (gtfs_stops["location_type"].isna())
+        ]
 
     result_table = pd.concat([result_table, gtfs_stops], sort=False)
     result_table.drop_duplicates(inplace=True)
@@ -547,8 +552,17 @@ def stop_table_from_gtfs(gtfs_feed, routes=None, zone=None, fixed_stops=None, ac
     return result_table
 
 
-def import_osm_graph(method, network_type, simplify, query=None, which_result=None, point=None, dist=None, polygon=None,
-                     outfile=None):
+def import_osm_graph(
+    method,
+    network_type,
+    simplify,
+    query=None,
+    which_result=None,
+    point=None,
+    dist=None,
+    polygon=None,
+    outfile=None,
+):
     """
     Generate an OSM graph from given parameters and store it in a file.
 
@@ -622,14 +636,17 @@ def osm_graph_from_point(point, distance, network_type, simplify):
     """
 
     if point is None or distance is None:
-        print("The point and distance parameters must be specified when importing graph from point.")
+        print(
+            "The point and distance parameters must be specified when importing graph from point."
+        )
         exit(1)
 
     # reverse the point coordinates (osmnx takes (lat, lon) coordinates)
     point = (point[1], point[0])
 
-    return ox.graph_from_point(point, dist=distance, dist_type="bbox",
-                               network_type=network_type, simplify=simplify)
+    return ox.graph_from_point(
+        point, dist=distance, dist_type="bbox", network_type=network_type, simplify=simplify
+    )
 
 
 def osm_graph_from_polygon(polygon_points, network_type, simplify):
@@ -670,7 +687,9 @@ def osm_graph_from_place(query, which_result, network_type, simplify):
         print("The query parameter must be specified when importing graph from place.")
         exit(1)
 
-    return ox.graph_from_place(query, network_type=network_type, simplify=simplify, which_result=which_result)
+    return ox.graph_from_place(
+        query, network_type=network_type, simplify=simplify, which_result=which_result
+    )
 
 
 def save_osm_graph(graph, filename, folder):
@@ -729,6 +748,7 @@ def osm_graph_from_file(filename, folder=None):
 
 # gtfs utils
 
+
 def import_gtfs_feed(gtfs_filename, transfer_restriction=None, folder=None):
     """
     Import a gtfs feed from the given file.
@@ -761,14 +781,19 @@ def import_gtfs_feed(gtfs_filename, transfer_restriction=None, folder=None):
     # check that foot-path transfers are symmetrical
     if feed.transfers is not None:
         transfer_table = feed.transfers.copy()
-        transfer_table = transfer_table[transfer_table["from_stop_id"] != transfer_table["to_stop_id"]]
+        transfer_table = transfer_table[
+            transfer_table["from_stop_id"] != transfer_table["to_stop_id"]
+        ]
         transfer_table["stop_A"] = transfer_table[["from_stop_id", "to_stop_id"]].apply(min, axis=1)
         transfer_table["stop_B"] = transfer_table[["from_stop_id", "to_stop_id"]].apply(max, axis=1)
         count = transfer_table.groupby(["stop_A", "stop_B"], as_index=False).agg(["count"])
         counts_not_equal_to_2 = count[count["min_transfer_time"]["count"] != 2]
         if not counts_not_equal_to_2.empty:
-            logging.warning("Transfer table of {} is not symmetrical (in term of arcs, not transfer times)"
-                            .format(gtfs_filename))
+            logging.warning(
+                "Transfer table of {} is not symmetrical (in term of arcs, not transfer times)".format(
+                    gtfs_filename
+                )
+            )
         if not is_transitive(feed.transfers) and transfer_restriction is not None:
             feed.transfers = transitively_closed_transfers(feed.transfers, transfer_restriction)
     else:
@@ -792,9 +817,12 @@ def transitively_closed_transfers(transfers, restrict_transfer_time):
 
     # restrict original transfers so the final set of transfers isn't too large
     if restrict_transfer_time is not None:
-        logging.info("The GTFS transfer table is not transitively closed. "
-                     "Transfers are restricted to duration under {} seconds and then made transitive."
-                     .format(restrict_transfer_time))
+        logging.info(
+            "The GTFS transfer table is not transitively closed. "
+            "Transfers are restricted to duration under {} seconds and then made transitive.".format(
+                restrict_transfer_time
+            )
+        )
         transfers = transfers[transfers["min_transfer_time"] <= restrict_transfer_time]
         return make_transfers_transitively_closed(transfers)
     # else:
@@ -829,11 +857,15 @@ def is_transitive(transfers):
     nb_transfers = len(transfers)
     # create new transfers using transitive property
     new_transfers = pd.merge(transfers, transfers, left_on="to_stop_id", right_on="from_stop_id")
-    new_transfers["min_transfer_time"] = new_transfers["min_transfer_time_x"] + new_transfers["min_transfer_time_y"]
+    new_transfers["min_transfer_time"] = (
+        new_transfers["min_transfer_time_x"] + new_transfers["min_transfer_time_y"]
+    )
     new_transfers["from_stop_id"] = new_transfers["from_stop_id_x"]
     new_transfers["to_stop_id"] = new_transfers["to_stop_id_y"]
     if "transfer_type" in transfers.columns:
-        new_transfers["transfer_type"] = new_transfers[["transfer_type_x", "transfer_type_y"]].max(axis=1)
+        new_transfers["transfer_type"] = new_transfers[["transfer_type_x", "transfer_type_y"]].max(
+            axis=1
+        )
     new_transfers = new_transfers[transfers.columns]
 
     # add them to the former set of transfers
@@ -864,12 +896,18 @@ def make_transfers_transitively_closed(transfers):
     nb_transfers = len(transfers)
     while True:
         # create new transfers using transitive property
-        new_transfers = pd.merge(transfers, transfers, left_on="to_stop_id", right_on="from_stop_id")
-        new_transfers["min_transfer_time"] = new_transfers["min_transfer_time_x"] + new_transfers["min_transfer_time_y"]
+        new_transfers = pd.merge(
+            transfers, transfers, left_on="to_stop_id", right_on="from_stop_id"
+        )
+        new_transfers["min_transfer_time"] = (
+            new_transfers["min_transfer_time_x"] + new_transfers["min_transfer_time_y"]
+        )
         new_transfers["from_stop_id"] = new_transfers["from_stop_id_x"]
         new_transfers["to_stop_id"] = new_transfers["to_stop_id_y"]
         if "transfer_type" in transfers.columns:
-            new_transfers["transfer_type"] = new_transfers[["transfer_type_x", "transfer_type_y"]].max(axis=1)
+            new_transfers["transfer_type"] = new_transfers[
+                ["transfer_type_x", "transfer_type_y"]
+            ].max(axis=1)
         new_transfers = new_transfers[transfers.columns]
 
         # add them to the former set of transfers
@@ -898,12 +936,18 @@ def stops2geojson(stops_df):
     """
 
     features = []
-    stops_df.apply(lambda x: features.append(
-        new_point_feature(point_localisation=[x["stop_lon"], x["stop_lat"]],
-                          properties={
-                              "stop_id": x["stop_id"],
-                              "stop_name": x["stop_name"],
-                          })), axis=1)
+    stops_df.apply(
+        lambda x: features.append(
+            new_point_feature(
+                point_localisation=[x["stop_lon"], x["stop_lat"]],
+                properties={
+                    "stop_id": x["stop_id"],
+                    "stop_name": x["stop_name"],
+                },
+            )
+        ),
+        axis=1,
+    )
 
     return new_feature_collection(features)
 
@@ -921,12 +965,25 @@ def transfers2geojson(transfers_df, stops_df):
     # add the stop information to the from_stop and to_stop
     geo_transfers = pd.merge(transfers_df, stops_df, left_on=["from_stop_id"], right_on=["stop_id"])
     geo_transfers = pd.merge(geo_transfers, stops_df, left_on=["to_stop_id"], right_on=["stop_id"])
-    geo_transfers = geo_transfers[["from_stop_id", "to_stop_id", "min_transfer_time", "stop_lat_x", "stop_lon_x",
-                                   "stop_lat_y", "stop_lon_y"]]
+    geo_transfers = geo_transfers[
+        [
+            "from_stop_id",
+            "to_stop_id",
+            "min_transfer_time",
+            "stop_lat_x",
+            "stop_lon_x",
+            "stop_lat_y",
+            "stop_lon_y",
+        ]
+    ]
 
     # create the geometry attribute
     geo_transfers["geometry"] = geo_transfers.apply(
-        lambda x: LineString([(x["stop_lon_x"], x["stop_lat_x"]), (x["stop_lon_y"], x["stop_lat_y"])]), axis=1)
+        lambda x: LineString(
+            [(x["stop_lon_x"], x["stop_lat_x"]), (x["stop_lon_y"], x["stop_lat_y"])]
+        ),
+        axis=1,
+    )
     geo_transfers = geopandas.GeoDataFrame(geo_transfers)
     geo_transfers = geo_transfers[["min_transfer_time", "geometry"]]
 
@@ -936,6 +993,7 @@ def transfers2geojson(transfers_df, stops_df):
 
 
 # folder creation
+
 
 def create_if_not_exists(folder):
     """

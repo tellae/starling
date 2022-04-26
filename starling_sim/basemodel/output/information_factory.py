@@ -61,13 +61,12 @@ class InformationFactory(ABC):
 
         # log a warning if values and timestamps are of different lengths
         if len(self.values) != len(self.timestamps):
-            logging.warning("Values and timestamps of information {} have different lengths.".format(self.key))
+            logging.warning(
+                "Values and timestamps of information {} have different lengths.".format(self.key)
+            )
             return dict()
 
-        information_dict = {
-            "values": self.values,
-            "timestamps": self.timestamps
-        }
+        information_dict = {"values": self.values, "timestamps": self.timestamps}
 
         # reset the information structures
         self.new_information_dict()
@@ -186,11 +185,12 @@ class DelayInformation(InformationFactory):
             # get the theoretical departure time
             service_info = agent.operator.service_info
             stop_times = service_info.get_stop_times()
-            theo_departure_time = stop_times[(stop_times["trip_id"] == event.trip)
-                                             & (stop_times["stop_id"] == event.stop.id)]["departure_time_num"].values[0]
+            theo_departure_time = stop_times[
+                (stop_times["trip_id"] == event.trip) & (stop_times["stop_id"] == event.stop.id)
+            ]["departure_time_num"].values[0]
 
             # compute the delay
-            delay = int((event.pickup_time - theo_departure_time)/float(60))
+            delay = int((event.pickup_time - theo_departure_time) / float(60))
 
             # format the delay information
             if delay > 0:

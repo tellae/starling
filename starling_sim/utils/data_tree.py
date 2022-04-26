@@ -14,6 +14,7 @@ from starling_sim.utils.test_models import TEST_DATA_FOLDER
 
 # data tree generation
 
+
 def create_data_tree():
     """
     Create the data tree according to the paths stored in paths.py.
@@ -98,6 +99,7 @@ def sh_copy(src, dst):
     """
 
     subprocess.run(["cp", "-r", src, dst])
+
 
 # # example scenarios import functions
 #

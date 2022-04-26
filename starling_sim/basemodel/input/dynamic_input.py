@@ -1,8 +1,7 @@
 from starling_sim.basemodel.trace.trace import Traced
 from starling_sim.basemodel.trace.events import InputEvent
 from starling_sim.basemodel.agent.operators.operator import Operator
-from starling_sim.utils.utils import json_load, validate_against_schema, \
-    add_defaults_and_validate
+from starling_sim.utils.utils import json_load, validate_against_schema, add_defaults_and_validate
 from starling_sim.utils.constants import STOP_POINT_POPULATION
 from starling_sim.utils.paths import scenario_agent_input_filepath
 from jsonschema import ValidationError
@@ -39,8 +38,7 @@ class DynamicInput(Traced):
         :return:
         """
 
-        return "[dynamicInput: model={}, randomSeed={}]" \
-            .format(self.sim.name, self.sim.randomSeed)
+        return "[dynamicInput: model={}, randomSeed={}]".format(self.sim.name, self.sim.randomSeed)
 
     def setup(self, simulation_model):
         """
@@ -57,10 +55,13 @@ class DynamicInput(Traced):
         # set the attribute of dynamic features
 
         self.dynamic_feature_list = self.feature_list_from_file(
-            self.sim.parameters["dynamic_input_file"])
+            self.sim.parameters["dynamic_input_file"]
+        )
 
         # sort list according to origin times
-        self.dynamic_feature_list = sorted(self.dynamic_feature_list, key=lambda x: x["properties"]["origin_time"])
+        self.dynamic_feature_list = sorted(
+            self.dynamic_feature_list, key=lambda x: x["properties"]["origin_time"]
+        )
 
         # get the list of static features (present at the start of the simulation)
         init_files = self.sim.parameters["init_input_file"]
@@ -108,7 +109,9 @@ class DynamicInput(Traced):
 
         # test if the feature has an 'agent_type' property
         if "agent_type" not in feature["properties"]:
-            raise KeyError("Error in {} : input features must contain an 'agent_type' property".format(feature))
+            raise KeyError(
+                "Error in {} : input features must contain an 'agent_type' property".format(feature)
+            )
 
         # validate and set defaults using the schema corresponding to the agent type
         agent_schema = self.agent_type_schemas[feature["properties"]["agent_type"]]
@@ -131,7 +134,10 @@ class DynamicInput(Traced):
             # TODO : check the feature schema ? duplicate with FeatureCollection check
 
             # see if an offset should be applied to the input origin time
-            if "early_dynamic_input" in self.sim.parameters and self.sim.parameters["early_dynamic_input"]:
+            if (
+                "early_dynamic_input" in self.sim.parameters
+                and self.sim.parameters["early_dynamic_input"]
+            ):
                 early_input_time_offset = self.sim.parameters["early_dynamic_input"]
             else:
                 early_input_time_offset = 0
@@ -141,8 +147,11 @@ class DynamicInput(Traced):
 
             # check that the generation time is positive
             if generation_time < 0:
-                self.log_message("Feature {} cannot be generated at {}, "
-                                 "generation at time 0 instead.".format(feature, generation_time), 30)
+                self.log_message(
+                    "Feature {} cannot be generated at {}, "
+                    "generation at time 0 instead.".format(feature, generation_time),
+                    30,
+                )
                 generation_time = 0
 
             # wait for the next generation
@@ -174,7 +183,9 @@ class DynamicInput(Traced):
         try:
             feature = self.feature_schema_validation(feature)
         except Exception as e:
-            self.log_message("Agent input was not completed due to the following error : {}".format(str(e)), 30)
+            self.log_message(
+                "Agent input was not completed due to the following error : {}".format(str(e)), 30
+            )
             return
 
         input_dict = feature["properties"]
@@ -209,8 +220,12 @@ class DynamicInput(Traced):
                 new_agent.__init__(self.sim, **input_dict)
             except (TypeError, KeyError, ValidationError):
                 # if the initialisation fails, log and leave
-                self.log_message("Instantiation of {}  failed with message :\n {}"
-                                 .format(self.agent_type_class[agent_type], traceback.format_exc()), 30)
+                self.log_message(
+                    "Instantiation of {}  failed with message :\n {}".format(
+                        self.agent_type_class[agent_type], traceback.format_exc()
+                    ),
+                    30,
+                )
                 exit(1)
 
             # add the agent to the simulation environment
@@ -219,8 +234,12 @@ class DynamicInput(Traced):
             return new_agent
 
         else:
-            self.log_message("Unknown agent_type {}. Model agent types are {}."
-                             .format(agent_type, list(self.agent_type_class.keys())), 30)
+            self.log_message(
+                "Unknown agent_type {}. Model agent types are {}.".format(
+                    agent_type, list(self.agent_type_class.keys())
+                ),
+                30,
+            )
             return
 
     def add_agent_to_simulation(self, agent, populations):
@@ -261,7 +280,9 @@ class DynamicInput(Traced):
 
         # get the path to the input file
         parameters = self.sim.parameters
-        filepath = scenario_agent_input_filepath(parameters["code"], parameters["scenario"], filename)
+        filepath = scenario_agent_input_filepath(
+            parameters["code"], parameters["scenario"], filename
+        )
 
         # read the dict contained in input file
         try:
@@ -270,13 +291,19 @@ class DynamicInput(Traced):
             # TODO : validate against FeatureCollection
 
         except JSONDecodeError as e:
-            self.log_message("Error while decoding input file {} : {}\n "
-                             "Are you sure the file is a JSON ?".format(filename, e), 40)
+            self.log_message(
+                "Error while decoding input file {} : {}\n "
+                "Are you sure the file is a JSON ?".format(filename, e),
+                40,
+            )
             raise e
 
         except ValidationError as e:
-            self.log_message("Error while validating the input data : {}\n Are you sure "
-                             "the json follows the FeatureCollection schema ?".format(e), 40)
+            self.log_message(
+                "Error while validating the input data : {}\n Are you sure "
+                "the json follows the FeatureCollection schema ?".format(e),
+                40,
+            )
             raise e
 
         # return the feature list
@@ -284,8 +311,12 @@ class DynamicInput(Traced):
 
     def make_demand_static(self):
 
-        if "make_static" in self.sim.parameters \
-                and self.sim.parameters["make_static"] in ["all", "prebooked", "prebooked_only", "ghosts"]:
+        if "make_static" in self.sim.parameters and self.sim.parameters["make_static"] in [
+            "all",
+            "prebooked",
+            "prebooked_only",
+            "ghosts",
+        ]:
 
             # also add the agents of dynamic input that are prebooked
             dynamic_features = []
@@ -332,7 +363,7 @@ class DynamicInput(Traced):
             "keys": [],
             "lon": [],
             "lat": [],
-            "nearest_nodes": None
+            "nearest_nodes": None,
         }
 
         # browse the features
@@ -351,9 +382,16 @@ class DynamicInput(Traced):
             if origin_coordinates is not None:
 
                 # deprecated properties 'origin_lon' and 'origin_lat'
-                if origin_coordinates == [0, 0] and "origin_lon" in input_dict and "origin_lat" in input_dict:
-                    self.log_message("Use of 'origin_lon' and 'origin_lat' is deprecated, "
-                                     "using the feature geometry is preferred", 30)
+                if (
+                    origin_coordinates == [0, 0]
+                    and "origin_lon" in input_dict
+                    and "origin_lat" in input_dict
+                ):
+                    self.log_message(
+                        "Use of 'origin_lon' and 'origin_lat' is deprecated, "
+                        "using the feature geometry is preferred",
+                        30,
+                    )
                     origin_coordinates = [input_dict["origin_lon"], input_dict["origin_lat"]]
 
                 if origin_coordinates != [0, 0]:
@@ -362,15 +400,26 @@ class DynamicInput(Traced):
                     lon.append(origin_coordinates[0])
                     lat.append(origin_coordinates[1])
 
-            destination_coordinates = self.get_position_coordinates_from_feature(feature, "destination")
+            destination_coordinates = self.get_position_coordinates_from_feature(
+                feature, "destination"
+            )
             if destination_coordinates is not None:
 
                 # deprecated properties 'destination_lon' and 'destination_lat'
-                if destination_coordinates == [0, 0] \
-                        and "destination_lon" in input_dict and "destination_lat" in input_dict:
-                    self.log_message("Use of 'destination_lon' and 'destination_lat' is deprecated, "
-                                     "using the feature geometry is preferred", 30)
-                    destination_coordinates = [input_dict["destination_lon"], input_dict["destination_lat"]]
+                if (
+                    destination_coordinates == [0, 0]
+                    and "destination_lon" in input_dict
+                    and "destination_lat" in input_dict
+                ):
+                    self.log_message(
+                        "Use of 'destination_lon' and 'destination_lat' is deprecated, "
+                        "using the feature geometry is preferred",
+                        30,
+                    )
+                    destination_coordinates = [
+                        input_dict["destination_lon"],
+                        input_dict["destination_lat"],
+                    ]
 
                 if destination_coordinates != [0, 0]:
                     inputs.append(input_dict)
@@ -400,8 +449,9 @@ class DynamicInput(Traced):
 
             # call localisations_nearest_nodes on the dict information
             nearest_nodes_dict = pre_process_dict[modes]
-            nearest_nodes = self.sim.environment.localisations_nearest_nodes(nearest_nodes_dict["lon"],
-                                                                             nearest_nodes_dict["lat"], list(modes))
+            nearest_nodes = self.sim.environment.localisations_nearest_nodes(
+                nearest_nodes_dict["lon"], nearest_nodes_dict["lat"], list(modes)
+            )
             nearest_nodes_dict["nearest_nodes"] = nearest_nodes
 
             # affect the positions back to the input dicts
@@ -558,7 +608,9 @@ class DynamicInput(Traced):
 
         # check the resulting mode with input value if mode value or dict object
         if input_value is not None and mode != input_value:
-            raise ValueError("Conflict between type mode '{}' and input value '{}'".format(mode, input_value))
+            raise ValueError(
+                "Conflict between type mode '{}' and input value '{}'".format(mode, input_value)
+            )
 
         return mode
 
@@ -577,7 +629,9 @@ class DynamicInput(Traced):
 
         # if an operator is provided, use its stop points
         if "operator_id" in input_dict:
-            stop_points_dict = self.sim.agentPopulation.get_agent(input_dict["operator_id"]).stopPoints
+            stop_points_dict = self.sim.agentPopulation.get_agent(
+                input_dict["operator_id"]
+            ).stopPoints
         # otherwise fetch them from the global stop points population
         else:
             stop_points_dict = self.sim.agentPopulation[STOP_POINT_POPULATION]
@@ -627,9 +681,15 @@ class DynamicInput(Traced):
 
                 # if both are provided and are different, log an error and exit
                 elif operator.mode[input_service] != input_dict["mode"]:
-                    self.log_message("Input mode of '{}' agent {} ({}) differs from operator's mode ({})"
-                                     .format(input_service, input_dict["agent_id"],
-                                             input_dict["mode"], operator.mode[input_service]), 40)
+                    self.log_message(
+                        "Input mode of '{}' agent {} ({}) differs from operator's mode ({})".format(
+                            input_service,
+                            input_dict["agent_id"],
+                            input_dict["mode"],
+                            operator.mode[input_service],
+                        ),
+                        40,
+                    )
                     raise ValueError("Conflict between operator's mode and its fleet/staff's mode")
 
             # set the input population

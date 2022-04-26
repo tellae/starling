@@ -19,18 +19,12 @@ class Model(SimulationModel):
     agent_type_class = {
         "user": User,
         "vehicle": StationBasedVehicle,
-        "station": VehicleSharingStation
+        "station": VehicleSharingStation,
     }
 
-    leaving_codes = {
-        "FAIL_GET": "Failed to get a vehicle"
-    }
+    leaving_codes = {"FAIL_GET": "Failed to get a vehicle"}
 
-    modes = {
-        "user": ["walk"],
-        "vehicle": ["station"],
-        "station": [None, "walk"]
-    }
+    modes = {"user": ["walk"], "vehicle": ["station"], "station": [None, "walk"]}
 
     def __init__(self, parameters):
         """

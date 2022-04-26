@@ -5,7 +5,6 @@ import pandas as pd
 
 
 class KpiOutput:
-
     def __init__(self, population_names, kpi_list, kpi_name=None):
 
         # name of the kpi, will compose the kpi filename : <kpi_name>.csv
@@ -47,8 +46,10 @@ class KpiOutput:
             kpi.setup(simulation_model)
 
         if isinstance(self.population_names, list):
-            self.populations = [simulation_model.agentPopulation[population_name]
-                                for population_name in self.population_names]
+            self.populations = [
+                simulation_model.agentPopulation[population_name]
+                for population_name in self.population_names
+            ]
         else:
             self.populations = [simulation_model.agentPopulation[self.population_names]]
 
@@ -116,8 +117,9 @@ class KpiOutput:
             # write the dataframe into a csv file
             kpi_table.to_csv(path, sep=";", index=False, columns=header_list)
         except KeyError as e:
-            logging.warning("Could not generate kpi output {}, "
-                            "error occurred : {}".format(path, e))
+            logging.warning(
+                "Could not generate kpi output {}, " "error occurred : {}".format(path, e)
+            )
 
     def compute_population_kpi_table(self, population):
         """

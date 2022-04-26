@@ -1,8 +1,13 @@
 from starling_sim.basemodel.agent.agent import Agent
 from starling_sim.basemodel.agent.requests import TripRequest, StopPoint
 from starling_sim.basemodel.agent.stations.station import Station
-from starling_sim.utils.utils import geopandas_polygon_from_points, points_in_zone, json_load, \
-    load_schema, validate_against_schema
+from starling_sim.utils.utils import (
+    geopandas_polygon_from_points,
+    points_in_zone,
+    json_load,
+    load_schema,
+    validate_against_schema,
+)
 from starling_sim.utils.paths import gtfs_feeds_folder, schemas_folder
 from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
 
@@ -25,15 +30,13 @@ class Operator(Agent):
         "required": [],
         "properties": {
             "routes": {
-              "advanced":  True,
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "title": "GTFS routes to keep in the public transport simulation",
-              "description": "List of route ids that should be present in the simulation. If null, keep all routes."
+                "advanced": True,
+                "type": "array",
+                "items": {"type": "string"},
+                "title": "GTFS routes to keep in the public transport simulation",
+                "description": "List of route ids that should be present in the simulation. If null, keep all routes.",
             }
-        }
+        },
     }
 
     SCHEMA = {
@@ -46,26 +49,26 @@ class Operator(Agent):
                     "fleet": {
                         "title": "Fleet network",
                         "description": "Default network of the operator's fleet",
-                        "type": "string"
+                        "type": "string",
                     },
                     "staff": {
                         "title": "Staff network",
                         "description": "Default network of the operator's staff",
-                        "type": "string"
+                        "type": "string",
                     },
                 },
-                "required": ["fleet"]
+                "required": ["fleet"],
             },
             "fleet_dict": {
                 "type": "string",
                 "title": "Fleet population",
-                "description": "Population of the operator's fleet agents"
+                "description": "Population of the operator's fleet agents",
             },
             "staff_dict": {
                 "x-display": "hidden",
                 "title": "Staff population",
                 "description": "Population of the operator's staff agents",
-                "type": "string"
+                "type": "string",
             },
             "zone_polygon": {
                 "x-display": "hidden",
@@ -80,24 +83,22 @@ class Operator(Agent):
                 "type": "array",
                 "items": {
                     "type": "array",
-                    "items": {
-                        "type": "number"
-                    },
+                    "items": {"type": "number"},
                     "minItems": 2,
-                    "maxItems": 2
-                }
+                    "maxItems": 2,
+                },
             },
             "extend_graph_with_stops": {
                 "advanced": True,
                 "title": "Extend graph with stops",
                 "description": "Extend the graph with service stop points",
                 "type": "boolean",
-                "default": False
+                "default": False,
             },
             "operation_parameters": OPERATION_PARAMETERS_SCHEMA,
         },
         "required": ["fleet_dict"],
-        "remove_props": ["icon"]
+        "remove_props": ["icon"],
     }
 
     DISPATCHERS = {}
@@ -127,9 +128,7 @@ class Operator(Agent):
                     online_schema = cls.DISPATCHERS[key]["online"].SCHEMA
                     if isinstance(online_schema, str):
                         online_schema = load_schema(online_schema)
-                    dispatchers_ops = {
-                        **online_schema["properties"]
-                    }
+                    dispatchers_ops = {**online_schema["properties"]}
                     if "required" in online_schema:
                         for prop in online_schema["required"]:
                             if prop not in required_dispatchers_ops:
@@ -139,9 +138,7 @@ class Operator(Agent):
                     punctual_schema = cls.DISPATCHERS[key]["punctual"].SCHEMA
                     if isinstance(punctual_schema, str):
                         punctual_schema = load_schema(punctual_schema)
-                    dispatchers_ops = {
-                        **punctual_schema["properties"]
-                    }
+                    dispatchers_ops = {**punctual_schema["properties"]}
                     if "required" in punctual_schema:
                         for prop in punctual_schema["required"]:
                             if prop not in required_dispatchers_ops:
@@ -150,14 +147,10 @@ class Operator(Agent):
                 dispatcher_schema = {
                     "title": title,
                     "properties": {
-                        "dispatcher": {
-                            "type": "string",
-                            "const": key,
-                            "title": "Dispatch method"
-                        },
-                        **dispatchers_ops
+                        "dispatcher": {"type": "string", "const": key, "title": "Dispatch method"},
+                        **dispatchers_ops,
                     },
-                    "required": required_dispatchers_ops
+                    "required": required_dispatchers_ops,
                 }
 
                 enum.append(dispatcher_schema)
@@ -173,17 +166,31 @@ class Operator(Agent):
 
         parent_class = cls.__bases__[0]
         operation_parameters_schema = cls.OPERATION_PARAMETERS_SCHEMA
-        if issubclass(parent_class, Operator) \
-                and operation_parameters_schema != parent_class.OPERATION_PARAMETERS_SCHEMA:
+        if (
+            issubclass(parent_class, Operator)
+            and operation_parameters_schema != parent_class.OPERATION_PARAMETERS_SCHEMA
+        ):
             if isinstance(operation_parameters_schema, str):
                 operation_parameters_schema = load_schema(operation_parameters_schema)
-            cls.update_class_schema(schema["properties"]["operation_parameters"], operation_parameters_schema, cls)
+            cls.update_class_schema(
+                schema["properties"]["operation_parameters"], operation_parameters_schema, cls
+            )
 
         return schema
 
-    def __init__(self, simulation_model, agent_id, fleet_dict, mode=None, staff_dict=None,
-                 depot_points=None, zone_polygon=None, operation_parameters=None,
-                 extend_graph_with_stops=False, **kwargs):
+    def __init__(
+        self,
+        simulation_model,
+        agent_id,
+        fleet_dict,
+        mode=None,
+        staff_dict=None,
+        depot_points=None,
+        zone_polygon=None,
+        operation_parameters=None,
+        extend_graph_with_stops=False,
+        **kwargs
+    ):
         """
         Initialise the service operator with the relevant properties.
 
@@ -316,11 +323,15 @@ class Operator(Agent):
         if isinstance(zone_polygon, str):
             filepath = self.sim.parameters["input_folder"] + zone_polygon
             geojson = json_load(filepath)
-            service_zone = geopandas_polygon_from_points(geojson["features"][0]["geometry"]["coordinates"][0])
+            service_zone = geopandas_polygon_from_points(
+                geojson["features"][0]["geometry"]["coordinates"][0]
+            )
         elif zone_polygon is None:
             service_zone = None
         else:
-            raise TypeError("The zone_polygon parameter must be either an input filename or a list of coordinates")
+            raise TypeError(
+                "The zone_polygon parameter must be either an input filename or a list of coordinates"
+            )
 
         self.serviceZone = service_zone
 
@@ -341,7 +352,9 @@ class Operator(Agent):
                 else:
                     depot_modes = list(self.mode.values())
                 position = self.sim.environment.nearest_node_in_modes(coord, depot_modes)
-                depot = Station(self.sim, depot_id, position, mode=self.mode["fleet"], agent_type=None)
+                depot = Station(
+                    self.sim, depot_id, position, mode=self.mode["fleet"], agent_type=None
+                )
                 self.depotPoints[depot_id] = depot
 
     def init_stops(self):
@@ -363,14 +376,19 @@ class Operator(Agent):
         """
 
         if not set(ADD_STOPS_COLUMNS).issubset(set(stops_table.columns)):
-            raise ValueError("Missing columns when adding stop points. Required columns are {} and {} are provided."
-                             .format(ADD_STOPS_COLUMNS, stops_table.columns))
+            raise ValueError(
+                "Missing columns when adding stop points. Required columns are {} and {} are provided.".format(
+                    ADD_STOPS_COLUMNS, stops_table.columns
+                )
+            )
 
         # TODO : this choice of modes is arbitrary, do better
         correspondence_modes = ["walk", self.mode["fleet"]]
 
         # find the nearest nodes of the stops and extend the graph if asked
-        self.sim.environment.add_stops_correspondence(stops_table, correspondence_modes, self.extend_graph_with_stops)
+        self.sim.environment.add_stops_correspondence(
+            stops_table, correspondence_modes, self.extend_graph_with_stops
+        )
 
         # browse stops and add StopPoint objects to stopPoints
         for index, row in stops_table.iterrows():
@@ -469,7 +487,11 @@ class Operator(Agent):
             dispatcher = self.operationParameters["dispatcher"]
 
         if dispatcher not in self.DISPATCHERS:
-            raise ValueError("Unsupported operation parameter 'dispatcher' value '{}' (see schema)".format(dispatcher))
+            raise ValueError(
+                "Unsupported operation parameter 'dispatcher' value '{}' (see schema)".format(
+                    dispatcher
+                )
+            )
 
         dispatcher_classes = self.DISPATCHERS[dispatcher]
 
@@ -478,22 +500,24 @@ class Operator(Agent):
         try:
 
             if "online" in dispatcher_classes:
-                self.online_dispatcher = dispatcher_classes["online"].__new__(dispatcher_classes["online"])
+                self.online_dispatcher = dispatcher_classes["online"].__new__(
+                    dispatcher_classes["online"]
+                )
                 self.online_dispatcher.__init__(**parameters)
 
             if "punctual" in dispatcher_classes:
-                self.punctual_dispatcher = dispatcher_classes["punctual"].__new__(dispatcher_classes["punctual"])
-                self.punctual_dispatcher .__init__(**parameters)
+                self.punctual_dispatcher = dispatcher_classes["punctual"].__new__(
+                    dispatcher_classes["punctual"]
+                )
+                self.punctual_dispatcher.__init__(**parameters)
 
         except (TypeError, KeyError) as e:
-            raise ValueError("Instantiation of operator dispatcher failed with message :\n {}".format(str(e)), 30)
+            raise ValueError(
+                "Instantiation of operator dispatcher failed with message :\n {}".format(str(e)), 30
+            )
 
     def dispatcher_parameters(self):
-        return {
-            "simulation_model": self.sim,
-            "operator": self,
-            "verb": True
-        }
+        return {"simulation_model": self.sim, "operator": self, "verb": True}
 
     # new requests management
 
@@ -551,8 +575,17 @@ class Operator(Agent):
 
         print("hello")
 
-    def build_trip_request(self, agent=None, origin_position=None, origin_stop=None, origin_time=None,
-                           destination_position=None, destination_stop=None, destination_time=None, **kwargs):
+    def build_trip_request(
+        self,
+        agent=None,
+        origin_position=None,
+        origin_stop=None,
+        origin_time=None,
+        destination_position=None,
+        destination_stop=None,
+        destination_time=None,
+        **kwargs
+    ):
         """
         Build a request for a trip with the operator service from the given information.
 
@@ -596,9 +629,15 @@ class Operator(Agent):
         :return: newly generated ServiceVehicle
         """
 
-        if "operator_id" not in feature["properties"] or feature["properties"]["operator_id"] != self.id:
-            self.log_message("Error in the 'operator' field for the generation of "
-                             "a service vehicle : {}".format(feature), 30)
+        if (
+            "operator_id" not in feature["properties"]
+            or feature["properties"]["operator_id"] != self.id
+        ):
+            self.log_message(
+                "Error in the 'operator' field for the generation of "
+                "a service vehicle : {}".format(feature),
+                30,
+            )
             return
 
         new_service_vehicle = self.sim.dynamicInput.new_agent_input(feature)
@@ -607,8 +646,9 @@ class Operator(Agent):
 
     # evaluation of a set of user journeys using operator service
 
-    def user_journeys(self, origin, destination, parameters,
-                      objective_time, objective_type="start_after"):
+    def user_journeys(
+        self, origin, destination, parameters, objective_time, objective_type="start_after"
+    ):
         """
         Compute a list of journeys using the operator's transport system.
 
@@ -685,7 +725,9 @@ class Operator(Agent):
         elif max_detour is None:
             max_travel_time = None
         else:
-            raise ValueError("Unsupported type for max detour parameter : {}".format(type(max_detour)))
+            raise ValueError(
+                "Unsupported type for max detour parameter : {}".format(type(max_detour))
+            )
 
         return max_travel_time
 

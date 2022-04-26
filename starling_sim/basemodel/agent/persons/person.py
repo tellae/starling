@@ -1,6 +1,10 @@
 from starling_sim.basemodel.agent.moving_agent import MovingAgent
-from starling_sim.basemodel.trace.events import RequestEvent, GetVehicleEvent, LeaveVehicleEvent, \
-    DestinationReachedEvent
+from starling_sim.basemodel.trace.events import (
+    RequestEvent,
+    GetVehicleEvent,
+    LeaveVehicleEvent,
+    DestinationReachedEvent,
+)
 from starling_sim.utils.constants import SUCCESS_LEAVE
 
 import sys
@@ -19,27 +23,27 @@ class Person(MovingAgent):
                 "type": "string",
                 "title": "Default network",
                 "description": "Road network used by the agent",
-                "default": "walk"
+                "default": "walk",
             },
             "destination": {
                 "type": ["number", "string"],
                 "title": "Destination position",
-                "description": "Destination position id (inferred from geometry)"
+                "description": "Destination position id (inferred from geometry)",
             },
             "origin_time": {
                 "type": "integer",
                 "title": "Activity start time [seconds]",
                 "description": "Time at which the agent will enter the simulation",
-                "minimum": 1
+                "minimum": 1,
             },
             "max_tries": {
                 "advanced": True,
                 "title": "Maximum number of service tryouts",
                 "description": "Number of failed attempts after which the agent will leave the simulation."
-                               " If not specified, the number of tries is infinite.",
+                " If not specified, the number of tries is infinite.",
                 "type": ["integer", "null"],
                 "minimum": 0,
-                "default": None
+                "default": None,
             },
             "fail_timeout": {
                 "advanced": True,
@@ -47,10 +51,10 @@ class Person(MovingAgent):
                 "description": "Time waited when a request fails",
                 "type": "integer",
                 "minimum": 0,
-                "default": 0
-            }
+                "default": 0,
+            },
         },
-        "required": ["destination", "origin_time"]
+        "required": ["destination", "origin_time"],
     }
 
     def __init__(self, simulation_model, agent_id, origin, destination, origin_time, **kwargs):
@@ -87,8 +91,9 @@ class Person(MovingAgent):
 
     def __str__(self):
 
-        return "[id={}, origin={}, destination={}, vehicle={}]" \
-            .format(self.id, self.origin, self.destination, self.vehicle)
+        return "[id={}, origin={}, destination={}, vehicle={}]".format(
+            self.id, self.origin, self.destination, self.vehicle
+        )
 
     def trace_event(self, event):
         """
@@ -108,8 +113,7 @@ class Person(MovingAgent):
             if self.vehicle is not None:
 
                 # relevant events for vehicle (move and position already called)
-                if isinstance(event, GetVehicleEvent) or \
-                        isinstance(event, LeaveVehicleEvent):
+                if isinstance(event, GetVehicleEvent) or isinstance(event, LeaveVehicleEvent):
                     self.vehicle.trace_event(event)
 
         except AttributeError:
@@ -143,7 +147,10 @@ class Person(MovingAgent):
             return
         else:
             yield self.execute_process(
-                self.vehicle.move_(destination=destination, duration=duration, parameters=parameters))
+                self.vehicle.move_(
+                    destination=destination, duration=duration, parameters=parameters
+                )
+            )
 
     def walk_to_destination_(self):
         """
@@ -179,8 +186,7 @@ class Person(MovingAgent):
         vehicle.occupants.append(self)
 
         # trace event
-        self.trace_event(GetVehicleEvent(
-            self.sim.scheduler.now(), self, vehicle))
+        self.trace_event(GetVehicleEvent(self.sim.scheduler.now(), self, vehicle))
 
     def leave_vehicle(self):
         """
@@ -197,15 +203,15 @@ class Person(MovingAgent):
             return None
 
         # trace event
-        self.trace_event(LeaveVehicleEvent(
-            self.sim.scheduler.now(), self, self.vehicle))
+        self.trace_event(LeaveVehicleEvent(self.sim.scheduler.now(), self, self.vehicle))
 
         # leave vehicle
         self.vehicle.occupants.remove(self)
         self.vehicle = None
 
-    def closest_walkable_node_of(self, mode, position=None, n=1,
-                                 parameters=None, return_path=False):
+    def closest_walkable_node_of(
+        self, mode, position=None, n=1, parameters=None, return_path=False
+    ):
         """
         Compute the closest node of the given mode that can be reached by walking.
 
@@ -231,10 +237,16 @@ class Person(MovingAgent):
         # get common nodes of the given modes
         intersection_set = self.sim.environment.get_common_nodes_of(["walk", mode])
 
-        result = self.sim.environment.\
-            closest_object(position, intersection_set, True, "walk",
-                           parameters=parameters, position_lambda=lambda x: x,
-                           return_path=return_path, n=n)
+        result = self.sim.environment.closest_object(
+            position,
+            intersection_set,
+            True,
+            "walk",
+            parameters=parameters,
+            position_lambda=lambda x: x,
+            return_path=return_path,
+            n=n,
+        )
 
         return result
 

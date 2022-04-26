@@ -20,28 +20,20 @@ class Agent(Traced):
     SCHEMA = {
         "type": "object",
         "properties": {
-            "agent_id": {
-                "type": "string",
-                "title": "Agent ID",
-                "description": "Unique identifier"
-            },
+            "agent_id": {"type": "string", "title": "Agent ID", "description": "Unique identifier"},
             "agent_type": {
                 "type": "string",
                 "title": "Agent type",
-                "description": "One of the model's agent types"
+                "description": "One of the model's agent types",
             },
             "mode": {
                 "type": "string",
                 "title": "Default network",
-                "description": "Road network used by the agent"
+                "description": "Road network used by the agent",
             },
-            "icon": {
-                "type": "string",
-                "title": "Agent icon",
-                "description": "Display icon"
-            }
+            "icon": {"type": "string", "title": "Agent icon", "description": "Display icon"},
         },
-        "required": ["agent_id", "agent_type", "mode", "icon"]
+        "required": ["agent_id", "agent_type", "mode", "icon"],
     }
 
     @classmethod
@@ -112,8 +104,11 @@ class Agent(Traced):
 
         except Exception as e:
             if catch_error:
-                raise SimulationError("Schema generation of class {} failed with the following error: {}"
-                                      .format(the_class.__name__, str(e)))
+                raise SimulationError(
+                    "Schema generation of class {} failed with the following error: {}".format(
+                        the_class.__name__, str(e)
+                    )
+                )
             else:
                 raise e
 
@@ -200,7 +195,9 @@ class Agent(Traced):
         :return: yield a spend_time process with provided duration
         """
 
-        wait_event = WaitEvent(time=self.sim.scheduler.now(), reason=reason, waiting_time=duration, message=message)
+        wait_event = WaitEvent(
+            time=self.sim.scheduler.now(), reason=reason, waiting_time=duration, message=message
+        )
 
         yield self.execute_process(self.spend_time_(duration))
 

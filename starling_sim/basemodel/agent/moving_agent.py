@@ -29,7 +29,15 @@ class MovingAgent(SpatialAgent):
 
     # move methods
 
-    def move_(self, route=None, duration=None, check_dest=False, destination=None, parameters=None, verb=True):
+    def move_(
+        self,
+        route=None,
+        duration=None,
+        check_dest=False,
+        destination=None,
+        parameters=None,
+        verb=True,
+    ):
         """
         Compute a route with the given parameters and follow it.
 
@@ -56,7 +64,8 @@ class MovingAgent(SpatialAgent):
 
         # get move's route data
         route_data = self.sim.environment.compute_route_data(
-            route, duration, self.position, destination, parameters, mode)
+            route, duration, self.position, destination, parameters, mode
+        )
 
         # execute route data
         yield self.execute_process(self.follow_route_data_(route_data, check_dest, mode, verb))
@@ -78,8 +87,12 @@ class MovingAgent(SpatialAgent):
 
         # route departure should be self.position
         if route[0] != self.position:
-            self.log_message("Trying to execute a route that starts at {} while being at {}"
-                             .format(route[0], self.position), 40)
+            self.log_message(
+                "Trying to execute a route that starts at {} while being at {}".format(
+                    route[0], self.position
+                ),
+                40,
+            )
             raise ValueError(route)
         # check route length
         if len(route) == 0:
@@ -101,9 +114,11 @@ class MovingAgent(SpatialAgent):
             for i in range(1, len(route)):
 
                 if route[-1] != self.tempDestination:
-                    new_route_data = {"route": route_data["route"][:i],
-                                      "time": route_data["time"][:i],
-                                      "length": route_data["length"][:i]}
+                    new_route_data = {
+                        "route": route_data["route"][:i],
+                        "time": route_data["time"][:i],
+                        "length": route_data["length"][:i],
+                    }
                     event.set_route_data(new_route_data)
                     break
 
@@ -142,8 +157,16 @@ class MovingAgent(SpatialAgent):
         # change agent position and trace the event
         self.change_position(destination, self.mode)
 
-    def fly_(self, destination=None, duration=None, length=None, distance_factor=None,
-             speed=None, mode=None, verb=True):
+    def fly_(
+        self,
+        destination=None,
+        duration=None,
+        length=None,
+        distance_factor=None,
+        speed=None,
+        mode=None,
+        verb=True,
+    ):
         """
         Realise a direct trip from current position to destination without using the network.
 
@@ -187,7 +210,9 @@ class MovingAgent(SpatialAgent):
         else:
             if duration is None:
                 if length is None:
-                    length, duration = self.approximate_trip(origin, destination, distance_factor, speed)
+                    length, duration = self.approximate_trip(
+                        origin, destination, distance_factor, speed
+                    )
                 else:
                     duration = int(length / speed)
             else:
@@ -209,8 +234,11 @@ class MovingAgent(SpatialAgent):
             self.log_message("Flying to {} with mode {}".format(destination, mode))
 
         # trace trip
-        self.trace_event(PositionChangeEvent(self.sim.scheduler.now(), origin, destination,
-                                             length, duration, mode))
+        self.trace_event(
+            PositionChangeEvent(
+                self.sim.scheduler.now(), origin, destination, length, duration, mode
+            )
+        )
 
         # realise trip
         yield self.execute_process(self.move_to_(destination, duration))
@@ -229,5 +257,6 @@ class MovingAgent(SpatialAgent):
         :return: tuple (travel_length, travel_time)
         """
 
-        return self.sim.environment.approximate_path(origin, destination,
-                                                     distance_factor, speed, mode=self.mode)
+        return self.sim.environment.approximate_path(
+            origin, destination, distance_factor, speed, mode=self.mode
+        )

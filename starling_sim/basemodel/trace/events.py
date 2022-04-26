@@ -27,8 +27,7 @@ class Event:
         if self.message == "":
             return "[{}, {}]: ".format(self.timestamp, self.__class__.__name__)
         else:
-            return "[{}, {}, {}]: ".format(self.message, self.__class__.__name__,
-                                           self.timestamp)
+            return "[{}, {}, {}]: ".format(self.message, self.__class__.__name__, self.timestamp)
 
 
 class InputEvent(Event):
@@ -48,8 +47,9 @@ class InputEvent(Event):
 
     def __str__(self):
 
-        return super().__str__() + "generatedElement={}, type={}"\
-            .format(self.element, type(self.element))
+        return super().__str__() + "generatedElement={}, type={}".format(
+            self.element, type(self.element)
+        )
 
 
 class MoveEvent(Event):
@@ -91,8 +91,9 @@ class RouteEvent(MoveEvent):
         :return:
         """
 
-        super().__init__(time, sum(route_data["length"]),
-                         sum(route_data["time"]), mode, message=message)
+        super().__init__(
+            time, sum(route_data["length"]), sum(route_data["time"]), mode, message=message
+        )
 
         self.data = route_data
 
@@ -104,8 +105,9 @@ class RouteEvent(MoveEvent):
 
     def __str__(self):
 
-        return super().__str__() + "mode={}, start={}, end={}, duration={}, distance={}" \
-            .format(self.mode, self.data["route"][0], self.data["route"][-1], self.duration, self.distance)
+        return super().__str__() + "mode={}, start={}, end={}, duration={}, distance={}".format(
+            self.mode, self.data["route"][0], self.data["route"][-1], self.duration, self.distance
+        )
 
 
 class PositionChangeEvent(MoveEvent):
@@ -130,8 +132,9 @@ class PositionChangeEvent(MoveEvent):
         self.destination = destination
 
     def __str__(self):
-        return super().__str__() + "mode={}, start={}, end={}, duration={}, distance={}" \
-            .format(self.mode, self.origin, self.destination, self.duration, self.distance)
+        return super().__str__() + "mode={}, start={}, end={}, duration={}, distance={}".format(
+            self.mode, self.origin, self.destination, self.duration, self.distance
+        )
 
 
 class WaitEvent(Event):
@@ -237,8 +240,9 @@ class StopEvent(Event):
 
     def __str__(self):
 
-        return super().__str__() + "stop={}, trip={}, serviceVehicle={}"\
-            .format(self.stop, self.trip, self.serviceVehicle.id)
+        return super().__str__() + "stop={}, trip={}, serviceVehicle={}".format(
+            self.stop, self.trip, self.serviceVehicle.id
+        )
 
 
 # deprecated, use StopEvent
@@ -283,6 +287,7 @@ class StopEvent(Event):
 #             .format(self.serviceVehicle.id, str(self.stop), self.trip, self.dropoffs)
 #
 
+
 class StaffOperationEvent(Event):
     """
     This event describes a staff operation
@@ -315,7 +320,9 @@ class StaffOperationEvent(Event):
             struct = None
         else:
             struct = self.structure.id
-        return super().__str__() + "staff={}, total={}, structure={}".format(self.staff.id, self.total, struct)
+        return super().__str__() + "staff={}, total={}, structure={}".format(
+            self.staff.id, self.total, struct
+        )
 
 
 class GetVehicleEvent(Event):
@@ -359,7 +366,9 @@ class LeaveVehicleEvent(Event):
 
     def __str__(self):
 
-        return super().__str__() + "agent={}, leaveVehicle={}".format(self.agent.id, self.vehicle.id)
+        return super().__str__() + "agent={}, leaveVehicle={}".format(
+            self.agent.id, self.vehicle.id
+        )
 
 
 class LeaveSystemEvent(Event):

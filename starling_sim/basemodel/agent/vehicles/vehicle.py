@@ -1,6 +1,11 @@
 from starling_sim.basemodel.agent.moving_agent import MovingAgent
-from starling_sim.basemodel.trace.events import MoveEvent, RouteEvent, PositionChangeEvent, \
-    GetVehicleEvent, LeaveVehicleEvent
+from starling_sim.basemodel.trace.events import (
+    MoveEvent,
+    RouteEvent,
+    PositionChangeEvent,
+    GetVehicleEvent,
+    LeaveVehicleEvent,
+)
 
 
 class Vehicle(MovingAgent):
@@ -16,10 +21,10 @@ class Vehicle(MovingAgent):
                 "type": "integer",
                 "title": "Number of seats of the vehicle",
                 "description": "Capacity of the vehicle",
-                "minimum": 0
+                "minimum": 0,
             }
         },
-        "required": ["seats"]
+        "required": ["seats"],
     }
 
     def __init__(self, simulation_model, agent_id, origin, seats, **kwargs):
@@ -41,8 +46,7 @@ class Vehicle(MovingAgent):
 
     def __str__(self):
 
-        return "[id={}, origin={}, seats={}]"\
-            .format(self.id, self.origin, self.seats)
+        return "[id={}, origin={}, seats={}]".format(self.id, self.origin, self.seats)
 
     def change_position(self, new_position, mode):
         """
@@ -69,7 +73,11 @@ class Vehicle(MovingAgent):
         """
 
         # add event to occupants traces
-        if isinstance(event, MoveEvent) or isinstance(event, RouteEvent) or isinstance(event, PositionChangeEvent):
+        if (
+            isinstance(event, MoveEvent)
+            or isinstance(event, RouteEvent)
+            or isinstance(event, PositionChangeEvent)
+        ):
             for occupant in self.occupants:
                 occupant.trace_event(event)
 
