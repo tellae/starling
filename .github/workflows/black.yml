@@ -2,14 +2,14 @@ name: Black formatting
 
 on:
   push:
-    branches: [ main, main2 ]
+    branches: [ main ]
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ main ]
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
       - uses: psf/black@stable
