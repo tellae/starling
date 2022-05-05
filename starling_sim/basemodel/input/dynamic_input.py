@@ -253,14 +253,18 @@ class DynamicInput(Traced):
         :param populations: population(s) where the agent belongs
         """
 
-        # add agent to relevant population
-        self.sim.agentPopulation.new_agent_in(agent, populations)
+        # cancel add to simulation if agent already exists
+        try:
+            # add agent to relevant population
+            self.sim.agentPopulation.new_agent_in(agent, populations)
 
-        # trace and log input event
-        self.trace_event(InputEvent(self.sim.scheduler.now(), agent))
+            # trace and log input event
+            self.trace_event(InputEvent(self.sim.scheduler.now(), agent))
 
-        # add the agent loop to the event manager
-        agent.main_process = self.sim.scheduler.new_process(agent.simpy_loop_())
+            # add the agent loop to the event manager
+            agent.main_process = self.sim.scheduler.new_process(agent.simpy_loop_())
+        except KeyError:
+            pass
 
     # get and manage input dicts from the input files
 
