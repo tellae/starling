@@ -59,10 +59,14 @@ class DictPopulation(AgentPopulation):
             population_names = [population_names]
 
         for population_name in population_names:
+            # raise KeyError exception if agent already exists (and then cancel agent add)
             if agent.id in self.population[population_name]:
-                logging.warning(
-                    "Replacing existing agent {} in population {}".format(agent.id, population_name)
+                logging.error(
+                    "Agent {} already exists in population {}, cancelled introduction of duplicate".format(
+                        agent.id, population_name
+                    )
                 )
+                raise KeyError
 
             self.population[population_name][agent.id] = agent
 

@@ -224,7 +224,9 @@ class StopEvent(Event):
 
     def set_dropoffs(self, dropoffs, dropoff_time):
 
-        if not isinstance(dropoffs, list):
+        if dropoffs is None:
+            dropoffs = []
+        elif not isinstance(dropoffs, list):
             dropoffs = [dropoffs]
 
         self.dropoffs = dropoffs
@@ -232,7 +234,9 @@ class StopEvent(Event):
 
     def set_pickups(self, pickups, pickup_time):
 
-        if not isinstance(pickups, list):
+        if pickups is None:
+            pickups = []
+        elif not isinstance(pickups, list):
             pickups = [pickups]
 
         self.pickups = pickups
