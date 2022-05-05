@@ -36,6 +36,14 @@ class Person(MovingAgent):
                 "description": "Time at which the agent will enter the simulation",
                 "minimum": 1,
             },
+            "number": {
+                "title": "User group load",
+                "description": "Integer indicating if the agent corresponds to a "
+                "group of several persons, and will thus occupy several seats",
+                "type": "integer",
+                "default": 1,
+                "minimum": 1,
+            },
             "max_tries": {
                 "advanced": True,
                 "title": "Maximum number of service tryouts",
@@ -57,7 +65,9 @@ class Person(MovingAgent):
         "required": ["destination", "origin_time"],
     }
 
-    def __init__(self, simulation_model, agent_id, origin, destination, origin_time, **kwargs):
+    def __init__(
+        self, simulation_model, agent_id, origin, destination, origin_time, number=1, **kwargs
+    ):
         """
         Initialize the new Person object, as a moving agent with specific user data.
 
@@ -66,6 +76,7 @@ class Person(MovingAgent):
         :param origin: Origin position of the agent
         :param destination: Destination position of the agent
         :param origin_time: time at which the person should enter the simulation
+        :param number: user group load
         :param max_tries: maximum number of failed system tries before leaving the system.
             Default is None (infinite tries).
         :param fail_timeout: time waited when a request fails
@@ -79,6 +90,9 @@ class Person(MovingAgent):
 
         # time at which the person should enter the simulation
         self.originTime = origin_time
+
+        # user group load (indicates if the agent corresponds to several persons)
+        self.number = number
 
         # number of failed system tries before leaving. If None, try indefinitely.
         self.maxTries = self.profile["max_tries"]

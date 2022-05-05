@@ -90,7 +90,15 @@ class Vehicle(MovingAgent):
 
         :return: vehicle load
         """
-        return len(self.occupants)
+
+        load = 0
+        for occupant in self.occupants:
+            if hasattr(occupant, "number"):
+                load += occupant.number
+            else:
+                load += 1
+
+        return load
 
     def add_passenger(self, passenger):
 
