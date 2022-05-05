@@ -42,7 +42,7 @@ class RepositioningVehicle(ServiceVehicle):
 
             for i in range(-stop.total):
 
-                if len(self.occupants) == self.seats:
+                if self.load() == self.seats:
                     break
 
                 request = station.get_from_store(self)
@@ -67,7 +67,7 @@ class RepositioningVehicle(ServiceVehicle):
 
             for i in range(stop.total):
 
-                if len(self.occupants) == 0:
+                if self.load() == 0:
                     break
 
                 occupant = self.occupants[-1]

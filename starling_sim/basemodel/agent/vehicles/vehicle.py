@@ -84,9 +84,17 @@ class Vehicle(MovingAgent):
         # add event to own trace
         super().trace_event(event)
 
+    def load(self):
+        """
+        Compute the current load of the vehicle.
+
+        :return: vehicle load
+        """
+        return len(self.occupants)
+
     def add_passenger(self, passenger):
 
-        if len(self.occupants) >= self.seats:
+        if self.load() >= self.seats:
             self.log_message("Adding a new passenger while full", 30)
 
         passenger.vehicle = self
