@@ -237,7 +237,7 @@ class ServiceVehicle(Vehicle):
         if user_stop.type == Stop.GET_REQUEST:
 
             # for the pickup requests, check the service vehicle capacity
-            if self.load() < self.seats:
+            if self.load() + request.number <= self.seats:
                 self.pickup(user_stop)
                 return request
             else:
