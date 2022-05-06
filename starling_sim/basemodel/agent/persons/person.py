@@ -42,7 +42,7 @@ class Person(MovingAgent):
                 "group of several persons, and will thus occupy several seats",
                 "type": "integer",
                 "default": 1,
-                "minimum": 1,
+                "minimum": 0,
             },
             "max_tries": {
                 "advanced": True,
