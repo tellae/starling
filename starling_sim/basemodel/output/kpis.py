@@ -226,7 +226,7 @@ class GetVehicleKPI(KPI):
         super().update(event, agent)
 
         if isinstance(event, GetVehicleEvent):
-            self.indicator_dict[self.KEY_GET_VEHICLE] += 1
+            self.indicator_dict[self.KEY_GET_VEHICLE] += event.agent.number
 
 
 class SuccessKPI(KPI):
@@ -560,10 +560,10 @@ class VehicleOccupationKPI(OccupationKPI):
         super().update(event, agent)
 
         if isinstance(event, GetVehicleEvent):
-            self.add_to_stock(1, event.timestamp)
+            self.add_to_stock(event.agent.number, event.timestamp)
 
         elif isinstance(event, LeaveVehicleEvent):
-            self.add_to_stock(-1, event.timestamp)
+            self.add_to_stock(-event.agent.number, event.timestamp)
 
         if isinstance(event, MoveEvent):
             self.currentDistance += event.distance
