@@ -8,7 +8,11 @@ from starling_sim.utils.utils import (
     load_schema,
     validate_against_schema,
 )
-from starling_sim.utils.paths import gtfs_feeds_folder, schemas_folder, scenario_agent_input_filepath
+from starling_sim.utils.paths import (
+    gtfs_feeds_folder,
+    schemas_folder,
+    scenario_agent_input_filepath,
+)
 from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
 
 import pandas as pd
@@ -321,8 +325,9 @@ class Operator(Agent):
         """
 
         if isinstance(zone_polygon, str):
-            filepath = scenario_agent_input_filepath(self.sim.parameters["code"], self.sim.parameters["scenario"],
-                                                     zone_polygon)
+            filepath = scenario_agent_input_filepath(
+                self.sim.parameters["code"], self.sim.parameters["scenario"], zone_polygon
+            )
             geojson = json_load(filepath)
             service_zone = geopandas_polygon_from_points(
                 geojson["features"][0]["geometry"]["coordinates"][0]
