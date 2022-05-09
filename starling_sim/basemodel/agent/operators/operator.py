@@ -521,7 +521,7 @@ class Operator(Agent):
 
     # new requests management
 
-    def new_request(self, agent):
+    def new_request(self, agent, number):
         """
         Create a new request object to the operator, and return it to the requesting agent.
 
@@ -529,6 +529,7 @@ class Operator(Agent):
         the event is a simple SimPy event, and the request id looks like "R$self.request_count$"
 
         :param agent: requesting agent
+        :param number: number of seats requested
         :return: Request object
         """
 
@@ -536,7 +537,7 @@ class Operator(Agent):
         request_id = "R" + str(self.requestCount)
 
         # initialise a new Request object
-        request = TripRequest(agent, self.sim.scheduler.now(), self, request_id)
+        request = TripRequest(agent, self.sim.scheduler.now(), self, number, request_id)
         request.set_request_event()
 
         # add it to the request list and increment the request count
@@ -577,6 +578,7 @@ class Operator(Agent):
 
     def build_trip_request(
         self,
+        number,
         agent=None,
         origin_position=None,
         origin_stop=None,
@@ -592,6 +594,7 @@ class Operator(Agent):
         Depending on the operator, all parameters may not be necessary, and others mays be added .
 
         :param agent: agent making the trip request
+        :param number: number of seats requested
         :param origin_position: trip origin position in environment
         :param origin_stop: trip origin stop id
         :param origin_time: trip origin time

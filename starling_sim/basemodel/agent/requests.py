@@ -167,13 +167,14 @@ class TripRequest(Request):
 
     STR_LIST = ["structure", "id", "position", "type"]
 
-    def __init__(self, agent, timestamp, operator, request_id, trip_id=None):
+    def __init__(self, agent, timestamp, operator, number, request_id, trip_id=None):
         """
         Creation of a new trip request.
 
         :param agent: agent making the request
         :param timestamp: time when the request was made
         :param operator: operator requested by the agent
+        :param number: number of seats requested
         :param request_id: id of the trip request, stored by the operator
         :param trip_id: if of the request trip, or None
         """
@@ -185,6 +186,9 @@ class TripRequest(Request):
 
         # store the id of the request trip, if there is one
         self.tripId = trip_id
+
+        # store the agent number
+        self.number = number
 
         # store the direct travel time
         self.directTravelTime = None
@@ -212,6 +216,10 @@ class TripRequest(Request):
         :param pickup_request: UserStop object with type "GET"
         :param dropoff_request: UserStop object with type "PUT"
         """
+
+        # set agent number
+        pickup_request.number = self.number
+        dropoff_request.number = self.number
 
         # set pickup twin stop
         pickup_request.set_twin_stop(dropoff_request)
@@ -332,6 +340,9 @@ class UserStop(Stop):
 
         # twin user stop, the other stop of the same trip request
         self.twin = None
+
+        # store the agent number
+        self.number = None
 
         # id of the stop point if the user stop is part of a stop point
         self.stopPoint = stop_point_id
