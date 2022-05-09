@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.7.10 (2022-05-09)
+
+
+### Features
+
+* agent number parameter ([#54](https://github.com/tellae/starling/issues/54)) ([fef3fd7](https://github.com/tellae/starling/commit/fef3fd7433dd824eadbe1aeef9e928307db5a449))
+
 ### 0.7.9 (2022-04-12)
 
 
