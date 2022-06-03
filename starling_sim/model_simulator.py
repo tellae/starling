@@ -148,7 +148,7 @@ def launch_simulation(parameters_path, pkg):
     simulator.setup_simulation()
     duration = time.time() - start
     logging.info("End of setup. Elapsed time : {:.2f} seconds\n".format(duration))
-    simulator.simulationModel.runSummary["setup_time"] = duration
+    simulator.simulationModel.runSummary["stats"]["setup_time"] = duration
 
     # run the simulation
     logging.info("Starting the simulation\n")
@@ -156,13 +156,13 @@ def launch_simulation(parameters_path, pkg):
     simulator.run_simulation()
     duration = time.time() - start
     logging.info("End of simulation run. Elapsed time : {:.2f} seconds\n".format(duration))
-    simulator.simulationModel.runSummary["execution_time"] = duration
+    simulator.simulationModel.runSummary["stats"]["execution_time"] = duration
 
     shortest_path_count = 0
     for topology in simulator.simulationModel.environment.topologies.values():
         shortest_path_count += topology.shortest_path_count
     logging.info("Number of shortest_path computed : {}".format(shortest_path_count))
-    simulator.simulationModel.runSummary["shortest_paths"] = shortest_path_count
+    simulator.simulationModel.runSummary["stats"]["shortest_paths"] = shortest_path_count
 
     # generate simulation output
     logging.info("Generating outputs of the simulation\n")
