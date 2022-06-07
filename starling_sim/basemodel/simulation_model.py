@@ -1,6 +1,7 @@
 import random
 import logging
 import numpy
+import datetime
 
 from starling_sim.basemodel.trace.trace import trace_simulation_end
 from starling_sim.utils.utils import import_gtfs_feed, get_git_revision_hash
@@ -163,6 +164,9 @@ class SimulationModel:
         """
 
         summary = dict()
+
+        # get run date
+        summary["date"] = str(datetime.datetime.today())
 
         # get starling version
         summary["starling_version"] = __version__
