@@ -111,10 +111,7 @@ class OutputFactory:
 
         logging.info("Generated {} output in file {}".format(metadata["type"], filepath))
 
-        self.output_files.append({
-            "filename": os.path.basename(filepath),
-            "metadata": metadata
-        })
+        self.output_files.append({"filename": os.path.basename(filepath), "metadata": metadata})
 
     def extract_simulation(self, simulation_model):
         """
@@ -214,11 +211,7 @@ class OutputFactory:
 
         :param simulation_model:
         """
-        filepath = (
-            simulation_model.parameters["output_folder"]
-            + "/"
-            + self.RUN_SUMMARY_FILENAME
-        )
+        filepath = simulation_model.parameters["output_folder"] + "/" + self.RUN_SUMMARY_FILENAME
 
         # add run summary to output files
         self.new_output_file(filepath, metadata={"type": "run_summary"})
