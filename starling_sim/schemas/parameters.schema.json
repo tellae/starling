@@ -88,13 +88,6 @@
       "description": "Log simulation time every 3600 seconds (used for run monitoring)",
       "default": false
     },
-    "generate_summary": {
-      "advanced": true,
-      "title": "Generate run summary",
-      "description": "Generate a simulation run summary",
-      "type": "boolean",
-      "default": false
-    },
     "early_dynamic_input": {
       "advanced":  true,
       "type": "integer",

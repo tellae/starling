@@ -135,11 +135,8 @@ class OutputFactory:
         if simulation_model.parameters["visualisation_output"]:
             self.generate_geojson_output(simulation_model)
 
-        if (
-            "generate_summary" in simulation_model.parameters
-            and simulation_model.parameters["generate_summary"]
-        ):
-            self.generate_run_summary(simulation_model)
+        # run summary output
+        self.generate_run_summary(simulation_model)
 
     def generate_geojson_output(self, simulation_model):
         """
