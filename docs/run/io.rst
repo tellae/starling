@@ -122,6 +122,13 @@ The main outputs of the simulation are the visualisation file and the KPI tables
 The specification of what they exactly contain is made by the model developer in the class
 extending :class:`~starling_sim.basemodel.output.output_factory.OutputFactory`.
 
+Run summary
+-----------
+
+The run summary file is a .json file generated at the end of a successful simulation.
+It contains information about the run (date, Starling version, commit), the simulation
+parameters, and the outputs of the run.
+
 Visualisation file
 ------------------
 
