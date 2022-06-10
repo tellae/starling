@@ -1,6 +1,7 @@
 from starling_sim.basemodel.output.geojson_output import new_geojson_output
 from starling_sim.utils.utils import json_pretty_dump
 from starling_sim.utils.config import config
+from starling_sim.utils.constants import RUN_SUMMARY_FILENAME
 
 import logging
 import os
@@ -13,8 +14,6 @@ class OutputFactory:
     This class should be extended to give a concrete implementation of the output generator
     e.g. writing a json containing all the simulation data
     """
-
-    RUN_SUMMARY_FILENAME = "run_summary.json"
 
     GENERATION_ERROR_FORMAT = "Error while generating {} output"
 
@@ -211,7 +210,7 @@ class OutputFactory:
 
         :param simulation_model:
         """
-        filepath = simulation_model.parameters["output_folder"] + "/" + self.RUN_SUMMARY_FILENAME
+        filepath = simulation_model.parameters["output_folder"] + RUN_SUMMARY_FILENAME
 
         # add run summary to output files
         self.new_output_file(filepath, metadata={"type": "run_summary"})
