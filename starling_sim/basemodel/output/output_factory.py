@@ -14,6 +14,8 @@ class OutputFactory:
     e.g. writing a json containing all the simulation data
     """
 
+    RUN_SUMMARY_FILENAME = "run_summary.json"
+
     def __init__(self):
         """
         The constructor must be extended for the needs of the generation method
@@ -209,8 +211,7 @@ class OutputFactory:
         filepath = (
             simulation_model.parameters["output_folder"]
             + "/"
-            + simulation_model.parameters["scenario"]
-            + "_summary.json"
+            + self.RUN_SUMMARY_FILENAME
         )
 
         # add run summary to output files
