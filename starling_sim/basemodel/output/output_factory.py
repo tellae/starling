@@ -16,6 +16,8 @@ class OutputFactory:
 
     RUN_SUMMARY_FILENAME = "run_summary.json"
 
+    GENERATION_ERROR_FORMAT = "Error while generating {} output"
+
     def __init__(self):
         """
         The constructor must be extended for the needs of the generation method
@@ -121,19 +123,24 @@ class OutputFactory:
         It must be extended to generate the output using specific methods.
         """
 
-        if (
-            "traces_output" in simulation_model.parameters
-            and simulation_model.parameters["traces_output"]
-        ):
-            self.generate_trace_output(simulation_model)
+        # traces output
+        if simulation_model.parameters["traces_output"]:
+            try:
+                self.generate_trace_output(simulation_model)
+            except:
+                logging.warning(self.GENERATION_ERROR_FORMAT.format("traces"))
 
         # kpi output
         if simulation_model.parameters["kpi_output"]:
             self.generate_kpi_output(simulation_model)
 
         # geojson output
+
         if simulation_model.parameters["visualisation_output"]:
-            self.generate_geojson_output(simulation_model)
+            try:
+                self.generate_geojson_output(simulation_model)
+            except:
+                logging.warning(self.GENERATION_ERROR_FORMAT.format("visualisation"))
 
         # run summary output
         self.generate_run_summary(simulation_model)
@@ -157,8 +164,10 @@ class OutputFactory:
         """
 
         for kpi_output in self.kpi_outputs:
-
-            kpi_output.write_kpi_table()
+            try:
+                kpi_output.write_kpi_table()
+            except:
+                logging.warning(self.GENERATION_ERROR_FORMAT.format(kpi_output.name + " kpi"))
 
     def generate_trace_output(self, simulation_model):
         """
