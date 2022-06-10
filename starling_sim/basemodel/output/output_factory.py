@@ -19,6 +19,9 @@ class OutputFactory:
         The constructor must be extended for the needs of the generation method
         """
 
+        # list of output files and associated information
+        self.output_files = []
+
         # list of KpiOutput objects, each will generate one kpi file
         self.kpi_outputs = None
 
@@ -89,6 +92,26 @@ class OutputFactory:
 
         self.geojson_output = new_geojson_output()
 
+    def new_output_file(self, filepath, metadata):
+        """
+        Add a new file and its information to the output dict.
+
+        This method should be called after generating an output file.
+
+        :param filepath: output file path
+        :param metadata: output file metadata
+        """
+
+        if "type" not in metadata:
+            metadata["type"] = "unknown"
+
+        logging.info("Generated {} output in file {}".format(metadata["type"], filepath))
+
+        self.output_files.append({
+            "filename": os.path.basename(filepath),
+            "metadata": metadata
+        })
+
     def extract_simulation(self, simulation_model):
         """
         This method will be called for the output generation.
@@ -102,12 +125,6 @@ class OutputFactory:
         ):
             self.generate_trace_output(simulation_model)
 
-        if (
-            "generate_summary" in simulation_model.parameters
-            and simulation_model.parameters["generate_summary"]
-        ):
-            self.generate_run_summary(simulation_model)
-
         # kpi output
         if simulation_model.parameters["kpi_output"]:
             self.generate_kpi_output(simulation_model)
@@ -116,20 +133,11 @@ class OutputFactory:
         if simulation_model.parameters["visualisation_output"]:
             self.generate_geojson_output(simulation_model)
 
-    def generate_run_summary(self, simulation_model):
-        """
-        Generate a summary file of the simulation run.
-
-        :param simulation_model:
-        """
-        filepath = (
-            simulation_model.parameters["output_folder"]
-            + "/"
-            + simulation_model.parameters["scenario"]
-            + "_summary.json"
-        )
-
-        json_pretty_dump(simulation_model.runSummary, filepath)
+        if (
+            "generate_summary" in simulation_model.parameters
+            and simulation_model.parameters["generate_summary"]
+        ):
+            self.generate_run_summary(simulation_model)
 
     def generate_geojson_output(self, simulation_model):
         """
@@ -153,7 +161,7 @@ class OutputFactory:
 
             kpi_output.write_kpi_table()
 
-    def generate_trace_output(simulation_model):
+    def generate_trace_output(self, simulation_model):
         """
         Generate a text file containing the event traces of the agents.
 
@@ -165,8 +173,6 @@ class OutputFactory:
         model_code = simulation_model.parameters["code"]
         output_folder = simulation_model.parameters["output_folder"]
         filepath = output_folder + config["traces_format"].format(scenario=scenario)
-
-        logging.info("Generating traces output in file {}".format(filepath))
 
         # open the trace file in write mode
         with open(filepath, "w") as outfile:
@@ -192,4 +198,24 @@ class OutputFactory:
                     outfile.write("\n")
                     outfile.write(str(event))
 
-    generate_trace_output = staticmethod(generate_trace_output)
+        self.new_output_file(filepath, metadata={"type": "traces"})
+
+    def generate_run_summary(self, simulation_model):
+        """
+        Generate a summary file of the simulation run.
+
+        :param simulation_model:
+        """
+        filepath = (
+            simulation_model.parameters["output_folder"]
+            + "/"
+            + simulation_model.parameters["scenario"]
+            + "_summary.json"
+        )
+
+        # add run summary to output files
+        self.new_output_file(filepath, metadata={"type": "run_summary"})
+
+        # set output files in run summary and dump it in a file
+        simulation_model.runSummary["output_files"] = self.output_files
+        json_pretty_dump(simulation_model.runSummary, filepath)

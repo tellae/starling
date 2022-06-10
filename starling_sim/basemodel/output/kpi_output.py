@@ -7,6 +7,9 @@ import pandas as pd
 class KpiOutput:
     def __init__(self, population_names, kpi_list, kpi_name=None):
 
+        # simulation model access
+        self.sim = None
+
         # name of the kpi, will compose the kpi filename : <kpi_name>.csv
         if kpi_name is None:
             if isinstance(population_names, list):
@@ -39,6 +42,7 @@ class KpiOutput:
         :return:
         """
 
+        self.sim = simulation_model
         self.filename = filename
         self.folder = folder
 
@@ -109,13 +113,13 @@ class KpiOutput:
         if kpi_table.empty:
             return
 
-        # generate kpi output
-
-        logging.info("Generating KPI output in file " + path)
-
         try:
             # write the dataframe into a csv file
             kpi_table.to_csv(path, sep=";", index=False, columns=header_list)
+
+            # signal new file to output factory
+            self.sim.outputFactory.new_output_file(path, metadata={"type": "kpi", "kpi": self.name})
+
         except KeyError as e:
             logging.warning(
                 "Could not generate kpi output {}, " "error occurred : {}".format(path, e)
