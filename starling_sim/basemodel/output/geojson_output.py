@@ -189,7 +189,7 @@ class GeojsonOutput(ABC):
 
         # compress to bz2 if necessary
         if to_gz:
-            gz_compression(path)
+            path = gz_compression(path)
 
         # signal new file to output factory
         self.sim.outputFactory.new_output_file(path, metadata={"type": "visualisation"})
