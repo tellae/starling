@@ -121,7 +121,9 @@ class KpiOutput:
             compression = None
             if path.endswith("gz"):
                 compression = "gzip"
-            self.sim.outputFactory.new_output_file(path, "text/csv", "kpi", subject=self.name, compression=compression)
+            self.sim.outputFactory.new_output_file(
+                path, "text/csv", "kpi", subject=self.name, compression=compression
+            )
 
         except KeyError as e:
             logging.warning(

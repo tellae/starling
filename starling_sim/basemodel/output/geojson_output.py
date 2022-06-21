@@ -194,7 +194,9 @@ class GeojsonOutput(ABC):
             compression = "gzip"
 
         # signal new file to output factory
-        self.sim.outputFactory.new_output_file(path, "application/json", "visualisation", compression=compression)
+        self.sim.outputFactory.new_output_file(
+            path, "application/json", "visualisation", compression=compression
+        )
 
 
 # Classes for the generation of geojson output

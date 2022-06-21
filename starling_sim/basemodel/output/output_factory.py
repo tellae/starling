@@ -109,11 +109,7 @@ class OutputFactory:
         :return:
         """
 
-        metadata = {
-            "mimetype": mimetype,
-            "compression": compression,
-            "content": content
-        }
+        metadata = {"mimetype": mimetype, "compression": compression, "content": content}
 
         if subject is not None:
             metadata["subject"] = subject
