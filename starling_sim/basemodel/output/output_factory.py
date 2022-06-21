@@ -95,20 +95,30 @@ class OutputFactory:
 
         self.geojson_output = new_geojson_output()
 
-    def new_output_file(self, filepath, metadata):
+    def new_output_file(self, filepath, mimetype, content, subject=None, compression=None):
         """
         Add a new file and its information to the output dict.
 
         This method should be called after generating an output file.
 
         :param filepath: output file path
-        :param metadata: output file metadata
+        :param mimetype: file mimetype
+        :param content: file content
+        :param subject: file subject (optional)
+        :param compression: file compression (leave at None if not compressed)
+        :return:
         """
 
-        if "type" not in metadata:
-            metadata["type"] = "unknown"
+        metadata = {
+            "mimetype": mimetype,
+            "compression": compression,
+            "content": content
+        }
 
-        logging.info("Generated {} output in file {}".format(metadata["type"], filepath))
+        if subject is not None:
+            metadata["subject"] = subject
+
+        logging.info("Generated {} output in file {}".format(metadata["content"], filepath))
 
         self.output_files.append({"filename": os.path.basename(filepath), "metadata": metadata})
 
@@ -202,7 +212,7 @@ class OutputFactory:
                     outfile.write("\n")
                     outfile.write(str(event))
 
-        self.new_output_file(filepath, metadata={"type": "traces"})
+        self.sim.outputFactory.new_output_file(filepath, "text/plain", "traces")
 
     def generate_run_summary(self, simulation_model):
         """
@@ -213,7 +223,7 @@ class OutputFactory:
         filepath = simulation_model.parameters["output_folder"] + RUN_SUMMARY_FILENAME
 
         # add run summary to output files
-        self.new_output_file(filepath, metadata={"type": "run_summary"})
+        self.sim.outputFactory.new_output_file(filepath, "application/json", "run_summary")
 
         # set output files in run summary and dump it in a file
         simulation_model.runSummary["output_files"] = self.output_files

@@ -118,7 +118,10 @@ class KpiOutput:
             kpi_table.to_csv(path, sep=";", index=False, columns=header_list)
 
             # signal new file to output factory
-            self.sim.outputFactory.new_output_file(path, metadata={"type": "kpi", "kpi": self.name})
+            compression = None
+            if path.endswith("gz"):
+                compression = "gzip"
+            self.sim.outputFactory.new_output_file(path, "text/csv", "kpi", subject=self.name, compression=compression)
 
         except KeyError as e:
             logging.warning(
