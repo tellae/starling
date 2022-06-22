@@ -95,7 +95,14 @@ class OutputFactory:
 
         self.geojson_output = new_geojson_output()
 
-    def new_output_file(self, filepath, mimetype, content, subject=None, compression=None):
+    def new_output_file(
+        self,
+        filepath: str,
+        mimetype: str,
+        compressed_mimetype: str = None,
+        content: str = None,
+        subject: str = None,
+    ):
         """
         Add a new file and its information to the output dict.
 
@@ -103,20 +110,27 @@ class OutputFactory:
 
         :param filepath: output file path
         :param mimetype: file mimetype
-        :param content: file content
-        :param subject: file subject (optional)
-        :param compression: file compression (leave at None if not compressed)
-        :return:
+        :param compressed_mimetype: compressed mimetype (defaults to file mimetype)
+        :param content: content metadata (mandatory)
+        :param subject: subject
         """
 
-        metadata = {"mimetype": mimetype, "compression": compression, "content": content}
+        if content is None:
+            raise ValueError("'content' metadata was not provided for output {}".format(filepath))
+
+        if compressed_mimetype is None:
+            compressed_mimetype = mimetype
+
+        metadata = {"compressed-mimetype": compressed_mimetype, "content": content}
 
         if subject is not None:
             metadata["subject"] = subject
 
         logging.info("Generated {} output in file {}".format(metadata["content"], filepath))
 
-        self.output_files.append({"filename": os.path.basename(filepath), "metadata": metadata})
+        self.output_files.append(
+            {"filename": os.path.basename(filepath), "mimetype": mimetype, "metadata": metadata}
+        )
 
     def extract_simulation(self, simulation_model):
         """
@@ -208,7 +222,7 @@ class OutputFactory:
                     outfile.write("\n")
                     outfile.write(str(event))
 
-        self.sim.outputFactory.new_output_file(filepath, "text/plain", "traces")
+        self.sim.outputFactory.new_output_file(filepath, "text/plain", content="traces")
 
     def generate_run_summary(self, simulation_model):
         """
@@ -219,7 +233,7 @@ class OutputFactory:
         filepath = simulation_model.parameters["output_folder"] + RUN_SUMMARY_FILENAME
 
         # add run summary to output files
-        self.sim.outputFactory.new_output_file(filepath, "application/json", "run_summary")
+        self.sim.outputFactory.new_output_file(filepath, "application/json", content="run_summary")
 
         # set output files in run summary and dump it in a file
         simulation_model.runSummary["output_files"] = self.output_files

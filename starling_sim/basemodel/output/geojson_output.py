@@ -188,14 +188,14 @@ class GeojsonOutput(ABC):
         json_dump(feature_collection, path)
 
         # compress to bz2 if necessary
-        compression = None
+        mimetype = "application/json"
         if to_gz:
             path = gz_compression(path)
-            compression = "gzip"
+            mimetype = "application/gzip"
 
         # signal new file to output factory
         self.sim.outputFactory.new_output_file(
-            path, "application/json", "visualisation", compression=compression
+            path, mimetype, compressed_mimetype="application/json", content="visualisation"
         )
 
 
