@@ -66,8 +66,6 @@ Structure of the data folder
         |   └── scenario_2      # scenario_2 data
         └── ...
 
-The path to the data repository and the names of the folders can be changed.
-
 The path to the data repository can be changed using the --data-folder option of main.py
 
 .. code-block:: bash

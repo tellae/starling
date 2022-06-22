@@ -37,6 +37,9 @@ BASE_LEAVING_CODES = {
 
 # filename formats
 
+#: filename of the run summary file
+RUN_SUMMARY_FILENAME = "run_summary.json"
+
 #: format of the ALIENS operators usage diagram
 OPERATORS_USAGE_FORMAT = "{prefix}_operators.png"
 

@@ -115,13 +115,16 @@ def gz_compression(filepath, delete_source=True):
     """
 
     # compress the file using gzip
+    compressed_path = filepath + ".gz"
     with open(filepath, "rb") as f_in:
-        with gzip.open(filepath + ".gz", "wb") as f_out:
+        with gzip.open(compressed_path, "wb") as f_out:
             shutil.copyfileobj(f_in, f_out)
 
     # delete source file if asked
     if delete_source:
         os.remove(filepath)
+
+    return compressed_path
 
 
 def gz_decompression(filepath, delete_source=True):
@@ -1007,3 +1010,13 @@ def create_if_not_exists(folder):
         return True
     else:
         return False
+
+
+# git
+
+
+def get_git_revision_hash() -> str:
+    """
+    Get current git commit hash
+    """
+    return subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()

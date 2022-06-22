@@ -177,9 +177,6 @@ class GeojsonOutput(ABC):
         # build file path
         path = self.folder + self.filename
 
-        # log geojson generation
-        logging.info("Generating geojson output in file " + path)
-
         # check bz2 extension
         if path.endswith(".gz"):
             to_gz = True
@@ -191,8 +188,15 @@ class GeojsonOutput(ABC):
         json_dump(feature_collection, path)
 
         # compress to bz2 if necessary
+        mimetype = "application/json"
         if to_gz:
-            gz_compression(path)
+            path = gz_compression(path)
+            mimetype = "application/gzip"
+
+        # signal new file to output factory
+        self.sim.outputFactory.new_output_file(
+            path, mimetype, compressed_mimetype="application/json", content="visualisation"
+        )
 
 
 # Classes for the generation of geojson output

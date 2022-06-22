@@ -1,11 +1,13 @@
 import random
 import logging
 import numpy
+import datetime
 
 from starling_sim.basemodel.trace.trace import trace_simulation_end
-from starling_sim.utils.utils import import_gtfs_feed
+from starling_sim.utils.utils import import_gtfs_feed, get_git_revision_hash
 from starling_sim.utils.constants import BASE_LEAVING_CODES
 from starling_sim.utils.config import config
+from starling_sim.version import __version__
 
 
 class SimulationModel:
@@ -42,7 +44,7 @@ class SimulationModel:
         self.parameters = parameters
 
         # run_summary
-        self.runSummary = parameters.copy_dict()
+        self.runSummary = self.init_run_summary()
 
         # add the base leaving codes
         self.add_base_leaving_codes()
@@ -155,6 +157,36 @@ class SimulationModel:
         # import the gtfs timetable from the zip given in the parameters
         restrict_transfers = config["transfer_restriction"]
         self.gtfs = import_gtfs_feed(self.parameters["gtfs_timetables"], restrict_transfers)
+
+    def init_run_summary(self):
+        """
+        Initialise the run summary.
+        """
+
+        summary = dict()
+
+        # get run date
+        summary["date"] = str(datetime.datetime.today())
+
+        # get starling version
+        summary["starling_version"] = __version__
+
+        # get current commit
+        summary["commit"] = get_git_revision_hash()
+
+        # copy scenario parameters
+        summary["parameters"] = self.parameters.copy_dict()
+
+        # copy config
+        summary["config"] = config.copy()
+
+        # scenario output files
+        summary["output_files"] = dict()
+
+        # run statistics
+        summary["stats"] = dict()
+
+        return summary
 
     @classmethod
     def get_agent_type_schemas(cls):

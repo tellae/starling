@@ -7,7 +7,7 @@ They must be provided in the parameters file in the "topologies" field.
 Imports are realised using the OSMnX library, with the functions graph_from_place, graph_from_point
 and graph_from_polygon. The relevant information must be provided when running the command:
 
-- Import from **place**: provide a query and optionally a result number. You can test the results of a query at `<openstreetmap.org>`_.
+- Import from **place**: provide a query and optionally a result number. You can test the results of a query on `OpenStreetMap <https://www.openstreetmap.org>`_.
 
 - Import from **point**: provide a center point and a distance. The distance is used to draw a bbox around the center point.
 
