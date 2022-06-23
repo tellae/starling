@@ -156,6 +156,48 @@ def gz_decompression(filepath, delete_source=True):
         os.remove(filepath)
 
 
+# starling file information
+
+
+def create_file_information(
+    filepath,
+    mimetype,
+    compressed_mimetype=None,
+    content=None,
+    subject=None,
+):
+    """
+    Create a dict containing file information.
+
+    :param filepath: file path
+    :param mimetype: file mimetype
+    :param compressed_mimetype: file mimetype after decompression
+    :param content: content metadata
+    :param subject: subject metadata
+
+    :return: { filename, mimetype, metadata }
+    """
+
+    if content is None:
+        raise ValueError("'content' metadata was not provided for file {}".format(filepath))
+
+    if compressed_mimetype is None:
+        compressed_mimetype = mimetype
+
+    metadata = {"compressed-mimetype": compressed_mimetype, "content": content}
+
+    if subject is not None:
+        metadata["subject"] = subject
+
+    file_information = {
+        "filename": os.path.basename(filepath),
+        "mimetype": mimetype,
+        "metadata": metadata,
+    }
+
+    return file_information
+
+
 # json schema validation
 
 # use the type check from Draft4Validator, because Draft7 considers 1.0 as integer

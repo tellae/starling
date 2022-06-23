@@ -1,5 +1,5 @@
 from starling_sim.basemodel.output.geojson_output import new_geojson_output
-from starling_sim.utils.utils import json_pretty_dump
+from starling_sim.utils.utils import json_pretty_dump, create_file_information
 from starling_sim.utils.config import config
 from starling_sim.utils.constants import RUN_SUMMARY_FILENAME
 
@@ -115,22 +115,21 @@ class OutputFactory:
         :param subject: subject
         """
 
-        if content is None:
-            raise ValueError("'content' metadata was not provided for output {}".format(filepath))
-
-        if compressed_mimetype is None:
-            compressed_mimetype = mimetype
-
-        metadata = {"compressed-mimetype": compressed_mimetype, "content": content}
-
-        if subject is not None:
-            metadata["subject"] = subject
-
-        logging.info("Generated {} output in file {}".format(metadata["content"], filepath))
-
-        self.output_files.append(
-            {"filename": os.path.basename(filepath), "mimetype": mimetype, "metadata": metadata}
+        output_file_information = create_file_information(
+            filepath,
+            mimetype,
+            compressed_mimetype=compressed_mimetype,
+            content=content,
+            subject=subject,
         )
+
+        logging.info(
+            "Generated {} output in file {}".format(
+                output_file_information["metadata"]["content"], filepath
+            )
+        )
+
+        self.output_files.append(output_file_information)
 
     def extract_simulation(self, simulation_model):
         """
