@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.7.12 (2022-06-23)
+
+
+### Bug Fixes
+
+* move file information generation to utils ([#58](https://github.com/tellae/starling/issues/58)) ([984babd](https://github.com/tellae/starling/commit/984babd7bbf462e8483104203f2010202a8a6d5a))
+
 ### 0.7.11 (2022-06-22)
 
 
