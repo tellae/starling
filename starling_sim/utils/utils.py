@@ -165,6 +165,7 @@ def create_file_information(
     compressed_mimetype=None,
     content=None,
     subject=None,
+    keep_filepath=False,
 ):
     """
     Create a dict containing file information.
@@ -174,8 +175,9 @@ def create_file_information(
     :param compressed_mimetype: file mimetype after decompression
     :param content: content metadata
     :param subject: subject metadata
+    :param keep_filepath: keep complete file path in 'filename'
 
-    :return: { filename, mimetype, metadata }
+    :return: { filename/filepath, mimetype, metadata }
     """
 
     if content is None:
@@ -190,7 +192,7 @@ def create_file_information(
         metadata["subject"] = subject
 
     file_information = {
-        "filename": os.path.basename(filepath),
+        "filename": filepath if keep_filepath else os.path.basename(filepath),
         "mimetype": mimetype,
         "metadata": metadata,
     }
