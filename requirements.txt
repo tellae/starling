@@ -8,7 +8,7 @@ pyproj==2.6
 geopy==1.20.0
 geojson==2.5.0
 jsonschema==3.2.0
-scikit-learn==0.23.1
+scikit-learn==1.1.1
 simPy==3.0.12
 networkx==2.5
 osmnx==1.0.1
