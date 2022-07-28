@@ -70,7 +70,7 @@ The path to the data repository can be changed using the --data-folder option of
 
 .. code-block:: bash
 
-    python3 main.py path/to/parameters.json --data-folder path/to/data_folder
+    python3 main.py path/to/scenario/ --data-folder path/to/data_folder/
 
 However, the structure of the data repository must remain the same. This is ensured by the functions
 declared in starling_sim.utils.paths.py, that build the paths to the different folders by concatenating

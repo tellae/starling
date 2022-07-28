@@ -102,12 +102,12 @@ python3 main.py -e
 ### Usage
 
 Once the data is prepared, a scenario can be run from the project
-root by running main.py with the path to the scenario parameters.
+root by running main.py with the path to the scenario folder.
 
 Run one of the example scenarios, for instance:
 
 ```bash
-python3 main.py data/models/SB_VS/example_nantes/inputs/Params.json
+python3 main.py data/models/SB_VS/example_nantes/
 ```
 
 You will see the progression of the simulation with the logs that

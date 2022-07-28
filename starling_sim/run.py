@@ -17,7 +17,7 @@ def run_main():
 
     parser = argparse.ArgumentParser(description="Starling agent-based simulation framework")
 
-    parser.add_argument("param_path", help="path to parameter file.", nargs="?")
+    parser.add_argument("scenario_path", help="path to scenario folder.", nargs="?")
 
     parser.add_argument(
         "-l",
@@ -132,4 +132,4 @@ def run_main():
 
     # launch simulation
     logging.info("Launching Starling {}\n".format(__version__))
-    launch_simulation(input_args.param_path, input_args.package)
+    launch_simulation(input_args.scenario_folder, input_args.package)
