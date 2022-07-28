@@ -6,7 +6,7 @@ Usage
 Data preparation
 ****************
 
-Simulation scenarios are launched from a file that contains
+Simulation scenarios are launched from a parameter file that contains
 global parameters of the simulation.
 
 Simulation data must be placed in data/models/<model_code>/<scenario_name>/inputs
@@ -22,11 +22,11 @@ Once you have setup your execution environment (either on your device or with Do
 and your simulation data (see :ref:`inout`), you can run your scenario.
 
 Simulations are run by executing the script main.py from the project root
-with a path to the parameters file of the scenario. For instance:
+with the path to your scenario folder. For instance:
 
 .. code-block:: bash
 
-    python3 main.py data/models/SB_VS/my_scenario/inputs/Params.json
+    python3 main.py data/models/SB_VS/my_scenario/
 
 For more information about the options of main.py use the ``-h`` (or ``--help``) option:
 
@@ -43,7 +43,7 @@ With Docker, this can be done in detached mode with
 .. code-block:: bash
 
     docker run -d -v "$(pwd)":/starling_dir/ --name container_name starling\
-        bash -c "python3 main.py data/models/SB_VS/my_scenario/inputs/Params.json"
+        bash -c "python3 main.py data/models/SB_VS/my_scenario/"
 
 or in interactive mode with
 

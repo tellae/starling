@@ -46,7 +46,7 @@ For instance:
 
 .. code-block:: bash
 
-    python3 main.py data/models/SB_VS/example_nantes/inputs/Params.json -l 20
+    python3 main.py data/models/SB_VS/example_nantes/ -l 20
 
 ******************
 Simulation loggers

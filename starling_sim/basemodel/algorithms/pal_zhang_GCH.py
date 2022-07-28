@@ -276,7 +276,7 @@ class PalZhangGCH(Algorithm):
 
         index = self.start_times.index(self.current_time)
         if index == len(self.start_times) - 1:
-            horizon = self.sim.parameters["limit"]
+            horizon = self.sim.scenario["limit"]
         else:
             horizon = self.start_times[index + 1]
 
@@ -366,7 +366,7 @@ class PalZhangGCH(Algorithm):
     def init_demand_dict(self):
 
         features = self.sim.dynamicInput.feature_list_from_file(
-            self.sim.parameters["dynamic_input_file"]
+            self.sim.scenario["dynamic_input_file"]
         )
         self.sim.dynamicInput.pre_process_position_coordinates(features)
         demand_dict = {station: [] for station in self.operator.stations.keys()}

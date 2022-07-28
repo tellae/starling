@@ -30,18 +30,18 @@ class SimulationModel:
     #: Agent types of the model and their modes
     modes = None
 
-    def __init__(self, parameters):
+    def __init__(self, scenario):
         """
         Initialisation of the simulation model with instances of its different elements
 
         This constructor must be extended to instantiate the model elements
         using the correct classes
 
-        :param parameters: SimulationParameters object
+        :param scenario: SimulationScenario object
         """
 
         # simulation parameters
-        self.parameters = parameters
+        self.scenario = scenario
 
         # run_summary
         self.runSummary = self.init_run_summary()
@@ -50,7 +50,7 @@ class SimulationModel:
         self.add_base_leaving_codes()
 
         # random seed for the simulation setup and run
-        self.randomSeed = parameters["seed"]
+        self.randomSeed = scenario["seed"]
 
         # information to be completed for the specific models
 
@@ -87,7 +87,7 @@ class SimulationModel:
         logging.info("Simulation environment setup")
         self.environment.setup(self)
 
-        if "gtfs_timetables" in self.parameters:
+        if "gtfs_timetables" in self.scenario:
             logging.info("GTFS tables setup")
             self.setup_gtfs()
 
@@ -105,14 +105,14 @@ class SimulationModel:
         """
 
         # if asked, add a process that logs the simulation time every hour
-        if "time_log" in self.parameters and self.parameters["time_log"]:
+        if "time_log" in self.scenario and self.scenario["time_log"]:
             self.scheduler.new_process(self.periodic_hour_log())
 
         # create agents and add their loops
         self.scheduler.new_process(self.dynamicInput.play_dynamic_input_())
 
         # run the simulation
-        self.scheduler.run(self.parameters["limit"])
+        self.scheduler.run(self.scenario["limit"])
 
         # trace the end of the simulation for all agents
         trace_simulation_end(self)
@@ -156,7 +156,7 @@ class SimulationModel:
 
         # import the gtfs timetable from the zip given in the parameters
         restrict_transfers = config["transfer_restriction"]
-        self.gtfs = import_gtfs_feed(self.parameters["gtfs_timetables"], restrict_transfers)
+        self.gtfs = import_gtfs_feed(self.scenario["gtfs_timetables"], restrict_transfers)
 
     def init_run_summary(self):
         """
@@ -175,7 +175,7 @@ class SimulationModel:
         summary["commit"] = get_git_revision_hash()
 
         # copy scenario parameters
-        summary["parameters"] = self.parameters.copy_dict()
+        summary["parameters"] = self.scenario.copy_parameters()
 
         # copy config
         summary["config"] = config.copy()

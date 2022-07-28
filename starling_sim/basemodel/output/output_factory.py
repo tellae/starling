@@ -46,17 +46,14 @@ class OutputFactory:
         self.sim = simulation_model
 
         # get output folder
-        output_folder = simulation_model.parameters["output_folder"]
+        output_folder = simulation_model.scenario.outputs_folder
 
         # get scenario
-        scenario = simulation_model.parameters["scenario"]
+        scenario = simulation_model.scenario.name
 
         # setup kpi outputs
 
         self.setup_kpi_output()
-
-        if not os.path.exists(output_folder):
-            os.mkdir(output_folder)
 
         for kpi_output in self.kpi_outputs:
 
@@ -139,19 +136,19 @@ class OutputFactory:
         """
 
         # traces output
-        if simulation_model.parameters["traces_output"]:
+        if simulation_model.scenario["traces_output"]:
             try:
                 self.generate_trace_output(simulation_model)
             except:
                 logging.warning(self.GENERATION_ERROR_FORMAT.format("traces"))
 
         # kpi output
-        if simulation_model.parameters["kpi_output"]:
+        if simulation_model.scenario["kpi_output"]:
             self.generate_kpi_output(simulation_model)
 
         # geojson output
 
-        if simulation_model.parameters["visualisation_output"]:
+        if simulation_model.scenario["visualisation_output"]:
             try:
                 self.generate_geojson_output(simulation_model)
             except:
@@ -192,9 +189,9 @@ class OutputFactory:
         """
 
         # get the scenario information and outfile
-        scenario = simulation_model.parameters["scenario"]
-        model_code = simulation_model.parameters["code"]
-        output_folder = simulation_model.parameters["output_folder"]
+        scenario = simulation_model.scenario.name
+        model_code = simulation_model.scenario.model
+        output_folder = simulation_model.scenario.outputs_folder
         filepath = output_folder + config["traces_format"].format(scenario=scenario)
 
         # open the trace file in write mode
@@ -229,7 +226,7 @@ class OutputFactory:
 
         :param simulation_model:
         """
-        filepath = simulation_model.parameters["output_folder"] + RUN_SUMMARY_FILENAME
+        filepath = simulation_model.scenario.outputs_folder + RUN_SUMMARY_FILENAME
 
         # add run summary to output files
         self.sim.outputFactory.new_output_file(filepath, "application/json", content="run_summary")

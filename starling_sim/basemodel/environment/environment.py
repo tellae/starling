@@ -10,7 +10,7 @@ class Environment:
     Describes an environment in which the simulation will take place
     """
 
-    def __init__(self, parameters, network="osm"):
+    def __init__(self, scenario, network="osm"):
         """
         Initialization of the environment, without import of data structures.
 
@@ -21,11 +21,11 @@ class Environment:
         self.topologies = {}
 
         # get the topologies dict
-        topologies_dict = parameters["topologies"]
+        topologies_dict = scenario["topologies"]
 
         # get the 'store_paths' parameter
-        if "store_paths" in parameters:
-            store_paths = parameters["store_paths"]
+        if "store_paths" in scenario:
+            store_paths = scenario["store_paths"]
         else:
             store_paths = False
 

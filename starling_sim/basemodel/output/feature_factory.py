@@ -109,7 +109,7 @@ def get_element_line_string(geojson_output, element):
 
             # get the list of route localisations and timestamps
             route_positions, route_timestamps = route_localisations(
-                event, geojson_output.sim.parameters["limit"], geojson_output.graphs[mode]
+                event, geojson_output.sim.scenario["limit"], geojson_output.graphs[mode]
             )
 
             # add it to the agent's lists

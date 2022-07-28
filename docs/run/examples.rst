@@ -37,11 +37,11 @@ Run
 ***
 
 Example scenarios can be run like any other scenario by running main.py
-with the path to the parameters file. For instance:
+with the path to the scenario folder. For instance:
 
 .. code-block:: bash
 
-    python3 main.py data/models/SB_VS/example_nantes/inputs/Params.json
+    python3 main.py data/models/SB_VS/example_nantes/
 
 You will then see the simulation logs display in the console, until the run finishes.
 If you find the logs too verbose, you can set the logging level to a higher level
@@ -49,7 +49,7 @@ with the ``-l`` option (see simulation_logging.py for more information):
 
 .. code-block:: bash
 
-    python3 main.py -l 20 data/models/SB_VS/example_nantes/inputs/Params.json
+    python3 main.py -l 20 data/models/SB_VS/example_nantes/
 
 *******
 Outputs

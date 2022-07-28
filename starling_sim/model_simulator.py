@@ -1,7 +1,7 @@
 from starling_sim.models.SB_VS.model import Model as SB_VS_model
 from starling_sim.models.SB_VS_R.model import Model as SB_VS_R_model
 from starling_sim.models.FF_VS.model import Model as FF_VS_model
-from starling_sim.basemodel.parameters.simulation_parameters import parameters_from_file
+from starling_sim.simulation_scenario import SimulationScenario
 from starling_sim.utils.paths import model_import_path
 
 import logging
@@ -46,23 +46,23 @@ class ModelSimulator:
 
         self.simulationModel.generate_output()
 
-    def init_simulator_from_parameters(simulation_parameters, pkg):
+    def init_simulator_from_parameters(simulation_scenario, pkg):
         """
         Returns a simulator initialised according to the model code
         contained in the given parameters
 
-        :param simulation_parameters: SimulationParameters containing "code"
+        :param simulation_scenario: SimulationParameters containing "code"
         :param pkg: name of the source package
 
         :return: ModelSimulator object
         """
 
         # get the Model class
-        model_class = ModelSimulator.get_model_class(simulation_parameters["code"], pkg)
+        model_class = ModelSimulator.get_model_class(simulation_scenario["code"], pkg)
 
         # create a new instance of the simulation model
         try:
-            simulation_model = model_class(simulation_parameters)
+            simulation_model = model_class(simulation_scenario)
         except TypeError as e:
             logging.error(
                 "Instantiation of {} failed with message :\n {}".format(model_class.__name__, e)
@@ -117,30 +117,32 @@ class ModelSimulator:
     get_model_class = staticmethod(get_model_class)
 
 
-def launch_simulation(parameters_path, pkg):
+def launch_simulation(scenario_path, pkg):
     """
     Realises the initialisation, setup, run and output of the simulation
     using the given parameters file. Displays logs of execution times
 
-    :param parameters_path: path to parameters files
+    :param scenario_path: path to scenario folder
     :param pkg: name of the source package
     """
 
-    if parameters_path is None:
-        raise ValueError("No parameters file provided to simulation launcher.")
+    if scenario_path is None:
+        raise ValueError("No scenario folder provided to simulation launcher.")
 
-    # initialise simulation parameters from parameters file
-    simulation_parameters = parameters_from_file(parameters_path)
+    # initialise simulation scenario from folder path
+    simulation_scenario = SimulationScenario(scenario_path)
+    # read simulation parameters
+    simulation_scenario.get_scenario_parameters()
 
     # init the simulator
     logging.info(
         "Initializing simulator for the model code "
-        + simulation_parameters["code"]
+        + simulation_scenario["code"]
         + ", scenario "
-        + simulation_parameters["scenario"]
+        + simulation_scenario["scenario"]
         + "\n"
     )
-    simulator = ModelSimulator.init_simulator_from_parameters(simulation_parameters, pkg)
+    simulator = ModelSimulator.init_simulator_from_parameters(simulation_scenario, pkg)
 
     # setup the simulator
     logging.info("Setting entries for: " + simulator.simulationModel.name)

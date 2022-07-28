@@ -70,7 +70,7 @@ The path to the data repository can be changed using the --data-folder option of
 
 .. code-block:: bash
 
-    python3 main.py path/to/parameters.json --data-folder path/to/data_folder
+    python3 main.py path/to/scenario/ --data-folder path/to/data_folder/
 
 However, the structure of the data repository must remain the same. This is ensured by the functions
 declared in starling_sim.utils.paths.py, that build the paths to the different folders by concatenating
@@ -103,8 +103,6 @@ See :ref:`create-models` for more information about the requirements for your mo
 
 import starling_sim
 import os
-
-_SEP = "/"
 
 #: path to the data folder
 _DATA_FOLDER = "./data/"
@@ -154,42 +152,42 @@ def common_inputs_folder():
     """
     Path to the common inputs folder
     """
-    return data_folder() + COMMON_INPUTS_FOLDER + _SEP
+    return os.path.join(data_folder(), COMMON_INPUTS_FOLDER, "")
 
 
 def environment_folder():
     """
     Path to the environment folder.
     """
-    return data_folder() + ENVIRONMENT_FOLDER_NAME + _SEP
+    return os.path.join(data_folder(), ENVIRONMENT_FOLDER_NAME, "")
 
 
 def osm_graphs_folder():
     """
     Path to the osm graphs folder.
     """
-    return environment_folder() + OSM_GRAPHS_FOLDER_NAME + _SEP
+    return os.path.join(environment_folder(), OSM_GRAPHS_FOLDER_NAME, "")
 
 
 def graph_speeds_folder():
     """
     Path to the graph speeds folder.
     """
-    return environment_folder() + GRAPH_SPEEDS_FOLDER_NAME + _SEP
+    return os.path.join(environment_folder(), GRAPH_SPEEDS_FOLDER_NAME, "")
 
 
 def gtfs_feeds_folder():
     """
     Path to the gtfs feeds folder.
     """
-    return environment_folder() + GTFS_FEEDS_FOLDER_NAME + _SEP
+    return os.path.join(environment_folder(), GTFS_FEEDS_FOLDER_NAME, "")
 
 
 def models_folder():
     """
     Path to the models folder.
     """
-    return data_folder() + MODELS_FOLDER_NAME + _SEP
+    return os.path.join(data_folder(), MODELS_FOLDER_NAME, "")
 
 
 def model_folder(model_code):
@@ -198,40 +196,28 @@ def model_folder(model_code):
 
     :param model_code: code of the model
     """
-    return models_folder() + model_code + _SEP
+    return os.path.join(models_folder(), model_code, "")
 
 
-def scenario_folder(model_code, scenario):
-    """
-    Path to the folder of the given scenario.
-
-    :param model_code: code of the model
-    :param scenario: name of the scenario
-    """
-    return model_folder(model_code) + scenario + _SEP
-
-
-def scenario_input_folder(model_code, scenario):
+def scenario_inputs_folder(scenario_folder):
     """
     Path to the input folder of the given scenario.
 
-    :param model_code: code of the model
-    :param scenario: name of the scenario
+    :param scenario_folder: scenario folder path
     """
-    return scenario_folder(model_code, scenario) + INPUT_FOLDER_NAME + _SEP
+    return os.path.join(scenario_folder, INPUT_FOLDER_NAME, "")
 
 
-def scenario_parameters_filepath(model_code, scenario):
+def scenario_parameters_filepath(scenario_folder):
     """
     Path to the parameters file of the given scenario.
 
-    :param model_code: code of the model
-    :param scenario: name of the scenario
+    :param scenario_folder: scenario folder path
     """
-    return scenario_input_folder(model_code, scenario) + PARAMETERS_FILENAME
+    return os.path.join(scenario_inputs_folder(scenario_folder), PARAMETERS_FILENAME)
 
 
-def scenario_agent_input_filepath(model_code, scenario, filename):
+def scenario_agent_input_filepath(scenario_folder, filename):
     """
     Get the path to the scenario input file (dynamic or initialisation file).
 
@@ -239,17 +225,16 @@ def scenario_agent_input_filepath(model_code, scenario, filename):
     look in the common inputs folder. If the file is not there,
     raise a FileNotFoundError.
 
-    :param model_code: code of the model
-    :param scenario: name of the scenario
+    :param scenario_folder: scenario folder path
     :param filename: name of the input file
     """
 
     # complete the file path with the input folder path
-    filepath = scenario_input_folder(model_code, scenario) + filename
+    filepath = os.path.join(scenario_inputs_folder(scenario_folder), filename)
 
     # if the file does not exist, look in the common inputs folder
     if not os.path.exists(filepath):
-        filepath = common_inputs_folder() + filename
+        filepath = os.path.join(common_inputs_folder(), filename)
         if not os.path.exists(filepath):
             raise FileNotFoundError(
                 "Input file {} not found in scenario inputs folder "
@@ -259,42 +244,28 @@ def scenario_agent_input_filepath(model_code, scenario, filename):
     return filepath
 
 
-def scenario_output_folder(model_code, scenario):
+def scenario_outputs_folder(scenario_folder):
     """
-    Path to the output folder of the given scenario.
+    Path to the output folder in the given scenario folder.
 
-    :param model_code: code of the model
-    :param scenario: name of the scenario
+    :param scenario_folder: scenario folder path
     """
 
-    # check if the OUTPUT_FOLDER environment variable is provided
-    if "OUTPUT_FOLDER" in os.environ:
-        env_output_folder = os.environ["OUTPUT_FOLDER"]
-        # check that the folder exists
-        if not os.path.isdir(env_output_folder):
-            raise IOError("Environment variable OUTPUT_FOLDER does not point to a folder")
-
-        # add missing folder separator
-        if not env_output_folder.endswith(_SEP):
-            env_output_folder = env_output_folder + _SEP
-
-        return env_output_folder
-    else:
-        return scenario_folder(model_code, scenario) + OUTPUT_FOLDER_NAME + _SEP
+    return os.path.join(scenario_folder, OUTPUT_FOLDER_NAME, "")
 
 
 def starling_folder():
     """
     Path to the Starling folder.
     """
-    return starling_sim.__path__[0] + _SEP + ".." + _SEP
+    return os.path.join(starling_sim.__path__[0], "..", "")
 
 
 def schemas_folder():
     """
     Path to the schemas folder.
     """
-    return os.path.join(os.path.dirname(__file__), "..", SCHEMAS_FOLDER_NAME) + _SEP
+    return os.path.join(os.path.dirname(__file__), "..", SCHEMAS_FOLDER_NAME, "")
 
 
 def model_import_path(starling_pkg, model_code):
