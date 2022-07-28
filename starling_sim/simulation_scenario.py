@@ -30,26 +30,28 @@ class SimulationScenario:
 
     def _get_scenario_folders(self, scenario_folder_path):
         # check scenario folder
-        self.scenario_folder = scenario_folder_path
-        if not self.scenario_folder.endswith("/"):
-            self.scenario_folder = self.scenario_folder + "/"
+        self.scenario_folder = os.path.join(scenario_folder_path, "")
         if not os.path.exists(self.scenario_folder):
             raise ValueError("The scenario folder does not exist : {}".format(self.scenario_folder))
 
         # check inputs folder
-        self.inputs_folder = self.scenario_folder + paths.INPUT_FOLDER_NAME + "/"
+        self.inputs_folder = paths.scenario_inputs_folder(self.scenario_folder)
         if not os.path.exists(self.inputs_folder):
             raise ValueError("The inputs folder does not exist : {}".format(self.inputs_folder))
 
         # create outputs folder if it does not exist
-        self.outputs_folder = self.scenario_folder + paths.OUTPUT_FOLDER_NAME + "/"
+        if "OUTPUT_FOLDER" in os.environ:
+            output_folder = os.path.join(os.environ["OUTPUT_FOLDER"], "")
+        else:
+            output_folder = paths.scenario_outputs_folder(self.scenario_folder)
+        self.outputs_folder = output_folder
         if not os.path.exists(self.outputs_folder):
             os.mkdir(self.outputs_folder)
 
     def get_scenario_parameters(self):
 
         try:
-            parameters_path = self.inputs_folder + paths.PARAMETERS_FILENAME
+            parameters_path = paths.scenario_parameters_filepath(self.scenario_folder)
             self.parameters = json_load(parameters_path)
 
         except (FileNotFoundError, json.JSONDecodeError) as e:

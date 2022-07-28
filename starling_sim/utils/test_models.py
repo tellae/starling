@@ -3,6 +3,7 @@ from starling_sim.model_simulator import model_codes
 from starling_sim.utils.simulation_logging import TEST_LOGGER
 from starling_sim.utils.utils import gz_decompression
 from starling_sim.utils import paths
+from starling_sim.simulation_scenario import SimulationScenario
 
 import os
 import subprocess
@@ -117,13 +118,17 @@ def test_models(model_code_list, pkg):
 
 def test_model(model_code, pkg):
 
+    model_folder_path = paths.model_folder(model_code)
+
     # get the test scenarios of the model
-    test_scenarios = os.listdir(paths.model_folder(model_code))
+    test_scenarios = os.listdir(model_folder_path)
 
     # test the scenarios
     for scenario in test_scenarios:
         try:
-            run_time = test_scenario(model_code, pkg, scenario)
+            scenario_folder_path = os.path.join(model_folder_path, scenario, "")
+            simulation_scenario = SimulationScenario(scenario_folder_path)
+            run_time = test_scenario(pkg, simulation_scenario)
             message = "Success ({} seconds)".format(run_time)
         except ValueError as e:
             message = str(e)
@@ -131,18 +136,18 @@ def test_model(model_code, pkg):
         TEST_LOGGER.info("{}, {} : {}".format(model_code, scenario, message))
 
 
-def test_scenario(model_code, pkg, scenario):
+def test_scenario(pkg, simulation_scenario):
 
     # get the scenario parameters file
     # parameters_path = paths.scenario_parameters_filepath(model_code, scenario)
-    scenario_path = paths.scenario_folder(model_code, scenario)
+    scenario_path = simulation_scenario.scenario_folder
 
     # test the existance of the scenario
     if not os.path.exists(scenario_path):
         raise ValueError("Scenario folder not found")
 
     # remove existing outputs
-    output_folder = paths.scenario_output_folder(model_code, scenario)
+    output_folder = simulation_scenario.outputs_folder
     if os.path.exists(output_folder):
         shutil.rmtree(output_folder)
 
@@ -156,15 +161,15 @@ def test_scenario(model_code, pkg, scenario):
         raise ValueError(message)
 
     # compare the scenario outputs with reference files
-    compare_scenario_outputs(model_code, scenario)
+    compare_scenario_outputs(simulation_scenario)
 
     return run_time
 
 
-def compare_scenario_outputs(model_code, scenario):
+def compare_scenario_outputs(simulation_scenario):
 
     # get the test files
-    test_scenario_output_folder = paths.scenario_output_folder(model_code, scenario)
+    test_scenario_output_folder = simulation_scenario.outputs_folder
     test_scenario_output_files = os.listdir(test_scenario_output_folder)
 
     # extract bz2 and gz archives
@@ -175,9 +180,7 @@ def compare_scenario_outputs(model_code, scenario):
             gz_decompression(test_scenario_output_folder + output_file)
 
     # get the reference files
-    scenario_expected_outputs_folder = (
-        paths.scenario_folder(model_code, scenario) + REFERENCE_OUTPUTS_FOLDER_NAME + "/"
-    )
+    scenario_expected_outputs_folder = os.path.join(simulation_scenario.scenario_folder, REFERENCE_OUTPUTS_FOLDER_NAME, "")
     expected_output_files_list = os.listdir(scenario_expected_outputs_folder)
 
     # compare the files
