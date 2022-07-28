@@ -149,11 +149,10 @@ class OutputFactory:
         # geojson output
 
         if simulation_model.scenario["visualisation_output"]:
-            # try:
-            self.generate_geojson_output(simulation_model)
-            # except Exception as e:
-            #     print(e)
-            #     logging.warning(self.GENERATION_ERROR_FORMAT.format("visualisation"))
+            try:
+                self.generate_geojson_output(simulation_model)
+            except:
+                logging.warning(self.GENERATION_ERROR_FORMAT.format("visualisation"))
 
         # run summary output
         self.generate_run_summary(simulation_model)
