@@ -1,7 +1,7 @@
 from starling_sim.models.SB_VS.model import Model as SB_VS_model
 from starling_sim.models.SB_VS_R.model import Model as SB_VS_R_model
 from starling_sim.models.FF_VS.model import Model as FF_VS_model
-from starling_sim.basemodel.parameters.simulation_parameters import SimulationScenario
+from starling_sim.simulation_scenario import SimulationScenario
 from starling_sim.utils.paths import model_import_path
 
 import logging
