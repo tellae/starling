@@ -21,18 +21,18 @@ class Model(SimulationModel):
 
     modes = {"user": ["walk"], "vehicle": [None, "walk"]}
 
-    def __init__(self, parameters):
+    def __init__(self, scenario):
         """
         Initialisation of the classes used by the free-floating model
 
-        :param parameters: SimulationParameters object
+        :param scenario: SimulationScenario object
         """
 
-        super().__init__(parameters)
+        super().__init__(scenario)
 
         # elements of the model
         self.agentPopulation = DictPopulation(self.agent_type_class.keys())
-        self.environment = Environment(self.parameters)
+        self.environment = Environment(self.scenario)
 
         # inputs and outputs
         self.dynamicInput = Input(self.agent_type_class)

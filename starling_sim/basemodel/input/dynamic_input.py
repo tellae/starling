@@ -55,7 +55,7 @@ class DynamicInput(Traced):
         # set the attribute of dynamic features
 
         self.dynamic_feature_list = self.feature_list_from_file(
-            self.sim.parameters["dynamic_input_file"]
+            self.sim.scenario["dynamic_input_file"]
         )
 
         # sort list according to origin times
@@ -64,7 +64,7 @@ class DynamicInput(Traced):
         )
 
         # get the list of static features (present at the start of the simulation)
-        init_files = self.sim.parameters["init_input_file"]
+        init_files = self.sim.scenario["init_input_file"]
 
         # if there are several files, concatenate their feature lists
         if isinstance(init_files, list):
@@ -135,10 +135,10 @@ class DynamicInput(Traced):
 
             # see if an offset should be applied to the input origin time
             if (
-                "early_dynamic_input" in self.sim.parameters
-                and self.sim.parameters["early_dynamic_input"]
+                "early_dynamic_input" in self.sim.scenario
+                and self.sim.scenario["early_dynamic_input"]
             ):
-                early_input_time_offset = self.sim.parameters["early_dynamic_input"]
+                early_input_time_offset = self.sim.scenario["early_dynamic_input"]
             else:
                 early_input_time_offset = 0
 
@@ -283,7 +283,7 @@ class DynamicInput(Traced):
             return []
 
         # get the path to the input file
-        parameters = self.sim.parameters
+        parameters = self.sim.scenario
         filepath = scenario_agent_input_filepath(
             parameters["code"], parameters["scenario"], filename
         )
@@ -315,7 +315,7 @@ class DynamicInput(Traced):
 
     def make_demand_static(self):
 
-        if "make_static" in self.sim.parameters and self.sim.parameters["make_static"] in [
+        if "make_static" in self.sim.scenario and self.sim.scenario["make_static"] in [
             "all",
             "prebooked",
             "prebooked_only",
@@ -325,7 +325,7 @@ class DynamicInput(Traced):
             # also add the agents of dynamic input that are prebooked
             dynamic_features = []
 
-            make_static = self.sim.parameters["make_static"]
+            make_static = self.sim.scenario["make_static"]
 
             for feature in self.dynamic_feature_list:
                 properties = feature["properties"]

@@ -326,7 +326,7 @@ class Operator(Agent):
 
         if isinstance(zone_polygon, str):
             filepath = scenario_agent_input_filepath(
-                self.sim.parameters["code"], self.sim.parameters["scenario"], zone_polygon
+                self.sim.scenario["code"], self.sim.scenario["scenario"], zone_polygon
             )
             geojson = json_load(filepath)
             service_zone = geopandas_polygon_from_points(

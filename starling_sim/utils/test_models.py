@@ -134,11 +134,12 @@ def test_model(model_code, pkg):
 def test_scenario(model_code, pkg, scenario):
 
     # get the scenario parameters file
-    parameters_path = paths.scenario_parameters_filepath(model_code, scenario)
+    # parameters_path = paths.scenario_parameters_filepath(model_code, scenario)
+    scenario_path = paths.scenario_folder(model_code, scenario)
 
     # test the existance of the scenario
-    if not os.path.exists(parameters_path):
-        raise ValueError("Scenario parameters not found")
+    if not os.path.exists(scenario_path):
+        raise ValueError("Scenario folder not found")
 
     # remove existing outputs
     output_folder = paths.scenario_output_folder(model_code, scenario)
@@ -148,7 +149,7 @@ def test_scenario(model_code, pkg, scenario):
     try:
         # run the scenario
         start = time.time()
-        launch_simulation(parameters_path, pkg)
+        launch_simulation(scenario_path, pkg)
         run_time = int(time.time() - start)
     except Exception as e:
         message = "Simulation crash ({})".format(str(e))
