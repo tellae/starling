@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.8.0 (2022-07-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* now provide path to the scenario folder instead of path to the simulation parameters to run a simulation
+
+### Features
+
+* scenario path management ([#61](https://github.com/tellae/starling/issues/61)) ([ccc6bb2](https://github.com/tellae/starling/commit/ccc6bb2fec95e5fb9c80230e4a044643baebc964))
+
 ### 0.7.12 (2022-06-23)
 
 
