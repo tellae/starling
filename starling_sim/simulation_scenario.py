@@ -27,7 +27,6 @@ class SimulationScenario:
         self.name = None
 
         self._get_scenario_folders(scenario_folder_path)
-        self._get_scenario_parameters()
 
     def _get_scenario_folders(self, scenario_folder_path):
         # check scenario folder
@@ -47,7 +46,7 @@ class SimulationScenario:
         if not os.path.exists(self.outputs_folder):
             os.mkdir(self.outputs_folder)
 
-    def _get_scenario_parameters(self):
+    def get_scenario_parameters(self):
 
         try:
             parameters_path = self.inputs_folder + paths.PARAMETERS_FILENAME

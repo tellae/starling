@@ -131,6 +131,8 @@ def launch_simulation(scenario_path, pkg):
 
     # initialise simulation scenario from folder path
     simulation_scenario = SimulationScenario(scenario_path)
+    # read simulation parameters
+    simulation_scenario.get_scenario_parameters()
 
     # init the simulator
     logging.info(
