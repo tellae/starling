@@ -132,4 +132,4 @@ def run_main():
 
     # launch simulation
     logging.info("Launching Starling {}\n".format(__version__))
-    launch_simulation(input_args.scenario_folder, input_args.package)
+    launch_simulation(input_args.scenario_path, input_args.package)
