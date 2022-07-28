@@ -283,9 +283,7 @@ class DynamicInput(Traced):
             return []
 
         # get the path to the input file
-        filepath = scenario_agent_input_filepath(
-            self.sim.scenario.scenario_folder, filename
-        )
+        filepath = scenario_agent_input_filepath(self.sim.scenario.scenario_folder, filename)
 
         # read the dict contained in input file
         try:

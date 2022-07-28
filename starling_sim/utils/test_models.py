@@ -180,7 +180,9 @@ def compare_scenario_outputs(simulation_scenario):
             gz_decompression(test_scenario_output_folder + output_file)
 
     # get the reference files
-    scenario_expected_outputs_folder = os.path.join(simulation_scenario.scenario_folder, REFERENCE_OUTPUTS_FOLDER_NAME, "")
+    scenario_expected_outputs_folder = os.path.join(
+        simulation_scenario.scenario_folder, REFERENCE_OUTPUTS_FOLDER_NAME, ""
+    )
     expected_output_files_list = os.listdir(scenario_expected_outputs_folder)
 
     # compare the files
