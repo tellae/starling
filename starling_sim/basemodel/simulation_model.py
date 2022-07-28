@@ -175,7 +175,7 @@ class SimulationModel:
         summary["commit"] = get_git_revision_hash()
 
         # copy scenario parameters
-        summary["parameters"] = self.scenario.copy_dict()
+        summary["parameters"] = self.scenario.copy_parameters()
 
         # copy config
         summary["config"] = config.copy()

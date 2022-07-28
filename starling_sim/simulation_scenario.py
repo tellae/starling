@@ -12,23 +12,44 @@ from starling_sim.utils import paths
 
 
 class SimulationScenario:
+    """
+    This class describes a simulation scenario folders and data.
+    """
 
     BASE_PARAM_SCHEMA = "parameters.schema.json"
 
-    def __init__(self, scenario_folder_path):
+    def __init__(self, scenario_folder_path: str):
 
+        # scenario folder path
         self.scenario_folder = None
+
+        # scenario inputs folder path
         self.inputs_folder = None
+
+        # scenario outputs folder path
         self.outputs_folder = None
 
+        # simulation parameters (can be accessed using SimulationScenario["key"])
         self.parameters = None
 
+        # scenario model code
         self.model = None
+
+        # scenario name
         self.name = None
 
-        self._get_scenario_folders(scenario_folder_path)
+        # set the scenario folders
+        self._set_scenario_folders(scenario_folder_path)
 
-    def _get_scenario_folders(self, scenario_folder_path):
+    def _set_scenario_folders(self, scenario_folder_path: str):
+        """
+        Set the folder attributes from the scenario folder path.
+
+        Paths are built according to the structure enforced by the functions of starling_sim.utils.paths.
+
+        :param scenario_folder_path: path to the scenario folder
+        """
+
         # check scenario folder
         self.scenario_folder = os.path.join(scenario_folder_path, "")
         if not os.path.exists(self.scenario_folder):
@@ -49,6 +70,13 @@ class SimulationScenario:
             os.mkdir(self.outputs_folder)
 
     def get_scenario_parameters(self):
+        """
+        Get and validate the scenario simulation parameters.
+
+        Also get the scenario model and name from the parameters.
+
+        The parameter file path is enforced by the scenario_parameters_filepath function.
+        """
 
         try:
             parameters_path = paths.scenario_parameters_filepath(self.scenario_folder)
@@ -71,7 +99,8 @@ class SimulationScenario:
 
     def __getitem__(self, item):
         """
-        Method called when using 'simulationParameters[item]'
+        Method called when using 'SimulationScenario[item]'
+
         :param item: Name of the parameter accessed
         :return: self.parameters[item]
         """
@@ -86,19 +115,6 @@ class SimulationScenario:
 
         return self.parameters[item]
 
-    def __setitem__(self, key, value):
-        """
-        Method called when using 'simulationParameters[key] = value'
-        :param key: Name of the parameter
-        :param value: Value associated to the parameter
-        :return:
-        """
-
-        if key in self.parameters:
-            logging.warning("Replacing already existing parameter '" + str(key) + "'")
-
-        self.parameters[key] = value
-
     def __contains__(self, item):
         """
         Method called when using 'item in simulationParameters'
@@ -109,7 +125,7 @@ class SimulationScenario:
 
         return item in self.parameters
 
-    def copy_dict(self):
+    def copy_parameters(self):
         """
         Return a deepcopy of the simulation parameters.
 
