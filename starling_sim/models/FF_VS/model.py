@@ -18,4 +18,3 @@ class Model(SimulationModel):
     modes = {"user": ["walk"], "vehicle": [None, "walk"]}
 
     output_class = Output
-
