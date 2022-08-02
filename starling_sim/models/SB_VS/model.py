@@ -1,9 +1,6 @@
 from starling_sim.basemodel.simulation_model import SimulationModel
-from starling_sim.basemodel.population.dict_population import DictPopulation
-from starling_sim.basemodel.environment.environment import Environment
 from starling_sim.models.SB_VS.input import Input
 from starling_sim.models.SB_VS.output import Output
-from starling_sim.basemodel.schedule.scheduler import Scheduler
 from starling_sim.models.SB_VS.user import User
 from starling_sim.basemodel.agent.vehicles.station_based_vehicle import StationBasedVehicle
 from starling_sim.basemodel.agent.stations.vehicle_sharing_station import VehicleSharingStation
@@ -26,22 +23,5 @@ class Model(SimulationModel):
 
     modes = {"user": ["walk"], "vehicle": ["station"], "station": [None, "walk"]}
 
-    def __init__(self, scenario):
-        """
-        Initialisation of the classes used by the station-based model
-
-        :param scenario: SimulationScenario object
-        """
-
-        super().__init__(scenario)
-
-        # elements of the model
-        self.agentPopulation = DictPopulation(self.agent_type_class.keys())
-        self.environment = Environment(self.scenario)
-
-        # inputs and outputs
-        self.dynamicInput = Input(self.agent_type_class)
-        self.outputFactory = Output()
-
-        # event manager
-        self.scheduler = Scheduler()
+    input_class = Input
+    output_class = Output

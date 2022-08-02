@@ -3,6 +3,11 @@ import logging
 import numpy
 import datetime
 
+from starling_sim.basemodel.population.dict_population import DictPopulation
+from starling_sim.basemodel.environment.environment import Environment
+from starling_sim.basemodel.input.dynamic_input import DynamicInput
+from starling_sim.basemodel.output.output_factory import OutputFactory
+from starling_sim.basemodel.schedule.scheduler import Scheduler
 from starling_sim.basemodel.trace.trace import trace_simulation_end
 from starling_sim.utils.utils import import_gtfs_feed, get_git_revision_hash
 from starling_sim.utils.constants import BASE_LEAVING_CODES
@@ -30,12 +35,21 @@ class SimulationModel:
     #: Agent types of the model and their modes
     modes = None
 
+    #: Model environment class
+    environment_class = Environment
+
+    #: Model population class
+    population_class = DictPopulation
+
+    #: Model dynamic input class
+    input_class = DynamicInput
+
+    #: Model output factory class
+    output_class = OutputFactory
+
     def __init__(self, scenario):
         """
         Initialisation of the simulation model with instances of its different elements
-
-        This constructor must be extended to instantiate the model elements
-        using the correct classes
 
         :param scenario: SimulationScenario object
         """
@@ -55,21 +69,22 @@ class SimulationModel:
         # information to be completed for the specific models
 
         # elements  of the model
-        self.agentPopulation = None
-        self.environment = None
+        self.agentPopulation = self.population_class.__new__(self.population_class)
+        self.agentPopulation.__init__(self.agent_type_class.keys())
+        self.environment = self.environment_class.__new__(self.environment_class)
+        self.environment.__init__(scenario)
 
         # inputs and outputs
-        self.dynamicInput = None
-        self.outputFactory = None
+        self.dynamicInput = self.input_class.__new__(self.input_class)
+        self.dynamicInput.__init__(self.agent_type_class)
+        self.outputFactory = self.output_class.__new__(self.output_class)
+        self.outputFactory.__init__()
 
         # event manager
-        self.scheduler = None
+        self.scheduler = Scheduler()
 
         # complete, unfiltered gtfs timetable, if relevant
         self.gtfs = None
-
-        # TODO : data structure to store simulation information (e.g. demand)
-        # self.data = None
 
     def setup(self):
         """
