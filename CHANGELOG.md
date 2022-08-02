@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.9.0 (2022-08-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* model classes are not specified in the following attributes of the SimulationModel subclasses: environment_class, population_class, input_class, output_class
+
+* moved model elements initialisation in the parent SimulationModel class ([#62](https://github.com/tellae/starling/issues/62)) ([0f2e49e](https://github.com/tellae/starling/commit/0f2e49ef80a4ec25288c5382f07c7b53f3570a67))
+
 ## 0.8.0 (2022-07-28)
 
 
