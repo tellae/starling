@@ -1,9 +1,6 @@
 from starling_sim.basemodel.simulation_model import SimulationModel
-from starling_sim.basemodel.population.dict_population import DictPopulation
-from starling_sim.basemodel.environment.environment import Environment
 from starling_sim.models.SB_VS_R.input import Input
 from starling_sim.models.SB_VS_R.output import Output
-from starling_sim.basemodel.schedule.scheduler import Scheduler
 from starling_sim.models.SB_VS_R.operator import Operator
 from starling_sim.models.SB_VS_R.repositioning_staff import RepositioningStaff
 from starling_sim.models.SB_VS.user import User
@@ -35,22 +32,5 @@ class Model(SimulationModel):
         "operator": {"staff": "staff", "fleet": "station"},
     }
 
-    def __init__(self, scenario):
-        """
-        Initialisation of the classes used by the station-based with repositioning model
-
-        :param scenario: SimulationScenario object
-        """
-
-        super().__init__(scenario)
-
-        # elements of the model
-        self.agentPopulation = DictPopulation(self.agent_type_class.keys())
-        self.environment = Environment(self.scenario)
-
-        # inputs and outputs
-        self.dynamicInput = Input(self.agent_type_class)
-        self.outputFactory = Output()
-
-        # event manager
-        self.scheduler = Scheduler()
+    input_class = Input
+    output_class = Output
