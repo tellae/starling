@@ -52,13 +52,13 @@ class SimulationScenario:
 
         # check scenario folder
         self.scenario_folder = os.path.join(scenario_folder_path, "")
-        if not os.path.exists(self.scenario_folder):
-            raise ValueError("The scenario folder does not exist : {}".format(self.scenario_folder))
+        if not (os.path.exists(self.scenario_folder) and os.path.isdir(self.scenario_folder)):
+            raise ValueError("The scenario folder does not exist or is not a folder : {}".format(self.scenario_folder))
 
         # check inputs folder
         self.inputs_folder = paths.scenario_inputs_folder(self.scenario_folder)
-        if not os.path.exists(self.inputs_folder):
-            raise ValueError("The inputs folder does not exist : {}".format(self.inputs_folder))
+        if not (os.path.exists(self.inputs_folder) and os.path.isdir(self.inputs_folder)):
+            raise ValueError("The inputs folder does not exist or is not a folder : {}".format(self.inputs_folder))
 
         # create outputs folder if it does not exist
         if "OUTPUT_FOLDER" in os.environ:
@@ -84,6 +84,10 @@ class SimulationScenario:
 
         except (FileNotFoundError, json.JSONDecodeError) as e:
             raise ValueError("Error while loading the scenario parameters : {}".format(str(e)))
+
+        # check scenario folder against scenario name
+        if os.path.basename(os.path.dirname(self.scenario_folder)) != self.parameters["scenario"]:
+            raise ValueError("The scenario folder must be named after the scenario name")
 
         # parameters validation
         schema = json_load(paths.schemas_folder() + self.BASE_PARAM_SCHEMA)
