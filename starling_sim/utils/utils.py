@@ -17,7 +17,14 @@ import copy
 from shapely.geometry import Polygon, LineString
 from numbers import Integral
 from jsonschema import Draft7Validator, Draft4Validator, validators, ValidationError, RefResolver
-from starling_sim.utils.paths import schemas_folder, gtfs_feeds_folder, osm_graphs_folder
+from starling_sim.utils.paths import (
+    schemas_folder,
+    gtfs_feeds_folder,
+    osm_graphs_folder,
+    scenario_inputs_folder,
+    PARAMETERS_FILENAME,
+    INPUT_FOLDER_NAME,
+)
 
 pd.set_option("display.expand_frame_repr", False)
 
@@ -1064,3 +1071,53 @@ def get_git_revision_hash() -> str:
     Get current git commit hash
     """
     return subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
+
+
+# multiple scenarios
+
+
+def create_sub_scenarios(simulation_scenario):
+
+    nb_scenarios = simulation_scenario["multiple"]
+    scenarios_folder = os.path.join(simulation_scenario.scenario_folder, "scenarios")
+    create_if_not_exists(scenarios_folder)
+
+    # set random seed
+    np.random.seed(simulation_scenario["seed"])
+    seeds = np.random.randint(100000, size=nb_scenarios)
+
+    sub_scenario_name_format = "{base_scenario}-{index}"
+
+    for i in range(nb_scenarios):
+
+        sub_scenario_name = sub_scenario_name_format.format(
+            base_scenario=simulation_scenario.name, index=i + 1
+        )
+        sub_scenario_folder = os.path.join(scenarios_folder, sub_scenario_name)
+        sub_scenario_inputs_folder = scenario_inputs_folder(sub_scenario_folder)
+
+        if os.path.exists(sub_scenario_folder):
+            print("Scenario {} already created".format(sub_scenario_name))
+            continue
+        else:
+            print("Creating scenario " + sub_scenario_name)
+
+        # create sub scenario folders
+        create_if_not_exists(sub_scenario_folder)
+        create_if_not_exists(sub_scenario_inputs_folder)
+
+        # sub scenario inputs
+        sub_parameters = simulation_scenario.copy_parameters()
+        sub_parameters["scenario"] = sub_scenario_name
+        sub_parameters["seed"] = int(seeds[i])
+        del sub_parameters["multiple"]
+        json_pretty_dump(
+            sub_parameters, os.path.join(sub_scenario_inputs_folder, PARAMETERS_FILENAME)
+        )
+
+        # create symlinks to original inputs
+        for input_file in os.listdir(simulation_scenario.inputs_folder):
+            if input_file == PARAMETERS_FILENAME:
+                continue
+            input_filepath = os.path.join("..", "..", "..", INPUT_FOLDER_NAME, input_file)
+            os.symlink(input_filepath, os.path.join(sub_scenario_inputs_folder, input_file))

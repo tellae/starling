@@ -137,6 +137,13 @@
       "description": "Seed used for the generation of random events",
       "default": 42
     },
+    "multiple": {
+      "advanced": true,
+      "type": "integer",
+      "title": "Multiple scenario",
+      "description": "Number of sub scenarios to generate",
+      "minimum": 1
+    },
     "user_routing_parameters": {
       "advanced": true,
       "type": "object",

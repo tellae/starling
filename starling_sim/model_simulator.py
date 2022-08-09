@@ -3,6 +3,7 @@ from starling_sim.models.SB_VS_R.model import Model as SB_VS_R_model
 from starling_sim.models.FF_VS.model import Model as FF_VS_model
 from starling_sim.simulation_scenario import SimulationScenario
 from starling_sim.utils.paths import model_import_path
+from starling_sim.utils.utils import create_sub_scenarios
 
 import logging
 import time
@@ -120,7 +121,7 @@ class ModelSimulator:
 def launch_simulation(scenario_path, pkg):
     """
     Realises the initialisation, setup, run and output of the simulation
-    using the given parameters file. Displays logs of execution times
+    using the given parameters file. Displays log of execution times
 
     :param scenario_path: path to scenario folder
     :param pkg: name of the source package
@@ -133,6 +134,10 @@ def launch_simulation(scenario_path, pkg):
     simulation_scenario = SimulationScenario(scenario_path)
     # read simulation parameters
     simulation_scenario.get_scenario_parameters()
+
+    if "multiple" in simulation_scenario:
+        create_sub_scenarios(simulation_scenario)
+        exit(0)
 
     # init the simulator
     logging.info(
