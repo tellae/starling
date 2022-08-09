@@ -53,12 +53,20 @@ class SimulationScenario:
         # check scenario folder
         self.scenario_folder = os.path.join(scenario_folder_path, "")
         if not (os.path.exists(self.scenario_folder) and os.path.isdir(self.scenario_folder)):
-            raise ValueError("The scenario folder does not exist or is not a folder : {}".format(self.scenario_folder))
+            raise ValueError(
+                "The scenario folder does not exist or is not a folder : {}".format(
+                    self.scenario_folder
+                )
+            )
 
         # check inputs folder
         self.inputs_folder = paths.scenario_inputs_folder(self.scenario_folder)
         if not (os.path.exists(self.inputs_folder) and os.path.isdir(self.inputs_folder)):
-            raise ValueError("The inputs folder does not exist or is not a folder : {}".format(self.inputs_folder))
+            raise ValueError(
+                "The inputs folder does not exist or is not a folder : {}".format(
+                    self.inputs_folder
+                )
+            )
 
         # create outputs folder if it does not exist
         if "OUTPUT_FOLDER" in os.environ:

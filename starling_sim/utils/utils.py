@@ -17,8 +17,14 @@ import copy
 from shapely.geometry import Polygon, LineString
 from numbers import Integral
 from jsonschema import Draft7Validator, Draft4Validator, validators, ValidationError, RefResolver
-from starling_sim.utils.paths import schemas_folder, gtfs_feeds_folder, osm_graphs_folder, \
-    scenario_inputs_folder, PARAMETERS_FILENAME, INPUT_FOLDER_NAME
+from starling_sim.utils.paths import (
+    schemas_folder,
+    gtfs_feeds_folder,
+    osm_graphs_folder,
+    scenario_inputs_folder,
+    PARAMETERS_FILENAME,
+    INPUT_FOLDER_NAME,
+)
 
 pd.set_option("display.expand_frame_repr", False)
 
@@ -1069,6 +1075,7 @@ def get_git_revision_hash() -> str:
 
 # multiple scenarios
 
+
 def create_sub_scenarios(simulation_scenario):
 
     nb_scenarios = simulation_scenario["multiple"]
@@ -1083,7 +1090,9 @@ def create_sub_scenarios(simulation_scenario):
 
     for i in range(nb_scenarios):
 
-        sub_scenario_name = sub_scenario_name_format.format(base_scenario=simulation_scenario.name, index=i+1)
+        sub_scenario_name = sub_scenario_name_format.format(
+            base_scenario=simulation_scenario.name, index=i + 1
+        )
         sub_scenario_folder = os.path.join(scenarios_folder, sub_scenario_name)
         sub_scenario_inputs_folder = scenario_inputs_folder(sub_scenario_folder)
 
@@ -1102,7 +1111,9 @@ def create_sub_scenarios(simulation_scenario):
         sub_parameters["scenario"] = sub_scenario_name
         sub_parameters["seed"] = int(seeds[i])
         del sub_parameters["multiple"]
-        json_pretty_dump(sub_parameters, os.path.join(sub_scenario_inputs_folder, PARAMETERS_FILENAME))
+        json_pretty_dump(
+            sub_parameters, os.path.join(sub_scenario_inputs_folder, PARAMETERS_FILENAME)
+        )
 
         # create symlinks to original inputs
         for input_file in os.listdir(simulation_scenario.inputs_folder):
