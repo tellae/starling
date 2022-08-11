@@ -2,6 +2,7 @@ import random
 import logging
 import numpy
 import datetime
+import time
 
 from starling_sim.basemodel.population.dict_population import DictPopulation
 from starling_sim.basemodel.environment.environment import Environment
@@ -94,23 +95,31 @@ class SimulationModel:
         This method can be extended to manage and setup other elements of the model
         """
 
+        logging.info("Setting up simulation of scenario: {}".format(self.scenario.name))
+
+        start = time.time()
+
         # set the parameters and initialize the random seed
         self.setup_seeds()
 
         # start the simulation setup
 
-        logging.info("Simulation environment setup")
+        logging.debug("Simulation environment setup")
         self.environment.setup(self)
 
         if "gtfs_timetables" in self.scenario:
-            logging.info("GTFS tables setup")
+            logging.debug("GTFS tables setup")
             self.setup_gtfs()
 
-        logging.info("Dynamic input setup")
+        logging.debug("Dynamic input setup")
         self.dynamicInput.setup(self)
 
-        logging.info("Output factory setup")
+        logging.debug("Output factory setup")
         self.outputFactory.setup(self)
+
+        duration = round(time.time() - start, 1)
+        logging.info("End of setup. Elapsed time : {} seconds\n".format(duration))
+        self.runSummary["stats"]["setup_time"] = duration
 
     def run(self):
         """
@@ -118,6 +127,10 @@ class SimulationModel:
 
         This method can be extended to run other elements of the model
         """
+
+        logging.info("Starting simulation of scenario: {}".format(self.scenario.name))
+
+        start = time.time()
 
         # if asked, add a process that logs the simulation time every hour
         if "time_log" in self.scenario and self.scenario["time_log"]:
@@ -132,11 +145,22 @@ class SimulationModel:
         # trace the end of the simulation for all agents
         trace_simulation_end(self)
 
+        duration = round(time.time() - start, 1)
+
+        logging.info("End of simulation run. Elapsed time : {} seconds\n".format(duration))
+        self.runSummary["stats"]["execution_time"] = duration
+
+        shortest_path_count = 0
+        for topology in self.environment.topologies.values():
+            shortest_path_count += topology.shortest_path_count
+        self.runSummary["stats"]["shortest_paths"] = shortest_path_count
+
     def generate_output(self):
         """
         Generate an output of the current simulation
         """
 
+        logging.info("Generating outputs")
         self.outputFactory.extract_simulation(self)
 
     def add_base_leaving_codes(self):

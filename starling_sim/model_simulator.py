@@ -61,6 +61,8 @@ class ModelSimulator:
         # get the Model class
         model_class = ModelSimulator.get_model_class(simulation_scenario["code"], pkg)
 
+        logging.info("Initialising simulation model: {} ({})\n".format(model_class.name, simulation_scenario.model))
+
         # create a new instance of the simulation model
         try:
             simulation_model = model_class(simulation_scenario)
@@ -135,44 +137,18 @@ def launch_simulation(scenario_path, pkg):
     # read simulation parameters
     simulation_scenario.get_scenario_parameters()
 
-    if "multiple" in simulation_scenario:
-        create_sub_scenarios(simulation_scenario)
-        exit(0)
-
     # init the simulator
-    logging.info(
-        "Initializing simulator for the model code "
-        + simulation_scenario["code"]
-        + ", scenario "
-        + simulation_scenario["scenario"]
-        + "\n"
-    )
     simulator = ModelSimulator.init_simulator_from_parameters(simulation_scenario, pkg)
 
     # setup the simulator
-    logging.info("Setting entries for: " + simulator.simulationModel.name)
-    start = time.time()
     simulator.setup_simulation()
-    duration = time.time() - start
-    logging.info("End of setup. Elapsed time : {:.2f} seconds\n".format(duration))
-    simulator.simulationModel.runSummary["stats"]["setup_time"] = duration
 
     # run the simulation
-    logging.info("Starting the simulation\n")
-    start = time.time()
     simulator.run_simulation()
-    duration = time.time() - start
-    logging.info("End of simulation run. Elapsed time : {:.2f} seconds\n".format(duration))
-    simulator.simulationModel.runSummary["stats"]["execution_time"] = duration
-
-    shortest_path_count = 0
-    for topology in simulator.simulationModel.environment.topologies.values():
-        shortest_path_count += topology.shortest_path_count
-    logging.info("Number of shortest_path computed : {}".format(shortest_path_count))
-    simulator.simulationModel.runSummary["stats"]["shortest_paths"] = shortest_path_count
 
     # generate simulation output
-    logging.info("Generating outputs of the simulation\n")
     simulator.generate_output()
+
+    logging.info("End of Starling execution\n")
 
     logging.shutdown()

@@ -1078,6 +1078,8 @@ def get_git_revision_hash() -> str:
 
 def create_sub_scenarios(simulation_scenario):
 
+    logging.info("Creating sub scenarios of: " + simulation_scenario.name)
+
     nb_scenarios = simulation_scenario["multiple"]
     scenarios_folder = os.path.join(simulation_scenario.scenario_folder, "scenarios")
     create_if_not_exists(scenarios_folder)
@@ -1088,6 +1090,7 @@ def create_sub_scenarios(simulation_scenario):
 
     sub_scenario_name_format = "{base_scenario}-{index}"
 
+    scenario_paths = []
     for i in range(nb_scenarios):
 
         sub_scenario_name = sub_scenario_name_format.format(
@@ -1095,12 +1098,13 @@ def create_sub_scenarios(simulation_scenario):
         )
         sub_scenario_folder = os.path.join(scenarios_folder, sub_scenario_name)
         sub_scenario_inputs_folder = scenario_inputs_folder(sub_scenario_folder)
+        scenario_paths.append(sub_scenario_folder)
 
         if os.path.exists(sub_scenario_folder):
-            print("Scenario {} already created".format(sub_scenario_name))
+            logging.info("Scenario {} already created".format(sub_scenario_name))
             continue
         else:
-            print("Creating scenario " + sub_scenario_name)
+            logging.info("Creating scenario " + sub_scenario_name)
 
         # create sub scenario folders
         create_if_not_exists(sub_scenario_folder)
@@ -1121,3 +1125,7 @@ def create_sub_scenarios(simulation_scenario):
                 continue
             input_filepath = os.path.join("..", "..", "..", INPUT_FOLDER_NAME, input_file)
             os.symlink(input_filepath, os.path.join(sub_scenario_inputs_folder, input_file))
+
+    logging.info("End of sub scenarios creation\n")
+
+    return scenario_paths
