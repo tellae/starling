@@ -3,6 +3,7 @@ This module contains utils for the Starling framework.
 """
 
 import os
+import sys
 import subprocess
 import logging
 import json
@@ -1072,6 +1073,22 @@ def get_git_revision_hash() -> str:
     """
     return subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
 
+
+# console log
+
+def display_bar_stderr():
+    """
+    Display a horizontal bar in the terminal.
+
+    Try to make it the size of the terminal width.
+    """
+
+    try:
+        bar_size = os.get_terminal_size().columns
+    except OSError:
+        bar_size = 100
+
+    print("\u2014" * bar_size, file=sys.stderr)
 
 # multiple scenarios
 
