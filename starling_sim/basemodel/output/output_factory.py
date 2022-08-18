@@ -37,7 +37,7 @@ class OutputFactory:
         """
         Setup method called during simulation setup.
 
-        Sets values of the output factory attributes.
+        Set values of the output factory attributes.
 
         :param simulation_model:
         """

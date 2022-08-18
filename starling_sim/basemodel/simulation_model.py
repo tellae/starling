@@ -112,6 +112,8 @@ class SimulationModel:
         # model elements
         self._init_agent_population()
         self._init_dynamic_input()
+
+        # maybe we could move the output factory to the model elements ?
         self._init_output_factory()
 
     def _init_environment(self, scenario):
