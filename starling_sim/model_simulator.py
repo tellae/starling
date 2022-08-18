@@ -61,7 +61,11 @@ class ModelSimulator:
         # get the Model class
         model_class = ModelSimulator.get_model_class(simulation_scenario["code"], pkg)
 
-        logging.info("Initialising simulation model: {} ({})\n".format(model_class.name, simulation_scenario.model))
+        logging.info(
+            "Initialising simulation model: {} ({})\n".format(
+                model_class.name, simulation_scenario.model
+            )
+        )
 
         # create a new instance of the simulation model
         try:

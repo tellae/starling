@@ -1077,6 +1077,7 @@ def get_git_revision_hash() -> str:
 
 # console log
 
+
 def display_horizontal_bar(lvl=20):
     """
     Display a horizontal bar in the terminal.
@@ -1092,6 +1093,7 @@ def display_horizontal_bar(lvl=20):
         bar_size = 100
 
     BLANK_LOGGER.log(lvl, "\u2014" * bar_size)
+
 
 # multiple scenarios
 
