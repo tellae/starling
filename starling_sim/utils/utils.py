@@ -26,6 +26,7 @@ from starling_sim.utils.paths import (
     PARAMETERS_FILENAME,
     INPUT_FOLDER_NAME,
 )
+from starling_sim.utils.simulation_logging import BLANK_LOGGER
 
 pd.set_option("display.expand_frame_repr", False)
 
@@ -1076,11 +1077,13 @@ def get_git_revision_hash() -> str:
 
 # console log
 
-def display_bar_stderr():
+def display_horizontal_bar(lvl=20):
     """
     Display a horizontal bar in the terminal.
 
     Try to make it the size of the terminal width.
+
+    :param lvl: log level
     """
 
     try:
@@ -1088,7 +1091,7 @@ def display_bar_stderr():
     except OSError:
         bar_size = 100
 
-    print("\u2014" * bar_size, file=sys.stderr)
+    BLANK_LOGGER.log(lvl, "\u2014" * bar_size)
 
 # multiple scenarios
 

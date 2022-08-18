@@ -161,6 +161,27 @@ def new_test_logger():
     return test_logger
 
 
+#: logging format of BLANK_LOGGER
+BLANK_LOGGER_FORMAT = "%(message)s"
+
+
+def new_blank_logger():
+    """
+    Create and return a logger without prefix.
+
+    :return: Logger object from the logging library
+    """
+
+    blank_logger = logging.getLogger("blank_logger")
+    blank_logger.propagate = False
+    formatter = logging.Formatter(BLANK_LOGGER_FORMAT)
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+    blank_logger.addHandler(stream_handler)
+
+    return blank_logger
+
+
 #: Traced objects logger
 TRACED_LOGGER = new_traced_logger()
 
@@ -169,3 +190,6 @@ ALGO_LOGGER = new_algo_logger()
 
 #: testing logger
 TEST_LOGGER = new_test_logger()
+
+#: blank logger
+BLANK_LOGGER = new_blank_logger()

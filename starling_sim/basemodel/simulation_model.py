@@ -9,7 +9,7 @@ from starling_sim.basemodel.input.dynamic_input import DynamicInput
 from starling_sim.basemodel.output.output_factory import OutputFactory
 from starling_sim.basemodel.schedule.scheduler import Scheduler
 from starling_sim.basemodel.trace.trace import trace_simulation_end
-from starling_sim.utils.utils import import_gtfs_feed, display_bar_stderr
+from starling_sim.utils.utils import import_gtfs_feed, display_horizontal_bar
 from starling_sim.utils.constants import BASE_LEAVING_CODES
 from starling_sim.utils.config import config
 
@@ -186,7 +186,7 @@ class SimulationModel:
         This method should be called before running a new simulation scenario.
         """
 
-        display_bar_stderr()
+        display_horizontal_bar()
         logging.info("Setting up run of scenario: {}".format(self.scenario.name))
         start = time.time()
         # set the parameters and initialize the random seed
