@@ -157,10 +157,10 @@ class SimulationModel:
 
         This method can be extended to manage and setup other elements of the model
         """
-        self.setup_model()
-        self.setup_scenario_run()
+        self._setup_model()
+        self._setup_scenario_run()
 
-    def setup_model(self):
+    def _setup_model(self):
         """
         Set up the simulation model elements that do not depend on the scenario.
 
@@ -170,14 +170,14 @@ class SimulationModel:
 
         logging.info("Setting up model")
         # setup model elements
-        self.setup_environment()
+        self._setup_environment()
         self.setup_gtfs()
 
         duration = round(time.time() - start, 1)
         logging.info("End of model setup. Elapsed time : {} seconds\n".format(duration))
         self.scenario.set_stat("model_setup_time", duration)
 
-    def setup_scenario_run(self):
+    def _setup_scenario_run(self):
         """
         Set up the scenario-related elements of the model.
 
@@ -191,28 +191,28 @@ class SimulationModel:
         self.setup_seeds()
 
         # setup scenario elements
-        self.setup_dynamic_input()
-        self.setup_output_factory()
+        self._setup_dynamic_input()
+        self._setup_output_factory()
 
         duration = round(time.time() - start, 1)
         logging.info("End of scenario setup. Elapsed time : {} seconds\n".format(duration))
         self.scenario.set_stat("scenario_setup_time", duration)
 
-    def setup_environment(self):
+    def _setup_environment(self):
         """
         Set up the simulation environment.
         """
         logging.debug("Simulation environment setup")
         self.environment.setup(self)
 
-    def setup_dynamic_input(self):
+    def _setup_dynamic_input(self):
         """
         Set up the simulation dynamic input.
         """
         logging.debug("Dynamic input setup")
         self.dynamicInput.setup(self)
 
-    def setup_output_factory(self):
+    def _setup_output_factory(self):
         """
         Set up the simulation output factory.
         """
