@@ -9,7 +9,7 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL"
+name: "Coding style checks"
 
 on:
   push:
@@ -21,8 +21,16 @@ on:
     - cron: '31 11 * * 0'
 
 jobs:
+  lint:
+    name: Black formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: psf/black@stable
+        with:
+          options: "--line-length 100 --check --diff"
   analyze:
-    name: Analyze
+    name: CodeQL analysis
     runs-on: ubuntu-latest
     permissions:
       actions: read
