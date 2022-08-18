@@ -1107,8 +1107,7 @@ def create_sub_scenarios(simulation_scenario):
 
     # set random seed
     np.random.seed(simulation_scenario["seed"])
-    seeds = np.random.randint(100000, size=nb_scenarios)
-
+    seeds = np.random.choice(range(100000), size=nb_scenarios, replace=False)
     sub_scenario_name_format = "{base_scenario}-{index}"
 
     scenario_paths = []
