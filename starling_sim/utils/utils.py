@@ -3,7 +3,6 @@ This module contains utils for the Starling framework.
 """
 
 import os
-import sys
 import subprocess
 import logging
 import json
