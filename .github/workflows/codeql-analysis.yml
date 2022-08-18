@@ -21,6 +21,14 @@ on:
     - cron: '31 11 * * 0'
 
 jobs:
+  lint:
+    name: Black formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: psf/black@stable
+        with:
+          options: "--line-length 100 --check --diff"
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
