@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.10.0 (2022-08-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* multiple scenarios run (#64)
+
+### Features
+
+* multiple scenarios run ([#64](https://github.com/tellae/starling/issues/64)) ([c98d2f6](https://github.com/tellae/starling/commit/c98d2f62ded4f134dc0e8e35e80dc7f075b36f43))
+
 ### 0.9.1 (2022-08-09)
 
 
