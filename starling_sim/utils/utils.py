@@ -25,6 +25,7 @@ from starling_sim.utils.paths import (
     PARAMETERS_FILENAME,
     INPUT_FOLDER_NAME,
 )
+from starling_sim.utils.simulation_logging import BLANK_LOGGER
 
 pd.set_option("display.expand_frame_repr", False)
 
@@ -1073,10 +1074,32 @@ def get_git_revision_hash() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
 
 
+# console log
+
+
+def display_horizontal_bar(lvl=20):
+    """
+    Display a horizontal bar in the terminal.
+
+    Try to make it the size of the terminal width.
+
+    :param lvl: log level
+    """
+
+    try:
+        bar_size = os.get_terminal_size().columns
+    except OSError:
+        bar_size = 100
+
+    BLANK_LOGGER.log(lvl, "\u2014" * bar_size)
+
+
 # multiple scenarios
 
 
 def create_sub_scenarios(simulation_scenario):
+
+    logging.info("Creating sub scenarios of: " + simulation_scenario.name)
 
     nb_scenarios = simulation_scenario["multiple"]
     scenarios_folder = os.path.join(simulation_scenario.scenario_folder, "scenarios")
@@ -1084,23 +1107,24 @@ def create_sub_scenarios(simulation_scenario):
 
     # set random seed
     np.random.seed(simulation_scenario["seed"])
-    seeds = np.random.randint(100000, size=nb_scenarios)
-
+    seeds = np.random.choice(range(100000), size=nb_scenarios, replace=False)
     sub_scenario_name_format = "{base_scenario}-{index}"
 
+    scenario_paths = []
     for i in range(nb_scenarios):
 
         sub_scenario_name = sub_scenario_name_format.format(
-            base_scenario=simulation_scenario.name, index=i + 1
+            base_scenario=simulation_scenario.name, index=i
         )
         sub_scenario_folder = os.path.join(scenarios_folder, sub_scenario_name)
         sub_scenario_inputs_folder = scenario_inputs_folder(sub_scenario_folder)
+        scenario_paths.append(sub_scenario_folder)
 
         if os.path.exists(sub_scenario_folder):
-            print("Scenario {} already created".format(sub_scenario_name))
+            logging.info("Scenario {} already created".format(sub_scenario_name))
             continue
         else:
-            print("Creating scenario " + sub_scenario_name)
+            logging.info("Creating scenario " + sub_scenario_name)
 
         # create sub scenario folders
         create_if_not_exists(sub_scenario_folder)
@@ -1121,3 +1145,7 @@ def create_sub_scenarios(simulation_scenario):
                 continue
             input_filepath = os.path.join("..", "..", "..", INPUT_FOLDER_NAME, input_file)
             os.symlink(input_filepath, os.path.join(sub_scenario_inputs_folder, input_file))
+
+    logging.info("End of sub scenarios creation\n")
+
+    return scenario_paths

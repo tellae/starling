@@ -1,14 +1,16 @@
 """
 This module manages the parameters of the simulation
 """
-
+import datetime
 import logging
 import os
 import json
 from copy import deepcopy
 
-from starling_sim.utils.utils import json_load, validate_against_schema
+from starling_sim.utils.utils import json_load, validate_against_schema, get_git_revision_hash
 from starling_sim.utils import paths
+from starling_sim.version import __version__
+from starling_sim.utils.config import config
 
 
 class SimulationScenario:
@@ -20,6 +22,18 @@ class SimulationScenario:
 
     def __init__(self, scenario_folder_path: str):
 
+        # scenario model code
+        self.model = None
+
+        # scenario name
+        self.name = None
+
+        # simulation parameters (can be accessed using SimulationScenario["key"])
+        self.parameters = None
+
+        # run summary
+        self.runSummary = None
+
         # scenario folder path
         self.scenario_folder = None
 
@@ -28,15 +42,6 @@ class SimulationScenario:
 
         # scenario outputs folder path
         self.outputs_folder = None
-
-        # simulation parameters (can be accessed using SimulationScenario["key"])
-        self.parameters = None
-
-        # scenario model code
-        self.model = None
-
-        # scenario name
-        self.name = None
 
         # set the scenario folders
         self._set_scenario_folders(scenario_folder_path)
@@ -109,6 +114,8 @@ class SimulationScenario:
         self.model = self.parameters["code"]
         self.name = self.parameters["scenario"]
 
+        self.init_run_summary()
+
     def __getitem__(self, item):
         """
         Method called when using 'SimulationScenario[item]'
@@ -137,6 +144,36 @@ class SimulationScenario:
 
         return item in self.parameters
 
+    def init_run_summary(self):
+        """
+        Initialise the run summary.
+        """
+
+        summary = dict()
+
+        # get run date
+        summary["date"] = str(datetime.datetime.today())
+
+        # get starling version
+        summary["starling_version"] = __version__
+
+        # get current commit
+        summary["commit"] = get_git_revision_hash()
+
+        # copy scenario parameters
+        summary["parameters"] = self.copy_parameters()
+
+        # copy config
+        summary["config"] = config.copy()
+
+        # scenario output files
+        summary["output_files"] = dict()
+
+        # run statistics
+        summary["stats"] = dict()
+
+        self.runSummary = summary
+
     def copy_parameters(self):
         """
         Return a deepcopy of the simulation parameters.
@@ -145,3 +182,17 @@ class SimulationScenario:
         """
 
         return deepcopy(self.parameters)
+
+    def set_stat(self, key, value):
+        """
+        Set a value for the given stat key.
+
+        :param key: stat key
+        :param value: stat value
+        """
+        stats = self.runSummary["stats"]
+
+        if key in stats:
+            logging.warning("Overwriting '{}' scenario statistic".format(key))
+
+        stats[key] = value

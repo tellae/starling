@@ -37,7 +37,7 @@ class OutputFactory:
         """
         Setup method called during simulation setup.
 
-        Sets values of the output factory attributes.
+        Set values of the output factory attributes.
 
         :param simulation_model:
         """
@@ -155,7 +155,7 @@ class OutputFactory:
                 logging.warning(self.GENERATION_ERROR_FORMAT.format("visualisation"))
 
         # run summary output
-        self.generate_run_summary(simulation_model)
+        self.generate_run_summary(simulation_model.scenario)
 
     def generate_geojson_output(self, simulation_model):
         """
@@ -220,17 +220,17 @@ class OutputFactory:
 
         self.sim.outputFactory.new_output_file(filepath, "text/plain", content="traces")
 
-    def generate_run_summary(self, simulation_model):
+    def generate_run_summary(self, simulation_scenario):
         """
         Generate a summary file of the simulation run.
 
-        :param simulation_model:
+        :param simulation_scenario: SimulationScenario object
         """
-        filepath = simulation_model.scenario.outputs_folder + RUN_SUMMARY_FILENAME
+        filepath = simulation_scenario.outputs_folder + RUN_SUMMARY_FILENAME
 
         # add run summary to output files
         self.sim.outputFactory.new_output_file(filepath, "application/json", content="run_summary")
 
         # set output files in run summary and dump it in a file
-        simulation_model.runSummary["output_files"] = self.output_files
-        json_pretty_dump(simulation_model.runSummary, filepath)
+        simulation_scenario.runSummary["output_files"] = self.output_files
+        json_pretty_dump(simulation_scenario.runSummary, filepath)
