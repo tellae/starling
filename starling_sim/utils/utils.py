@@ -1115,7 +1115,7 @@ def create_sub_scenarios(simulation_scenario):
     for i in range(nb_scenarios):
 
         sub_scenario_name = sub_scenario_name_format.format(
-            base_scenario=simulation_scenario.name, index=i + 1
+            base_scenario=simulation_scenario.name, index=i
         )
         sub_scenario_folder = os.path.join(scenarios_folder, sub_scenario_name)
         sub_scenario_inputs_folder = scenario_inputs_folder(sub_scenario_folder)
