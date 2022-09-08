@@ -1,3 +1,6 @@
 """
-This package contains modules related to the simulation run
+This package contains the different modules of Starling.
 """
+
+#: Starling version
+__version__ = "0.10.0"

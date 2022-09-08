@@ -9,8 +9,8 @@ from copy import deepcopy
 
 from starling_sim.utils.utils import json_load, validate_against_schema
 from starling_sim.utils import paths
-from starling_sim.version import __version__
 from starling_sim.utils.config import config
+from starling_sim import __version__
 
 
 class SimulationScenario:
