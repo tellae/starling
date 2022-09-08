@@ -7,10 +7,10 @@ import os
 import json
 from copy import deepcopy
 
-from starling_sim.utils.utils import json_load, validate_against_schema, get_git_revision_hash
+from starling_sim.utils.utils import json_load, validate_against_schema
 from starling_sim.utils import paths
-from starling_sim.version import __version__
 from starling_sim.utils.config import config
+from starling_sim import __version__
 
 
 class SimulationScenario:
@@ -156,9 +156,6 @@ class SimulationScenario:
 
         # get starling version
         summary["starling_version"] = __version__
-
-        # get current commit
-        summary["commit"] = get_git_revision_hash()
 
         # copy scenario parameters
         summary["parameters"] = self.copy_parameters()

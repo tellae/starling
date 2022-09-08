@@ -1,5 +1,5 @@
 const tracker = {
-    filename: 'starling_sim/version.py',
+    filename: 'starling_sim/__init__.py',
     updater: '.versionrc.python.updater.js'
   }
   

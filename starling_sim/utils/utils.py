@@ -1064,16 +1064,6 @@ def create_if_not_exists(folder):
         return False
 
 
-# git
-
-
-def get_git_revision_hash() -> str:
-    """
-    Get current git commit hash
-    """
-    return subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
-
-
 # console log
 
 
