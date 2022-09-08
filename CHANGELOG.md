@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.1 (2022-09-08)
+
+
+### Features
+
+* improve version and commit trace ([#68](https://github.com/tellae/starling/issues/68)) ([a679c68](https://github.com/tellae/starling/commit/a679c688150305a2268cac2792f0a2511a0dd28e))
+
 ## 0.10.0 (2022-08-18)
 
 
