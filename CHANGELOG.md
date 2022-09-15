@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.2 (2022-09-15)
+
+
+### Features
+
+* add possibility of generating an empty graph ([#69](https://github.com/tellae/starling/issues/69)) ([d08b0f2](https://github.com/tellae/starling/commit/d08b0f209c0a8df8d353095d07f16d39e890dd26))
+
 ### 0.10.1 (2022-09-08)
 
 
