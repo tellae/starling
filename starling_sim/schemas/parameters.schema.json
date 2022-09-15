@@ -34,7 +34,7 @@
       "description": "Files for initialising the topologies",
       "properties": {
         "additional_properties": {
-          "description": "Array of two string items, the network file and the speeds file",
+          "description": "Array of two string items, the network file and the speeds file, or null to generate an empty graph",
           "type": ["array", "null"],
           "items": {
             "type": "string"
