@@ -269,4 +269,5 @@ class Topology(ABC):
         """
 
         return nx.MultiDiGraph()
+
     empty_graph = staticmethod(empty_graph)
