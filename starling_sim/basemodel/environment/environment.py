@@ -491,9 +491,15 @@ class Environment:
         """
         Call the topology localisations_nearest_nodes method.
 
+        If a list of modes is provided, consider only nodes that are present
+        in all provided topologies.
+
+        If a node as no neighbour, assign None
+
         :param x_coordinates: list of X coordinates of the localisations
         :param y_coordinates: list of Y coordinates of the localisations
         :param modes: topology modes
+
         :return: list of nearest nodes
         """
 
@@ -509,6 +515,10 @@ class Environment:
 
         else:
             target_graph = self.topologies[modes].graph
+
+        # if there is no candidate nodes, the nearest node is None
+        if len(target_graph.nodes) == 0:
+            return
 
         target_topology = OSMNetwork(modes, graph=target_graph)
 
@@ -621,23 +631,26 @@ class Environment:
         latitudes = stops_table["stop_lat"].values
         longitudes = stops_table["stop_lon"].values
 
-        # compute the stops nearest nodes
+        # compute each stop nearest node
         stops_table["nearest_node"] = self.localisations_nearest_nodes(longitudes, latitudes, modes)
 
-        for index, row in stops_table.iterrows():
+        # extend graph with stops if asked
+        if extend_graph:
 
-            # get stop and node information
-            nearest_node = row["nearest_node"]
+            for index, row in stops_table.iterrows():
 
-            # compute euclidean distance
-            nearest_loc = self.get_localisation(nearest_node, modes[0])
-            stop_loc = [row["stop_lat"], row["stop_lon"]]
-            eucl_dist = 1000 * distance.great_circle(nearest_loc, stop_loc).kilometers
+                # get stop and node information
+                nearest_node = row["nearest_node"]
 
-            # set correspondence
-            if eucl_dist > max_distance and extend_graph:
+                # if the node has a close neighbour, don't add a node
+                if nearest_node is not None:
+                    nearest_loc = self.get_localisation(nearest_node, modes[0])
+                    stop_loc = [row["stop_lat"], row["stop_lon"]]
+                    eucl_dist = 1000 * distance.great_circle(nearest_loc, stop_loc).kilometers
+                    if eucl_dist <= max_distance:
+                        continue
 
-                # extend the graph : add a new node at stop location
+                # otherwise, extend the graph : add a new node at stop location
                 self.add_node(
                     row["stop_id"],
                     {"y": row["stop_lat"], "x": row["stop_lon"], "osmid": row["stop_id"]},
