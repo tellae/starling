@@ -43,6 +43,9 @@ class OSMNetwork(Topology):
         if self.graph is None:
 
             if self.network_file is None:
+                logging.debug(
+                    "Generating empty graph for mode '{}'".format(self.mode)
+                )
                 self.graph = self.empty_graph()
             else:
                 logging.debug(
