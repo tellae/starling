@@ -37,7 +37,7 @@
           "description": "Array of two string items, the network file and the speeds file",
           "type": "array",
           "items": {
-            "type": "string"
+            "type": ["string", "null"]
           },
           "minItems": 2,
           "maxItems": 2
