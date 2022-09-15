@@ -45,7 +45,6 @@ class OSMNetwork(Topology):
             if self.network_file is None:
                 logging.error("No network file provided for topology initialisation")
                 raise ValueError("Network file provided is {}".format(self.network_file))
-
             else:
                 logging.debug(
                     "Importing OSM graph for mode '{}' from file {}".format(
