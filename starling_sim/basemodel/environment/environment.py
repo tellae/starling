@@ -1,6 +1,7 @@
 import logging
 import sys
 from starling_sim.basemodel.topology.osm_network import OSMNetwork
+from starling_sim.basemodel.topology.empty_network import EmptyNetwork
 from starling_sim.utils.config import config
 from geopy import distance
 
@@ -33,11 +34,6 @@ class Environment:
 
         for mode, info in topologies_dict.items():
 
-            network_file = info[0]
-            speeds_file = info[1]
-            if len(info) == 3:
-                weight_class = info[2]
-
             # see if paths of this topology should be stored
             if isinstance(store_paths, dict):
                 if mode not in store_paths:
@@ -47,8 +43,14 @@ class Environment:
             else:
                 store = store_paths
 
+            if info is None:
+                topology = EmptyNetwork(mode, store_paths=store)
             # create a topology object according to the given network type
-            if network == "osm":
+            elif network == "osm":
+                network_file = info[0]
+                speeds_file = info[1]
+                if len(info) == 3:
+                    weight_class = info[2]
                 topology = OSMNetwork(
                     mode,
                     network_file=network_file,

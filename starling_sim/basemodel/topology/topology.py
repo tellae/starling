@@ -256,18 +256,3 @@ class Topology(ABC):
         :return: list of nearest nodes
         """
         raise NotImplementedError()
-
-    # utils
-
-    def empty_graph():
-        """
-        Return an empty graph for Starling usage.
-
-        Graphs used in Starling are MultiDiGraph instances.
-
-        :return: MultiDiGraph object
-        """
-
-        return nx.MultiDiGraph()
-
-    empty_graph = staticmethod(empty_graph)

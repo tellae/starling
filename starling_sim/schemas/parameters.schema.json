@@ -35,12 +35,12 @@
       "properties": {
         "additional_properties": {
           "description": "Array of two string items, the network file and the speeds file",
-          "type": "array",
+          "type": ["array", "null"],
           "items": {
-            "type": ["string", "null"]
+            "type": "string"
           },
           "minItems": 2,
-          "maxItems": 2
+          "maxItems": 3
         }
       },
       "required": ["walk"]
