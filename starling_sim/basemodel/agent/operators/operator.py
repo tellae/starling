@@ -44,7 +44,7 @@ class Operator(Agent):
             "max_travel_time": {
                 "type": ["string", "null"],
                 "title": "Max travel time formula",
-                "description": "Python expression used to evaluate the maximum travel time for each trip. "
+                "description": "Python expression used to evaluate the maximum travel time for each trip [seconds]. "
                                "It can use the trip direct travel time value by using the "
                                "following placeholder: {direct_travel_time}. The expression must evaluate to an "
                                "object that can be cast or rounded using Python int().",
@@ -724,7 +724,7 @@ class Operator(Agent):
 
     def compute_max_travel_time(self, direct_travel_time: int) -> Union[str, None]:
         """
-        Evaluate the max travel time formula to get a maximum travel time value.
+        Evaluate the max travel time formula to get a maximum travel time value [seconds].
 
         The formula is a Python expression, evaluated using the builtin eval function.
         It can use the direct travel time value by using the following placeholder: {direct_travel_time}
