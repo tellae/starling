@@ -128,7 +128,7 @@
         "boolean",
         "object"
       ],
-      "default": true
+      "default": false
     },
     "seed": {
       "advanced": true,
@@ -150,6 +150,13 @@
       "title": "User routing parameters",
       "description": "These parameters are used in models including public and on-demand transport",
       "properties": {
+        "objective_type": {
+          "title": "Objective time type",
+          "description": "Define if the user is trying to 'depart after' or 'arrive before' the provided objective time",
+          "type": "string",
+          "enum": ["start_after", "arrive_before"],
+          "default": "start_after"
+        },
         "max_nearest_stops": {
           "title": "Maximum number of considered stops",
           "description": "Number of stops around origin and destination considered by the users when computing journeys",

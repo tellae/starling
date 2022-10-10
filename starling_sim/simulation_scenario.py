@@ -7,7 +7,7 @@ import os
 import json
 from copy import deepcopy
 
-from starling_sim.utils.utils import json_load, validate_against_schema
+from starling_sim.utils.utils import json_load, add_defaults_and_validate
 from starling_sim.utils import paths
 from starling_sim.utils.config import config
 from starling_sim import __version__
@@ -104,7 +104,7 @@ class SimulationScenario:
 
         # parameters validation
         schema = json_load(paths.schemas_folder() + self.BASE_PARAM_SCHEMA)
-        validate_against_schema(self.parameters, schema)
+        self.parameters = add_defaults_and_validate(self.parameters, schema)
 
         # change date format from YYYY-MM-DD to YYYYMMDD
         if "date" in self.parameters:
