@@ -190,7 +190,7 @@ class OdtWaitsKPI(KPI):
                         self.indicator_dict[self.KEY_DETOUR] += "-"
                         self.indicator_dict[self.KEY_DIRECT_TRIP] += "-"
                     self.indicator_dict[self.KEY_DETOUR] += str(request.waitSequence[1])
-                    self.indicator_dict[self.KEY_DIRECT_TRIP] += str(request.directTravelTime)
+                self.indicator_dict[self.KEY_DIRECT_TRIP] += str(request.directTravelTime)
 
             elif agent.id in pickup_agents:
                 request = event.pickups[pickup_agents.index(agent.id)]
