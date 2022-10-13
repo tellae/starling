@@ -16,6 +16,7 @@ from starling_sim.utils.paths import (
 from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
 
 import pandas as pd
+from typing import Union
 
 
 class Operator(Agent):
@@ -39,7 +40,17 @@ class Operator(Agent):
                 "items": {"type": "string"},
                 "title": "GTFS routes to keep in the public transport simulation",
                 "description": "List of route ids that should be present in the simulation. If null, keep all routes.",
-            }
+            },
+            "max_travel_time": {
+                "type": ["string", "null"],
+                "title": "Max travel time formula",
+                "description": "Python expression used to evaluate the maximum travel time for each trip [seconds]. "
+                "It can use the trip direct travel time value by using the "
+                "following placeholder: {direct_travel_time}. The expression must evaluate to an "
+                "object that can be cast or rounded using Python int().",
+                "examples": ["{direct_travel_time} * 1.5", "{direct_travel_time} + 900", "1800"],
+                "default": None,
+            },
         },
     }
 
@@ -711,33 +722,45 @@ class Operator(Agent):
 
     # utils
 
-    def compute_travel_time_with_detour(direct_travel_time, max_detour):
+    def compute_max_travel_time(self, direct_travel_time: int) -> Union[int, None]:
         """
-        Compute the travel time of a trip with a given detour.
+        Evaluate the max travel time formula to get a maximum travel time value [seconds].
 
-        The deviated travel time can be used to compute a maximum acceptable
-        travel time, or an estimated travel time.
+        The formula is a Python expression, evaluated using the builtin eval function.
+        It can use the direct travel time value by using the following placeholder: {direct_travel_time}
+        It must return something that can be cast or rounded using int().
 
-        If the detour is a float, it is used as a multiplicand with the direct travel time.
-        If it is an integer, it is used as a constant (in seconds) added to the direct travel time.
+        Examples (without the brackets):
+            - "{direct_travel_time} * 1.5"
+            - "{direct_travel_time} + 900"
+            - "1800"
 
-        :param direct_travel_time: direct travel time in seconds
-        :param max_detour: maximum detour, either as a multiplicand or as a constant, or None
+        :param direct_travel_time: value of the direct travel time (int)
 
-        :return: deviated travel time (can be a float or an int), or None if max detour is None
+        :return: value of the maximum travel time (int) or None if no constraint is applied
+        :raises: ValueError if the evaluation of the formula fails
         """
 
-        if isinstance(max_detour, float):
-            max_travel_time = direct_travel_time * max_detour
-        elif isinstance(max_detour, int):
-            max_travel_time = direct_travel_time + max_detour
-        elif max_detour is None:
-            max_travel_time = None
-        else:
-            raise ValueError(
-                "Unsupported type for max detour parameter : {}".format(type(max_detour))
+        # get formula from operation parameters
+        max_travel_time_formula = self.operationParameters["max_travel_time"]
+        if max_travel_time_formula is None:
+            return None
+
+        # format formula with direct travel time
+        formula = max_travel_time_formula.format(direct_travel_time=direct_travel_time)
+
+        try:
+            # evaluate formula with eval() builtin
+            max_travel_time = eval(formula)
+
+            # cast to integer if not None
+            if max_travel_time is not None:
+                max_travel_time = int(max_travel_time)
+        except Exception:
+            msg = "Failed to evaluate the following formula for max travel time: {}".format(
+                max_travel_time_formula
             )
+            self.log_message(msg, 40)
+            raise ValueError(msg)
 
         return max_travel_time
-
-    compute_travel_time_with_detour = staticmethod(compute_travel_time_with_detour)

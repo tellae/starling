@@ -50,6 +50,13 @@
       "exclusiveMinimum": 0,
       "default": 240
     },
+    "estimated_detour": {
+      "title": "Estimated trip detour",
+      "description": "Used in some models to estimate a shared trip duration before proper planning. Multiplied to the trip direct travel time",
+      "type": "number",
+      "minimum": 1,
+      "default": 1.3
+    },
     "geojson_version": {
       "title": "GeoJSON output version",
       "description": "Format version of the GeoJSON output. If null, use the one specified in geojson_output.py.",
