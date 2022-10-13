@@ -45,12 +45,12 @@ class Operator(Agent):
                 "type": ["string", "null"],
                 "title": "Max travel time formula",
                 "description": "Python expression used to evaluate the maximum travel time for each trip [seconds]. "
-                               "It can use the trip direct travel time value by using the "
-                               "following placeholder: {direct_travel_time}. The expression must evaluate to an "
-                               "object that can be cast or rounded using Python int().",
+                "It can use the trip direct travel time value by using the "
+                "following placeholder: {direct_travel_time}. The expression must evaluate to an "
+                "object that can be cast or rounded using Python int().",
                 "examples": ["{direct_travel_time} * 1.5", "{direct_travel_time} + 900", "1800"],
-                "default": None
-            }
+                "default": None,
+            },
         },
     }
 
@@ -730,7 +730,7 @@ class Operator(Agent):
         It can use the direct travel time value by using the following placeholder: {direct_travel_time}
         It must return something that can be cast or rounded using int().
 
-        Examples (without the brackets): 
+        Examples (without the brackets):
             - "{direct_travel_time} * 1.5"
             - "{direct_travel_time} + 900"
             - "1800"
@@ -757,7 +757,9 @@ class Operator(Agent):
             if max_travel_time is not None:
                 max_travel_time = int(max_travel_time)
         except Exception:
-            msg = "Failed to evaluate the following formula for max travel time: {}".format(max_travel_time_formula)
+            msg = "Failed to evaluate the following formula for max travel time: {}".format(
+                max_travel_time_formula
+            )
             self.log_message(msg, 40)
             raise ValueError(msg)
 
