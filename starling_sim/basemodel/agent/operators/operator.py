@@ -722,7 +722,7 @@ class Operator(Agent):
 
     # utils
 
-    def compute_max_travel_time(self, direct_travel_time: int) -> Union[str, None]:
+    def compute_max_travel_time(self, direct_travel_time: int) -> Union[int, None]:
         """
         Evaluate the max travel time formula to get a maximum travel time value [seconds].
 
