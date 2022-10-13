@@ -1,5 +1,5 @@
 from starling_sim.basemodel.agent.agent import Agent
-from starling_sim.basemodel.agent.requests import TripRequest, StopPoint
+from starling_sim.basemodel.agent.requests import TripRequest, UserStop, StopPoint
 from starling_sim.basemodel.agent.stations.station import Station
 from starling_sim.utils.utils import (
     geopandas_polygon_from_points,
@@ -563,6 +563,73 @@ class Operator(Agent):
 
         # return the request
         return request
+
+    def create_trip_request(self, agent, number, pickup_position, dropoff_position,
+                            pickup_request_time, dropoff_request_time=None, pickup_max_time=None, dropoff_max_time=None,
+                            pickup_stop_point=None, dropoff_stop_point=None,
+                            direct_travel_time=None, max_travel_time=None, trip_id=None):
+        """
+        Create a TripRequest object containing the given trip constraints.
+
+        :param agent:
+        :param number:
+        :param pickup_position:
+        :param dropoff_position:
+        :param pickup_request_time:
+        :param dropoff_request_time:
+        :param pickup_max_time:
+        :param dropoff_max_time:
+        :param pickup_stop_point:
+        :param dropoff_stop_point:
+        :param direct_travel_time:
+        :param max_travel_time:
+        :param trip_id:
+        :return:
+        """
+
+        # create the TripRequest object
+        trip_request = self.new_request(agent, number)
+
+        # create the pickup UserStop
+        pickup = UserStop(
+            TripRequest.GET_REQUEST,
+            pickup_position,
+            trip_request.id,
+            requested_time=pickup_request_time,
+            max_time=pickup_max_time,
+            stop_point_id=pickup_stop_point,
+        )
+
+        # create the dropoff UserStop
+        dropoff = UserStop(
+            TripRequest.PUT_REQUEST,
+            dropoff_position,
+            trip_request.id,
+            requested_time=dropoff_request_time,
+            max_time=dropoff_max_time,
+            max_travel_time=max_travel_time,
+            stop_point_id=dropoff_stop_point,
+        )
+
+        # set the request user stops
+        trip_request.set_stops(pickup, dropoff)
+
+        # set direct travel time
+        trip_request.directTravelTime = direct_travel_time
+
+        # set trip id
+        if trip_id is not None:
+            trip_request.set_trip(trip_id)
+
+        # set a timeout event for pickup
+        if pickup_max_time is not None:
+            duration_before_max_pickup_time = int(pickup_max_time - self.sim.scheduler.now())
+            timeout_event = self.sim.scheduler.new_event_object() | self.sim.scheduler.timeout(
+                duration_before_max_pickup_time
+            )
+            trip_request.pickupEvent = timeout_event
+
+        return trip_request
 
     def assign_request(self, request):
         """
