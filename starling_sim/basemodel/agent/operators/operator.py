@@ -838,17 +838,6 @@ class Operator(Agent):
 
         return journeys
 
-    def create_journeys(self, departures_table, arrival_stops, parameters):
-        """
-        Compute a list of journeys for the given departures timetable and arrival stops.
-
-        :param departures_table:
-        :param arrival_stops:
-        :param parameters:
-
-        :return: a list of journeys
-        """
-
     def enumerate_start_after_journeys(self, departures, arrival_stops, parameters):
         """
         Enumerate a list of journeys for the given departures and arrival stops.
