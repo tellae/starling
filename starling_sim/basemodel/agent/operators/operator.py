@@ -797,28 +797,35 @@ class Operator(Agent):
     def post_process_journeys(self, journeys, parameters):
         return journeys
 
-    def relevant_stop_points(self, position, parameters):
+    def relevant_stop_points(self, origin, destination, parameters):
         """
-        Get relevant service stop points for the given position and parameters.
+        Get relevant service stop points for the journey end points and parameters.
 
-        :param position: target position
+        :param origin: origin position
+        :param destination: destination position
         :param parameters: journey parameters
 
-        :return: list of StopPoint objects
+        :return: (list of origin stops, list of destination stops)
         """
 
         max_nearest_stops = parameters["max_nearest_stops"]
         max_distance = parameters["max_distance_nearest_stops"]
 
-        # get the n closest (euclidean) stops to origin position (with a max distance)
-        stop_points = self.sim.environment.euclidean_n_closest(
-            position=position,
+        # get the n closest (euclidean) stops to both positions (with a max distance)
+        origin_stop_points = self.sim.environment.euclidean_n_closest(
+            position=origin,
+            obj_list=self.stopPoints.values(),
+            n=max_nearest_stops,
+            maximum_distance=max_distance,
+        )
+        destination_stop_points = self.sim.environment.euclidean_n_closest(
+            position=destination,
             obj_list=self.stopPoints.values(),
             n=max_nearest_stops,
             maximum_distance=max_distance,
         )
 
-        return stop_points
+        return origin_stop_points, destination_stop_points
 
     def journey_from_request(self, trip_request: TripRequest, route_type):
         """
