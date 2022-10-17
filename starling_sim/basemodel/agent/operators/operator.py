@@ -7,6 +7,7 @@ from starling_sim.utils.utils import (
     json_load,
     load_schema,
     validate_against_schema,
+    SimulationError
 )
 from starling_sim.utils.paths import (
     gtfs_feeds_folder,
@@ -759,6 +760,23 @@ class Operator(Agent):
         :return: a list of journeys represented by DataFrames
         """
 
+        try:
+            if objective_type == "start_after":
+                journeys = self.start_after_journeys(origin, destination, objective_time, parameters)
+            elif objective_type == "arrive_before":
+                journeys = self.arrive_before_journeys(origin, destination, objective_time, parameters)
+            else:
+                message = "Journey objective type '{}' is not supported. Try 'start_after' or 'arrive_before'".format(objective_type)
+                self.log_message(message, 30)
+                raise SimulationError(message)
+        except NotImplementedError:
+            self.log_message("Evaluation of '{}' journeys is not implemented for this operator".format(objective_type), 30)
+            raise SimulationError("'{}' journeys are not available for {}".format(objective_type, self.__class__.__name__))
+
+        journeys = self.post_process_journeys(journeys, parameters)
+
+        return journeys
+
     def create_journeys(self, departures_table, arrival_stops, parameters):
         """
         Compute a list of journeys for the given departures timetable and arrival stops.
@@ -770,9 +788,18 @@ class Operator(Agent):
         :return: a list of journeys
         """
 
+    def start_after_journeys(self, origin, destination, objective_time, parameters):
+        raise NotImplementedError()
+
+    def arrive_before_journeys(self, origin, destination, objective_time, parameters):
+        raise NotImplementedError()
+
+    def post_process_journeys(self, journeys, parameters):
+        return journeys
+
     def relevant_stop_points(self, position, parameters):
         """
-        Get relevant stop points for the given position and parameters.
+        Get relevant service stop points for the given position and parameters.
 
         :param position: target position
         :param parameters: journey parameters
