@@ -15,6 +15,7 @@ from starling_sim.utils.paths import (
     scenario_agent_input_filepath,
 )
 from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
+from starling_sim_tellae.basemodel.agent.journeys import *
 
 import pandas as pd
 from typing import Union
@@ -777,6 +778,66 @@ class Operator(Agent):
 
         return journeys
 
+    def start_after_journeys(self, origin, destination, objective_time, parameters):
+        """
+        Evaluate a list of 'start_after' journeys for the given conditions.
+
+        :param origin:
+        :param destination:
+        :param objective_time:
+        :param parameters:
+
+        :return: list of journeys
+        """
+
+        departures, arrivals = start_after_end_points(self, origin, destination, objective_time, parameters)
+
+        # check tables are not empty
+        if len(departures) == 0:
+            self.log_message("Origin position too far from service zone")
+            return []
+        if len(arrivals) == 0:
+            self.log_message("Destination position too far from service zone")
+            return []
+
+        arrival_stops = arrivals["with_stop"].values
+
+        journeys = self.enumerate_start_after_journeys(departures, arrival_stops, parameters)
+
+        journeys = add_arrival(journeys, arrivals)
+
+        return journeys
+
+    def arrive_before_journeys(self, origin, destination, objective_time, parameters):
+        """
+        Evaluate a list of 'arrive_before' journeys for the given conditions.
+
+        :param origin:
+        :param destination:
+        :param objective_time:
+        :param parameters:
+
+        :return: list of journeys
+        """
+
+        departures, arrivals = arrive_before_end_points(self, origin, destination, objective_time, parameters)
+
+        # check tables are not empty
+        if len(departures) == 0:
+            self.log_message("Origin position too far from service zone")
+            return []
+        if len(arrivals) == 0:
+            self.log_message("Destination position too far from service zone")
+            return []
+
+        departure_stops = departures["stop_id"].values
+
+        journeys = self.enumerate_arrive_before_journeys(departure_stops, arrivals, parameters)
+
+        journeys = add_departure(journeys, arrivals)
+
+        return journeys
+
     def create_journeys(self, departures_table, arrival_stops, parameters):
         """
         Compute a list of journeys for the given departures timetable and arrival stops.
@@ -788,10 +849,32 @@ class Operator(Agent):
         :return: a list of journeys
         """
 
-    def start_after_journeys(self, origin, destination, objective_time, parameters):
+    def enumerate_start_after_journeys(self, departures, arrival_stops, parameters):
+        """
+        Enumerate a list of journeys for the given departures and arrival stops.
+
+        See start_after_journeys method.
+
+        :param departures:
+        :param arrival_stops:
+        :param parameters:
+
+        :return: list of journeys
+        """
         raise NotImplementedError()
 
-    def arrive_before_journeys(self, origin, destination, objective_time, parameters):
+    def enumerate_arrive_before_journeys(self, departure_stops, arrivals, parameters):
+        """
+        Enumerate a list of journeys for the given departures and arrival stops.
+
+        See arrive_before_journeys method.
+
+        :param departure_stops:
+        :param arrivals:
+        :param parameters:
+
+        :return: list of journeys
+        """
         raise NotImplementedError()
 
     def post_process_journeys(self, journeys, parameters):
