@@ -770,6 +770,29 @@ class Operator(Agent):
         :return: a list of journeys
         """
 
+    def relevant_stop_points(self, position, parameters):
+        """
+        Get relevant stop points for the given position and parameters.
+
+        :param position: target position
+        :param parameters: journey parameters
+
+        :return: list of StopPoint objects
+        """
+
+        max_nearest_stops = parameters["max_nearest_stops"]
+        max_distance = parameters["max_distance_nearest_stops"]
+
+        # get the n closest (euclidean) stops to origin position (with a max distance)
+        stop_points = self.sim.environment.euclidean_n_closest(
+            position=position,
+            obj_list=self.stopPoints.values(),
+            n=max_nearest_stops,
+            maximum_distance=max_distance,
+        )
+
+        return stop_points
+
     def journey_from_request(self, trip_request: TripRequest, route_type):
         """
         Create a journey row corresponding to the given TripRequest.
