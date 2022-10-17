@@ -770,6 +770,33 @@ class Operator(Agent):
         :return: a list of journeys
         """
 
+    def journey_from_request(self, trip_request: TripRequest, route_type):
+        """
+        Create a journey row corresponding to the given TripRequest.
+
+        :param trip_request:
+        :param route_type:
+        :return:
+        """
+        journey_row = pd.DataFrame(
+            [
+                {
+                    "stop_id": trip_request.dropoff.stopPoint,
+                    "nb_trips": 1,
+                    "min_arrival_time": trip_request.dropoff.arrivalTime,
+                    "with_stop": trip_request.pickup.stopPoint,
+                    "with_trip": trip_request.tripId,
+                    "with_departure": trip_request.pickup.departureTime,
+                    "route_id": None,
+                    "route_type": route_type,
+                    "request": trip_request.id,
+                    "operator": self.id,
+                }
+            ]
+        )
+
+        return journey_row
+
     def confirm_journey_(self, journey, agent, parameters):
         """
         Confirm the journey choice of the agent and assign its requests if necessary.
