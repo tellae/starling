@@ -945,6 +945,31 @@ class Operator(Agent):
 
     # utils
 
+    def evaluate_time_window(self, base_time: int, time_window: int):
+        """
+        Evaluate a time window from the reference and the time window width.
+
+        If the time window width is negative, the reference time is the upper bound,
+        and the lower bound is evaluated.
+
+        :param base_time: base for the evaluation of the time window
+        :param time_window: time window width
+
+        :return: (time window_end, time_window_end) tuple
+        """
+
+        if time_window == 0:
+            self.log_message("Time window cannot be equal to 0", 40)
+            raise ValueError("Time window cannot be equal to 0")
+        elif time_window > 0:
+            start = base_time
+            end = base_time + time_window
+        else:
+            start = base_time + time_window
+            end = base_time
+
+        return start, end
+
     def compute_max_travel_time(self, direct_travel_time: int) -> Union[int, None]:
         """
         Evaluate the max travel time formula to get a maximum travel time value [seconds].
