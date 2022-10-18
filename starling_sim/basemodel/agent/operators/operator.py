@@ -834,7 +834,7 @@ class Operator(Agent):
 
         journeys = self.enumerate_arrive_before_journeys(departure_stops, arrivals, parameters)
 
-        journeys = add_departure(journeys, arrivals)
+        journeys = add_departure(journeys, departures)
 
         return journeys
 
