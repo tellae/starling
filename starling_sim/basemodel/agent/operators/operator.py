@@ -7,7 +7,7 @@ from starling_sim.utils.utils import (
     json_load,
     load_schema,
     validate_against_schema,
-    SimulationError
+    SimulationError,
 )
 from starling_sim.utils.paths import (
     gtfs_feeds_folder,
@@ -566,10 +566,22 @@ class Operator(Agent):
         # return the request
         return request
 
-    def create_trip_request(self, agent, number, pickup_position, dropoff_position,
-                            pickup_request_time, dropoff_request_time=None, pickup_max_time=None, dropoff_max_time=None,
-                            pickup_stop_point=None, dropoff_stop_point=None,
-                            direct_travel_time=None, max_travel_time=None, trip_id=None):
+    def create_trip_request(
+        self,
+        agent,
+        number,
+        pickup_position,
+        dropoff_position,
+        pickup_request_time,
+        dropoff_request_time=None,
+        pickup_max_time=None,
+        dropoff_max_time=None,
+        pickup_stop_point=None,
+        dropoff_stop_point=None,
+        direct_travel_time=None,
+        max_travel_time=None,
+        trip_id=None,
+    ):
         """
         Create a TripRequest object containing the given trip constraints.
 
@@ -763,16 +775,31 @@ class Operator(Agent):
 
         try:
             if objective_type == "start_after":
-                journeys = self.start_after_journeys(origin, destination, objective_time, parameters)
+                journeys = self.start_after_journeys(
+                    origin, destination, objective_time, parameters
+                )
             elif objective_type == "arrive_before":
-                journeys = self.arrive_before_journeys(origin, destination, objective_time, parameters)
+                journeys = self.arrive_before_journeys(
+                    origin, destination, objective_time, parameters
+                )
             else:
-                message = "Journey objective type '{}' is not supported. Try 'start_after' or 'arrive_before'".format(objective_type)
+                message = "Journey objective type '{}' is not supported. Try 'start_after' or 'arrive_before'".format(
+                    objective_type
+                )
                 self.log_message(message, 30)
                 raise SimulationError(message)
         except NotImplementedError:
-            self.log_message("Evaluation of '{}' journeys is not implemented for this operator".format(objective_type), 30)
-            raise SimulationError("'{}' journeys are not available for {}".format(objective_type, self.__class__.__name__))
+            self.log_message(
+                "Evaluation of '{}' journeys is not implemented for this operator".format(
+                    objective_type
+                ),
+                30,
+            )
+            raise SimulationError(
+                "'{}' journeys are not available for {}".format(
+                    objective_type, self.__class__.__name__
+                )
+            )
 
         journeys = self.post_process_journeys(journeys, parameters)
 
@@ -790,7 +817,9 @@ class Operator(Agent):
         :return: list of journeys
         """
 
-        departures, arrivals = start_after_end_points(self, origin, destination, objective_time, parameters)
+        departures, arrivals = start_after_end_points(
+            self, origin, destination, objective_time, parameters
+        )
 
         # check tables are not empty
         if len(departures) == 0:
@@ -820,7 +849,9 @@ class Operator(Agent):
         :return: list of journeys
         """
 
-        departures, arrivals = arrive_before_end_points(self, origin, destination, objective_time, parameters)
+        departures, arrivals = arrive_before_end_points(
+            self, origin, destination, objective_time, parameters
+        )
 
         # check tables are not empty
         if len(departures) == 0:
