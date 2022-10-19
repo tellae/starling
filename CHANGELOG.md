@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.4 (2022-10-19)
+
+
+### Features
+
+* journey refactor ([#71](https://github.com/tellae/starling/issues/71)) ([3f1d0f0](https://github.com/tellae/starling/commit/3f1d0f0c6b49560d17ba2957a3111cee84a6ac47))
+
 ### 0.10.3 (2022-10-13)
 
 ### 0.10.2 (2022-09-15)
