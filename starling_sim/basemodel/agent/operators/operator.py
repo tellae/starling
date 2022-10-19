@@ -1,5 +1,5 @@
 from starling_sim.basemodel.agent.agent import Agent
-from starling_sim.basemodel.agent.requests import TripRequest, StopPoint
+from starling_sim.basemodel.agent.requests import TripRequest, UserStop, StopPoint
 from starling_sim.basemodel.agent.stations.station import Station
 from starling_sim.utils.utils import (
     geopandas_polygon_from_points,
@@ -7,6 +7,7 @@ from starling_sim.utils.utils import (
     json_load,
     load_schema,
     validate_against_schema,
+    SimulationError,
 )
 from starling_sim.utils.paths import (
     gtfs_feeds_folder,
@@ -14,6 +15,7 @@ from starling_sim.utils.paths import (
     scenario_agent_input_filepath,
 )
 from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
+from starling_sim_tellae.basemodel.agent.journeys import *
 
 import pandas as pd
 from typing import Union
@@ -564,6 +566,85 @@ class Operator(Agent):
         # return the request
         return request
 
+    def create_trip_request(
+        self,
+        agent,
+        number,
+        pickup_position,
+        dropoff_position,
+        pickup_request_time,
+        dropoff_request_time=None,
+        pickup_max_time=None,
+        dropoff_max_time=None,
+        pickup_stop_point=None,
+        dropoff_stop_point=None,
+        direct_travel_time=None,
+        max_travel_time=None,
+        trip_id=None,
+    ):
+        """
+        Create a TripRequest object containing the given trip constraints.
+
+        :param agent:
+        :param number:
+        :param pickup_position:
+        :param dropoff_position:
+        :param pickup_request_time:
+        :param dropoff_request_time:
+        :param pickup_max_time:
+        :param dropoff_max_time:
+        :param pickup_stop_point:
+        :param dropoff_stop_point:
+        :param direct_travel_time:
+        :param max_travel_time:
+        :param trip_id:
+        :return:
+        """
+
+        # create the TripRequest object
+        trip_request = self.new_request(agent, number)
+
+        # create the pickup UserStop
+        pickup = UserStop(
+            TripRequest.GET_REQUEST,
+            pickup_position,
+            trip_request.id,
+            requested_time=pickup_request_time,
+            max_time=pickup_max_time,
+            stop_point_id=pickup_stop_point,
+        )
+
+        # create the dropoff UserStop
+        dropoff = UserStop(
+            TripRequest.PUT_REQUEST,
+            dropoff_position,
+            trip_request.id,
+            requested_time=dropoff_request_time,
+            max_time=dropoff_max_time,
+            max_travel_time=max_travel_time,
+            stop_point_id=dropoff_stop_point,
+        )
+
+        # set the request user stops
+        trip_request.set_stops(pickup, dropoff)
+
+        # set direct travel time
+        trip_request.directTravelTime = direct_travel_time
+
+        # set trip id
+        if trip_id is not None:
+            trip_request.set_trip(trip_id)
+
+        # set a timeout event for pickup
+        if pickup_max_time is not None:
+            duration_before_max_pickup_time = int(pickup_max_time - self.sim.scheduler.now())
+            timeout_event = self.sim.scheduler.new_event_object() | self.sim.scheduler.timeout(
+                duration_before_max_pickup_time
+            )
+            trip_request.pickupEvent = timeout_event
+
+        return trip_request
+
     def assign_request(self, request):
         """
         Assign the given request to an agent of the fleet
@@ -692,16 +773,189 @@ class Operator(Agent):
         :return: a list of journeys represented by DataFrames
         """
 
-    def create_journeys(self, departures_table, arrival_stops, parameters):
-        """
-        Compute a list of journeys for the given departures timetable and arrival stops.
+        try:
+            if objective_type == "start_after":
+                journeys = self.start_after_journeys(
+                    origin, destination, objective_time, parameters
+                )
+            elif objective_type == "arrive_before":
+                journeys = self.arrive_before_journeys(
+                    origin, destination, objective_time, parameters
+                )
+            else:
+                message = "Journey objective type '{}' is not supported. Try 'start_after' or 'arrive_before'".format(
+                    objective_type
+                )
+                self.log_message(message, 30)
+                raise SimulationError(message)
+        except NotImplementedError:
+            self.log_message(
+                "Evaluation of '{}' journeys is not implemented for this operator".format(
+                    objective_type
+                ),
+                30,
+            )
+            raise SimulationError(
+                "'{}' journeys are not available for {}".format(
+                    objective_type, self.__class__.__name__
+                )
+            )
 
-        :param departures_table:
+        journeys = self.post_process_journeys(journeys, parameters)
+
+        return journeys
+
+    def start_after_journeys(self, origin, destination, objective_time, parameters):
+        """
+        Evaluate a list of 'start_after' journeys for the given conditions.
+
+        :param origin:
+        :param destination:
+        :param objective_time:
+        :param parameters:
+
+        :return: list of journeys
+        """
+
+        departures, arrivals = start_after_end_points(
+            self, origin, destination, objective_time, parameters
+        )
+
+        # check tables are not empty
+        if len(departures) == 0:
+            self.log_message("Origin position too far from service zone")
+            return []
+        if len(arrivals) == 0:
+            self.log_message("Destination position too far from service zone")
+            return []
+
+        arrival_stops = arrivals["with_stop"].values
+
+        journeys = self.enumerate_start_after_journeys(departures, arrival_stops, parameters)
+
+        journeys = add_arrival(journeys, arrivals)
+
+        return journeys
+
+    def arrive_before_journeys(self, origin, destination, objective_time, parameters):
+        """
+        Evaluate a list of 'arrive_before' journeys for the given conditions.
+
+        :param origin:
+        :param destination:
+        :param objective_time:
+        :param parameters:
+
+        :return: list of journeys
+        """
+
+        departures, arrivals = arrive_before_end_points(
+            self, origin, destination, objective_time, parameters
+        )
+
+        # check tables are not empty
+        if len(departures) == 0:
+            self.log_message("Origin position too far from service zone")
+            return []
+        if len(arrivals) == 0:
+            self.log_message("Destination position too far from service zone")
+            return []
+
+        departure_stops = departures["stop_id"].values
+
+        journeys = self.enumerate_arrive_before_journeys(departure_stops, arrivals, parameters)
+
+        journeys = add_departure(journeys, departures)
+
+        return journeys
+
+    def enumerate_start_after_journeys(self, departures, arrival_stops, parameters):
+        """
+        Enumerate a list of journeys for the given departures and arrival stops.
+
+        See start_after_journeys method.
+
+        :param departures:
         :param arrival_stops:
         :param parameters:
 
-        :return: a list of journeys
+        :return: list of journeys
         """
+        raise NotImplementedError()
+
+    def enumerate_arrive_before_journeys(self, departure_stops, arrivals, parameters):
+        """
+        Enumerate a list of journeys for the given departures and arrival stops.
+
+        See arrive_before_journeys method.
+
+        :param departure_stops:
+        :param arrivals:
+        :param parameters:
+
+        :return: list of journeys
+        """
+        raise NotImplementedError()
+
+    def post_process_journeys(self, journeys, parameters):
+        return journeys
+
+    def relevant_stop_points(self, origin, destination, parameters):
+        """
+        Get relevant service stop points for the journey end points and parameters.
+
+        :param origin: origin position
+        :param destination: destination position
+        :param parameters: journey parameters
+
+        :return: (list of origin stops, list of destination stops)
+        """
+
+        max_nearest_stops = parameters["max_nearest_stops"]
+        max_distance = parameters["max_distance_nearest_stops"]
+
+        # get the n closest (euclidean) stops to both positions (with a max distance)
+        origin_stop_points = self.sim.environment.euclidean_n_closest(
+            position=origin,
+            obj_list=self.stopPoints.values(),
+            n=max_nearest_stops,
+            maximum_distance=max_distance,
+        )
+        destination_stop_points = self.sim.environment.euclidean_n_closest(
+            position=destination,
+            obj_list=self.stopPoints.values(),
+            n=max_nearest_stops,
+            maximum_distance=max_distance,
+        )
+
+        return origin_stop_points, destination_stop_points
+
+    def journey_from_request(self, trip_request: TripRequest, route_type):
+        """
+        Create a journey row corresponding to the given TripRequest.
+
+        :param trip_request:
+        :param route_type:
+        :return:
+        """
+        journey_row = pd.DataFrame(
+            [
+                {
+                    "stop_id": trip_request.dropoff.stopPoint,
+                    "nb_trips": 1,
+                    "min_arrival_time": trip_request.dropoff.arrivalTime,
+                    "with_stop": trip_request.pickup.stopPoint,
+                    "with_trip": trip_request.tripId,
+                    "with_departure": trip_request.pickup.departureTime,
+                    "route_id": None,
+                    "route_type": route_type,
+                    "request": trip_request.id,
+                    "operator": self.id,
+                }
+            ]
+        )
+
+        return journey_row
 
     def confirm_journey_(self, journey, agent, parameters):
         """
@@ -721,6 +975,31 @@ class Operator(Agent):
         return True
 
     # utils
+
+    def evaluate_time_window(self, base_time: int, time_window: int):
+        """
+        Evaluate a time window from the reference and the time window width.
+
+        If the time window width is negative, the reference time is the upper bound,
+        and the lower bound is evaluated.
+
+        :param base_time: base for the evaluation of the time window
+        :param time_window: time window width
+
+        :return: (time window_end, time_window_end) tuple
+        """
+
+        if time_window == 0:
+            self.log_message("Time window cannot be equal to 0", 40)
+            raise ValueError("Time window cannot be equal to 0")
+        elif time_window > 0:
+            start = base_time
+            end = base_time + time_window
+        else:
+            start = base_time + time_window
+            end = base_time
+
+        return start, end
 
     def compute_max_travel_time(self, direct_travel_time: int) -> Union[int, None]:
         """
