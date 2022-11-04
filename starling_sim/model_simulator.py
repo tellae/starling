@@ -1,6 +1,7 @@
 from starling_sim.models.SB_VS.model import Model as SB_VS_model
 from starling_sim.models.SB_VS_R.model import Model as SB_VS_R_model
 from starling_sim.models.FF_VS.model import Model as FF_VS_model
+from starling_sim.models.PT.model import Model as PT_model
 from starling_sim.simulation_scenario import SimulationScenario
 from starling_sim.utils.paths import model_import_path
 from starling_sim.utils.utils import create_sub_scenarios
@@ -9,7 +10,7 @@ import logging
 import time
 import importlib
 
-models_dict = {"SB_VS": SB_VS_model, "SB_VS_R": SB_VS_R_model, "FF_VS": FF_VS_model}
+models_dict = {"SB_VS": SB_VS_model, "SB_VS_R": SB_VS_R_model, "FF_VS": FF_VS_model, "PT": PT_model}
 
 model_codes = list(models_dict.keys())
 

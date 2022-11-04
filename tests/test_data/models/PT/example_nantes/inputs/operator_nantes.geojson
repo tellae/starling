@@ -1,0 +1,29 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "agent_type": "operator",
+                "agent_id": "OPR",
+                "fleet_dict": "vehicle",
+                "mode": {
+                    "fleet": "drive"
+                },
+
+                "operation_parameters": {
+                    "routes": ["1-0", "2-0", "2B-0", "3-0", "3B-0", "4-0", "C1-0", "C2-0",
+                    "C20-0", "C3-0", "C4-0", "C5-0", "C6-0", "C7-0", "C9-0"],
+                    "nb_seats": {"0":  237, "1":  722, "2": 2600, "3": 157}
+                }
+            }
+        }
+    ]
+}
