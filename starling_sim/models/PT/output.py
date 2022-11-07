@@ -13,9 +13,7 @@ class Output(OutputFactory):
 
         # vehicles kpi
         move_kpi = MoveKPI()
-        vehicles_kpi_output = KpiOutput(
-            PUBLIC_TRANSPORT_TYPE, [move_kpi]
-        )
+        vehicles_kpi_output = KpiOutput(PUBLIC_TRANSPORT_TYPE, [move_kpi])
 
         self.kpi_outputs = [
             vehicles_kpi_output,
