@@ -6,7 +6,7 @@ Config values can be provided to the simulator using a json file name after the 
 For a complete description of the config specification and its default values,
 see the JSON schema (schemas/starling_config.schema.json):
 
-.. literalinclude:: /../schemas/starling_config.schema.json
+.. literalinclude:: /../starling_sim/schemas/starling_config.schema.json
     :language: json
 """
 
