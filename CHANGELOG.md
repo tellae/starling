@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.6 (2022-11-07)
+
+
+### Features
+
+* public transport model ([#73](https://github.com/tellae/starling/issues/73)) ([4f007be](https://github.com/tellae/starling/commit/4f007beff4484ca3dc5a6fe18163da8a0e9ad627))
+
 ### 0.10.5 (2022-10-20)
 
 
