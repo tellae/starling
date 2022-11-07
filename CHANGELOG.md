@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.7 (2022-11-07)
+
+
+### Bug Fixes
+
+* update sphinx version ([e626e8b](https://github.com/tellae/starling/commit/e626e8b53b418af6b2e849e2823ff9fcba8a233b))
+
 ### 0.10.6 (2022-11-07)
 
 
