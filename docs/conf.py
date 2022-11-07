@@ -26,7 +26,7 @@ copyright = "2020-2021, Tellae"
 author = "Tellae"
 
 # Get the version from the version module
-version_module = importlib.import_module("starling_sim.version")
+version_module = importlib.import_module("starling_sim.__init__")
 version = ".".join(version_module.__version__.split(".")[0:2])
 
 # The full version, including alpha/beta/rc tags

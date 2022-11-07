@@ -1,0 +1,17 @@
+{
+    "code": "PT",
+    "scenario": "example_nantes",
+    "limit": 35000,
+    "seed": 42,
+    "date": "2019-09-24",
+    "traces_output": true,
+    "visualisation_output": true,
+    "kpi_output": true,
+    "dynamic_input_file": null,
+    "init_input_file": "operator_nantes.geojson",
+    "topologies": {
+        "walk": null,
+        "drive": null
+    },
+    "gtfs_timetables": "GTFS_nantes.zip"
+}

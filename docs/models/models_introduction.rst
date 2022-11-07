@@ -25,6 +25,9 @@ for project execution via command line:
 - :ref:`FF_VS`: Bike rental system in which users can pickup/leave vehicles at any
   location of the network.
 
+- :ref:`PT`: Conventional public transport system where public transport vehicles
+  (buses, tramways, subways, etc) follow a theoretical timetable.
+
 .. toctree::
     :maxdepth: 1
     :hidden:
@@ -32,4 +35,5 @@ for project execution via command line:
     SB_VS
     SB_VS_R
     FF_VS
+    PT
 
