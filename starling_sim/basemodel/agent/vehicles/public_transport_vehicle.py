@@ -30,7 +30,7 @@ class PublicTransportVehicle(ServiceVehicle):
             self.routeId, self.directionId = self.operator.get_route_and_direction_of_trip(trip_id)
 
             # get the planning associated to the trip
-            self.planning = self.operator.trips[trip_id][1]
+            self.planning = self.operator.trips[trip_id][1].copy()
 
             yield self.execute_process(self.execute_trip_())
 
