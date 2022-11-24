@@ -394,7 +394,7 @@ class ServiceVehicle(Vehicle):
         self.tempDestination = next_stop.position
 
         # move while listening to an eventual planning change
-        yield self.execute_process(self.move_(check_dest=True))
+        yield self.execute_process(self.move_(check_dest=True, duration=duration))
 
         # if the move was interrupted or the next stop changed, signal a planning change
         if self.position != self.tempDestination or self.planning[0] != next_stop:

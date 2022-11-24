@@ -175,7 +175,7 @@ class PublicTransportVehicle(ServiceVehicle):
 
         # if the user expects this vehicle (ie this trip)
         # remove the stop from the stop point list and signal the failed pickup
-        if isinstance(user_stop.trip, str) and user_stop.trip == self.tripId:
+        if isinstance(user_stop.tripId, str) and user_stop.tripId == self.tripId:
 
             request = self.operator.requests[user_stop.requestId]
             self.operator.stopPoints[request.dropoff.stopPoint].dropoffList.remove(request.dropoff)
