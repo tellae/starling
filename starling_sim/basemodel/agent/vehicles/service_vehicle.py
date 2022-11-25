@@ -6,6 +6,7 @@ from starling_sim.basemodel.trace.events import (
     StaffOperationEvent,
 )
 from starling_sim.basemodel.agent.requests import Stop
+from starling_sim.utils.utils import PlanningChange
 
 from copy import copy
 
@@ -375,6 +376,29 @@ class ServiceVehicle(Vehicle):
             dwell_time = self.dwellTime
 
         return dwell_time
+
+    # methods for managing move/wait when serving stops
+
+    def go_to_next_stop_(self, next_stop, duration=None):
+        """
+        Move to the next stop location.
+
+        Check changes in the tempDestination and the planning during move.
+
+        :param next_stop: StopPoint or USerStop object
+        :param duration: duration of the move
+        :raises: PlanningChange if move is interrupted or next stop is changed
+        """
+
+        # get the next stop position
+        self.tempDestination = next_stop.position
+
+        # move while listening to an eventual planning change
+        yield self.execute_process(self.move_(check_dest=True, duration=duration))
+
+        # if the move was interrupted or the next stop changed, signal a planning change
+        if self.position != self.tempDestination or self.planning[0] != next_stop:
+            raise PlanningChange()
 
     # planning management and idle behaviour
 

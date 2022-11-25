@@ -66,6 +66,14 @@ class PlanningChange(Exception):
     when its planning has changed.
     """
 
+    DEFAULT_MESSAGE = (
+        "The service vehicle planning has been changed during "
+        "service activity. Catch this exception to manage this case."
+    )
+
+    def __init__(self, msg=DEFAULT_MESSAGE, *args):
+        super().__init__(msg, *args)
+
 
 # json utils
 

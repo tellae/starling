@@ -174,6 +174,9 @@ class Agent(Traced):
         if duration != "inf":
             int_duration = int(duration)
 
+            if int_duration < 0:
+                raise ValueError("An activity with negative duration was scheduled")
+
             if duration - int_duration != 0:
                 self.log_message("Non integer time to spend : {}".format(duration), 40)
             else:

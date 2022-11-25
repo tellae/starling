@@ -86,6 +86,8 @@ class PublicTransportOperator(Operator):
 
     ROUTE_TYPE_ICONS = {"0": "tram", "1": "subway", "2": "train", "3": "bus"}
 
+    FLEET_TYPE = PUBLIC_TRANSPORT_TYPE
+
     def __init__(self, simulation_model, agent_id, fleet_dict, **kwargs):
 
         super().__init__(simulation_model, agent_id, fleet_dict, **kwargs)
@@ -234,7 +236,7 @@ class PublicTransportOperator(Operator):
             "origin": origin,
             "operator_id": self.id,
             "seats": nb_seats,
-            "agent_type": PUBLIC_TRANSPORT_TYPE,
+            "agent_type": self.FLEET_TYPE,
             "mode": self.mode["fleet"],
             "icon": agent_icon,
         }

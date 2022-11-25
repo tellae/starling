@@ -30,33 +30,39 @@ class PublicTransportVehicle(ServiceVehicle):
             self.routeId, self.directionId = self.operator.get_route_and_direction_of_trip(trip_id)
 
             # get the planning associated to the trip
-            trip_planning = self.operator.trips[trip_id][1]
-            self.planning = trip_planning
+            self.planning = self.operator.trips[trip_id][1].copy()
 
-            # teleport to the trip start position
-            next_trip_start = trip_planning[0].position
-            self.move_to_(next_trip_start, 0)
+            yield self.execute_process(self.execute_trip_())
 
-            # wait for the trip departure
-            wait_time = trip_planning[0].arrivalTime[trip_id][0] - self.sim.scheduler.now()
-            yield self.execute_process(self.spend_time_(wait_time))
+    def execute_trip_(self):
+        """
+        Execute and follow the current trip.
 
-            # follow the planning
-            current_stop = self.planning[0]
-            while self.planning:
+        It is assumed that the tripId, routeId, directionId
+        and planning attributes are already set.
+        """
 
-                # go to next stop
-                next_stop = self.planning[0]
-                move_duration = next_stop.arrivalTime[self.tripId][0] - self.sim.scheduler.now()
-                yield self.execute_process(
-                    self.public_transport_move_(
-                        self.operator, move_duration, current_stop, next_stop
-                    )
-                )
+        # teleport to the trip start position
+        next_trip_start = self.planning[0].position
+        self.move_to_(next_trip_start, 0)
 
-                # process the next stop of the planning
-                yield self.execute_process(self.process_stop_(next_stop))
-                current_stop = next_stop
+        # wait for the trip departure
+        wait_time = self.planning[0].arrivalTime[self.tripId][0] - self.sim.scheduler.now()
+        yield self.execute_process(self.spend_time_(wait_time))
+
+        # follow the planning
+        current_stop = self.planning[0]
+        while self.planning:
+            # go to next stop
+            next_stop = self.planning[0]
+            move_duration = next_stop.arrivalTime[self.tripId][0] - self.sim.scheduler.now()
+            yield self.execute_process(
+                self.public_transport_move_(self.operator, move_duration, current_stop, next_stop)
+            )
+
+            # process the next stop of the planning
+            yield self.execute_process(self.process_stop_(next_stop))
+            current_stop = next_stop
 
     # move method for public transports
     def public_transport_move_(self, operator, move_duration, from_stop, to_stop):
@@ -167,7 +173,7 @@ class PublicTransportVehicle(ServiceVehicle):
 
         # if the user expects this vehicle (ie this trip)
         # remove the stop from the stop point list and signal the failed pickup
-        if isinstance(user_stop.trip, str) and user_stop.trip == self.tripId:
+        if isinstance(user_stop.tripId, str) and user_stop.tripId == self.tripId:
 
             request = self.operator.requests[user_stop.requestId]
             self.operator.stopPoints[request.dropoff.stopPoint].dropoffList.remove(request.dropoff)
