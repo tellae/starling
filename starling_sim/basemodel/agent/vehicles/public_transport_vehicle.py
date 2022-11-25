@@ -57,9 +57,7 @@ class PublicTransportVehicle(ServiceVehicle):
             next_stop = self.planning[0]
             move_duration = next_stop.arrivalTime[self.tripId][0] - self.sim.scheduler.now()
             yield self.execute_process(
-                self.public_transport_move_(
-                    self.operator, move_duration, current_stop, next_stop
-                )
+                self.public_transport_move_(self.operator, move_duration, current_stop, next_stop)
             )
 
             # process the next stop of the planning
