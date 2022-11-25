@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.8 (2022-11-25)
+
+
+### Features
+
+* improvements on service vehicle methods ([#75](https://github.com/tellae/starling/issues/75)) ([62c48b4](https://github.com/tellae/starling/commit/62c48b417b8e314c8ca958589b9efc08f5cdeeb0))
+
 ### 0.10.7 (2022-11-07)
 
 
