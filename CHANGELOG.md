@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.9 (2023-01-13)
+
+
+### Bug Fixes
+
+* fixed a bug in SB_VS when user patience was None ([bd2f5a0](https://github.com/tellae/starling/commit/bd2f5a02f92cb770994e2c72d53093484a78f57b))
+
 ### 0.10.8 (2022-11-25)
 
 
