@@ -333,6 +333,7 @@ class Person(MovingAgent):
             result = yield request.event_ | self.sim.scheduler.timeout(patience)
         else:
             result = yield request.event_
+            result = {request.event_: result}
 
         self.sim.scheduler.env.exit(result)
 
