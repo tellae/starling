@@ -20,21 +20,21 @@
       "description": "Filename format of the GeoJSON output. Placeholder: {scenario}",
       "type": "string",
       "pattern": "(\\.geojson(\\.gz)?)$",
-      "default": "{scenario}.geojson.gz"
+      "default": "visualisation.geojson.gz"
     },
     "kpi_format": {
       "title": "KPI output format",
       "description": "Filename format of the KPI output. Placeholders: {scenario}, {kpi_output}",
       "type": "string",
       "pattern": "(\\.csv(\\.gz)?)$",
-      "default": "{scenario}_{kpi_output}.csv.gz"
+      "default": "{kpi_output}.csv.gz"
     },
     "traces_format": {
       "title": "Traces output format",
       "description": "Filename format of the traces output. Placeholder: {scenario}",
       "type": "string",
       "pattern": "(.)*(.txt)",
-      "default": "{scenario}_traces.txt"
+      "default": "traces.txt"
     },
     "max_stop_distance": {
       "title": "Max stop distance [meters]",
