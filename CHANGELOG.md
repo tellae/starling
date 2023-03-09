@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.11 (2023-03-09)
+
+
+### Bug Fixes
+
+* rename reference files after naming change in previous commit ([#77](https://github.com/tellae/starling/issues/77)) ([31e09bc](https://github.com/tellae/starling/commit/31e09bc8f0c3aab705ca89cdfe319284b70f7f54))
+
 ### 0.10.10 (2023-01-25)
 
 ### 0.10.9 (2023-01-13)
