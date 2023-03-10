@@ -1,0 +1,19 @@
+# Starling tests
+
+Run tests from the root of the project using pytest
+
+```bash
+pytest
+```
+
+More information on the tests can be obtained with the plugin pytest-clarity with option
+
+```bash
+pytest -vv
+```
+
+Tests coverage can be obtained with the plugin pytest-cov with option
+
+```bash
+python3 -m pytest --cov=shark_tellae tests/ --cov-report html
+```
