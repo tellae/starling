@@ -15,5 +15,5 @@ pytest -vv
 Tests coverage can be obtained with the plugin pytest-cov with option
 
 ```bash
-python3 -m pytest --cov=shark_tellae tests/ --cov-report html
+python3 -m pytest --cov=starling_sim tests/ --cov-report html
 ```
