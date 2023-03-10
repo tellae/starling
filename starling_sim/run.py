@@ -6,7 +6,6 @@ import json
 from starling_sim.model_simulator import launch_simulation, ModelSimulator
 from starling_sim.utils.data_tree import create_data_tree, import_examples
 from starling_sim.utils.simulation_logging import DEFAULT_LOGGER_LEVEL, setup_logging
-from starling_sim.utils.test_models import launch_tests
 from starling_sim.utils import paths
 from starling_sim import __version__
 
@@ -40,15 +39,6 @@ def run_main():
         help="import the example scenarios of the given model codes from the test folder "
         "and exit. Generate the data tree folders if they don't exist.",
         action="store_true",
-    )
-
-    parser.add_argument(
-        "-t",
-        "--test",
-        help="run tests on the given model codes based on the scenarios in tests/expected_outputs.",
-        nargs="*",
-        metavar=("MODEL_CODE_1", "MODEL_CODE_2"),
-        default=None,
     )
 
     parser.add_argument(
@@ -86,11 +76,7 @@ def run_main():
 
     # setup logging
     if input_args.level is None:
-        # default logger level is 40 when running tests
-        if input_args.test is not None:
-            input_args.level = 40
-        else:
-            input_args.level = DEFAULT_LOGGER_LEVEL
+        input_args.level = DEFAULT_LOGGER_LEVEL
     setup_logging(input_args.level)
 
     if input_args.json_schema is not None:
@@ -123,11 +109,6 @@ def run_main():
 
         # import the example scenarios and environment
         import_examples()
-        exit(0)
-
-    # test scenarios
-    if input_args.test is not None:
-        launch_tests(input_args.test, input_args.package)
         exit(0)
 
     # launch simulation
