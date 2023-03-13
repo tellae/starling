@@ -8,6 +8,9 @@ import shutil
 import subprocess
 import filecmp
 
+#: folder containing test scenarios
+SIMULATION_TEST_DATA_FOLDER = "tests/simulation_test_data/"
+
 #: name of the reference folder (next to inputs and outputs)
 REFERENCE_OUTPUTS_FOLDER_NAME = "reference"
 
@@ -46,7 +49,7 @@ def get_test_scenarios(models=None):
     return test_scenarios
 
 
-def run_model_test(model, scenario, pkg):
+def run_model_test(model, scenario, pkg="starling_sim"):
     """
     Run the given test scenario and compare outputs.
 

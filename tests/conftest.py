@@ -1,11 +1,11 @@
-from starling_sim.utils.testing import get_test_scenarios
+from starling_sim.utils.testing import get_test_scenarios, SIMULATION_TEST_DATA_FOLDER
 from starling_sim.utils import paths
 
-TEST_DATA_FOLDER = "tests/simulation_test_data/"
-PACKAGE = "starling_sim"
+
+## Model testing setup
 
 # set data folder for all test execution
-paths._DATA_FOLDER = TEST_DATA_FOLDER
+paths._DATA_FOLDER = SIMULATION_TEST_DATA_FOLDER
 
 # add a 'models' option to pytest command line
 # allows specifying model codes to test
