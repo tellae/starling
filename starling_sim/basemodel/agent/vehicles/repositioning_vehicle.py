@@ -4,7 +4,6 @@ from starling_sim.basemodel.trace.events import StaffOperationEvent
 
 class RepositioningVehicle(ServiceVehicle):
     def process_stop_(self, stop):
-
         if stop.type == stop.REPOSITIONING:
             yield self.execute_process(self.process_repositioning_(stop))
             self.planning.remove(stop)
@@ -39,9 +38,7 @@ class RepositioningVehicle(ServiceVehicle):
         successful_operations = 0
         targets = []
         if stop.total < 0:
-
             for i in range(-stop.total):
-
                 if self.load() == self.seats:
                     break
 
@@ -51,7 +48,6 @@ class RepositioningVehicle(ServiceVehicle):
                 result = yield request.event_ | self.sim.scheduler.timeout(0)
 
                 if request.event_ in result:
-
                     request.success = True
                     request.result = result[request.event_]
                     # end request
@@ -64,9 +60,7 @@ class RepositioningVehicle(ServiceVehicle):
                     break
 
         else:
-
             for i in range(stop.total):
-
                 if self.load() == 0:
                     break
 

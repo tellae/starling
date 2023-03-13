@@ -118,17 +118,14 @@ class Operator(Agent):
 
     @classmethod
     def get_schema(cls):
-
         schema = cls.compute_schema()
 
         if len(cls.DISPATCHERS) > 0:
-
             enum = []
 
             operation_parameters_schema = schema["properties"]["operation_parameters"]
 
             for key in cls.DISPATCHERS.keys():
-
                 if "title" in cls.DISPATCHERS[key]:
                     title = cls.DISPATCHERS[key]["title"]
                 else:
@@ -174,7 +171,6 @@ class Operator(Agent):
 
     @classmethod
     def compute_schema(cls):
-
         schema = super().compute_schema()
 
         parent_class = cls.__bases__[0]
@@ -359,7 +355,6 @@ class Operator(Agent):
         """
 
         if depot_points_coord is not None and isinstance(depot_points_coord, list):
-
             for i, coord in enumerate(depot_points_coord):
                 depot_id = "depot-" + str(i)
                 if self.mode is None:
@@ -407,7 +402,6 @@ class Operator(Agent):
 
         # browse stops and add StopPoint objects to stopPoints
         for index, row in stops_table.iterrows():
-
             # get the stop point id, name and position from the table
             stop_point_id = id_prefix + row["stop_id"]
             stop_point_name = row["stop_name"]
@@ -513,7 +507,6 @@ class Operator(Agent):
         parameters = self.dispatcher_parameters()
 
         try:
-
             if "online" in dispatcher_classes:
                 self.online_dispatcher = dispatcher_classes["online"].__new__(
                     dispatcher_classes["online"]

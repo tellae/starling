@@ -22,7 +22,6 @@ class DynamicInput(Traced):
     """
 
     def __init__(self, agent_type_dict):
-
         super().__init__("INPUT")
 
         #: correspondence dict between agent_type and class
@@ -81,7 +80,6 @@ class DynamicInput(Traced):
 
         # create the operators agents
         for feature in init_feature_list:
-
             agent_type = feature["properties"]["agent_type"]
             agent_class = self.agent_type_class[agent_type]
 
@@ -95,7 +93,6 @@ class DynamicInput(Traced):
 
         # create the rest of the init input
         for feature in init_without_operators:
-
             # generate a new agent based on the feature properties
             self.new_agent_input(feature)
 
@@ -103,7 +100,6 @@ class DynamicInput(Traced):
         self.pre_process_position_coordinates(self.dynamic_feature_list)
 
     def feature_schema_validation(self, feature):
-
         # validate against Feature schema
         validate_against_schema(feature, "geojson/Feature.json")
 
@@ -130,7 +126,6 @@ class DynamicInput(Traced):
         """
 
         for feature in self.dynamic_feature_list:
-
             # TODO : check the feature schema ? duplicate with FeatureCollection check
 
             # see if an offset should be applied to the input origin time
@@ -208,7 +203,6 @@ class DynamicInput(Traced):
         agent_type = input_dict["agent_type"]
 
         if agent_type in self.agent_type_class:
-
             # get the class to generate
             agent_class = self.agent_type_class[agent_type]
 
@@ -311,14 +305,12 @@ class DynamicInput(Traced):
         return geojson_input["features"]
 
     def make_demand_static(self):
-
         if "make_static" in self.sim.scenario and self.sim.scenario["make_static"] in [
             "all",
             "prebooked",
             "prebooked_only",
             "ghosts",
         ]:
-
             # also add the agents of dynamic input that are prebooked
             dynamic_features = []
 
@@ -381,7 +373,6 @@ class DynamicInput(Traced):
 
             origin_coordinates = self.get_position_coordinates_from_feature(feature, "origin")
             if origin_coordinates is not None:
-
                 # deprecated properties 'origin_lon' and 'origin_lat'
                 if (
                     origin_coordinates == [0, 0]
@@ -405,7 +396,6 @@ class DynamicInput(Traced):
                 feature, "destination"
             )
             if destination_coordinates is not None:
-
                 # deprecated properties 'destination_lon' and 'destination_lat'
                 if (
                     destination_coordinates == [0, 0]
@@ -430,7 +420,6 @@ class DynamicInput(Traced):
 
             # if there are coordinates inputs, add them to the modes dict
             if len(inputs) != 0:
-
                 # get the modes of the input
                 modes = model_modes[input_dict["agent_type"]]
 
@@ -447,7 +436,6 @@ class DynamicInput(Traced):
 
         # for each mode group, compute the localisations
         for modes in pre_process_dict.keys():
-
             # call localisations_nearest_nodes on the dict information
             nearest_nodes_dict = pre_process_dict[modes]
             nearest_nodes = self.sim.environment.localisations_nearest_nodes(
@@ -461,14 +449,12 @@ class DynamicInput(Traced):
                 input_dict[nearest_nodes_dict["keys"][i]] = nearest_nodes_dict["nearest_nodes"][i]
 
     def get_position_coordinates_from_feature(self, feature, position_key):
-
         geometry_type = feature["geometry"]["type"]
         geometry_coordinates = feature["geometry"]["coordinates"]
 
         res_coordinates = None
 
         if position_key == "origin":
-
             if geometry_type == "Point":
                 res_coordinates = geometry_coordinates
             elif geometry_type == "LineString":
@@ -502,7 +488,6 @@ class DynamicInput(Traced):
         # do a first pass without replacing the type references
         # only resolve None values and check for conflicts
         for feature in features:
-
             # get the input dict and its associated mode values
             input_dict = feature["properties"]
             type_modes = model_modes[input_dict["agent_type"]]
@@ -521,7 +506,6 @@ class DynamicInput(Traced):
 
             if isinstance(type_modes, dict):
                 for key in type_modes.keys():
-
                     # get the relevant input value
                     if input_value is not None:
                         val = input_value[key]
@@ -536,7 +520,6 @@ class DynamicInput(Traced):
 
         # do a second pass to resolve the type references
         for agent_type in model_modes.keys():
-
             modes = model_modes[agent_type]
 
             if isinstance(modes, list):
@@ -594,7 +577,6 @@ class DynamicInput(Traced):
 
         # if the mode value is an agent type, resolve the agent type first mode value
         elif keyword in agent_type_modes:
-
             # resolve the agent type mode first mode value
             mode = self.resolve_mode(agent_type_modes[keyword], 0, input_value, replace_types)
 
@@ -625,7 +607,6 @@ class DynamicInput(Traced):
         pass
 
     def add_key_position_from_stop_point(self, input_dict, key):
-
         input_dict_key = key + "_stop_point"
 
         # if an operator is provided, use its stop points
@@ -645,7 +626,6 @@ class DynamicInput(Traced):
         input_dict[key] = stop_point.position
 
     def add_key_operator(self, input_dict):
-
         # get the operator id, look in the input dict if not provided
         operator_id = input_dict["operator_id"]
 
@@ -667,7 +647,6 @@ class DynamicInput(Traced):
         if input_service is None:
             return
         elif input_service in ["fleet", "staff"]:
-
             # set the operator fleet mode if not already done
             # SUPPOSITION : all fleet and staff use the same mode
             if operator.mode is None:
@@ -675,7 +654,6 @@ class DynamicInput(Traced):
             elif input_service not in operator.mode or operator.mode[input_service] is None:
                 operator.mode[input_service] = input_dict["mode"]
             else:
-
                 # set input mode from operator if no mode provided
                 if "mode" not in input_dict or input_dict["mode"] is None:
                     input_dict["mode"] = operator.mode[input_service]

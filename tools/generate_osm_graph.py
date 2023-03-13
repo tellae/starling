@@ -59,7 +59,6 @@ def str_or_json_loads(string):
 
 
 if __name__ == "__main__":
-
     # command line parser
 
     parser = argparse.ArgumentParser(

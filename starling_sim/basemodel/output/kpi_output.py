@@ -6,7 +6,6 @@ import pandas as pd
 
 class KpiOutput:
     def __init__(self, population_names, kpi_list, kpi_name=None):
-
         # simulation model access
         self.sim = None
 
@@ -77,7 +76,6 @@ class KpiOutput:
 
         # merge all completed indicators
         for kpi in self.kpi_list:
-
             indicators_dict.update(kpi.indicator_dict)
 
             # raising a warning with sphinx
@@ -145,7 +143,6 @@ class KpiOutput:
         df_output = pd.DataFrame()
 
         for agent in population.values():
-
             # create kpi dict for the agent
             agent_indicators = self.agent_kpi_dict(agent)
 

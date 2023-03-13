@@ -17,7 +17,6 @@ class Station(SpatialAgent):
     }
 
     def __init__(self, simulation_model, agent_id, origin, operator_id=None, **kwargs):
-
         SpatialAgent.__init__(self, simulation_model, agent_id, origin, **kwargs)
 
         self.operator = None
@@ -25,5 +24,4 @@ class Station(SpatialAgent):
             self.operator = self.sim.agentPopulation.get_agent(operator_id)
 
     def __str__(self):
-
         return "[id={}, position={}]".format(self.id, self.position)

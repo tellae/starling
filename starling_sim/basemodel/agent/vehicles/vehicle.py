@@ -45,7 +45,6 @@ class Vehicle(MovingAgent):
         self.vehicle = None
 
     def __str__(self):
-
         return "[id={}, origin={}, seats={}]".format(self.id, self.origin, self.seats)
 
     def change_position(self, new_position, mode):
@@ -101,7 +100,6 @@ class Vehicle(MovingAgent):
         return load
 
     def add_passenger(self, passenger):
-
         if self.load() >= self.seats:
             self.log_message("Adding a new passenger while full", 30)
 
@@ -122,7 +120,6 @@ class Vehicle(MovingAgent):
         passenger.trace_event(GetVehicleEvent(self.sim.scheduler.now(), passenger, self))
 
     def remove_passenger(self, passenger):
-
         # check if passenger is in vehicle
         if passenger not in self.occupants is None:
             self.log_message("Tried to leave passenger not in vehicle", 30)

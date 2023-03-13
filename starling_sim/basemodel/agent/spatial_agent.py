@@ -18,7 +18,6 @@ class SpatialAgent(Agent):
     }
 
     def __init__(self, simulation_model, agent_id, origin, **kwargs):
-
         Agent.__init__(self, simulation_model, agent_id, **kwargs)
 
         self.origin = origin
@@ -26,5 +25,4 @@ class SpatialAgent(Agent):
         self.position = origin
 
     def __str__(self):
-
         return "[id={}, origin={}]".format(self.id, self.origin)

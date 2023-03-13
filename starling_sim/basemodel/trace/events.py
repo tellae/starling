@@ -46,7 +46,6 @@ class InputEvent(Event):
         self.element = element
 
     def __str__(self):
-
         return super().__str__() + "generatedElement={}, type={}".format(
             self.element, type(self.element)
         )
@@ -98,13 +97,11 @@ class RouteEvent(MoveEvent):
         self.data = route_data
 
     def set_route_data(self, route_data):
-
         self.data = route_data
         self.distance = sum(route_data["length"])
         self.duration = sum(route_data["time"])
 
     def __str__(self):
-
         return super().__str__() + "mode={}, start={}, end={}, duration={}, distance={}".format(
             self.mode, self.data["route"][0], self.data["route"][-1], self.duration, self.distance
         )
@@ -155,7 +152,6 @@ class WaitEvent(Event):
         self.waiting_time = waiting_time
 
     def __str__(self):
-
         return super().__str__() + "waitedTime={}, reason={}".format(self.waiting_time, self.reason)
 
 
@@ -176,7 +172,6 @@ class IdleEvent(Event):
         self.duration = idle_duration
 
     def __str__(self):
-
         return super().__str__() + "idleDuration={}".format(self.duration)
 
 
@@ -196,7 +191,6 @@ class RequestEvent(Event):
         self.request = request
 
     def __str__(self):
-
         return super().__str__() + str(self.request)
 
 
@@ -206,7 +200,6 @@ class StopEvent(Event):
     """
 
     def __init__(self, time, operator, service_vehicle, trip, stop, message=""):
-
         super().__init__(time, message)
 
         self.operator = operator
@@ -223,7 +216,6 @@ class StopEvent(Event):
         self.pickup_time = None
 
     def set_dropoffs(self, dropoffs, dropoff_time):
-
         if dropoffs is None:
             dropoffs = []
         elif not isinstance(dropoffs, list):
@@ -233,7 +225,6 @@ class StopEvent(Event):
         self.dropoff_time = dropoff_time
 
     def set_pickups(self, pickups, pickup_time):
-
         if pickups is None:
             pickups = []
         elif not isinstance(pickups, list):
@@ -243,7 +234,6 @@ class StopEvent(Event):
         self.pickup_time = pickup_time
 
     def __str__(self):
-
         return super().__str__() + "stop={}, trip={}, serviceVehicle={}".format(
             self.stop, self.trip, self.serviceVehicle.id
         )
@@ -347,7 +337,6 @@ class GetVehicleEvent(Event):
         self.vehicle = vehicle
 
     def __str__(self):
-
         return super().__str__() + "agent={}, getVehicle={}".format(self.agent.id, self.vehicle.id)
 
 
@@ -369,7 +358,6 @@ class LeaveVehicleEvent(Event):
         self.vehicle = vehicle
 
     def __str__(self):
-
         return super().__str__() + "agent={}, leaveVehicle={}".format(
             self.agent.id, self.vehicle.id
         )
@@ -384,7 +372,6 @@ class LeaveSystemEvent(Event):
         super().__init__(time, message=message)
 
     def __str__(self):
-
         return super().__str__() + "leavingSystem={}".format(self.timestamp)
 
 
@@ -397,7 +384,6 @@ class DestinationReachedEvent(Event):
         super().__init__(time, message=message)
 
     def __str__(self):
-
         return super().__str__() + "arrivalTime={}".format(self.timestamp)
 
 
@@ -407,7 +393,6 @@ class LeaveSimulationEvent(Event):
     """
 
     def __init__(self, time, agent, cause, message=""):
-
         super().__init__(time, message=message)
 
         # agent leaving the simulation
@@ -417,7 +402,6 @@ class LeaveSimulationEvent(Event):
         self.cause = cause
 
     def __str__(self):
-
         return super().__str__() + "agent={}, cause={}".format(self.agent, self.cause)
 
 

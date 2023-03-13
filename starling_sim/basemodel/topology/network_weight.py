@@ -13,7 +13,6 @@ class NetworkWeight(ABC):
     DEFAULT_PARAMETERS = {}
 
     def __init__(self, topology):
-
         self.topology = topology
         self.default_parameters = self.DEFAULT_PARAMETERS
 

@@ -138,7 +138,6 @@ class Request:
         return fill_string.format(self.success, self.result, self.waitSequence)
 
     def __repr__(self):
-
         return self.__str__()
 
 
@@ -247,11 +246,9 @@ class TripRequest(Request):
             self.dropoff.tripId = trip_id
 
     def pickup_succeed(self):
-
         self.pickupEvent_.succeed()
 
     def dropoff_succeed(self):
-
         self.dropoffEvent_.succeed()
 
 
@@ -401,14 +398,12 @@ class UserStop(Stop):
 
         # compute the stop service time and travel time if relevant
         if self.type == self.GET_REQUEST:
-
             service_time = self.departureTime
 
             if service_time is not None and self.twin.arrivalTime is not None:
                 travel_time = self.twin.arrivalTime - service_time
 
         elif self.type == self.PUT_REQUEST:
-
             service_time = self.arrivalTime
 
             if service_time is not None and self.twin.arrivalTime is not None:
@@ -460,7 +455,6 @@ class UserStop(Stop):
         )
 
     def __repr__(self):
-
         return self.__str__()
 
 
@@ -517,7 +511,6 @@ class StopPoint(Stop):
         return "[name={}, id={}, position={}]".format(self.name, self.id, self.position)
 
     def __repr__(self):
-
         return self.__str__()
 
 
@@ -556,5 +549,4 @@ class Operation(Stop):
         )
 
     def __repr__(self):
-
         return self.__str__()

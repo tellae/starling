@@ -6,7 +6,6 @@ import random
 
 
 class PalZhangGCH(Algorithm):
-
     NAME = "PalZhangGCH"
 
     SCHEMA = {
@@ -74,7 +73,6 @@ class PalZhangGCH(Algorithm):
     }
 
     def __init__(self, simulation_model, operator, verb=False):
-
         super().__init__(simulation_model=simulation_model, operator=operator, verb=verb)
 
         # PalZhangGCH parameters
@@ -128,7 +126,6 @@ class PalZhangGCH(Algorithm):
         self.depot = None
 
     def setup_new_run(self):
-
         if self.demand_dict is None:
             self.demand_dict = self.init_demand_dict()
 
@@ -155,14 +152,12 @@ class PalZhangGCH(Algorithm):
         self.vehicle_dwell_time = self.vehicle.dwellTime
 
     def run(self):
-
         # log algorithm start
         self.log_message("Start of the PalZhangGCH")
 
         max_operations = self.maximum_operations()
 
         while any(max_operations.values()):
-
             next_node, travel_time = self.select_next_neighbor(self.current_node, max_operations)
 
             if next_node in self.operator.stations:
@@ -222,11 +217,9 @@ class PalZhangGCH(Algorithm):
             return False
 
     def compute_operations_needed(self):
-
         operations_needed = dict()
 
         for station in self.operator.stations.values():
-
             initial_stock = len(station.store.items)
             target_stock = self.compute_station_target_stock(station.id)
             operations_needed[station.id] = target_stock - initial_stock
@@ -257,14 +250,12 @@ class PalZhangGCH(Algorithm):
         target_stock = len(station.store.items) - variation
 
         if target_stock < threshold_min:
-
             if outrange and self.priority_threshold == "max":
                 target_stock = max(0, threshold_max - variation)
             else:
                 target_stock = threshold_min
 
         elif target_stock > threshold_max:
-
             if outrange and self.priority_threshold == "min":
                 target_stock = min(capacity, threshold_min + variation)
             else:
@@ -273,7 +264,6 @@ class PalZhangGCH(Algorithm):
         return target_stock
 
     def compute_station_variation(self, station_id):
-
         index = self.start_times.index(self.current_time)
         if index == len(self.start_times) - 1:
             horizon = self.sim.scenario["limit"]
@@ -295,7 +285,6 @@ class PalZhangGCH(Algorithm):
         return variation
 
     def maximum_operations(self):
-
         max_operations = dict()
 
         current_load = 0
@@ -303,7 +292,6 @@ class PalZhangGCH(Algorithm):
             current_load -= operation.total
 
         for station in self.operator.stations.values():
-
             operation_needed = self.operations_needed[station.id]
 
             # positive operation corresponds to a dropoff
@@ -321,7 +309,6 @@ class PalZhangGCH(Algorithm):
         return max_operations
 
     def select_next_neighbor(self, current_station_id, max_operations):
-
         # get the current station
         if current_station_id in self.operator.stations:
             current_station = self.operator.stations[current_station_id]
@@ -331,7 +318,6 @@ class PalZhangGCH(Algorithm):
         travel_time = dict()
         # TODO : work on the stations of max_operations, to allow removing some
         for station in self.operator.stations.values():
-
             # ignore current station in neighbor evaluation
             if station.id == current_station_id:
                 continue
@@ -359,12 +345,10 @@ class PalZhangGCH(Algorithm):
         return neighbor, travel_time[neighbor]
 
     def append_depot_to_planning(self):
-
         operation = Operation(None, self.depot.position, 0, station_id=self.depot.id)
         self.planning.append(operation)
 
     def init_demand_dict(self):
-
         features = self.sim.dynamicInput.feature_list_from_file(
             self.sim.scenario["dynamic_input_file"]
         )

@@ -60,7 +60,6 @@ class VehicleSharingStation(Station):
     def __init__(
         self, simulation_model, agent_id, origin, capacity, stock_generation=None, **kwargs
     ):
-
         Station.__init__(self, simulation_model, agent_id, origin, **kwargs)
 
         self.capacity = capacity
@@ -70,13 +69,11 @@ class VehicleSharingStation(Station):
         self.stock_generation = stock_generation
 
     def __str__(self):
-
         return "[id={}, position={}, capacity={}, initialStock={}]".format(
             self.id, self.position, self.capacity, self.initial_stock
         )
 
     def create_station_based_vehicles(self, stock_generation):
-
         generated_stock = stock_generation["generated_stock"]
 
         if generated_stock > self.capacity:
@@ -97,7 +94,6 @@ class VehicleSharingStation(Station):
             )
 
         for i in range(generated_stock):
-
             input_dict = {
                 "agent_id": stock_generation["id_format"].format(
                     station=self.id, count=self.initial_stock
@@ -162,7 +158,6 @@ class VehicleSharingStation(Station):
         """
 
         if self.check(product):
-
             request = StationRequest(
                 agent, self.sim.scheduler.now(), self, StationRequest.PUT_REQUEST
             )
@@ -186,7 +181,6 @@ class VehicleSharingStation(Station):
         self.store.items = products
 
     def loop_(self):
-
         # generate vehicles at this station
         if self.stock_generation is not None:
             self.create_station_based_vehicles(self.stock_generation)

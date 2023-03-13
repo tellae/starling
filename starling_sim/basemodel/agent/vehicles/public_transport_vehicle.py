@@ -11,7 +11,6 @@ class PublicTransportVehicle(ServiceVehicle):
     SCHEMA = {"x-display": "hidden"}
 
     def __init__(self, simulation_model, agent_id, origin, seats, **kwargs):
-
         super().__init__(simulation_model, agent_id, origin, seats, **kwargs)
 
         # route id, describes the line of the current trip
@@ -21,10 +20,8 @@ class PublicTransportVehicle(ServiceVehicle):
         self.directionId = None
 
     def loop_(self):
-
         # execute each trip assigned to the vehicle
         for trip_id in self.tripList:
-
             # set the vehicle trip id
             self.tripId = trip_id
             self.routeId, self.directionId = self.operator.get_route_and_direction_of_trip(trip_id)
@@ -84,7 +81,6 @@ class PublicTransportVehicle(ServiceVehicle):
 
         # try to use the line_shape file
         if from_stop is not None and to_stop is not None and operator.line_shapes is not None:
-
             # get the line shapes table
             line_shapes_table = operator.line_shapes
 
@@ -116,7 +112,6 @@ class PublicTransportVehicle(ServiceVehicle):
             self.tempDestination = to_stop.position
 
         if self.operator.operationParameters["use_shortest_path"]:
-
             try:
                 # compute and use shortest path
                 yield self.execute_process(self.move_(duration=move_duration, verb=False))
@@ -148,10 +143,8 @@ class PublicTransportVehicle(ServiceVehicle):
 
         # pickup stop
         if user_stop.type == user_stop.GET_REQUEST:
-
             # None/Nan trips are considered having good route and direction
             if isinstance(stop_trip, str):
-
                 # check route and direction
                 route_id, direction_id = self.operator.get_route_and_direction_of_trip(stop_trip)
                 if not (route_id == self.routeId and direction_id == self.directionId):
@@ -166,15 +159,12 @@ class PublicTransportVehicle(ServiceVehicle):
 
         # dropoff stop
         elif user_stop.type == user_stop.PUT_REQUEST:
-
             return request.agent in self.occupants
 
     def exceeds_capacity(self, user_stop):
-
         # if the user expects this vehicle (ie this trip)
         # remove the stop from the stop point list and signal the failed pickup
         if isinstance(user_stop.tripId, str) and user_stop.tripId == self.tripId:
-
             request = self.operator.requests[user_stop.requestId]
             self.operator.stopPoints[request.dropoff.stopPoint].dropoffList.remove(request.dropoff)
             request.success = False

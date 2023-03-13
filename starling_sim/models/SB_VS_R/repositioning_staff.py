@@ -12,9 +12,7 @@ class RepositioningStaff(RepositioningVehicle):
         super().__init__(simulation_model, agent_id, origin, seats, dwell_time=dwell_time, **kwargs)
 
     def loop_(self):
-
         while True:
-
             # be idle if planning is empty
             yield self.execute_process(self.test_idle_())
 

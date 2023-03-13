@@ -51,7 +51,6 @@ class ServiceVehicle(Vehicle):
         trip_id=None,
         **kwargs
     ):
-
         super().__init__(simulation_model, agent_id, origin, seats, **kwargs)
 
         # list of trip ids to be realised by the service vehicle (chronological order)
@@ -78,7 +77,6 @@ class ServiceVehicle(Vehicle):
     # signaling
 
     def trigger_signal(self):
-
         former_event = self.signalEvent_
 
         self.signalEvent_ = self.sim.scheduler.new_event_object()
@@ -88,7 +86,6 @@ class ServiceVehicle(Vehicle):
     # event tracing
 
     def trace_event(self, event):
-
         if isinstance(event, StopEvent):
             for request in event.pickups + event.dropoffs:
                 request.agent.trace_event(event)
@@ -105,7 +102,6 @@ class ServiceVehicle(Vehicle):
     # stop processing
 
     def process_stop_(self, stop):
-
         # get the stops to process
         dropoff = None
         pickup = None
@@ -140,7 +136,6 @@ class ServiceVehicle(Vehicle):
             if isinstance(dropoff, list):
                 processed_dropoff = self.process_stop_list(dropoff)
             else:
-
                 # remove stop from planning
                 self.planning.remove(stop)
 
@@ -157,12 +152,10 @@ class ServiceVehicle(Vehicle):
         # process the pickups
         processed_pickup = []
         if pickup is not None:
-
             # remove stop from planning
             self.planning.remove(stop)
 
             if isinstance(pickup, list):
-
                 processed_pickup = self.process_stop_list(pickup)
             else:
                 processed_pickup = self.process_user_stop(pickup)
@@ -191,13 +184,11 @@ class ServiceVehicle(Vehicle):
 
         # process all user stops of the list
         for user_stop in list_copy:
-
             # process user stop and get the agent id
             result = self.process_user_stop(user_stop)
 
             # if an agent was indeed processed
             if result is not None:
-
                 # remove the user stop from the list
                 stop_list.remove(user_stop)
 
@@ -236,7 +227,6 @@ class ServiceVehicle(Vehicle):
         agent = self.sim.agentPopulation.get_agent(agent_id)
 
         if user_stop.type == Stop.GET_REQUEST:
-
             # for the pickup requests, check the service vehicle capacity
             if self.load() + request.number <= self.seats:
                 self.pickup(user_stop)
@@ -246,7 +236,6 @@ class ServiceVehicle(Vehicle):
                 return None
 
         elif user_stop.type == Stop.PUT_REQUEST:
-
             # cannot dropoff user if not in vehicle
             if agent not in self.occupants:
                 return None
@@ -275,7 +264,6 @@ class ServiceVehicle(Vehicle):
 
         # test if request has been cancelled
         if request.success is not None and not request.success:
-
             self.log_message("Request {} was dismissed, cannot pickup".format(request.id))
             # remove all related stops
             for stop in self.planning:
@@ -448,7 +436,6 @@ class ServiceVehicle(Vehicle):
 
         # if planning is empty
         if not self.planning:
-
             # vehicle starts being idle
             self.isIdle = True
             start_time = self.sim.scheduler.now()

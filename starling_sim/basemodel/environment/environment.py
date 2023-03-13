@@ -33,7 +33,6 @@ class Environment:
         weight_class = None
 
         for mode, info in topologies_dict.items():
-
             # see if paths of this topology should be stored
             if isinstance(store_paths, dict):
                 if mode not in store_paths:
@@ -138,7 +137,6 @@ class Environment:
 
         # add time data
         if duration is not None:
-
             if duration == 0:
                 speed = float("inf")
             else:
@@ -180,14 +178,11 @@ class Environment:
         remainder = 0
 
         for i in range(1, len(route)):
-
             if data == "time" and speed is not None:
-
                 # use the speed for computing "time" data, if provided
                 move_data = float(route_data["length"][i]) / speed + remainder
 
             else:
-
                 # use the environment links data
                 move_data = (
                     self.topologies[mode].get_edge_data(previous_position, route[i], data)
@@ -207,7 +202,6 @@ class Environment:
         route_data[data] = data_list
 
     def compute_shaped_route(self, operator, shape_table, from_stop, to_stop, duration):
-
         # create a route_data structure
         route = [operator.stopPoints[from_stop].position]
         lengths = [0]
@@ -217,7 +211,6 @@ class Environment:
 
         # complete it with the shape data
         for index, row in shape_table.iterrows():
-
             # append localisation to route
             if row["sequence"] == len(shape_table) + 1:
                 route.append(operator.stopPoints[to_stop].position)
@@ -243,7 +236,6 @@ class Environment:
         return route_data
 
     def get_position(obj, position_lambda=None):
-
         # define lambda as obj.position if none is provided
         if position_lambda is None:
 
@@ -255,7 +247,6 @@ class Environment:
     get_position = staticmethod(get_position)
 
     def get_localisation(self, node, mode=None):
-
         if mode is not None:
             return self.topologies[mode].position_localisation(node)
         else:
@@ -266,13 +257,11 @@ class Environment:
                     return topology.position_localisation(node)
 
                 except KeyError:
-
                     pass
 
             return agent_localisation
 
     def compute_network_distance(self, source, target, mode, parameters=None, return_path=False):
-
         # if no mode is given, return None
         if mode is None:
             logging.warning("No mode provided for network distance computation")
@@ -287,7 +276,6 @@ class Environment:
                 return duration
 
     def compute_euclidean_distance(self, position1, position2, mode=None):
-
         # get position localisations
         loc1 = self.get_localisation(position1, mode)
         loc2 = self.get_localisation(position2, mode)
@@ -316,7 +304,6 @@ class Environment:
         parameters=None,
         return_path=False,
     ):
-
         # distance dictionary
         distance_dict = dict()
 
@@ -328,10 +315,8 @@ class Environment:
 
         # compute all distances and fill the dict
         for obj in obj_list:
-
             if distance_type == "network":
                 if is_origin:
-
                     distance_res = self.compute_network_distance(
                         position,
                         self.get_position(obj, position_lambda),
@@ -369,7 +354,6 @@ class Environment:
 
         # if n is provided, only keep the n closest objects
         if n is not None:
-
             # sort the objects according to the length
             if distance_type == "network" and return_path:
                 dict_list = sorted(list(distance_dict.keys()), key=lambda x: distance_dict[x][1])
@@ -387,7 +371,6 @@ class Environment:
     def euclidean_n_closest(
         self, position, obj_list, n, maximum_distance=None, position_lambda=None
     ):
-
         distance_dict = self.distance_dict_between(
             position,
             obj_list,
@@ -435,7 +418,6 @@ class Environment:
 
         # look only at the n (euclidean) closest objects
         if n is not None:
-
             obj_list = self.euclidean_n_closest(
                 position=position, obj_list=obj_list, n=n, position_lambda=position_lambda
             )
@@ -475,7 +457,6 @@ class Environment:
         best_node = None
 
         for node in intersection_set:
-
             # get the node's localisation
             node_localisation = self.topologies[modes[0]].position_localisation(node)
 
@@ -510,7 +491,6 @@ class Environment:
             target_graph = base_graph.copy()
 
             for mode in modes[1:]:
-
                 intersect_graph = self.topologies[mode].graph
 
                 target_graph.remove_nodes_from(n for n in base_graph if n not in intersect_graph)
@@ -601,7 +581,6 @@ class Environment:
         """
 
         for mode in modes:
-
             topology = self.topologies[mode]
 
             if node_id in topology.graph.nodes:
@@ -638,9 +617,7 @@ class Environment:
 
         # extend graph with stops if asked
         if extend_graph:
-
             for index, row in stops_table.iterrows():
-
                 # get stop and node information
                 nearest_node = row["nearest_node"]
 

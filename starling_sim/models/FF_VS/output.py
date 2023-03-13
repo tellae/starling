@@ -12,7 +12,6 @@ from starling_sim.basemodel.output.information_factory import ActivityInformatio
 
 class Output(OutputFactory):
     def setup_kpi_output(self):
-
         # kpi output classes
 
         # users kpi
@@ -32,7 +31,6 @@ class Output(OutputFactory):
         self.kpi_outputs = [users_kpi_output, vehicles_kpi_output]
 
     def setup_geojson_output(self):
-
         super().setup_geojson_output()
 
         activity_information = ActivityInformation()

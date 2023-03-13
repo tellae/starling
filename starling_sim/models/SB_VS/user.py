@@ -36,7 +36,6 @@ class User(Person):
     }
 
     def __init__(self, simulation_model, agent_id, origin, destination, **kwargs):
-
         super().__init__(simulation_model, agent_id, origin, destination, **kwargs)
 
         # remember the failed stations
@@ -184,7 +183,6 @@ class User(Person):
         considered_stations = []
 
         for station in self.sim.agentPopulation["station"].values():
-
             # don't consider the stations where the request already failed
             if station.id in self.failed_stations_ids:
                 continue
@@ -200,7 +198,6 @@ class User(Person):
 
         # compute closest station to either current position or destination
         if self.profile["closest_station_evaluation"] == "euclidean":
-
             if self.vehicle is None:
                 best_station = self.sim.environment.euclidean_n_closest(
                     self.position, considered_stations, 1
@@ -212,9 +209,7 @@ class User(Person):
 
         # TODO : return path and use it
         elif self.profile["closest_station_evaluation"] == "shortest_path":
-
             if self.vehicle is None:
-
                 best_station = self.sim.environment.closest_object(
                     self.position, considered_stations, True, "walk", n=3
                 )

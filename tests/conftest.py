@@ -7,6 +7,7 @@ from starling_sim.utils import paths
 # set data folder for all test execution
 paths._DATA_FOLDER = SIMULATION_TEST_DATA_FOLDER
 
+
 # add a 'models' option to pytest command line
 # allows specifying model codes to test
 def pytest_addoption(parser):
@@ -17,6 +18,7 @@ def pytest_addoption(parser):
         default=None,
         help="list of model codes to run tests on",
     )
+
 
 # parameterize test_model_scenario test function
 def pytest_generate_tests(metafunc):

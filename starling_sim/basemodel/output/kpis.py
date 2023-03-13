@@ -66,14 +66,12 @@ class MoveKPI(KPI):
     SUFFIX_KEY_TIME = "{mode}Time"
 
     def __init__(self):
-
         self.modes = []
 
         # init of indicator dict
         super().__init__()
 
     def setup(self, simulation_model):
-
         self.modes = list(simulation_model.environment.topologies.keys())
         self.new_indicator_dict()
 
@@ -124,7 +122,6 @@ class WaitKPI(KPI):
         self.keys = [self.KEY_WAIT]
 
     def new_indicator_dict(self):
-
         self.indicator_dict = {self.KEY_WAIT: 0}
 
     def update(self, event, agent):
@@ -157,12 +154,10 @@ class OdtWaitsKPI(KPI):
     KEY_DIRECT_TRIP = "odtDirectTrip"
 
     def __init__(self):
-
         super().__init__()
         self.keys = [self.KEY_PICKUP_WAIT, self.KEY_DETOUR, self.KEY_DIRECT_TRIP]
 
     def new_indicator_dict(self):
-
         self.indicator_dict = {
             self.KEY_PICKUP_WAIT: "",
             self.KEY_DETOUR: "",
@@ -248,13 +243,11 @@ class SuccessKPI(KPI):
     KEY_SUCCESS_REQUEST = "nbSuccessRequest"
 
     def __init__(self, indicator_selection):
-
         super().__init__()
 
         self.keys = indicator_selection
 
     def new_indicator_dict(self):
-
         base_dict = {
             self.KEY_FAILED_GET: 0,
             self.KEY_SUCCESS_GET: 0,
@@ -315,7 +308,6 @@ class StaffOperationKPI(KPI):
         ]
 
     def new_indicator_dict(self):
-
         self.indicator_dict = {
             self.KEY_FAILED_GET_STAFF: 0,
             self.KEY_SUCCESS_GET_STAFF: 0,
@@ -351,7 +343,6 @@ class OccupationKPI(KPI):
     """
 
     def __init__(self):
-
         #: **emptyTime**: time spent empty [seconds]
         self.KEY_EMPTY_TIME = "emptyTime"
         #: **emptyDistance**: distance travelled empty [meters]
@@ -472,13 +463,11 @@ class OccupationKPI(KPI):
         super().update(event, agent)
 
         if isinstance(event, InputEvent):
-
             self.capacity = self.get_capacity(event.element)
             self.currentStock = self.get_initial_stock(event.element)
             self.indicator_dict[self.KEY_MAX_STOCK] = self.currentStock
 
         if isinstance(event, LeaveSimulationEvent):
-
             self.add_to_stock(0, event.timestamp)
 
 
@@ -494,11 +483,9 @@ class StationOccupationKPI(OccupationKPI):
         self.keys = [self.KEY_EMPTY_TIME, self.KEY_FULL_TIME, self.KEY_STOCK_TIME]
 
     def get_capacity(self, element):
-
         return element.capacity
 
     def get_initial_stock(self, element):
-
         return element.initial_stock
 
     def update(self, event, agent):
@@ -540,11 +527,9 @@ class VehicleOccupationKPI(OccupationKPI):
         self.currentDistance = 0
 
     def get_capacity(self, element):
-
         return element.seats
 
     def get_initial_stock(self, element):
-
         # for now, initial stock is always 0 in our simulation
         return 0
 
@@ -590,7 +575,6 @@ class ChargeKPI(KPI):
     KEY_VALUE = "value"
 
     def __init__(self, non_empty_only=True, public_transport=True):
-
         super().__init__()
 
         # boolean indicating if only non empty pickups and dropoffs should be traced
@@ -616,13 +600,11 @@ class ChargeKPI(KPI):
         self.new_indicator_dict()
 
     def setup(self, simulation_model):
-
         if self.public_transport:
             self.trips = simulation_model.gtfs.trips
             self.routes = simulation_model.gtfs.routes
 
     def new_indicator_dict(self):
-
         self.indicator_dict = dict()
 
         for key in [self.KEY_ID] + self.keys:
@@ -638,7 +620,6 @@ class ChargeKPI(KPI):
         """
 
         if isinstance(event, StopEvent):
-
             if event.dropoffs:
                 self.update_stop_information(event, agent)
                 self.indicator_dict[self.KEY_TIME].append(event.dropoff_time)
@@ -738,13 +719,11 @@ class TransferKPI(KPI):
         self.to_stop = None
 
     def setup(self, simulation_model):
-
         if simulation_model.gtfs is not None:
             self.trips = simulation_model.gtfs.trips
             self.routes = simulation_model.gtfs.routes
 
     def new_indicator_dict(self):
-
         self.indicator_dict = {
             self.KEY_ID: [],
             self.KEY_WALK_DIST: [],
@@ -759,26 +738,20 @@ class TransferKPI(KPI):
         }
 
     def update(self, event, agent):
-
         if isinstance(event, InputEvent):
-
             self.reset_variables()
 
         if isinstance(event, WaitEvent):
-
             self.current_wait_time += event.waiting_time
 
         elif isinstance(event, MoveEvent) and event.mode == "walk":
-
             self.current_walk_distance += event.distance
             self.current_walk_duration += event.duration
 
         elif isinstance(event, RequestEvent):
-
             self.current_wait_time += sum(event.request.waitSequence)
 
         elif isinstance(event, StopEvent):
-
             if isinstance(event.stop, StopPoint):
                 stop_id = event.stop.id
             elif isinstance(event.stop, UserStop):
@@ -801,7 +774,6 @@ class TransferKPI(KPI):
                 self.reset_variables()
 
         elif isinstance(event, DestinationReachedEvent):
-
             self.write_variables(agent)
             self.reset_variables()
 
@@ -815,7 +787,6 @@ class TransferKPI(KPI):
         self.to_stop = None
 
     def write_variables(self, agent):
-
         self.indicator_dict[self.KEY_ID].append(agent.id)
         self.indicator_dict[self.KEY_WALK_DIST].append(self.current_walk_distance)
         self.indicator_dict[self.KEY_WALK_DURATION].append(self.current_walk_duration)
@@ -901,7 +872,6 @@ class DestinationReachedKPI(KPI):
         self.keys = [self.KEY_DESTINATION_REACHED]
 
     def new_indicator_dict(self):
-
         self.indicator_dict = {self.KEY_DESTINATION_REACHED: "NA"}
 
     def update(self, event, agent):
@@ -927,13 +897,11 @@ class LeaveSimulationKPI(KPI):
     KEY_LEAVE_SIMULATION = "leaveSimulation"
 
     def __init__(self):
-
         super().__init__()
 
         self.keys = [self.KEY_LEAVE_SIMULATION]
 
     def new_indicator_dict(self):
-
         self.indicator_dict = {self.KEY_LEAVE_SIMULATION: None}
 
     def update(self, event, agent):
@@ -947,12 +915,10 @@ class LeaveSimulationKPI(KPI):
         super().update(event, agent)
 
         if isinstance(event, LeaveSimulationEvent):
-
             self.indicator_dict[self.KEY_LEAVE_SIMULATION] = event.cause
 
 
 def get_route_id_of_trip(trips, trip_id, event):
-
     if trips is None:
         return event.serviceVehicle.operator
 
@@ -967,7 +933,6 @@ def get_route_id_of_trip(trips, trip_id, event):
 
 
 def get_direction_of_trip(trips, trip_id):
-
     if trips is None:
         return ""
 
@@ -981,7 +946,6 @@ def get_direction_of_trip(trips, trip_id):
 
 
 def get_route_short_name_of_trip(trips, routes, trip_id):
-
     if trips is None or routes is None or trip_id is None:
         return None
 
@@ -998,7 +962,6 @@ def get_route_short_name_of_trip(trips, routes, trip_id):
 
 
 def get_stop_id_of_event(event):
-
     stop_id = None
 
     if isinstance(event.stop, StopPoint):

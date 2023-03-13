@@ -95,14 +95,12 @@ class Dispatcher(ABC):
     # dispatching loop for punctual algorithms
 
     def dispatching_loop_(self):
-
         self.log_message("Dispatching loop not implemented", lvl=40)
         raise NotImplementedError
 
     # method for online dispatch of requests
 
     def online_dispatch(self, request):
-
         self.log_message("Online dispatch method not implemented", lvl=40)
         raise NotImplementedError
 
@@ -117,7 +115,6 @@ class Dispatcher(ABC):
         """
 
         if self.verb or lvl >= 30:
-
             # add the name of the dispatcher as a prefix
             message = "{} : {}".format(self.name, message)
 
@@ -141,7 +138,6 @@ class Dispatcher(ABC):
         matrix = np.zeros((len(stop_points), len(stop_points)))
 
         for i in range(len(stop_points)):
-
             origin = self.operator.stopPoints[stop_points[i]].position
             _, lengths = self.sim.environment.topologies[mode].compute_dijkstra_path(
                 origin, None, dimension

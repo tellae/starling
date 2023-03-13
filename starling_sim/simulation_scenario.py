@@ -21,7 +21,6 @@ class SimulationScenario:
     BASE_PARAM_SCHEMA = "parameters.schema.json"
 
     def __init__(self, scenario_folder_path: str):
-
         # scenario model code
         self.model = None
 

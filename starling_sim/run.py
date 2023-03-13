@@ -11,7 +11,6 @@ from starling_sim import __version__
 
 
 def run_main():
-
     # create a command line parser
 
     parser = argparse.ArgumentParser(description="Starling agent-based simulation framework")
@@ -103,7 +102,6 @@ def run_main():
 
     # example scenarios
     if input_args.examples:
-
         # make sure the data tree is setup
         create_data_tree()
 

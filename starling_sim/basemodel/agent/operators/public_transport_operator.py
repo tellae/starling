@@ -89,11 +89,9 @@ class PublicTransportOperator(Operator):
     FLEET_TYPE = PUBLIC_TRANSPORT_TYPE
 
     def __init__(self, simulation_model, agent_id, fleet_dict, **kwargs):
-
         super().__init__(simulation_model, agent_id, fleet_dict, **kwargs)
 
     def init_service_info(self):
-
         # get the complete timetables from simulation model
         feed = self.sim.gtfs
 
@@ -120,13 +118,11 @@ class PublicTransportOperator(Operator):
         self.service_info = feed
 
     def init_stops(self):
-
         # add the stop points of active trips of the gtfs
         stops_table = stop_table_from_gtfs(self.service_info, active_stops_only=True)
         self.add_stops(stops_table)
 
     def init_trips(self):
-
         # add the active trips of the gtfs
         stop_times = self.service_info.get_stop_times()
 
@@ -184,7 +180,6 @@ class PublicTransportOperator(Operator):
             block_ids = trips.drop_duplicates(subset="block_id")["block_id"].values
 
         for block_id in block_ids:
-
             if pd.isna(block_id):
                 block_trips = trips[pd.isna(trips["block_id"])]["trip_id"].values
                 # if block_id is nan, generate separate vehicles for each trip
@@ -268,7 +263,6 @@ class PublicTransportOperator(Operator):
         stop_times = stop_times[stop_times["trip_id"] == trip_id]
 
         for index, row in stop_times.iterrows():
-
             stop_point = self.stopPoints[row["stop_id"]]
 
             # append stop point to planning

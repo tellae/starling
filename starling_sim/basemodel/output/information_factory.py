@@ -111,7 +111,6 @@ class ActivityInformation(InformationFactory):
     DEFAULT_KEY = "activity"
 
     def update(self, event, agent):
-
         if isinstance(event, InputEvent):
             self.append_value_and_timestamp(0, 0)
 
@@ -132,14 +131,11 @@ class StockInformation(InformationFactory):
     DEFAULT_KEY = "stock"
 
     def update(self, event, agent):
-
         if isinstance(agent, VehicleSharingStation):
-
             if isinstance(event, InputEvent):
                 self.append_value_and_timestamp(agent.initial_stock, 0)
 
             elif isinstance(event, RequestEvent) and event.request.success:
-
                 request = event.request
 
                 if request.type == request.GET_REQUEST:
@@ -152,17 +148,14 @@ class StockInformation(InformationFactory):
                 self.append_value_and_timestamp(value, event.timestamp)
 
         elif isinstance(agent, Vehicle):
-
             if isinstance(event, InputEvent):
                 self.append_value_and_timestamp(0, 0)
 
             elif isinstance(event, GetVehicleEvent):
-
                 value = self.values[-1] + 1
                 self.append_value_and_timestamp(value, event.timestamp)
 
             elif isinstance(event, LeaveVehicleEvent):
-
                 value = self.values[-1] - 1
                 self.append_value_and_timestamp(value, event.timestamp)
 
@@ -175,13 +168,10 @@ class DelayInformation(InformationFactory):
     DEFAULT_KEY = "delay"
 
     def update(self, event, agent):
-
         if isinstance(event, InputEvent):
-
             self.append_value_and_timestamp(0, event.timestamp)
 
         elif isinstance(event, StopEvent):
-
             # get the theoretical departure time
             service_info = agent.operator.service_info
             stop_times = service_info.get_stop_times()

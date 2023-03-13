@@ -9,7 +9,6 @@ class Algorithm:
     NAME = "unnamed algorithm"
 
     def __init__(self, simulation_model=None, operator=None, verb=False):
-
         # simulation objects
         self.sim = simulation_model
         self.operator = operator
@@ -42,7 +41,6 @@ class Algorithm:
         """
 
         if self.verbose or lvl >= 30:
-
             extra_params = {"alg_name": self.NAME}
 
             ALGO_LOGGER.log(lvl, message, extra=extra_params)

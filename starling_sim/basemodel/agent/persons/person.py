@@ -104,7 +104,6 @@ class Person(MovingAgent):
         self.vehicle = None
 
     def __str__(self):
-
         return "[id={}, origin={}, destination={}, vehicle={}]".format(
             self.id, self.origin, self.destination, self.vehicle
         )
@@ -125,7 +124,6 @@ class Person(MovingAgent):
         # add event to agent's vehicle trace
         try:
             if self.vehicle is not None:
-
                 # relevant events for vehicle (move and position already called)
                 if isinstance(event, GetVehicleEvent) or isinstance(event, LeaveVehicleEvent):
                     self.vehicle.trace_event(event)
@@ -136,7 +134,6 @@ class Person(MovingAgent):
 
         # add request events to requested agents
         if isinstance(event, RequestEvent):
-
             if event.request.structure is not None:
                 event.request.structure.trace_event(event)
 
@@ -301,7 +298,6 @@ class Person(MovingAgent):
             max_tentatives = sys.maxsize
 
         while not success and request_tentatives < max_tentatives:
-
             # create a new request and try it
             new_request = yield self.execute_process(self.try_new_request_())
 
@@ -338,7 +334,6 @@ class Person(MovingAgent):
         self.sim.scheduler.env.exit(result)
 
     def wait_trip_request_(self, request):
-
         # wait for the pickup
         yield request.pickupEvent_
 

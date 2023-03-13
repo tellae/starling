@@ -108,11 +108,9 @@ class MovingAgent(SpatialAgent):
 
         # TODO : manage if interrupted
         if check_dest:
-
             durations = route_data["time"]
 
             for i in range(1, len(route)):
-
                 if route[-1] != self.tempDestination:
                     new_route_data = {
                         "route": route_data["route"][:i],
@@ -125,7 +123,6 @@ class MovingAgent(SpatialAgent):
                 yield self.execute_process(self.move_to_(route[i], durations[i]), True)
 
         else:
-
             # execute travel and store the process
             total_time = sum(route_data["time"])
             yield self.execute_process(self.move_to_(route[-1], total_time), True)

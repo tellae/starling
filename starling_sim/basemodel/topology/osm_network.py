@@ -41,7 +41,6 @@ class OSMNetwork(Topology):
 
     def init_graph(self):
         if self.graph is None:
-
             if self.network_file is None:
                 logging.error("No network file provided for topology initialisation")
                 raise ValueError("Network file provided is {}".format(self.network_file))
@@ -94,16 +93,13 @@ class OSMNetwork(Topology):
         d[self.TIME_ATTRIBUTE] = round(3600 * ((d[self.LENGTH_ATTRIBUTE] / 1000) / speed))
 
     def position_localisation(self, position):
-
         return [self.graph.nodes[position]["y"], self.graph.nodes[position]["x"]]
 
     def nearest_position(self, localisation):
-
         position = ox.get_nearest_node(self.graph, (float(localisation[0]), float(localisation[1])))
         return position
 
     def localisations_nearest_nodes(self, x_coordinates, y_coordinates, method="balltree"):
-
         # convert coordinate lists to np.array
         x_array = np.array(x_coordinates, dtype=np.float32)
         y_array = np.array(y_coordinates, dtype=np.float32)

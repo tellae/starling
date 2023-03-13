@@ -75,7 +75,6 @@ class Topology(ABC):
         self.init_graph()
 
         for u, v, d in self.graph.edges(data=True):
-
             self.weight.pre_process_edge(u, v, d)
 
             self.add_time_and_length(u, v, d)
@@ -178,7 +177,6 @@ class Topology(ABC):
         return path, length
 
     def evaluate_path_duration_and_length(self, path):
-
         total_duration = 0
         total_length = 0
 

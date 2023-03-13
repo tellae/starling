@@ -8,7 +8,6 @@ from starling_sim.utils.constants import PUBLIC_TRANSPORT_TYPE
 
 class Output(OutputFactory):
     def setup_kpi_output(self):
-
         # kpi output classes
 
         # vehicles kpi

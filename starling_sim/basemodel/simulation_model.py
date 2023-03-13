@@ -281,9 +281,7 @@ class SimulationModel:
         numpy.random.seed(self.randomSeed)
 
     def periodic_hour_log(self):
-
         while True:
-
             logging.info("Current simulation time is {}".format(self.scheduler.now()))
 
             yield self.scheduler.timeout(3600)
@@ -301,7 +299,6 @@ class SimulationModel:
 
     @classmethod
     def get_agent_type_schemas(cls):
-
         agent_type_class = cls.agent_type_class
         schemas = dict()
         for agent_type in agent_type_class.keys():

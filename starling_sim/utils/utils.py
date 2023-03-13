@@ -223,7 +223,6 @@ CustomValidator = validators.extend(Draft7Validator, type_checker=Draft4Validato
 
 
 def validate_against_schema(instance, schema, raise_exception=True):
-
     # load schema object
     schema = load_schema(schema, False)
 
@@ -250,7 +249,6 @@ def validate_against_schema(instance, schema, raise_exception=True):
 
 
 def add_defaults_and_validate(instance, schema, raise_exception=True):
-
     # initialise an empty result dict
     res = copy.deepcopy(instance)
 
@@ -267,10 +265,8 @@ def add_defaults_and_validate(instance, schema, raise_exception=True):
 
 
 def add_defaults(instance, schema, current_prop=None):
-
     if schema["type"] == "object" and "default" not in schema:
         for prop in schema["properties"].keys():
-
             if current_prop is None:
                 prop_instance = instance
             else:
@@ -356,7 +352,6 @@ def new_point_feature(point_localisation=None, properties=None):
 
 
 def new_line_string_feature(linestring, properties=None):
-
     # create  the feature geometry
     geometry = {"type": "LineString", "coordinates": linestring}
 
@@ -379,7 +374,6 @@ def new_multi_polygon_feature(polygon_list, properties=None):
 
 
 def new_feature(geometry, properties=None):
-
     # set properties with empty dict by default
     if properties is None:
         properties = dict()
@@ -551,7 +545,6 @@ def stops_table_from_geojson(geojson_path):
     stops_table = pd.DataFrame()
 
     for i in range(len(stops_feature_collection["features"])):
-
         feature = stops_feature_collection["features"][i]
         properties = feature["properties"]
 
@@ -579,7 +572,6 @@ def stops_table_from_geojson(geojson_path):
 def stop_table_from_gtfs(
     gtfs_feed, routes=None, zone=None, fixed_stops=None, active_stops_only=False
 ):
-
     result_table = pd.DataFrame()
 
     gtfs_stops = gtfs_feed.get_stops().copy()
@@ -670,7 +662,6 @@ def import_osm_graph(
 
     # get the output filename
     if outfile is None:
-
         # add 'S' to simplified graphs
         if simplify:
             default_outfile = "S" + default_outfile
@@ -1096,7 +1087,6 @@ def display_horizontal_bar(lvl=20):
 
 
 def create_sub_scenarios(simulation_scenario):
-
     logging.info("Creating sub scenarios of: " + simulation_scenario.name)
 
     nb_scenarios = simulation_scenario["multiple"]
@@ -1110,7 +1100,6 @@ def create_sub_scenarios(simulation_scenario):
 
     scenario_paths = []
     for i in range(nb_scenarios):
-
         sub_scenario_name = sub_scenario_name_format.format(
             base_scenario=simulation_scenario.name, index=i
         )

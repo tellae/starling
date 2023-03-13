@@ -13,6 +13,5 @@ python3 main.py -h
 from starling_sim.run import run_main
 
 if __name__ == "__main__":
-
     # run the function from model_simulator which will parse the provided arguments
     run_main()

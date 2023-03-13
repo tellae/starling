@@ -24,7 +24,6 @@ class DictPopulation(AgentPopulation):
             self.new_population(name)
 
     def get_total_population(self):
-
         agents = []
 
         for name in self.base_names:
@@ -33,7 +32,6 @@ class DictPopulation(AgentPopulation):
         return agents
 
     def get_agent(self, agent_id, agent_population=None):
-
         if agent_population is not None:
             pop_dict = self.population[agent_population]
             if agent_id in pop_dict:
@@ -45,7 +43,6 @@ class DictPopulation(AgentPopulation):
                     return pop_dict[agent_id]
 
     def new_population(self, population_name):
-
         if population_name in self.population:
             return self.population[population_name]
         else:
@@ -54,7 +51,6 @@ class DictPopulation(AgentPopulation):
             return new_population
 
     def new_agent_in(self, agent, population_names):
-
         if isinstance(population_names, str):
             population_names = [population_names]
 

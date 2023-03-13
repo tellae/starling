@@ -61,7 +61,6 @@ class Agent(Traced):
         # stop recursion at Agent class
         parent_class = cls.__bases__[0]
         if issubclass(parent_class, Agent):
-
             # start by evaluating the schema of the parent class
             schema = copy.deepcopy(parent_class.compute_schema())
 
@@ -78,7 +77,6 @@ class Agent(Traced):
     def update_class_schema(base_schema, class_schema, the_class, catch_error=True):
         try:
             for keyword in class_schema.keys():
-
                 # custom remove_props keyword, used for removing properties of parent schema
                 if keyword == "remove_props":
                     for prop in class_schema["remove_props"]:
@@ -223,7 +221,6 @@ class Agent(Traced):
 
         # catch the LeavingSimulation exceptions
         except LeavingSimulation as e:
-
             # for simulation errors, log an specific message
             if isinstance(e, SimulationError):
                 self.log_message("Encountered simulation error with message : {}".format(e), 40)

@@ -9,7 +9,6 @@ import logging
 
 
 def create_point_feature(geojson_output, element, agent_id=None, icon_type=None, agent_type=None):
-
     point = get_element_point(geojson_output, element)
     feature = new_point_feature(point_localisation=point)
     add_agent_id(feature, element, agent_id)
@@ -22,7 +21,6 @@ def create_point_feature(geojson_output, element, agent_id=None, icon_type=None,
 def create_line_string_feature(
     geojson_output, element, agent_id=None, icon_type=None, agent_type=None
 ):
-
     localisations, timestamps = get_element_line_string(geojson_output, element)
     feature = new_line_string_feature(localisations)
     feature["properties"]["timestamps"] = timestamps
@@ -36,7 +34,6 @@ def create_line_string_feature(
 def create_multi_polygon_feature(
     geojson_output, element, agent_id=None, icon_type=None, agent_type=None
 ):
-
     polygon_list = get_element_multi_polygon(geojson_output, element)
     feature = new_multi_polygon_feature(polygon_list)
     add_agent_id(feature, element, agent_id)
@@ -47,12 +44,10 @@ def create_multi_polygon_feature(
 
 
 def get_element_point(geojson_output, element):
-
     return geojson_output.sim.environment.get_localisation(element.position)[::-1]
 
 
 def get_element_multi_polygon(geojson_output, element):
-
     zone_polygon = element.serviceZone.loc[0, "geometry"]
     linear_ring_coordinates = []
     for coord in zone_polygon.exterior.coords:
@@ -64,7 +59,6 @@ def get_element_multi_polygon(geojson_output, element):
 
 
 def get_element_line_string(geojson_output, element):
-
     agent = element
 
     if not hasattr(agent, "origin"):
@@ -85,13 +79,11 @@ def get_element_line_string(geojson_output, element):
     i = 0
 
     while i < len(trace_list):
-
         # get the current event
         event = trace_list[i]
 
         # for the input event, add origin and input time
         if isinstance(event, InputEvent):
-
             # the input event should always come first
             if i == 0:
                 localisations.append(geojson_output.sim.environment.get_localisation(agent.origin))
@@ -103,7 +95,6 @@ def get_element_line_string(geojson_output, element):
         # for a route event, add all localisations
         # of the route (origin and dest included)
         if isinstance(event, RouteEvent):
-
             # get route mode
             mode = event.mode
 
@@ -118,7 +109,6 @@ def get_element_line_string(geojson_output, element):
 
         # for a position change event, add the localisations and timestamps
         elif isinstance(event, PositionChangeEvent):
-
             # get the move mode
             mode = event.mode
 
@@ -164,7 +154,6 @@ def route_localisations(route_event, time_limit, topology):
     timestamps = []
 
     for i in range(len(route)):
-
         # compute current time
         current_time += durations[i]
 

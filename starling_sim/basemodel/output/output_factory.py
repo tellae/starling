@@ -56,7 +56,6 @@ class OutputFactory:
         self.setup_kpi_output()
 
         for kpi_output in self.kpi_outputs:
-
             # build the kpi output filename
             kpi_filename = config["kpi_format"].format(
                 scenario=scenario, kpi_output=kpi_output.name
@@ -70,7 +69,6 @@ class OutputFactory:
         self.setup_geojson_output()
 
         if self.geojson_output is not None:
-
             # build the geojson output filename
             geojson_filename = config["geojson_format"].format(scenario=scenario)
 
@@ -196,7 +194,6 @@ class OutputFactory:
 
         # open the trace file in write mode
         with open(filepath, "w") as outfile:
-
             # write header with scenario information
             outfile.write("Traces of scenario {}, model {}".format(scenario, model_code))
 
@@ -208,7 +205,6 @@ class OutputFactory:
 
             # write the trace of the simulation agents
             for agent in simulation_model.agentPopulation.get_total_population():
-
                 # don't display agents with empty trace
                 if len(agent.trace.eventList) <= 2:
                     continue

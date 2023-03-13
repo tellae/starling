@@ -47,7 +47,6 @@ class BikeWeightOSM(NetworkWeight):
         d["bike_facility"] = bike_facility
 
     def compute_edge_weight(self, u, v, d, parameters):
-
         total_weight = 0
         length = d["length"]
 

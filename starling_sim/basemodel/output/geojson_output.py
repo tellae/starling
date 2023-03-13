@@ -115,13 +115,10 @@ class GeojsonOutput(ABC):
         self.folder = folder
 
         for factories in self.information_factories.values():
-
             for factory in factories:
-
                 factory.setup(simulation_model)
 
     def set_information_factories(self, information_factories):
-
         self.information_factories = information_factories
 
     def add_population_features(self, population=None):
@@ -149,7 +146,6 @@ class GeojsonOutput(ABC):
             self.add_element_feature(element)
 
     def add_element_feature(self, element):
-
         self.init_element_feature(element)
 
         self.add_factories_information()
@@ -203,7 +199,6 @@ class GeojsonOutput(ABC):
 
 
 class GeojsonOutput1(GeojsonOutput):
-
     VERSION = "1.0"
 
     def init_element_feature(self, element):
@@ -228,7 +223,6 @@ class GeojsonOutput1(GeojsonOutput):
             self.current_feature = create_point_feature(self, element)
 
         elif isinstance(element, Operator):
-
             if len(element.stopPoints.values()) != 0:
                 self.add_population_features(list(element.stopPoints.values()))
 
@@ -237,7 +231,6 @@ class GeojsonOutput1(GeojsonOutput):
                 self.current_feature = create_multi_polygon_feature(self, element, icon_type="")
 
     def add_factories_information(self):
-
         if not isinstance(self.current_element, Agent):
             return
 
@@ -248,7 +241,6 @@ class GeojsonOutput1(GeojsonOutput):
         factories = self.information_factories[self.current_element.type]
 
         for event in self.current_element.trace.eventList:
-
             for factory in factories:
                 factory.update(event, self.current_element)
 
@@ -259,16 +251,13 @@ class GeojsonOutput1(GeojsonOutput):
 
 
 class GeojsonOutput0(GeojsonOutput):
-
     VERSION = "0.1"
 
     def init_element_feature(self, element):
-
         self.current_element = element
         self.current_feature = None
 
         if isinstance(element, Operator):
-
             if len(element.stopPoints.values()) != 0:
                 self.add_population_features(list(element.stopPoints.values()))
 
@@ -277,7 +266,6 @@ class GeojsonOutput0(GeojsonOutput):
                 self.current_feature = create_multi_polygon_feature(self, element, icon_type="")
 
         elif isinstance(element, StopPoint):
-
             self.current_feature = create_point_feature(self, element, icon_type="stop_point")
             self.current_feature["properties"]["position"] = [
                 self.current_feature["geometry"]["coordinates"]
@@ -285,7 +273,6 @@ class GeojsonOutput0(GeojsonOutput):
             self.current_feature["properties"]["duration"] = [0, 99999]
 
         elif isinstance(element, Station):
-
             self.current_feature = create_point_feature(self, element, icon_type="station")
             self.current_feature["properties"]["position"] = [
                 self.current_feature["geometry"]["coordinates"]
