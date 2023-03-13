@@ -6,10 +6,10 @@ Run tests from the root of the project using pytest
 pytest
 ```
 
-More information on the tests can be obtained with the plugin pytest-clarity with option
+More information on the tests can be obtained with the verbose option
 
 ```bash
-pytest -vv
+pytest -v
 ```
 
 Tests coverage can be obtained with the plugin pytest-cov with option
