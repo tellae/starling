@@ -1,7 +1,7 @@
 from starling_sim.utils.testing import get_test_scenarios
 from starling_sim.utils import paths
 
-TEST_DATA_FOLDER = "tests/test_data/"
+TEST_DATA_FOLDER = "tests/simulation_test_data/"
 PACKAGE = "starling_sim"
 
 # set data folder for all test execution
