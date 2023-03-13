@@ -9,7 +9,7 @@ import subprocess
 
 from starling_sim.utils import paths
 from starling_sim.utils.utils import create_if_not_exists
-from starling_sim.utils.test_models import TEST_DATA_FOLDER
+from starling_sim.utils.testing import SIMULATION_TEST_DATA_FOLDER
 
 
 # data tree generation
@@ -58,12 +58,12 @@ def import_examples():
     """
 
     # import the scenarios from the test data folder
-    import_examples_from_test_data(TEST_DATA_FOLDER)
+    import_examples_from_test_data(SIMULATION_TEST_DATA_FOLDER)
 
     # if we're not in the starling folder, also get the scenarios from the starling folder
     list_dir = os.listdir(".")
     if "starling_sim" not in list_dir:
-        import_examples_from_test_data(paths.starling_folder() + TEST_DATA_FOLDER)
+        import_examples_from_test_data(paths.starling_folder() + SIMULATION_TEST_DATA_FOLDER)
 
 
 def import_examples_from_test_data(test_data_folder):
