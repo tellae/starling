@@ -361,9 +361,9 @@ class Operator(Agent):
                     depot_modes = list(self.sim.environment.topologies.values())
                 else:
                     depot_modes = list(self.mode.values())
-                position = self.sim.environment.nearest_node_in_modes(coord, depot_modes)
+                position = self.sim.environment.nearest_node_in_modes([coord[1], coord[0]], depot_modes)
                 depot = Station(
-                    self.sim, depot_id, position, mode=self.mode["fleet"], agent_type=None
+                    self.sim, depot_id, position, operator_id=self.id, mode=self.mode["fleet"], agent_type=None
                 )
                 self.depotPoints[depot_id] = depot
 
