@@ -49,8 +49,17 @@ class ServiceVehicle(Vehicle):
         operator_id,
         dwell_time=30,
         trip_id=None,
+        depot_id=None,
         **kwargs
     ):
+        operator = simulation_model.agentPopulation.get_agent(operator_id)
+        # place service vehicles at depot if provided
+        if depot_id is not None:
+            depot = operator.depotPoints[depot_id]
+            origin = depot.position
+        else:
+            depot = None
+
         super().__init__(simulation_model, agent_id, origin, seats, **kwargs)
 
         # list of trip ids to be realised by the service vehicle (chronological order)
@@ -59,11 +68,14 @@ class ServiceVehicle(Vehicle):
         # id of the trip realised by the service vehicle, used to match user stops
         self.tripId = trip_id
 
+        # vehicle depot
+        self.depot = depot
+
         # halt duration while processing a stop
         self.dwellTime = dwell_time
 
         # service operator, managing the fleet
-        self.operator = self.sim.agentPopulation.get_agent(operator_id)
+        self.operator = operator
 
         # planning of the service vehicle, consists in a list of Stop objects
         self.planning = []
