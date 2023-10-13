@@ -481,3 +481,24 @@ class ServiceVehicle(Vehicle):
             idle_duration = self.sim.scheduler.now() - start_time
             if idle_duration > 0:
                 self.trace_event(IdleEvent(self.sim.scheduler.now(), idle_duration))
+
+                return idle_duration
+
+        return 0
+
+    def return_to_depot_(self, service_status=None):
+        """
+        Move to service vehicle depot.
+
+        :param service_status: optional new service status value
+        """
+        # get depot position
+        if self.depot is None:
+            self.log_message("No depot to return to")
+        else:
+            self.tempDestination = self.depot.position
+            yield self.execute_process(self.move_())
+
+        # optionally update service status value
+        if service_status is not None:
+            self.update_service_status(service_status)
