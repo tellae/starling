@@ -662,6 +662,37 @@ class ChargeKPI(KPI):
                 get_direction_of_trip(self.trips, trip_id)
             )
 
+class ServiceKPI(KPI):
+    """
+    This KPI describes the service time of a vehicle.
+    """
+
+    #: **serviceDuration**: vehicle service duration [seconds]
+    KEY_SERVICE_DURATION = "serviceDuration"
+
+    def __init__(self):
+        super().__init__()
+        self.serviceStart = None
+        self.serviceEnd = None
+        self.keys = [self.KEY_SERVICE_DURATION]
+
+    def new_indicator_dict(self):
+        self.indicator_dict = {
+            self.KEY_SERVICE_DURATION: "NA"
+        }
+
+    def update(self, event, agent):
+
+        if isinstance(event, ServiceEvent):
+            if event.former == "INIT" and event.new == "UP":
+                self.serviceStart = event.timestamp
+            elif event.former == "UP" and event.new == "END":
+                self.serviceEnd = event.timestamp
+
+        if isinstance(event, LeaveSimulationEvent):
+            if self.serviceStart is not None and self.serviceEnd is not None:
+                self.indicator_dict[self.KEY_SERVICE_DURATION] = self.serviceEnd - self.serviceStart
+
 
 class TransferKPI(KPI):
     """
