@@ -175,6 +175,20 @@ class IdleEvent(Event):
         return super().__str__() + "idleDuration={}".format(self.duration)
 
 
+class ServiceEvent(Event):
+    """
+    This event describes a status change of an agent service.
+    """
+    def __init__(self, time, former_status, new_status, message=""):
+        super().__init__(time, message)
+        # former and new status values
+        self.former = former_status
+        self.new = new_status
+
+    def __str__(self):
+        return super().__str__() + "formerStatus={}, newStatus={}".format(self.former, self.new)
+
+
 class RequestEvent(Event):
     """
     This event describes a user request

@@ -4,6 +4,7 @@ from starling_sim.basemodel.trace.events import (
     RequestEvent,
     StopEvent,
     StaffOperationEvent,
+    ServiceEvent
 )
 from starling_sim.basemodel.agent.requests import Stop
 from starling_sim.utils.utils import PlanningChange
@@ -86,6 +87,9 @@ class ServiceVehicle(Vehicle):
         # event triggered to send a signal to service vehicle
         self.signalEvent_ = self.sim.scheduler.new_event_object()
 
+        # service status (see update_service_status method)
+        self.serviceStatus = "INIT"
+
     # signaling
 
     def trigger_signal(self):
@@ -110,6 +114,23 @@ class ServiceVehicle(Vehicle):
 
         # add event to own trace
         super().trace_event(event)
+
+    def update_service_status(self, new_status_value: str):
+        """
+        Update the value of the vehicle's service status and trace a ServiceEvent.
+
+        Possible values are:
+            - INIT: Service has not started yet
+            - UP: Service has started and is up
+            - PAUSE: Service has started but is paused
+            - END: Service has ended
+
+        :param new_status_value: new service status value
+        """
+        if  new_status_value not in ["INIT", "UP", "PAUSE", "END"]:
+            raise ValueError("Unsupported service status value: " + str(new_status_value))
+        self.trace_event(ServiceEvent(self.sim.scheduler.now(), self.serviceStatus, new_status_value))
+        self.serviceStatus = new_status_value
 
     # stop processing
 
@@ -443,7 +464,7 @@ class ServiceVehicle(Vehicle):
         The vehicle is considered idle if its planning is empty. The idle
         behaviour is provided by the vehicle's operator.
 
-        :return: yield the idle behaviour process
+        :return: yield the idle behaviour process. Return time being idle
         """
 
         # if planning is empty
