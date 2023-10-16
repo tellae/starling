@@ -407,21 +407,44 @@ class Operator(Agent):
             stop_point_name = row["stop_name"]
             stop_position = row["nearest_node"]
 
-            stop_point_population = self.sim.agentPopulation.new_population(STOP_POINT_POPULATION)
+            self.new_stop_point(stop_position, stop_point_id, stop_point_name)
 
-            # if the stop point already exists, get it from the stop point population
-            if stop_point_id in stop_point_population:
+    def new_stop_point(self, stop_point_position, stop_point_id, stop_point_name=None, allow_existing=True, is_depot=False):
+        """
+        Create or get existing StopPoint and add it to the operator stop points.
+
+        :param stop_point_id: new stop id
+        :param stop_point_position: new stop position
+        :param stop_point_name: new stop name
+        :param allow_existing: allow existence of a stop point with same id
+        :param is_depot: indicates if new stop point is a depot
+
+        :return: corresponding StopPoint object
+        """
+        stop_point_population = self.sim.agentPopulation.new_population(STOP_POINT_POPULATION)
+        # if the stop point already exists, get it from the stop point population
+        if stop_point_id in stop_point_population:
+            if allow_existing:
                 stop_point = stop_point_population[stop_point_id]
-
                 # no comparison between the two positions. The stops initialisation must be well ordered
-
-            # otherwise, create a new StopPoint object and add it to the population
             else:
-                stop_point = StopPoint(stop_position, stop_point_id, stop_point_name)
-                self.sim.agentPopulation.new_agent_in(stop_point, STOP_POINT_POPULATION)
+                raise ValueError("Stop point with id {} already exists !".format(stop_point_id))
 
-            # add the stop point to the operator stop points dict
+        # otherwise, create a new StopPoint object and add it to the population
+        else:
+            if stop_point_name is None:
+                stop_point = StopPoint(stop_point_position, stop_point_id)
+            else:
+                stop_point = StopPoint(stop_point_position, stop_point_id, stop_point_name)
+            self.sim.agentPopulation.new_agent_in(stop_point, STOP_POINT_POPULATION)
+
+        # add the stop point to the relevant operator dict
+        if is_depot:
+            self.depotPoints[stop_point.id] = stop_point
+        else:
             self.stopPoints[stop_point.id] = stop_point
+
+        return stop_point
 
     def init_trips(self):
         """
