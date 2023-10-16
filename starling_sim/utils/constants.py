@@ -35,6 +35,17 @@ BASE_LEAVING_CODES = {
     SIM_ERROR_LEAVE: "Simulation error",
 }
 
+# service statuses
+
+#: Status used when service has not started yet
+SERVICE_INIT = "INIT"
+#: Status used when service started and is up
+SERVICE_UP = "UP"
+#: Status used when service has started but is paused
+SERVICE_PAUSE = "PAUSE"
+#: Status used when service has ended
+SERVICE_END = "END"
+
 # filename formats
 
 #: filename of the run summary file
