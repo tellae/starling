@@ -138,13 +138,13 @@ class Dispatcher(ABC):
         matrix = np.zeros((len(stop_points), len(stop_points)))
 
         for i in range(len(stop_points)):
-            origin = self.operator.stopPoints[stop_points[i]].position
+            origin = self.operator.servicePoints[stop_points[i]].position
             _, lengths = self.sim.environment.topologies[mode].compute_dijkstra_path(
                 origin, None, dimension
             )
 
             for j in range(len(stop_points)):
-                matrix[i, j] = int(lengths[self.operator.stopPoints[stop_points[j]].position])
+                matrix[i, j] = int(lengths[self.operator.servicePoints[stop_points[j]].position])
 
         if dimension == "time":
             matrix = matrix.astype(int)

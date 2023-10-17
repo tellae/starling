@@ -39,6 +39,11 @@ class ServiceVehicle(Vehicle):
                 "description": "ID of the operator managing this agent",
                 "type": "string",
             },
+            "depot": {
+                "title": "Depot",
+                "description": "Id of the associated depot of the service vehicle",
+                "type": "string"
+            }
         },
         "required": ["operator_id"],
     }
@@ -57,16 +62,14 @@ class ServiceVehicle(Vehicle):
         operator_id,
         dwell_time=30,
         trip_id=None,
-        depot_id=None,
+        depot=None,
         **kwargs
     ):
         operator = simulation_model.agentPopulation.get_agent(operator_id)
         # place service vehicles at depot if provided
-        if depot_id is not None:
-            depot = operator.depotPoints[depot_id]
+        if depot is not None:
+            depot = operator.depotPoints[depot]
             origin = depot.position
-        else:
-            depot = None
 
         super().__init__(simulation_model, agent_id, origin, seats, **kwargs)
 

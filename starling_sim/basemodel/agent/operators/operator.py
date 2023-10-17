@@ -1,6 +1,5 @@
 from starling_sim.basemodel.agent.agent import Agent
 from starling_sim.basemodel.agent.requests import TripRequest, UserStop, StopPoint
-from starling_sim.basemodel.agent.stations.station import Station
 from starling_sim.utils.utils import (
     geopandas_polygon_from_points,
     points_in_zone,
@@ -92,14 +91,27 @@ class Operator(Agent):
             "depot_points": {
                 "advanced": True,
                 "title": "Depot points",
-                "description": "List of depot points coordinates",
+                "description": "List of depot points descriptors",
                 "type": "array",
                 "items": {
-                    "type": "array",
-                    "items": {"type": "number"},
-                    "minItems": 2,
-                    "maxItems": 2,
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "coordinates": {
+                            "type": "array",
+                            "items": {"type": "number"},
+                            "minItems": 2,
+                            "maxItems": 2,
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["id", "coordinates"],
                 },
+                "default": []
             },
             "extend_graph_with_stops": {
                 "advanced": True,
@@ -210,7 +222,7 @@ class Operator(Agent):
         :param agent_id: operator's id
         :param fleet_dict: name of the population that contains the operator's fleet
         :param staff_dict: name of the population that contains the operator's staff
-        :param depot_points: list of coordinates of the operator depot points
+        :param depot_points: list of dicts describing operator depot points
         :param zone_polygon: list of GPS points delimiting the service zone
         :param operation_parameters: additional parameters used for service operation
         :param extend_graph_with_stops: boolean indicating if the graph should be extended with the stop points
@@ -239,10 +251,6 @@ class Operator(Agent):
         self.staff_dict_name = staff_dict
         self.staff = self.sim.agentPopulation.new_population(staff_dict)
 
-        # set the dict containing the depot points of the service
-        self.depotPoints = dict()
-        self.init_depot_points(depot_points)
-
         # data structure containing the main service structure, if there is one
         self.service_info = None
         self.init_service_info()
@@ -259,6 +267,10 @@ class Operator(Agent):
         # a dict of the service stop points {id: StopPoint}
         self.stopPoints = dict()
         self.init_stops()
+
+        # set the dict containing the depot points of the service
+        self.depotPoints = dict()
+        self.init_depot_points(depot_points)
 
         # trip count, used when generating trips
         self.tripCount = 0
@@ -287,6 +299,18 @@ class Operator(Agent):
         self.online_dispatcher = None
 
         self.init_dispatchers()
+
+    # properties
+
+    @property
+    def servicePoints(self):
+        """
+        Return a dict mapping both stop points and depot points.
+        """
+        return {
+            **self.stopPoints,
+            **self.depotPoints
+        }
 
     # attributes initialisation methods
 
@@ -346,26 +370,32 @@ class Operator(Agent):
 
         self.serviceZone = service_zone
 
-    def init_depot_points(self, depot_points_coord):
+    def init_depot_points(self, depot_points):
         """
-        Initialise the depotPoints attribute using the given coordinates.
+        Initialise the depotPoints attribute using the given depots information.
 
-        :param depot_points_coord:
-        :return:
+        Depot points are StopPoint instances but are stored in a separate attribute named depotPoints.
+
+        :param depot_points: { id, coordinates, name } information dict
         """
 
-        if depot_points_coord is not None and isinstance(depot_points_coord, list):
-            for i, coord in enumerate(depot_points_coord):
-                depot_id = "depot-" + str(i)
-                if self.mode is None:
-                    depot_modes = list(self.sim.environment.topologies.values())
-                else:
-                    depot_modes = list(self.mode.values())
-                position = self.sim.environment.nearest_node_in_modes([coord[1], coord[0]], depot_modes)
-                depot = Station(
-                    self.sim, depot_id, position, operator_id=self.id, mode=self.mode["fleet"], agent_type=None
-                )
-                self.depotPoints[depot_id] = depot
+        if depot_points is None:
+            return
+
+        for depot_data in depot_points:
+            depot_id = depot_data["id"]
+            name = depot_data["depot_name"] if "depot_name" in depot_data else None
+            coordinates = depot_data["coordinates"]
+
+            # infer depot position according to service modes
+            if self.mode is None:
+                depot_modes = list(self.sim.environment.topologies.values())
+            else:
+                depot_modes = list(self.mode.values())
+            position = self.sim.environment.nearest_node_in_modes([coordinates[1], coordinates[0]], depot_modes)
+
+            # create depot as a StopPoint object and add it to depotPoints
+            self.new_stop_point(position, depot_id, name, allow_existing=False, is_depot=True)
 
     def init_stops(self):
         """

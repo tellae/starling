@@ -223,8 +223,8 @@ class GeojsonOutput1(GeojsonOutput):
             self.current_feature = create_point_feature(self, element)
 
         elif isinstance(element, Operator):
-            if len(element.stopPoints.values()) != 0:
-                self.add_population_features(list(element.stopPoints.values()))
+            if len(element.servicePoints.values()) != 0:
+                self.add_population_features(list(element.servicePoints.values()))
 
             self.current_element = element
             if element.serviceZone is not None:
@@ -258,8 +258,8 @@ class GeojsonOutput0(GeojsonOutput):
         self.current_feature = None
 
         if isinstance(element, Operator):
-            if len(element.stopPoints.values()) != 0:
-                self.add_population_features(list(element.stopPoints.values()))
+            if len(element.servicePoints.values()) != 0:
+                self.add_population_features(list(element.servicePoints.values()))
 
             self.current_element = element
             if element.serviceZone is not None:
