@@ -632,6 +632,11 @@ class DynamicInput(Traced):
         # get the operator
         operator = self.sim.agentPopulation.get_agent(operator_id)
 
+        # get position from eventual depot
+        if "depot" in input_dict:
+            depot = operator.depotPoints[input_dict["depot"]]
+            input_dict["origin"] = depot.position
+
         populations = [input_dict["agent_type"]]
         if "population" in input_dict:
             populations.append(input_dict["population"])
