@@ -430,7 +430,7 @@ class OccupationKPI(KPI):
         """
 
         # compute time spent with last stock
-        duration = timestamp - self.previousTime
+        duration = int(timestamp - self.previousTime)
 
         # add time to relevant time count
         if self.currentStock == 0:
