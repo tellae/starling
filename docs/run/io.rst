@@ -182,6 +182,7 @@ You can find here the correspondence between the most of the KPI fields and thei
     OccupationKPI.KEY_STOCK_TIME
     OccupationKPI.KEY_STOCK_DISTANCE
     OccupationKPI.KEY_MAX_STOCK
+    ServiceKPI.KEY_SERVICE_DURATION
     DestinationReachedKPI.KEY_DESTINATION_REACHED
     LeaveSimulationKPI.KEY_LEAVE_SIMULATION
 
