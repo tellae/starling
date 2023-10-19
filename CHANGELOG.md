@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.14 (2023-10-19)
+
+
+### Bug Fixes
+
+* service vehicle depot was fetch at wrong place during input generation ([#83](https://github.com/tellae/starling/issues/83)) ([1062197](https://github.com/tellae/starling/commit/10621977db0d96bbdc9dc12301ffa5b7ee6b348e))
+
 ### 0.10.13 (2023-08-10)
 
 ### 0.10.12 (2023-03-13)
