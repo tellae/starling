@@ -4,7 +4,6 @@ from starling_sim.utils.config import config
 from starling_sim.utils.constants import RUN_SUMMARY_FILENAME
 
 import logging
-import os
 
 
 class OutputFactory:
@@ -15,7 +14,7 @@ class OutputFactory:
     e.g. writing a json containing all the simulation data
     """
 
-    GENERATION_ERROR_FORMAT = "Error while generating {} output"
+    GENERATION_ERROR_FORMAT = "Error while generating {} output: {}"
 
     def __init__(self):
         """
@@ -137,8 +136,8 @@ class OutputFactory:
         if simulation_model.scenario["traces_output"]:
             try:
                 self.generate_trace_output(simulation_model)
-            except:
-                logging.warning(self.GENERATION_ERROR_FORMAT.format("traces"))
+            except Exception as e:
+                logging.warning(self.GENERATION_ERROR_FORMAT.format("traces", e))
 
         # kpi output
         if simulation_model.scenario["kpi_output"]:
@@ -149,8 +148,8 @@ class OutputFactory:
         if simulation_model.scenario["visualisation_output"]:
             try:
                 self.generate_geojson_output(simulation_model)
-            except:
-                logging.warning(self.GENERATION_ERROR_FORMAT.format("visualisation"))
+            except Exception as e:
+                logging.warning(self.GENERATION_ERROR_FORMAT.format("visualisation", e))
 
         # run summary output
         self.generate_run_summary(simulation_model.scenario)
@@ -176,8 +175,8 @@ class OutputFactory:
         for kpi_output in self.kpi_outputs:
             try:
                 kpi_output.write_kpi_table()
-            except:
-                logging.warning(self.GENERATION_ERROR_FORMAT.format(kpi_output.name + " kpi"))
+            except Exception as e:
+                logging.warning(self.GENERATION_ERROR_FORMAT.format(kpi_output.name + " kpi", e))
 
     def generate_trace_output(self, simulation_model):
         """

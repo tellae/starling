@@ -4,9 +4,12 @@ from starling_sim.basemodel.trace.events import (
     RequestEvent,
     StopEvent,
     StaffOperationEvent,
+    ServiceEvent,
 )
 from starling_sim.basemodel.agent.requests import Stop
 from starling_sim.utils.utils import PlanningChange
+from starling_sim.utils.constants import SERVICE_INIT, SERVICE_UP, SERVICE_PAUSE, SERVICE_END
+
 
 from copy import copy
 
@@ -36,9 +39,19 @@ class ServiceVehicle(Vehicle):
                 "description": "ID of the operator managing this agent",
                 "type": "string",
             },
+            "depot": {
+                "title": "Depot",
+                "description": "Id of the associated depot of the service vehicle",
+                "type": "string",
+            },
         },
         "required": ["operator_id"],
     }
+
+    SERVICE_INIT = SERVICE_INIT
+    SERVICE_UP = SERVICE_UP
+    SERVICE_PAUSE = SERVICE_PAUSE
+    SERVICE_END = SERVICE_END
 
     def __init__(
         self,
@@ -49,8 +62,15 @@ class ServiceVehicle(Vehicle):
         operator_id,
         dwell_time=30,
         trip_id=None,
+        depot=None,
         **kwargs
     ):
+        operator = simulation_model.agentPopulation.get_agent(operator_id)
+        # place service vehicles at depot if provided
+        if depot is not None:
+            depot = operator.depotPoints[depot]
+            origin = depot.position
+
         super().__init__(simulation_model, agent_id, origin, seats, **kwargs)
 
         # list of trip ids to be realised by the service vehicle (chronological order)
@@ -59,11 +79,14 @@ class ServiceVehicle(Vehicle):
         # id of the trip realised by the service vehicle, used to match user stops
         self.tripId = trip_id
 
+        # vehicle depot
+        self.depot = depot
+
         # halt duration while processing a stop
         self.dwellTime = dwell_time
 
         # service operator, managing the fleet
-        self.operator = self.sim.agentPopulation.get_agent(operator_id)
+        self.operator = operator
 
         # planning of the service vehicle, consists in a list of Stop objects
         self.planning = []
@@ -73,6 +96,9 @@ class ServiceVehicle(Vehicle):
 
         # event triggered to send a signal to service vehicle
         self.signalEvent_ = self.sim.scheduler.new_event_object()
+
+        # service status
+        self.serviceStatus = SERVICE_INIT
 
     # signaling
 
@@ -98,6 +124,21 @@ class ServiceVehicle(Vehicle):
 
         # add event to own trace
         super().trace_event(event)
+
+    def update_service_status(self, new_status_value: str):
+        """
+        Update the value of the vehicle's service status and trace a ServiceEvent.
+
+        See possible values in starling_sim.utils.constants
+
+        :param new_status_value: new service status value
+        """
+        if new_status_value not in [SERVICE_INIT, SERVICE_UP, SERVICE_PAUSE, SERVICE_END]:
+            raise ValueError("Unsupported service status value: " + str(new_status_value))
+        self.trace_event(
+            ServiceEvent(self.sim.scheduler.now(), self.serviceStatus, new_status_value)
+        )
+        self.serviceStatus = new_status_value
 
     # stop processing
 
@@ -431,7 +472,7 @@ class ServiceVehicle(Vehicle):
         The vehicle is considered idle if its planning is empty. The idle
         behaviour is provided by the vehicle's operator.
 
-        :return: yield the idle behaviour process
+        :return: yield the idle behaviour process. Return time being idle
         """
 
         # if planning is empty
@@ -448,3 +489,24 @@ class ServiceVehicle(Vehicle):
             idle_duration = self.sim.scheduler.now() - start_time
             if idle_duration > 0:
                 self.trace_event(IdleEvent(self.sim.scheduler.now(), idle_duration))
+
+                return idle_duration
+
+        return 0
+
+    def return_to_depot_(self, service_status=None):
+        """
+        Move to service vehicle depot.
+
+        :param service_status: optional new service status value
+        """
+        # get depot position
+        if self.depot is None:
+            self.log_message("No depot to return to")
+        else:
+            self.tempDestination = self.depot.position
+            yield self.execute_process(self.move_())
+
+        # optionally update service status value
+        if service_status is not None:
+            self.update_service_status(service_status)

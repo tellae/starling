@@ -1,6 +1,12 @@
 from starling_sim.basemodel.trace.events import *
 from starling_sim.basemodel.agent.requests import UserStop, StopPoint, StationRequest
-from starling_sim.utils.constants import PUBLIC_TRANSPORT_TYPE
+from starling_sim.utils.constants import (
+    PUBLIC_TRANSPORT_TYPE,
+    SERVICE_INIT,
+    SERVICE_UP,
+    SERVICE_PAUSE,
+    SERVICE_END,
+)
 
 
 class KPI:
@@ -424,7 +430,7 @@ class OccupationKPI(KPI):
         """
 
         # compute time spent with last stock
-        duration = timestamp - self.previousTime
+        duration = int(timestamp - self.previousTime)
 
         # add time to relevant time count
         if self.currentStock == 0:
@@ -661,6 +667,59 @@ class ChargeKPI(KPI):
             self.indicator_dict[self.KEY_TRIP_DIRECTION].append(
                 get_direction_of_trip(self.trips, trip_id)
             )
+
+
+class ServiceKPI(KPI):
+    """
+    This KPI describes the service time of a vehicle.
+    """
+
+    #: **serviceDuration**: vehicle service duration [seconds]
+    KEY_SERVICE_DURATION = "serviceDuration"
+
+    def __init__(self):
+        super().__init__()
+        self.currentServiceStart = None
+        self.totalServiceDuration = None
+        self.keys = [self.KEY_SERVICE_DURATION]
+
+    def new_indicator_dict(self):
+        self.indicator_dict = {self.KEY_SERVICE_DURATION: "NA"}
+
+    def update(self, event, agent):
+        if isinstance(event, ServiceEvent):
+            if event.new == SERVICE_UP:
+                self.start_service(event.timestamp)
+            elif event.new in [SERVICE_PAUSE, SERVICE_END]:
+                self.close_service(event.timestamp)
+            elif event.new == SERVICE_INIT:
+                raise ValueError("Service state shouldn't change to {} status".format(SERVICE_INIT))
+            else:
+                raise ValueError("Unsupported service status " + event.new)
+
+        if isinstance(event, LeaveSimulationEvent):
+            if self.totalServiceDuration is None or self.currentServiceStart is not None:
+                self.indicator_dict[self.KEY_SERVICE_DURATION] = "NA"
+            else:
+                self.indicator_dict[self.KEY_SERVICE_DURATION] = self.totalServiceDuration
+            self.currentServiceStart = None
+
+    def start_service(self, timestamp):
+        if self.currentServiceStart is not None:
+            raise ValueError("Service starts but has not ended")
+        else:
+            self.currentServiceStart = timestamp
+
+    def close_service(self, timestamp):
+        if self.currentServiceStart is None:
+            raise ValueError("Service ends but has not started")
+        else:
+            duration = timestamp - self.currentServiceStart
+            if self.totalServiceDuration is None:
+                self.totalServiceDuration = duration
+            else:
+                self.totalServiceDuration += duration
+            self.currentServiceStart = None
 
 
 class TransferKPI(KPI):
