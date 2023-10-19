@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.15 (2023-10-19)
+
+
+### Bug Fixes
+
+* missing SB_VS_R adaptations with previous changes in depot use ([#84](https://github.com/tellae/starling/issues/84)) ([2fd15ee](https://github.com/tellae/starling/commit/2fd15eeb4b65be5c77a6ac76c765b587213b46d1))
+
 ### 0.10.14 (2023-10-19)
 
 
