@@ -21,9 +21,3 @@ class Input(DynamicInput):
                     input_dict["destination_station"]
                 ]
                 input_dict["destination"] = user_station.position
-
-        elif input_dict["agent_type"] == "staff":
-            # add origin at depot
-            # TODO : adapt for multiple depots
-            operator = self.sim.agentPopulation.population["operator"][input_dict["operator_id"]]
-            input_dict["origin"] = list(operator.depotPoints.values())[0].position
