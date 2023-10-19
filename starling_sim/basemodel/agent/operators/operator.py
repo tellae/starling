@@ -96,22 +96,18 @@ class Operator(Agent):
                 "items": {
                     "type": "object",
                     "properties": {
-                        "id": {
-                            "type": "string"
-                        },
+                        "id": {"type": "string"},
                         "coordinates": {
                             "type": "array",
                             "items": {"type": "number"},
                             "minItems": 2,
                             "maxItems": 2,
                         },
-                        "name": {
-                            "type": "string"
-                        }
+                        "name": {"type": "string"},
                     },
                     "required": ["id", "coordinates"],
                 },
-                "default": []
+                "default": [],
             },
             "extend_graph_with_stops": {
                 "advanced": True,
@@ -307,10 +303,7 @@ class Operator(Agent):
         """
         Return a dict mapping both stop points and depot points.
         """
-        return {
-            **self.stopPoints,
-            **self.depotPoints
-        }
+        return {**self.stopPoints, **self.depotPoints}
 
     # attributes initialisation methods
 
@@ -392,7 +385,9 @@ class Operator(Agent):
                 depot_modes = list(self.sim.environment.topologies.values())
             else:
                 depot_modes = list(self.mode.values())
-            position = self.sim.environment.nearest_node_in_modes([coordinates[1], coordinates[0]], depot_modes)
+            position = self.sim.environment.nearest_node_in_modes(
+                [coordinates[1], coordinates[0]], depot_modes
+            )
 
             # create depot as a StopPoint object and add it to depotPoints
             self.new_stop_point(position, depot_id, name, allow_existing=False, is_depot=True)
@@ -439,7 +434,14 @@ class Operator(Agent):
 
             self.new_stop_point(stop_position, stop_point_id, stop_point_name)
 
-    def new_stop_point(self, stop_point_position, stop_point_id, stop_point_name=None, allow_existing=True, is_depot=False):
+    def new_stop_point(
+        self,
+        stop_point_position,
+        stop_point_id,
+        stop_point_name=None,
+        allow_existing=True,
+        is_depot=False,
+    ):
         """
         Create or get existing StopPoint and add it to the operator stop points.
 

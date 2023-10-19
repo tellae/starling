@@ -4,7 +4,7 @@ from starling_sim.basemodel.trace.events import (
     RequestEvent,
     StopEvent,
     StaffOperationEvent,
-    ServiceEvent
+    ServiceEvent,
 )
 from starling_sim.basemodel.agent.requests import Stop
 from starling_sim.utils.utils import PlanningChange
@@ -42,8 +42,8 @@ class ServiceVehicle(Vehicle):
             "depot": {
                 "title": "Depot",
                 "description": "Id of the associated depot of the service vehicle",
-                "type": "string"
-            }
+                "type": "string",
+            },
         },
         "required": ["operator_id"],
     }
@@ -133,9 +133,11 @@ class ServiceVehicle(Vehicle):
 
         :param new_status_value: new service status value
         """
-        if  new_status_value not in [SERVICE_INIT, SERVICE_UP, SERVICE_PAUSE, SERVICE_END]:
+        if new_status_value not in [SERVICE_INIT, SERVICE_UP, SERVICE_PAUSE, SERVICE_END]:
             raise ValueError("Unsupported service status value: " + str(new_status_value))
-        self.trace_event(ServiceEvent(self.sim.scheduler.now(), self.serviceStatus, new_status_value))
+        self.trace_event(
+            ServiceEvent(self.sim.scheduler.now(), self.serviceStatus, new_status_value)
+        )
         self.serviceStatus = new_status_value
 
     # stop processing

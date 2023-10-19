@@ -179,6 +179,7 @@ class ServiceEvent(Event):
     """
     This event describes a status change of an agent service.
     """
+
     def __init__(self, time, former_status, new_status, message=""):
         super().__init__(time, message)
         # former and new status values

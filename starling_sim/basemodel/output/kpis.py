@@ -1,6 +1,12 @@
 from starling_sim.basemodel.trace.events import *
 from starling_sim.basemodel.agent.requests import UserStop, StopPoint, StationRequest
-from starling_sim.utils.constants import PUBLIC_TRANSPORT_TYPE, SERVICE_INIT, SERVICE_UP, SERVICE_PAUSE, SERVICE_END
+from starling_sim.utils.constants import (
+    PUBLIC_TRANSPORT_TYPE,
+    SERVICE_INIT,
+    SERVICE_UP,
+    SERVICE_PAUSE,
+    SERVICE_END,
+)
 
 
 class KPI:
@@ -662,6 +668,7 @@ class ChargeKPI(KPI):
                 get_direction_of_trip(self.trips, trip_id)
             )
 
+
 class ServiceKPI(KPI):
     """
     This KPI describes the service time of a vehicle.
@@ -677,12 +684,9 @@ class ServiceKPI(KPI):
         self.keys = [self.KEY_SERVICE_DURATION]
 
     def new_indicator_dict(self):
-        self.indicator_dict = {
-            self.KEY_SERVICE_DURATION: "NA"
-        }
+        self.indicator_dict = {self.KEY_SERVICE_DURATION: "NA"}
 
     def update(self, event, agent):
-
         if isinstance(event, ServiceEvent):
             if event.new == SERVICE_UP:
                 self.start_service(event.timestamp)
@@ -716,6 +720,7 @@ class ServiceKPI(KPI):
             else:
                 self.totalServiceDuration += duration
             self.currentServiceStart = None
+
 
 class TransferKPI(KPI):
     """
