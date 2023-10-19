@@ -129,8 +129,10 @@ class PalZhangGCH(Algorithm):
         if self.demand_dict is None:
             self.demand_dict = self.init_demand_dict()
 
+        self.vehicle = list(self.operator.staff.values())[0]
+
         # consider only a single depot for now
-        self.depot = list(self.operator.depotPoints.values())[0]
+        self.depot = self.vehicle.depot
 
         self.planning = []
         self.append_depot_to_planning()
@@ -146,7 +148,6 @@ class PalZhangGCH(Algorithm):
 
         self.operations_needed = self.compute_operations_needed()
 
-        self.vehicle = list(self.operator.staff.values())[0]
         self.vehicle_capacity = self.vehicle.seats
         self.vehicle_mode = self.vehicle.mode
         self.vehicle_dwell_time = self.vehicle.dwellTime
