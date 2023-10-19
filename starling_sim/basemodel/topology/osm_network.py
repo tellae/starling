@@ -81,6 +81,8 @@ class OSMNetwork(Topology):
         # differentiate speeds among the link types
         if d["highway"] in self.speeds:
             speed = self.speeds[d["highway"]]["speed"]
+        elif d["highway"].endswith("_link") and d["highway"][:-5] in self.speeds:
+            speed = self.speeds[d["highway"][:-5]]["speed"]
         else:
             speed = self.speeds["other"]["speed"]
 
