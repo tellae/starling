@@ -32,6 +32,12 @@ class Agent(Traced):
                 "description": "Road network used by the agent",
             },
             "icon": {"type": "string", "title": "Agent icon", "description": "Display icon"},
+            "duplicates": {
+                "title": "Agent duplicates",
+                "description": "Generate duplicates of this agent",
+                "type": "integer",
+                "minimum": 1
+            }
         },
         "required": ["agent_id", "agent_type", "mode", "icon"],
     }
