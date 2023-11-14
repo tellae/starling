@@ -1,3 +1,5 @@
+import copy
+
 from starling_sim.basemodel.trace.trace import Traced
 from starling_sim.basemodel.trace.events import InputEvent
 from starling_sim.basemodel.agent.operators.operator import Operator
@@ -20,6 +22,8 @@ class DynamicInput(Traced):
     It generates base agents at the beginning of the simulation, and
     dynamically adds agents in the environment during the simulation.
     """
+
+    DUPLICATE_AGENT_ID_FORMAT = "{original_id}.{index}"
 
     def __init__(self, agent_type_dict):
         super().__init__("INPUT")
@@ -160,12 +164,39 @@ class DynamicInput(Traced):
         """
         Create and initialise a new agent, and add it to the simulation environment.
 
-        :param feature:
-        :return:
+        :param feature: agent feature (GeoJSON Feature)
+
+        :return: created agent or list of agents in case of "duplicates"
         """
 
         # get the agent input dict
         input_dict = feature["properties"]
+
+        # if 'duplicates', run new_agent_input recursively on duplicated features and return a list of new agents
+        if "duplicates" in input_dict:
+            new_agents = []
+            nb_duplicates = input_dict["duplicates"]
+            # check agent properties
+            assert (
+                isinstance(nb_duplicates, int) and nb_duplicates > 0
+            ), "'duplicates' attribute must be a strictly positive integer"
+            assert "agent_id" in input_dict, "Duplicated agent misses agent_id attribute"
+
+            # create a new agent feature for each duplicate
+            for i in range(nb_duplicates):
+                duplicated_feature = copy.deepcopy(feature)
+                del duplicated_feature["properties"]["duplicates"]
+                # create a new id using the original agent id and the duplicate index
+                duplicated_feature["properties"][
+                    "agent_id"
+                ] = self.DUPLICATE_AGENT_ID_FORMAT.format(
+                    original_id=input_dict["agent_id"], index=i
+                )
+
+                new_agents.append(self.new_agent_input(duplicated_feature))
+
+            # return a list of agents instead of a single object
+            return new_agents
 
         if "operator_id" in input_dict:
             # link with operator
