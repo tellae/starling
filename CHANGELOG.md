@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.17 (2023-11-16)
+
+
+### Features
+
+* **io:** agent can now be duplicated using 'duplicates' attribute ([#87](https://github.com/tellae/starling/issues/87)) ([c13481a](https://github.com/tellae/starling/commit/c13481ae8c487b33a4a302ce15845ca4d07f935e))
+
 ### 0.10.16 (2023-10-24)
 
 ### 0.10.15 (2023-10-19)
