@@ -3,4 +3,4 @@ This package contains the different modules of Starling.
 """
 
 #: Starling version
-__version__ = "0.10.17"
+__version__ = "0.10.18"
