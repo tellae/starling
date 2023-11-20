@@ -1,7 +1,6 @@
 from starling_sim.basemodel.trace.events import *
 from starling_sim.basemodel.agent.requests import UserStop, StopPoint, StationRequest
 from starling_sim.utils.constants import (
-    PUBLIC_TRANSPORT_TYPE,
     SERVICE_INIT,
     SERVICE_UP,
     SERVICE_PAUSE,
@@ -147,58 +146,6 @@ class WaitKPI(KPI):
             self.indicator_dict[self.KEY_WAIT] += event.waiting_time
 
 
-class OdtWaitsKPI(KPI):
-    """
-    This KPI evaluates the lateness in ODT requests.
-    """
-
-    #: **odtPickupWait**: series of wait times at ODT pickups [seconds]
-    KEY_PICKUP_WAIT = "odtPickupWait"
-    #: **odtDetour**: series of ODT detour times [seconds]
-    KEY_DETOUR = "odtDetour"
-    #: **odtDirectTrip**: series of ODT direct trip times [seconds]
-    KEY_DIRECT_TRIP = "odtDirectTrip"
-
-    def __init__(self):
-        super().__init__()
-        self.keys = [self.KEY_PICKUP_WAIT, self.KEY_DETOUR, self.KEY_DIRECT_TRIP]
-
-    def new_indicator_dict(self):
-        self.indicator_dict = {
-            self.KEY_PICKUP_WAIT: "",
-            self.KEY_DETOUR: "",
-            self.KEY_DIRECT_TRIP: "",
-        }
-
-    def update(self, event, agent):
-        """
-        Add wait durations of ODT requests to KPIs.
-
-        :param event:
-        :param agent:
-        :return:
-        """
-
-        # TODO : find a better condition
-        if isinstance(event, StopEvent) and event.serviceVehicle.type != PUBLIC_TRANSPORT_TYPE:
-            dropoff_agents = [request.agent.id for request in event.dropoffs]
-            pickup_agents = [request.agent.id for request in event.pickups]
-
-            if agent.id in dropoff_agents:
-                request = event.dropoffs[dropoff_agents.index(agent.id)]
-                if len(request.waitSequence) > 1:
-                    if self.indicator_dict[self.KEY_DETOUR] != "":
-                        self.indicator_dict[self.KEY_DETOUR] += "-"
-                        self.indicator_dict[self.KEY_DIRECT_TRIP] += "-"
-                    self.indicator_dict[self.KEY_DETOUR] += str(request.waitSequence[1])
-                self.indicator_dict[self.KEY_DIRECT_TRIP] += str(request.directTravelTime)
-
-            elif agent.id in pickup_agents:
-                request = event.pickups[pickup_agents.index(agent.id)]
-                if len(request.waitSequence) > 0:
-                    if self.indicator_dict[self.KEY_PICKUP_WAIT] != "":
-                        self.indicator_dict[self.KEY_PICKUP_WAIT] += "-"
-                    self.indicator_dict[self.KEY_PICKUP_WAIT] += str(request.waitSequence[0])
 
 
 class GetVehicleKPI(KPI):
