@@ -242,7 +242,7 @@ class Topology(ABC):
         """
         raise NotImplementedError()
 
-    def localisations_nearest_nodes(self, x_coordinates, y_coordinates, method=None):
+    def localisations_nearest_nodes(self, x_coordinates, y_coordinates):
         """
         Return the graph nodes nearest to a list of points.
 
@@ -250,7 +250,6 @@ class Topology(ABC):
 
         :param x_coordinates: list of X coordinates of the localisations (lon in GPS)
         :param y_coordinates: list of Y coordinates of the localisations (lat in GPS)
-        :param method: name of the method used for the computation
         :return: list of nearest nodes
         """
         raise NotImplementedError()
