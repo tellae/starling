@@ -73,7 +73,7 @@ setuptools.setup(
     url="https://github.com/tellae/starling",
     packages=setuptools.find_packages() + ["starling_sim/schemas"],
     classifiers=CLASSIFIERS,
-    python_requires=">=3.6",
+    python_requires=">=3.8",
     install_requires=INSTALL_REQUIRES,
     include_package_data=True,
 )
