@@ -36,13 +36,12 @@ class EmptyNetwork(Topology):
         return [self.graph.nodes[position]["y"], self.graph.nodes[position]["x"]]
 
     def nearest_position(self, localisation):
-        position = ox.get_nearest_node(self.graph, (float(localisation[0]), float(localisation[1])))
-        return position
+        return ox.distance.nearest_nodes(self.graph,  float(localisation[1]),float(localisation[0]))
 
     def localisations_nearest_nodes(self, x_coordinates, y_coordinates, method="balltree"):
         # convert coordinate lists to np.array
         x_array = np.array(x_coordinates, dtype=np.float32)
         y_array = np.array(y_coordinates, dtype=np.float32)
 
-        # we use osmnx get_nearest_nodes function, with method='balltree' [uses scikit_learn]
-        return ox.get_nearest_nodes(self.graph, x_array, y_array, method=method)
+        # we use osmnx nearest_nodes function
+        return ox.distance.nearest_nodes(self.graph, x_array, y_array)
