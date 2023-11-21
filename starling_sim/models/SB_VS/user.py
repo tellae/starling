@@ -111,7 +111,7 @@ class User(Person):
                 self.failed_stations_ids.append(best_station.id)
 
         # return request to loop
-        self.sim.scheduler.env.exit(request)
+        return request
 
     def request_tries(self, station_request):
         """
@@ -152,7 +152,7 @@ class User(Person):
 
                 # return result of request
                 return
-                # self.sim.scheduler.env.exit(result[station_request.event_])
+                # return result[station_request.event_]
             else:
                 quitting = self.quit_decision(station_request)
 
@@ -165,7 +165,7 @@ class User(Person):
             station_request.event_.cancel()
 
             # return 0 in case of failed request
-            # self.sim.scheduler.env.exit(0)
+            # return 0
 
     def best_station_for(self):
         """
