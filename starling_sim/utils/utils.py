@@ -514,7 +514,10 @@ def points_in_zone(localisations, zone):
     geopandas_points.set_crs("epsg:4326")
 
     # evaluate if within zone
-    res = geopandas.sjoin(geopandas_points, zone, how="left", op="within")
+    res = geopandas.sjoin(geopandas_points, zone, how="left", predicate="within")
+    print()
+    print(res)
+    print()
 
     # set new column 'in_zone'
     res["in_zone"] = res["index_right"].replace(to_replace={np.nan: False, 0: True})
