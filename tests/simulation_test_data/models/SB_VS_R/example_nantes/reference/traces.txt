@@ -397,7 +397,7 @@ Trace of dynamicInput
 [25510, InputEvent]: generatedElement=[id=user-9.3, origin=285579459, destination=1835265384, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
 [25510, InputEvent]: generatedElement=[id=user-13.3, origin=3802836359, destination=315258304, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
 [25520, InputEvent]: generatedElement=[id=user-6.2, origin=334373327, destination=1253956613, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
-[25520, InputEvent]: generatedElement=[id=user-9.4, origin=623621645, destination=1548583108, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
+[25520, InputEvent]: generatedElement=[id=user-9.4, origin=623621645, destination=891511202, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
 [25540, InputEvent]: generatedElement=[id=user-11.2, origin=1253956665, destination=2952904224, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
 [25543, InputEvent]: generatedElement=[id=user-11.1, origin=6329171522, destination=2952904224, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
 [25573, InputEvent]: generatedElement=[id=user-6.3, origin=334373277, destination=5159140675, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
@@ -742,16 +742,16 @@ Trace of agent user-6.2
 [27532, DestinationReachedEvent]: arrivalTime=27532
 [27532, LeaveSimulationEvent]: agent=[id=user-6.2, origin=334373327, destination=1253956613, vehicle=None], cause=SUCCESS
 Trace of agent user-9.4
-[25520, InputEvent]: generatedElement=[id=user-9.4, origin=623621645, destination=1548583108, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
+[25520, InputEvent]: generatedElement=[id=user-9.4, origin=623621645, destination=891511202, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
 [25520, RouteEvent]: mode=walk, start=623621645, end=5062068889, duration=43, distance=48
 [25563, GetVehicleEvent]: agent=user-9.4, getVehicle=B-7566-1
 [25563, RequestEvent]: requestTime=25563, agent=user-9.4, structure=7566, type=GET, success=True, result=[id=B-7566-1, origin=5062068889, seats=1], waitDurations=[0]
 [25563, RouteEvent]: mode=bike, start=5062068889, end=272118247, duration=1013, distance=4216
 [26576, LeaveVehicleEvent]: agent=user-9.4, leaveVehicle=B-7566-1
 [26576, RequestEvent]: requestTime=26576, agent=user-9.4, structure=7529, type=PUT, success=True, result=None, waitDurations=[0]
-[26576, RouteEvent]: mode=walk, start=272118247, end=1548583108, duration=99, distance=110
-[26675, DestinationReachedEvent]: arrivalTime=26675
-[26675, LeaveSimulationEvent]: agent=[id=user-9.4, origin=623621645, destination=1548583108, vehicle=None], cause=SUCCESS
+[26576, RouteEvent]: mode=walk, start=272118247, end=891511202, duration=84, distance=93
+[26660, DestinationReachedEvent]: arrivalTime=26660
+[26660, LeaveSimulationEvent]: agent=[id=user-9.4, origin=623621645, destination=891511202, vehicle=None], cause=SUCCESS
 Trace of agent user-11.2
 [25540, InputEvent]: generatedElement=[id=user-11.2, origin=1253956665, destination=2952904224, vehicle=None], type=<class 'starling_sim.models.SB_VS.user.User'>
 [25540, RouteEvent]: mode=walk, start=1253956665, end=305779877, duration=139, distance=154
@@ -942,13 +942,13 @@ Trace of agent B-7505-1
 [30003, RouteEvent]: mode=drive, start=1737307952, end=270767546, duration=414, distance=3212
 [30447, RouteEvent]: mode=drive, start=270767546, end=290854795, duration=120, distance=716
 [30567, StaffOperationEvent]: staff=staff-0, total=1, structure=7591
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7505-1, origin=296945184, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7505-1, origin=296945184, seats=1], cause=END_OF_SIM
 Trace of agent B-7523-1
 [0, InputEvent]: generatedElement=[id=B-7523-1, origin=1261901706, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [31668, StaffOperationEvent]: staff=staff-0, total=-1, structure=7523
 [31698, RouteEvent]: mode=drive, start=1261901706, end=472270024, duration=475, distance=3879
 [32173, StaffOperationEvent]: staff=staff-0, total=1, structure=7582
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7523-1, origin=1261901706, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7523-1, origin=1261901706, seats=1], cause=END_OF_SIM
 Trace of agent B-7532-1
 [0, InputEvent]: generatedElement=[id=B-7532-1, origin=336121914, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [31344, StaffOperationEvent]: staff=staff-0, total=-1, structure=7532
@@ -956,7 +956,7 @@ Trace of agent B-7532-1
 [31698, RouteEvent]: mode=drive, start=1261901706, end=472270024, duration=475, distance=3879
 [32203, RouteEvent]: mode=drive, start=472270024, end=305779877, duration=73, distance=609
 [32276, StaffOperationEvent]: staff=staff-0, total=1, structure=7584
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7532-1, origin=336121914, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7532-1, origin=336121914, seats=1], cause=END_OF_SIM
 Trace of agent B-7542-1
 [0, InputEvent]: generatedElement=[id=B-7542-1, origin=279635063, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25011, StaffOperationEvent]: staff=staff-0, total=-1, structure=7542
@@ -986,49 +986,49 @@ Trace of agent B-7542-1
 [28648, RouteEvent]: mode=drive, start=309348865, end=287727836, duration=71, distance=586
 [28749, RouteEvent]: mode=drive, start=287727836, end=303614872, duration=87, distance=729
 [28836, StaffOperationEvent]: staff=staff-0, total=1, structure=7547
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7542-1, origin=279635063, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7542-1, origin=279635063, seats=1], cause=END_OF_SIM
 Trace of agent B-7562-1
 [0, InputEvent]: generatedElement=[id=B-7562-1, origin=5562508314, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25083, GetVehicleEvent]: agent=user-2.1, getVehicle=B-7562-1
 [25083, RouteEvent]: mode=bike, start=5562508314, end=1557678364, duration=498, distance=2071
 [25581, LeaveVehicleEvent]: agent=user-2.1, leaveVehicle=B-7562-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7562-1, origin=5562508314, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7562-1, origin=5562508314, seats=1], cause=END_OF_SIM
 Trace of agent B-7562-2
 [0, InputEvent]: generatedElement=[id=B-7562-2, origin=5562508314, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25101, GetVehicleEvent]: agent=user-4.2, getVehicle=B-7562-2
 [25101, RouteEvent]: mode=bike, start=5562508314, end=1557433256, duration=703, distance=2914
 [25804, LeaveVehicleEvent]: agent=user-4.2, leaveVehicle=B-7562-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7562-2, origin=5562508314, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7562-2, origin=5562508314, seats=1], cause=END_OF_SIM
 Trace of agent B-7563-1
 [0, InputEvent]: generatedElement=[id=B-7563-1, origin=307965916, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25932, GetVehicleEvent]: agent=user-10.1, getVehicle=B-7563-1
 [25932, RouteEvent]: mode=bike, start=307965916, end=292661232, duration=692, distance=2888
 [26624, LeaveVehicleEvent]: agent=user-10.1, leaveVehicle=B-7563-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7563-1, origin=307965916, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7563-1, origin=307965916, seats=1], cause=END_OF_SIM
 Trace of agent B-7563-2
 [0, InputEvent]: generatedElement=[id=B-7563-2, origin=307965916, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25937, GetVehicleEvent]: agent=user-10.2, getVehicle=B-7563-2
 [25937, RouteEvent]: mode=bike, start=307965916, end=1557433256, duration=703, distance=2935
 [26640, LeaveVehicleEvent]: agent=user-10.2, leaveVehicle=B-7563-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7563-2, origin=307965916, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7563-2, origin=307965916, seats=1], cause=END_OF_SIM
 Trace of agent B-7578-1
 [0, InputEvent]: generatedElement=[id=B-7578-1, origin=1968204000, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25056, GetVehicleEvent]: agent=user-0.1, getVehicle=B-7578-1
 [25056, RouteEvent]: mode=bike, start=1968204000, end=3383262202, duration=529, distance=2209
 [25585, LeaveVehicleEvent]: agent=user-0.1, leaveVehicle=B-7578-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7578-1, origin=1968204000, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7578-1, origin=1968204000, seats=1], cause=END_OF_SIM
 Trace of agent B-7584-1
 [0, InputEvent]: generatedElement=[id=B-7584-1, origin=305779877, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25679, GetVehicleEvent]: agent=user-11.2, getVehicle=B-7584-1
 [25679, RouteEvent]: mode=bike, start=305779877, end=279635052, duration=663, distance=2765
 [26342, LeaveVehicleEvent]: agent=user-11.2, leaveVehicle=B-7584-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7584-1, origin=305779877, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7584-1, origin=305779877, seats=1], cause=END_OF_SIM
 Trace of agent B-7477-1
 [0, InputEvent]: generatedElement=[id=B-7477-1, origin=626570397, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [27125, StaffOperationEvent]: staff=staff-0, total=-1, structure=7477
 [27155, RouteEvent]: mode=drive, start=626570397, end=5062068889, duration=310, distance=2521
 [27465, StaffOperationEvent]: staff=staff-0, total=3, structure=7566
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7477-1, origin=626570397, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7477-1, origin=626570397, seats=1], cause=END_OF_SIM
 Trace of agent B-7510-1
 [0, InputEvent]: generatedElement=[id=B-7510-1, origin=1737311220, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26511, StaffOperationEvent]: staff=staff-0, total=-1, structure=7510
@@ -1043,43 +1043,43 @@ Trace of agent B-7510-1
 [27643, RouteEvent]: mode=drive, start=307965916, end=5562508314, duration=79, distance=674
 [27752, RouteEvent]: mode=drive, start=5562508314, end=568840519, duration=467, distance=3727
 [28219, StaffOperationEvent]: staff=staff-0, total=4, structure=7588
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7510-1, origin=1737311220, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7510-1, origin=1737311220, seats=1], cause=END_OF_SIM
 Trace of agent B-7576-1
 [0, InputEvent]: generatedElement=[id=B-7576-1, origin=617695761, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25692, GetVehicleEvent]: agent=user-11.1, getVehicle=B-7576-1
 [25692, RouteEvent]: mode=bike, start=617695761, end=279635052, duration=739, distance=3084
 [26431, LeaveVehicleEvent]: agent=user-11.1, leaveVehicle=B-7576-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7576-1, origin=617695761, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7576-1, origin=617695761, seats=1], cause=END_OF_SIM
 Trace of agent B-7582-1
 [0, InputEvent]: generatedElement=[id=B-7582-1, origin=472270024, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25239, GetVehicleEvent]: agent=user-15.1, getVehicle=B-7582-1
 [25239, RouteEvent]: mode=bike, start=472270024, end=360946943, duration=585, distance=2431
 [25824, LeaveVehicleEvent]: agent=user-15.1, leaveVehicle=B-7582-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7582-1, origin=472270024, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7582-1, origin=472270024, seats=1], cause=END_OF_SIM
 Trace of agent B-7588-1
 [0, InputEvent]: generatedElement=[id=B-7588-1, origin=568840519, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25790, GetVehicleEvent]: agent=user-6.2, getVehicle=B-7588-1
 [25790, RouteEvent]: mode=bike, start=568840519, end=360697036, duration=681, distance=2839
 [26471, LeaveVehicleEvent]: agent=user-6.2, leaveVehicle=B-7588-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7588-1, origin=568840519, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7588-1, origin=568840519, seats=1], cause=END_OF_SIM
 Trace of agent B-7588-2
 [0, InputEvent]: generatedElement=[id=B-7588-2, origin=568840519, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25795, GetVehicleEvent]: agent=user-6.1, getVehicle=B-7588-2
 [25795, RouteEvent]: mode=bike, start=568840519, end=1395099946, duration=738, distance=3072
 [26533, LeaveVehicleEvent]: agent=user-6.1, leaveVehicle=B-7588-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7588-2, origin=568840519, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7588-2, origin=568840519, seats=1], cause=END_OF_SIM
 Trace of agent B-7591-1
 [0, InputEvent]: generatedElement=[id=B-7591-1, origin=290854795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24969, GetVehicleEvent]: agent=user-1.1, getVehicle=B-7591-1
 [24969, RouteEvent]: mode=bike, start=290854795, end=1557433256, duration=784, distance=3277
 [25753, LeaveVehicleEvent]: agent=user-1.1, leaveVehicle=B-7591-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7591-1, origin=290854795, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7591-1, origin=290854795, seats=1], cause=END_OF_SIM
 Trace of agent B-7591-2
 [0, InputEvent]: generatedElement=[id=B-7591-2, origin=290854795, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25331, GetVehicleEvent]: agent=user-1.2, getVehicle=B-7591-2
 [25331, RouteEvent]: mode=bike, start=290854795, end=1557433256, duration=784, distance=3277
 [26115, LeaveVehicleEvent]: agent=user-1.2, leaveVehicle=B-7591-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7591-2, origin=290854795, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7591-2, origin=290854795, seats=1], cause=END_OF_SIM
 Trace of agent B-7485-1
 [0, InputEvent]: generatedElement=[id=B-7485-1, origin=294029953, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29043, StaffOperationEvent]: staff=staff-0, total=-2, structure=7485
@@ -1102,7 +1102,7 @@ Trace of agent B-7485-1
 [32376, RouteEvent]: mode=drive, start=617695761, end=301589923, duration=412, distance=3183
 [32818, RouteEvent]: mode=drive, start=301589923, end=629117500, duration=487, distance=3701
 [33335, RouteEvent]: mode=drive, start=629117500, end=5549193367, duration=576, distance=3672
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7485-1, origin=294029953, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7485-1, origin=294029953, seats=1], cause=END_OF_SIM
 Trace of agent B-7485-2
 [0, InputEvent]: generatedElement=[id=B-7485-2, origin=294029953, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29043, StaffOperationEvent]: staff=staff-0, total=-2, structure=7485
@@ -1125,7 +1125,7 @@ Trace of agent B-7485-2
 [32376, RouteEvent]: mode=drive, start=617695761, end=301589923, duration=412, distance=3183
 [32818, RouteEvent]: mode=drive, start=301589923, end=629117500, duration=487, distance=3701
 [33335, RouteEvent]: mode=drive, start=629117500, end=5549193367, duration=576, distance=3672
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7485-2, origin=294029953, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7485-2, origin=294029953, seats=1], cause=END_OF_SIM
 Trace of agent B-7493-1
 [0, InputEvent]: generatedElement=[id=B-7493-1, origin=1937262182, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26809, StaffOperationEvent]: staff=staff-0, total=-1, structure=7493
@@ -1135,7 +1135,7 @@ Trace of agent B-7493-1
 [27155, RouteEvent]: mode=drive, start=626570397, end=5062068889, duration=310, distance=2521
 [27495, RouteEvent]: mode=drive, start=5062068889, end=307965916, duration=118, distance=858
 [27613, StaffOperationEvent]: staff=staff-0, total=2, structure=7563
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7493-1, origin=1937262182, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7493-1, origin=1937262182, seats=1], cause=END_OF_SIM
 Trace of agent B-7509-1
 [0, InputEvent]: generatedElement=[id=B-7509-1, origin=1557433256, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26435, StaffOperationEvent]: staff=staff-0, total=-2, structure=7509
@@ -1151,7 +1151,7 @@ Trace of agent B-7509-1
 [27643, RouteEvent]: mode=drive, start=307965916, end=5562508314, duration=79, distance=674
 [27752, RouteEvent]: mode=drive, start=5562508314, end=568840519, duration=467, distance=3727
 [28219, StaffOperationEvent]: staff=staff-0, total=4, structure=7588
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7509-1, origin=1557433256, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7509-1, origin=1557433256, seats=1], cause=END_OF_SIM
 Trace of agent B-7509-2
 [0, InputEvent]: generatedElement=[id=B-7509-2, origin=1557433256, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26435, StaffOperationEvent]: staff=staff-0, total=-2, structure=7509
@@ -1167,19 +1167,19 @@ Trace of agent B-7509-2
 [27643, RouteEvent]: mode=drive, start=307965916, end=5562508314, duration=79, distance=674
 [27752, RouteEvent]: mode=drive, start=5562508314, end=568840519, duration=467, distance=3727
 [28219, StaffOperationEvent]: staff=staff-0, total=4, structure=7588
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7509-2, origin=1557433256, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7509-2, origin=1557433256, seats=1], cause=END_OF_SIM
 Trace of agent B-7513-1
 [0, InputEvent]: generatedElement=[id=B-7513-1, origin=305615940, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25361, GetVehicleEvent]: agent=user-16.4, getVehicle=B-7513-1
 [25361, RouteEvent]: mode=bike, start=305615940, end=1395099946, duration=348, distance=1452
 [25709, LeaveVehicleEvent]: agent=user-16.4, leaveVehicle=B-7513-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7513-1, origin=305615940, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7513-1, origin=305615940, seats=1], cause=END_OF_SIM
 Trace of agent B-7513-2
 [0, InputEvent]: generatedElement=[id=B-7513-2, origin=305615940, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25430, GetVehicleEvent]: agent=user-16.3, getVehicle=B-7513-2
 [25430, RouteEvent]: mode=bike, start=305615940, end=360697036, duration=291, distance=1219
 [25721, LeaveVehicleEvent]: agent=user-16.3, leaveVehicle=B-7513-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7513-2, origin=305615940, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7513-2, origin=305615940, seats=1], cause=END_OF_SIM
 Trace of agent B-7517-1
 [0, InputEvent]: generatedElement=[id=B-7517-1, origin=360697036, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26042, StaffOperationEvent]: staff=staff-0, total=-2, structure=7517
@@ -1202,7 +1202,7 @@ Trace of agent B-7517-1
 [29571, GetVehicleEvent]: agent=user-21.2, getVehicle=B-7517-1
 [29571, RouteEvent]: mode=bike, start=309348865, end=286359257, duration=377, distance=1572
 [29948, LeaveVehicleEvent]: agent=user-21.2, leaveVehicle=B-7517-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7517-1, origin=360697036, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7517-1, origin=360697036, seats=1], cause=END_OF_SIM
 Trace of agent B-7517-2
 [0, InputEvent]: generatedElement=[id=B-7517-2, origin=360697036, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26042, StaffOperationEvent]: staff=staff-0, total=-2, structure=7517
@@ -1221,61 +1221,61 @@ Trace of agent B-7517-2
 [27752, RouteEvent]: mode=drive, start=5562508314, end=568840519, duration=467, distance=3727
 [28249, RouteEvent]: mode=drive, start=568840519, end=335895716, duration=112, distance=945
 [28361, StaffOperationEvent]: staff=staff-0, total=2, structure=7587
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7517-2, origin=360697036, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7517-2, origin=360697036, seats=1], cause=END_OF_SIM
 Trace of agent B-7561-1
 [0, InputEvent]: generatedElement=[id=B-7561-1, origin=629117500, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24984, GetVehicleEvent]: agent=user-4.4, getVehicle=B-7561-1
 [24984, RouteEvent]: mode=bike, start=629117500, end=1737311220, duration=648, distance=2686
 [25632, LeaveVehicleEvent]: agent=user-4.4, leaveVehicle=B-7561-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7561-1, origin=629117500, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7561-1, origin=629117500, seats=1], cause=END_OF_SIM
 Trace of agent B-7561-2
 [0, InputEvent]: generatedElement=[id=B-7561-2, origin=629117500, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25061, GetVehicleEvent]: agent=user-4.3, getVehicle=B-7561-2
 [25061, RouteEvent]: mode=bike, start=629117500, end=3397963523, duration=454, distance=1905
 [25515, LeaveVehicleEvent]: agent=user-4.3, leaveVehicle=B-7561-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7561-2, origin=629117500, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7561-2, origin=629117500, seats=1], cause=END_OF_SIM
 Trace of agent B-7566-1
 [0, InputEvent]: generatedElement=[id=B-7566-1, origin=5062068889, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25563, GetVehicleEvent]: agent=user-9.4, getVehicle=B-7566-1
 [25563, RouteEvent]: mode=bike, start=5062068889, end=272118247, duration=1013, distance=4216
 [26576, LeaveVehicleEvent]: agent=user-9.4, leaveVehicle=B-7566-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7566-1, origin=5062068889, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7566-1, origin=5062068889, seats=1], cause=END_OF_SIM
 Trace of agent B-7566-2
 [0, InputEvent]: generatedElement=[id=B-7566-2, origin=5062068889, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26127, GetVehicleEvent]: agent=user-9.2, getVehicle=B-7566-2
 [26127, RouteEvent]: mode=bike, start=5062068889, end=3051685748, duration=1105, distance=4598
 [27232, LeaveVehicleEvent]: agent=user-9.2, leaveVehicle=B-7566-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7566-2, origin=5062068889, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7566-2, origin=5062068889, seats=1], cause=END_OF_SIM
 Trace of agent B-7569-1
 [0, InputEvent]: generatedElement=[id=B-7569-1, origin=330312319, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24763, GetVehicleEvent]: agent=user-14.2, getVehicle=B-7569-1
 [24763, RouteEvent]: mode=bike, start=330312319, end=286359266, duration=840, distance=3497
 [25603, LeaveVehicleEvent]: agent=user-14.2, leaveVehicle=B-7569-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7569-1, origin=330312319, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7569-1, origin=330312319, seats=1], cause=END_OF_SIM
 Trace of agent B-7572-1
 [0, InputEvent]: generatedElement=[id=B-7572-1, origin=1558756143, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24802, GetVehicleEvent]: agent=user-14.1, getVehicle=B-7572-1
 [24802, RouteEvent]: mode=bike, start=1558756143, end=2417854742, duration=694, distance=2898
 [25496, LeaveVehicleEvent]: agent=user-14.1, leaveVehicle=B-7572-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7572-1, origin=1558756143, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7572-1, origin=1558756143, seats=1], cause=END_OF_SIM
 Trace of agent B-7572-2
 [0, InputEvent]: generatedElement=[id=B-7572-2, origin=1558756143, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25000, GetVehicleEvent]: agent=user-14.3, getVehicle=B-7572-2
 [25000, RouteEvent]: mode=bike, start=1558756143, end=3383262202, duration=653, distance=2724
 [25653, LeaveVehicleEvent]: agent=user-14.3, leaveVehicle=B-7572-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7572-2, origin=1558756143, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7572-2, origin=1558756143, seats=1], cause=END_OF_SIM
 Trace of agent B-7587-1
 [0, InputEvent]: generatedElement=[id=B-7587-1, origin=335895716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [27949, GetVehicleEvent]: agent=user-19.2, getVehicle=B-7587-1
 [27949, RouteEvent]: mode=bike, start=335895716, end=279635063, duration=1051, distance=4393
 [29000, LeaveVehicleEvent]: agent=user-19.2, leaveVehicle=B-7587-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7587-1, origin=335895716, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7587-1, origin=335895716, seats=1], cause=END_OF_SIM
 Trace of agent B-7587-2
 [0, InputEvent]: generatedElement=[id=B-7587-2, origin=335895716, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [28366, GetVehicleEvent]: agent=user-19.1, getVehicle=B-7587-2
 [28366, RouteEvent]: mode=bike, start=335895716, end=1261901706, duration=1303, distance=5441
 [29669, LeaveVehicleEvent]: agent=user-19.1, leaveVehicle=B-7587-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7587-2, origin=335895716, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7587-2, origin=335895716, seats=1], cause=END_OF_SIM
 Trace of agent B-7488-1
 [0, InputEvent]: generatedElement=[id=B-7488-1, origin=287431463, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29236, StaffOperationEvent]: staff=staff-0, total=-1, structure=7488
@@ -1296,7 +1296,7 @@ Trace of agent B-7488-1
 [32376, RouteEvent]: mode=drive, start=617695761, end=301589923, duration=412, distance=3183
 [32818, RouteEvent]: mode=drive, start=301589923, end=629117500, duration=487, distance=3701
 [33305, StaffOperationEvent]: staff=staff-0, total=1, structure=7561
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7488-1, origin=287431463, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7488-1, origin=287431463, seats=1], cause=END_OF_SIM
 Trace of agent B-7518-1
 [0, InputEvent]: generatedElement=[id=B-7518-1, origin=1395099946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25982, StaffOperationEvent]: staff=staff-0, total=-2, structure=7518
@@ -1318,7 +1318,7 @@ Trace of agent B-7518-1
 [28391, RouteEvent]: mode=drive, start=335895716, end=309348865, duration=227, distance=1908
 [28648, RouteEvent]: mode=drive, start=309348865, end=287727836, duration=71, distance=586
 [28719, StaffOperationEvent]: staff=staff-0, total=1, structure=7514
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7518-1, origin=1395099946, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7518-1, origin=1395099946, seats=1], cause=END_OF_SIM
 Trace of agent B-7518-2
 [0, InputEvent]: generatedElement=[id=B-7518-2, origin=1395099946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25982, StaffOperationEvent]: staff=staff-0, total=-2, structure=7518
@@ -1342,7 +1342,7 @@ Trace of agent B-7518-2
 [29599, GetVehicleEvent]: agent=user-21.3, getVehicle=B-7518-2
 [29599, RouteEvent]: mode=bike, start=309348865, end=287431463, duration=460, distance=1916
 [30059, LeaveVehicleEvent]: agent=user-21.3, leaveVehicle=B-7518-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7518-2, origin=1395099946, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7518-2, origin=1395099946, seats=1], cause=END_OF_SIM
 Trace of agent B-7524-1
 [0, InputEvent]: generatedElement=[id=B-7524-1, origin=292687583, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26690, StaffOperationEvent]: staff=staff-0, total=-1, structure=7524
@@ -1354,7 +1354,7 @@ Trace of agent B-7524-1
 [27495, RouteEvent]: mode=drive, start=5062068889, end=307965916, duration=118, distance=858
 [27643, RouteEvent]: mode=drive, start=307965916, end=5562508314, duration=79, distance=674
 [27722, StaffOperationEvent]: staff=staff-0, total=3, structure=7562
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7524-1, origin=292687583, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7524-1, origin=292687583, seats=1], cause=END_OF_SIM
 Trace of agent B-7525-1
 [0, InputEvent]: generatedElement=[id=B-7525-1, origin=279635052, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26595, StaffOperationEvent]: staff=staff-0, total=-2, structure=7525
@@ -1367,7 +1367,7 @@ Trace of agent B-7525-1
 [27495, RouteEvent]: mode=drive, start=5062068889, end=307965916, duration=118, distance=858
 [27643, RouteEvent]: mode=drive, start=307965916, end=5562508314, duration=79, distance=674
 [27722, StaffOperationEvent]: staff=staff-0, total=3, structure=7562
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7525-1, origin=279635052, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7525-1, origin=279635052, seats=1], cause=END_OF_SIM
 Trace of agent B-7525-2
 [0, InputEvent]: generatedElement=[id=B-7525-2, origin=279635052, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26595, StaffOperationEvent]: staff=staff-0, total=-2, structure=7525
@@ -1380,13 +1380,13 @@ Trace of agent B-7525-2
 [27495, RouteEvent]: mode=drive, start=5062068889, end=307965916, duration=118, distance=858
 [27643, RouteEvent]: mode=drive, start=307965916, end=5562508314, duration=79, distance=674
 [27722, StaffOperationEvent]: staff=staff-0, total=3, structure=7562
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7525-2, origin=279635052, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7525-2, origin=279635052, seats=1], cause=END_OF_SIM
 Trace of agent B-7529-1
 [0, InputEvent]: generatedElement=[id=B-7529-1, origin=272118247, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25374, StaffOperationEvent]: staff=staff-0, total=-1, structure=7529
 [25404, RouteEvent]: mode=drive, start=272118247, end=330312113, duration=118, distance=986
 [25522, StaffOperationEvent]: staff=staff-0, total=2, structure=7571
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7529-1, origin=272118247, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7529-1, origin=272118247, seats=1], cause=END_OF_SIM
 Trace of agent B-7530-1
 [0, InputEvent]: generatedElement=[id=B-7530-1, origin=360946943, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25201, StaffOperationEvent]: staff=staff-0, total=-2, structure=7530
@@ -1396,7 +1396,7 @@ Trace of agent B-7530-1
 [25552, RouteEvent]: mode=drive, start=330312113, end=293265059, duration=58, distance=482
 [25640, RouteEvent]: mode=drive, start=293265059, end=1294763581, duration=69, distance=381
 [25709, StaffOperationEvent]: staff=staff-0, total=2, structure=7570
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7530-1, origin=360946943, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7530-1, origin=360946943, seats=1], cause=END_OF_SIM
 Trace of agent B-7530-2
 [0, InputEvent]: generatedElement=[id=B-7530-2, origin=360946943, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25201, StaffOperationEvent]: staff=staff-0, total=-2, structure=7530
@@ -1406,31 +1406,31 @@ Trace of agent B-7530-2
 [25552, RouteEvent]: mode=drive, start=330312113, end=293265059, duration=58, distance=482
 [25640, RouteEvent]: mode=drive, start=293265059, end=1294763581, duration=69, distance=381
 [25709, StaffOperationEvent]: staff=staff-0, total=2, structure=7570
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7530-2, origin=360946943, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7530-2, origin=360946943, seats=1], cause=END_OF_SIM
 Trace of agent B-7560-1
 [0, InputEvent]: generatedElement=[id=B-7560-1, origin=309348865, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26902, GetVehicleEvent]: agent=user-6.4, getVehicle=B-7560-1
 [26902, RouteEvent]: mode=bike, start=309348865, end=360697036, duration=493, distance=2055
 [27395, LeaveVehicleEvent]: agent=user-6.4, leaveVehicle=B-7560-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7560-1, origin=309348865, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7560-1, origin=309348865, seats=1], cause=END_OF_SIM
 Trace of agent B-7560-2
 [0, InputEvent]: generatedElement=[id=B-7560-2, origin=309348865, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26926, GetVehicleEvent]: agent=user-6.3, getVehicle=B-7560-2
 [26926, RouteEvent]: mode=bike, start=309348865, end=5161769946, duration=438, distance=1832
 [27364, LeaveVehicleEvent]: agent=user-6.3, leaveVehicle=B-7560-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7560-2, origin=309348865, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7560-2, origin=309348865, seats=1], cause=END_OF_SIM
 Trace of agent B-7592-1
 [0, InputEvent]: generatedElement=[id=B-7592-1, origin=270767546, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25993, GetVehicleEvent]: agent=user-8.2, getVehicle=B-7592-1
 [25993, RouteEvent]: mode=bike, start=270767546, end=1937262182, duration=685, distance=2858
 [26678, LeaveVehicleEvent]: agent=user-8.2, leaveVehicle=B-7592-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7592-1, origin=270767546, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7592-1, origin=270767546, seats=1], cause=END_OF_SIM
 Trace of agent B-7592-2
 [0, InputEvent]: generatedElement=[id=B-7592-2, origin=270767546, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26019, GetVehicleEvent]: agent=user-8.1, getVehicle=B-7592-2
 [26019, RouteEvent]: mode=bike, start=270767546, end=292687583, duration=705, distance=2949
 [26724, LeaveVehicleEvent]: agent=user-8.1, leaveVehicle=B-7592-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7592-2, origin=270767546, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7592-2, origin=270767546, seats=1], cause=END_OF_SIM
 Trace of agent B-7490-1
 [0, InputEvent]: generatedElement=[id=B-7490-1, origin=286359266, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29307, StaffOperationEvent]: staff=staff-0, total=-1, structure=7490
@@ -1449,79 +1449,79 @@ Trace of agent B-7490-1
 [32306, RouteEvent]: mode=drive, start=305779877, end=617695761, duration=40, distance=334
 [32376, RouteEvent]: mode=drive, start=617695761, end=301589923, duration=412, distance=3183
 [32788, StaffOperationEvent]: staff=staff-0, total=1, structure=7577
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7490-1, origin=286359266, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7490-1, origin=286359266, seats=1], cause=END_OF_SIM
 Trace of agent B-7498-1
 [0, InputEvent]: generatedElement=[id=B-7498-1, origin=315770059, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24027, GetVehicleEvent]: agent=user-0.3, getVehicle=B-7498-1
 [24027, RouteEvent]: mode=bike, start=315770059, end=3383262202, duration=648, distance=2706
 [24675, LeaveVehicleEvent]: agent=user-0.3, leaveVehicle=B-7498-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7498-1, origin=315770059, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7498-1, origin=315770059, seats=1], cause=END_OF_SIM
 Trace of agent B-7498-2
 [0, InputEvent]: generatedElement=[id=B-7498-2, origin=315770059, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24380, GetVehicleEvent]: agent=user-0.2, getVehicle=B-7498-2
 [24380, RouteEvent]: mode=bike, start=315770059, end=626570397, duration=590, distance=2457
 [24970, LeaveVehicleEvent]: agent=user-0.2, leaveVehicle=B-7498-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7498-2, origin=315770059, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7498-2, origin=315770059, seats=1], cause=END_OF_SIM
 Trace of agent B-7537-1
 [0, InputEvent]: generatedElement=[id=B-7537-1, origin=1557678364, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [30872, StaffOperationEvent]: staff=staff-0, total=-1, structure=7537
 [30902, RouteEvent]: mode=drive, start=1557678364, end=290027760, duration=126, distance=1067
 [31028, StaffOperationEvent]: staff=staff-0, total=1, structure=7487
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7537-1, origin=1557678364, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7537-1, origin=1557678364, seats=1], cause=END_OF_SIM
 Trace of agent B-7571-1
 [0, InputEvent]: generatedElement=[id=B-7571-1, origin=330312113, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25632, GetVehicleEvent]: agent=user-13.4, getVehicle=B-7571-1
 [25632, RouteEvent]: mode=bike, start=330312113, end=315882188, duration=907, distance=3775
 [26539, LeaveVehicleEvent]: agent=user-13.4, leaveVehicle=B-7571-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7571-1, origin=330312113, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7571-1, origin=330312113, seats=1], cause=END_OF_SIM
 Trace of agent B-7571-2
 [0, InputEvent]: generatedElement=[id=B-7571-2, origin=330312113, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25798, GetVehicleEvent]: agent=user-13.2, getVehicle=B-7571-2
 [25798, RouteEvent]: mode=bike, start=330312113, end=294029953, duration=845, distance=3522
 [26643, LeaveVehicleEvent]: agent=user-13.2, leaveVehicle=B-7571-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7571-2, origin=330312113, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7571-2, origin=330312113, seats=1], cause=END_OF_SIM
 Trace of agent B-7574-1
 [0, InputEvent]: generatedElement=[id=B-7574-1, origin=3917173803, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24956, GetVehicleEvent]: agent=user-15.2, getVehicle=B-7574-1
 [24956, RouteEvent]: mode=bike, start=3917173803, end=360946943, duration=1017, distance=4228
 [25973, LeaveVehicleEvent]: agent=user-15.2, leaveVehicle=B-7574-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7574-1, origin=3917173803, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7574-1, origin=3917173803, seats=1], cause=END_OF_SIM
 Trace of agent B-7577-1
 [0, InputEvent]: generatedElement=[id=B-7577-1, origin=301589923, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29656, GetVehicleEvent]: agent=user-21.1, getVehicle=B-7577-1
 [29656, RouteEvent]: mode=bike, start=301589923, end=286359257, duration=545, distance=2273
 [30201, LeaveVehicleEvent]: agent=user-21.1, leaveVehicle=B-7577-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7577-1, origin=301589923, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7577-1, origin=301589923, seats=1], cause=END_OF_SIM
 Trace of agent B-7579-1
 [0, InputEvent]: generatedElement=[id=B-7579-1, origin=293265059, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29865, GetVehicleEvent]: agent=user-20.1, getVehicle=B-7579-1
 [29865, RouteEvent]: mode=bike, start=293265059, end=336121914, duration=731, distance=3055
 [30596, LeaveVehicleEvent]: agent=user-20.1, leaveVehicle=B-7579-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7579-1, origin=293265059, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7579-1, origin=293265059, seats=1], cause=END_OF_SIM
 Trace of agent B-7514-1
 [0, InputEvent]: generatedElement=[id=B-7514-1, origin=287727836, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [22599, GetVehicleEvent]: agent=user-17.1, getVehicle=B-7514-1
 [22599, RouteEvent]: mode=bike, start=287727836, end=336027900, duration=961, distance=4003
 [23560, LeaveVehicleEvent]: agent=user-17.1, leaveVehicle=B-7514-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7514-1, origin=287727836, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7514-1, origin=287727836, seats=1], cause=END_OF_SIM
 Trace of agent B-7514-2
 [0, InputEvent]: generatedElement=[id=B-7514-2, origin=287727836, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29439, GetVehicleEvent]: agent=user-21.4, getVehicle=B-7514-2
 [29439, RouteEvent]: mode=bike, start=287727836, end=315882188, duration=323, distance=1347
 [29762, LeaveVehicleEvent]: agent=user-21.4, leaveVehicle=B-7514-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7514-2, origin=287727836, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7514-2, origin=287727836, seats=1], cause=END_OF_SIM
 Trace of agent B-7547-1
 [0, InputEvent]: generatedElement=[id=B-7547-1, origin=303614872, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24902, GetVehicleEvent]: agent=user-16.1, getVehicle=B-7547-1
 [24902, RouteEvent]: mode=bike, start=303614872, end=5161769946, duration=281, distance=1177
 [25183, LeaveVehicleEvent]: agent=user-16.1, leaveVehicle=B-7547-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7547-1, origin=303614872, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7547-1, origin=303614872, seats=1], cause=END_OF_SIM
 Trace of agent B-7547-2
 [0, InputEvent]: generatedElement=[id=B-7547-2, origin=303614872, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24968, GetVehicleEvent]: agent=user-16.2, getVehicle=B-7547-2
 [24968, RouteEvent]: mode=bike, start=303614872, end=1737307952, duration=395, distance=1651
 [25363, LeaveVehicleEvent]: agent=user-16.2, leaveVehicle=B-7547-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7547-2, origin=303614872, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7547-2, origin=303614872, seats=1], cause=END_OF_SIM
 Trace of agent B-7548-1
 [0, InputEvent]: generatedElement=[id=B-7548-1, origin=5161769946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26210, StaffOperationEvent]: staff=staff-0, total=-2, structure=7548
@@ -1539,7 +1539,7 @@ Trace of agent B-7548-1
 [27752, RouteEvent]: mode=drive, start=5562508314, end=568840519, duration=467, distance=3727
 [28249, RouteEvent]: mode=drive, start=568840519, end=335895716, duration=112, distance=945
 [28361, StaffOperationEvent]: staff=staff-0, total=2, structure=7587
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7548-1, origin=5161769946, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7548-1, origin=5161769946, seats=1], cause=END_OF_SIM
 Trace of agent B-7548-2
 [0, InputEvent]: generatedElement=[id=B-7548-2, origin=5161769946, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26210, StaffOperationEvent]: staff=staff-0, total=-2, structure=7548
@@ -1556,7 +1556,7 @@ Trace of agent B-7548-2
 [27643, RouteEvent]: mode=drive, start=307965916, end=5562508314, duration=79, distance=674
 [27752, RouteEvent]: mode=drive, start=5562508314, end=568840519, duration=467, distance=3727
 [28219, StaffOperationEvent]: staff=staff-0, total=4, structure=7588
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7548-2, origin=5161769946, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7548-2, origin=5161769946, seats=1], cause=END_OF_SIM
 Trace of agent B-7553-1
 [0, InputEvent]: generatedElement=[id=B-7553-1, origin=3051685748, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25293, StaffOperationEvent]: staff=staff-0, total=-2, structure=7553
@@ -1564,51 +1564,51 @@ Trace of agent B-7553-1
 [25404, RouteEvent]: mode=drive, start=272118247, end=330312113, duration=118, distance=986
 [25552, RouteEvent]: mode=drive, start=330312113, end=293265059, duration=58, distance=482
 [25610, StaffOperationEvent]: staff=staff-0, total=1, structure=7579
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7553-1, origin=3051685748, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7553-1, origin=3051685748, seats=1], cause=END_OF_SIM
 Trace of agent B-7553-2
 [0, InputEvent]: generatedElement=[id=B-7553-2, origin=3051685748, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25293, StaffOperationEvent]: staff=staff-0, total=-2, structure=7553
 [25323, RouteEvent]: mode=drive, start=3051685748, end=272118247, duration=51, distance=426
 [25404, RouteEvent]: mode=drive, start=272118247, end=330312113, duration=118, distance=986
 [25522, StaffOperationEvent]: staff=staff-0, total=2, structure=7571
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7553-2, origin=3051685748, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7553-2, origin=3051685748, seats=1], cause=END_OF_SIM
 Trace of agent B-7557-1
 [0, InputEvent]: generatedElement=[id=B-7557-1, origin=287401603, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26058, GetVehicleEvent]: agent=user-4.1, getVehicle=B-7557-1
 [26058, RouteEvent]: mode=bike, start=287401603, end=626570397, duration=480, distance=1994
 [26538, LeaveVehicleEvent]: agent=user-4.1, leaveVehicle=B-7557-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7557-1, origin=287401603, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7557-1, origin=287401603, seats=1], cause=END_OF_SIM
 Trace of agent B-7589-1
 [0, InputEvent]: generatedElement=[id=B-7589-1, origin=302101544, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [24301, GetVehicleEvent]: agent=user-5.1, getVehicle=B-7589-1
 [24301, RouteEvent]: mode=bike, start=302101544, end=3383262202, duration=639, distance=2663
 [24940, LeaveVehicleEvent]: agent=user-5.1, leaveVehicle=B-7589-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7589-1, origin=302101544, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7589-1, origin=302101544, seats=1], cause=END_OF_SIM
 Trace of agent B-7487-1
 [0, InputEvent]: generatedElement=[id=B-7487-1, origin=290027760, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25737, GetVehicleEvent]: agent=user-9.3, getVehicle=B-7487-1
 [25737, RouteEvent]: mode=bike, start=290027760, end=360946943, duration=962, distance=3991
 [26699, LeaveVehicleEvent]: agent=user-9.3, leaveVehicle=B-7487-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7487-1, origin=290027760, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7487-1, origin=290027760, seats=1], cause=END_OF_SIM
 Trace of agent B-7487-2
 [0, InputEvent]: generatedElement=[id=B-7487-2, origin=290027760, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26798, GetVehicleEvent]: agent=user-9.1, getVehicle=B-7487-2
 [26798, RouteEvent]: mode=bike, start=290027760, end=3051685748, duration=1022, distance=4248
 [27820, LeaveVehicleEvent]: agent=user-9.1, leaveVehicle=B-7487-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7487-2, origin=290027760, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7487-2, origin=290027760, seats=1], cause=END_OF_SIM
 Trace of agent B-7512-1
 [0, InputEvent]: generatedElement=[id=B-7512-1, origin=1737307952, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29973, StaffOperationEvent]: staff=staff-0, total=-1, structure=7512
 [30003, RouteEvent]: mode=drive, start=1737307952, end=270767546, duration=414, distance=3212
 [30417, StaffOperationEvent]: staff=staff-0, total=2, structure=7592
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7512-1, origin=1737307952, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7512-1, origin=1737307952, seats=1], cause=END_OF_SIM
 Trace of agent B-7478-1
 [0, InputEvent]: generatedElement=[id=B-7478-1, origin=2417854742, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [27024, StaffOperationEvent]: staff=staff-0, total=-1, structure=7478
 [27054, RouteEvent]: mode=drive, start=2417854742, end=626570397, duration=71, distance=394
 [27155, RouteEvent]: mode=drive, start=626570397, end=5062068889, duration=310, distance=2521
 [27465, StaffOperationEvent]: staff=staff-0, total=3, structure=7566
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7478-1, origin=2417854742, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7478-1, origin=2417854742, seats=1], cause=END_OF_SIM
 Trace of agent B-7479-1
 [0, InputEvent]: generatedElement=[id=B-7479-1, origin=3383262202, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26963, StaffOperationEvent]: staff=staff-0, total=-2, structure=7479
@@ -1617,7 +1617,7 @@ Trace of agent B-7479-1
 [27155, RouteEvent]: mode=drive, start=626570397, end=5062068889, duration=310, distance=2521
 [27495, RouteEvent]: mode=drive, start=5062068889, end=307965916, duration=118, distance=858
 [27613, StaffOperationEvent]: staff=staff-0, total=2, structure=7563
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7479-1, origin=3383262202, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7479-1, origin=3383262202, seats=1], cause=END_OF_SIM
 Trace of agent B-7479-2
 [0, InputEvent]: generatedElement=[id=B-7479-2, origin=3383262202, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [26963, StaffOperationEvent]: staff=staff-0, total=-2, structure=7479
@@ -1625,7 +1625,7 @@ Trace of agent B-7479-2
 [27054, RouteEvent]: mode=drive, start=2417854742, end=626570397, duration=71, distance=394
 [27155, RouteEvent]: mode=drive, start=626570397, end=5062068889, duration=310, distance=2521
 [27465, StaffOperationEvent]: staff=staff-0, total=3, structure=7566
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7479-2, origin=3383262202, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7479-2, origin=3383262202, seats=1], cause=END_OF_SIM
 Trace of agent B-7486-1
 [0, InputEvent]: generatedElement=[id=B-7486-1, origin=3397963523, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29383, StaffOperationEvent]: staff=staff-0, total=-1, structure=7486
@@ -1642,7 +1642,7 @@ Trace of agent B-7486-1
 [32203, RouteEvent]: mode=drive, start=472270024, end=305779877, duration=73, distance=609
 [32306, RouteEvent]: mode=drive, start=305779877, end=617695761, duration=40, distance=334
 [32346, StaffOperationEvent]: staff=staff-0, total=1, structure=7576
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7486-1, origin=3397963523, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7486-1, origin=3397963523, seats=1], cause=END_OF_SIM
 Trace of agent B-7499-1
 [0, InputEvent]: generatedElement=[id=B-7499-1, origin=286359257, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29116, StaffOperationEvent]: staff=staff-0, total=-2, structure=7499
@@ -1664,7 +1664,7 @@ Trace of agent B-7499-1
 [32376, RouteEvent]: mode=drive, start=617695761, end=301589923, duration=412, distance=3183
 [32818, RouteEvent]: mode=drive, start=301589923, end=629117500, duration=487, distance=3701
 [33335, RouteEvent]: mode=drive, start=629117500, end=5549193367, duration=576, distance=3672
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7499-1, origin=286359257, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7499-1, origin=286359257, seats=1], cause=END_OF_SIM
 Trace of agent B-7499-2
 [0, InputEvent]: generatedElement=[id=B-7499-2, origin=286359257, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29116, StaffOperationEvent]: staff=staff-0, total=-2, structure=7499
@@ -1686,7 +1686,7 @@ Trace of agent B-7499-2
 [32376, RouteEvent]: mode=drive, start=617695761, end=301589923, duration=412, distance=3183
 [32818, RouteEvent]: mode=drive, start=301589923, end=629117500, duration=487, distance=3701
 [33335, RouteEvent]: mode=drive, start=629117500, end=5549193367, duration=576, distance=3672
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7499-2, origin=286359257, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7499-2, origin=286359257, seats=1], cause=END_OF_SIM
 Trace of agent B-7501-1
 [0, InputEvent]: generatedElement=[id=B-7501-1, origin=315882188, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [28979, StaffOperationEvent]: staff=staff-0, total=-2, structure=7501
@@ -1710,7 +1710,7 @@ Trace of agent B-7501-1
 [32376, RouteEvent]: mode=drive, start=617695761, end=301589923, duration=412, distance=3183
 [32818, RouteEvent]: mode=drive, start=301589923, end=629117500, duration=487, distance=3701
 [33335, RouteEvent]: mode=drive, start=629117500, end=5549193367, duration=576, distance=3672
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7501-1, origin=315882188, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7501-1, origin=315882188, seats=1], cause=END_OF_SIM
 Trace of agent B-7501-2
 [0, InputEvent]: generatedElement=[id=B-7501-2, origin=315882188, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [28979, StaffOperationEvent]: staff=staff-0, total=-2, structure=7501
@@ -1734,93 +1734,93 @@ Trace of agent B-7501-2
 [32376, RouteEvent]: mode=drive, start=617695761, end=301589923, duration=412, distance=3183
 [32818, RouteEvent]: mode=drive, start=301589923, end=629117500, duration=487, distance=3701
 [33335, RouteEvent]: mode=drive, start=629117500, end=5549193367, duration=576, distance=3672
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7501-2, origin=315882188, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7501-2, origin=315882188, seats=1], cause=END_OF_SIM
 Trace of agent B-7506-1
 [0, InputEvent]: generatedElement=[id=B-7506-1, origin=292661232, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [29800, StaffOperationEvent]: staff=staff-0, total=-1, structure=7506
 [29830, RouteEvent]: mode=drive, start=292661232, end=1737307952, duration=143, distance=1133
 [30003, RouteEvent]: mode=drive, start=1737307952, end=270767546, duration=414, distance=3212
 [30417, StaffOperationEvent]: staff=staff-0, total=2, structure=7592
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7506-1, origin=292661232, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7506-1, origin=292661232, seats=1], cause=END_OF_SIM
 Trace of agent B-7570-1
 [0, InputEvent]: generatedElement=[id=B-7570-1, origin=1294763581, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25689, GetVehicleEvent]: agent=user-13.3, getVehicle=B-7570-1
 [25689, RouteEvent]: mode=bike, start=1294763581, end=296945184, duration=821, distance=3426
 [26510, LeaveVehicleEvent]: agent=user-13.3, leaveVehicle=B-7570-1
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7570-1, origin=1294763581, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7570-1, origin=1294763581, seats=1], cause=END_OF_SIM
 Trace of agent B-7570-2
 [0, InputEvent]: generatedElement=[id=B-7570-2, origin=1294763581, seats=1], type=<class 'starling_sim.basemodel.agent.vehicles.station_based_vehicle.StationBasedVehicle'>
 [25715, GetVehicleEvent]: agent=user-13.1, getVehicle=B-7570-2
 [25715, RouteEvent]: mode=bike, start=1294763581, end=294029953, duration=833, distance=3475
 [26548, LeaveVehicleEvent]: agent=user-13.1, leaveVehicle=B-7570-2
-[35000.0, LeaveSimulationEvent]: agent=[id=B-7570-2, origin=1294763581, seats=1], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=B-7570-2, origin=1294763581, seats=1], cause=END_OF_SIM
 Trace of agent 7505
 [0, InputEvent]: generatedElement=[id=7505, position=296945184, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [26510, RequestEvent]: requestTime=26510, agent=user-13.3, structure=7505, type=PUT, success=True, result=None, waitDurations=[0]
 [29539, StaffOperationEvent]: staff=staff-0, total=-1, structure=7505
-[35000.0, LeaveSimulationEvent]: agent=[id=7505, position=296945184, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7505, position=296945184, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7523
 [0, InputEvent]: generatedElement=[id=7523, position=1261901706, capacity=20, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [29669, RequestEvent]: requestTime=29669, agent=user-19.1, structure=7523, type=PUT, success=True, result=None, waitDurations=[0]
 [31668, StaffOperationEvent]: staff=staff-0, total=-1, structure=7523
-[35000.0, LeaveSimulationEvent]: agent=[id=7523, position=1261901706, capacity=20, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7523, position=1261901706, capacity=20, initialStock=2], cause=END_OF_SIM
 Trace of agent 7532
 [0, InputEvent]: generatedElement=[id=7532, position=336121914, capacity=40, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [30596, RequestEvent]: requestTime=30596, agent=user-20.1, structure=7532, type=PUT, success=True, result=None, waitDurations=[0]
 [31344, StaffOperationEvent]: staff=staff-0, total=-1, structure=7532
-[35000.0, LeaveSimulationEvent]: agent=[id=7532, position=336121914, capacity=40, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7532, position=336121914, capacity=40, initialStock=2], cause=END_OF_SIM
 Trace of agent 7542
 [0, InputEvent]: generatedElement=[id=7542, position=279635063, capacity=70, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25011, StaffOperationEvent]: staff=staff-0, total=-1, structure=7542
 [29000, RequestEvent]: requestTime=29000, agent=user-19.2, structure=7542, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7542, position=279635063, capacity=70, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7542, position=279635063, capacity=70, initialStock=2], cause=END_OF_SIM
 Trace of agent 7562
 [0, InputEvent]: generatedElement=[id=7562, position=5562508314, capacity=18, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25083, RequestEvent]: requestTime=25083, agent=user-2.1, structure=7562, type=GET, success=True, result=[id=B-7562-1, origin=5562508314, seats=1], waitDurations=[0]
 [25101, RequestEvent]: requestTime=25101, agent=user-4.2, structure=7562, type=GET, success=True, result=[id=B-7562-2, origin=5562508314, seats=1], waitDurations=[0]
 [25542, RequestEvent]: requestTime=25342, agent=user-4.1, structure=7562, type=GET, success=False, result=None, waitDurations=[200]
 [27722, StaffOperationEvent]: staff=staff-0, total=3, structure=7562
-[35000.0, LeaveSimulationEvent]: agent=[id=7562, position=5562508314, capacity=18, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7562, position=5562508314, capacity=18, initialStock=2], cause=END_OF_SIM
 Trace of agent 7563
 [0, InputEvent]: generatedElement=[id=7563, position=307965916, capacity=20, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25932, RequestEvent]: requestTime=25932, agent=user-10.1, structure=7563, type=GET, success=True, result=[id=B-7563-1, origin=307965916, seats=1], waitDurations=[0]
 [25937, RequestEvent]: requestTime=25937, agent=user-10.2, structure=7563, type=GET, success=True, result=[id=B-7563-2, origin=307965916, seats=1], waitDurations=[0]
 [27613, StaffOperationEvent]: staff=staff-0, total=2, structure=7563
-[35000.0, LeaveSimulationEvent]: agent=[id=7563, position=307965916, capacity=20, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7563, position=307965916, capacity=20, initialStock=2], cause=END_OF_SIM
 Trace of agent 7568
 [0, InputEvent]: generatedElement=[id=7568, position=336027900, capacity=20, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [23560, RequestEvent]: requestTime=23560, agent=user-17.1, structure=7568, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7568, position=336027900, capacity=20, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7568, position=336027900, capacity=20, initialStock=2], cause=END_OF_SIM
 Trace of agent 7578
 [0, InputEvent]: generatedElement=[id=7578, position=1968204000, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25056, RequestEvent]: requestTime=25056, agent=user-0.1, structure=7578, type=GET, success=True, result=[id=B-7578-1, origin=1968204000, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7578, position=1968204000, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7578, position=1968204000, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7584
 [0, InputEvent]: generatedElement=[id=7584, position=305779877, capacity=21, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25679, RequestEvent]: requestTime=25679, agent=user-11.2, structure=7584, type=GET, success=True, result=[id=B-7584-1, origin=305779877, seats=1], waitDurations=[0]
 [32276, StaffOperationEvent]: staff=staff-0, total=1, structure=7584
-[35000.0, LeaveSimulationEvent]: agent=[id=7584, position=305779877, capacity=21, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7584, position=305779877, capacity=21, initialStock=2], cause=END_OF_SIM
 Trace of agent 7477
 [0, InputEvent]: generatedElement=[id=7477, position=626570397, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [24970, RequestEvent]: requestTime=24970, agent=user-0.2, structure=7477, type=PUT, success=True, result=None, waitDurations=[0]
 [26538, RequestEvent]: requestTime=26538, agent=user-4.1, structure=7477, type=PUT, success=True, result=None, waitDurations=[0]
 [27125, StaffOperationEvent]: staff=staff-0, total=-1, structure=7477
-[35000.0, LeaveSimulationEvent]: agent=[id=7477, position=626570397, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7477, position=626570397, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7510
 [0, InputEvent]: generatedElement=[id=7510, position=1737311220, capacity=40, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25632, RequestEvent]: requestTime=25632, agent=user-4.4, structure=7510, type=PUT, success=True, result=None, waitDurations=[0]
 [26511, StaffOperationEvent]: staff=staff-0, total=-1, structure=7510
-[35000.0, LeaveSimulationEvent]: agent=[id=7510, position=1737311220, capacity=40, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7510, position=1737311220, capacity=40, initialStock=2], cause=END_OF_SIM
 Trace of agent 7576
 [0, InputEvent]: generatedElement=[id=7576, position=617695761, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25692, RequestEvent]: requestTime=25692, agent=user-11.1, structure=7576, type=GET, success=True, result=[id=B-7576-1, origin=617695761, seats=1], waitDurations=[0]
 [32346, StaffOperationEvent]: staff=staff-0, total=1, structure=7576
-[35000.0, LeaveSimulationEvent]: agent=[id=7576, position=617695761, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7576, position=617695761, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7582
 [0, InputEvent]: generatedElement=[id=7582, position=472270024, capacity=21, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25239, RequestEvent]: requestTime=25239, agent=user-15.1, structure=7582, type=GET, success=True, result=[id=B-7582-1, origin=472270024, seats=1], waitDurations=[0]
 [32173, StaffOperationEvent]: staff=staff-0, total=1, structure=7582
-[35000.0, LeaveSimulationEvent]: agent=[id=7582, position=472270024, capacity=21, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7582, position=472270024, capacity=21, initialStock=2], cause=END_OF_SIM
 Trace of agent 7588
 [0, InputEvent]: generatedElement=[id=7588, position=568840519, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25790, RequestEvent]: requestTime=25790, agent=user-6.2, structure=7588, type=GET, success=True, result=[id=B-7588-1, origin=568840519, seats=1], waitDurations=[0]
@@ -1828,24 +1828,24 @@ Trace of agent 7588
 [26163, RequestEvent]: requestTime=25963, agent=user-6.4, structure=7588, type=GET, success=False, result=None, waitDurations=[200]
 [26187, RequestEvent]: requestTime=25987, agent=user-6.3, structure=7588, type=GET, success=False, result=None, waitDurations=[200]
 [28219, StaffOperationEvent]: staff=staff-0, total=4, structure=7588
-[35000.0, LeaveSimulationEvent]: agent=[id=7588, position=568840519, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7588, position=568840519, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7591
 [0, InputEvent]: generatedElement=[id=7591, position=290854795, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [24969, RequestEvent]: requestTime=24969, agent=user-1.1, structure=7591, type=GET, success=True, result=[id=B-7591-1, origin=290854795, seats=1], waitDurations=[0]
 [25331, RequestEvent]: requestTime=25331, agent=user-1.2, structure=7591, type=GET, success=True, result=[id=B-7591-2, origin=290854795, seats=1], waitDurations=[0]
 [30567, StaffOperationEvent]: staff=staff-0, total=1, structure=7591
-[35000.0, LeaveSimulationEvent]: agent=[id=7591, position=290854795, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7591, position=290854795, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7485
 [0, InputEvent]: generatedElement=[id=7485, position=294029953, capacity=20, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [26548, RequestEvent]: requestTime=26548, agent=user-13.1, structure=7485, type=PUT, success=True, result=None, waitDurations=[0]
 [26643, RequestEvent]: requestTime=26643, agent=user-13.2, structure=7485, type=PUT, success=True, result=None, waitDurations=[0]
 [29043, StaffOperationEvent]: staff=staff-0, total=-2, structure=7485
-[35000.0, LeaveSimulationEvent]: agent=[id=7485, position=294029953, capacity=20, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7485, position=294029953, capacity=20, initialStock=2], cause=END_OF_SIM
 Trace of agent 7493
 [0, InputEvent]: generatedElement=[id=7493, position=1937262182, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [26678, RequestEvent]: requestTime=26678, agent=user-8.2, structure=7493, type=PUT, success=True, result=None, waitDurations=[0]
 [26809, StaffOperationEvent]: staff=staff-0, total=-1, structure=7493
-[35000.0, LeaveSimulationEvent]: agent=[id=7493, position=1937262182, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7493, position=1937262182, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7509
 [0, InputEvent]: generatedElement=[id=7509, position=1557433256, capacity=27, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25753, RequestEvent]: requestTime=25753, agent=user-1.1, structure=7509, type=PUT, success=True, result=None, waitDurations=[0]
@@ -1853,81 +1853,81 @@ Trace of agent 7509
 [26115, RequestEvent]: requestTime=26115, agent=user-1.2, structure=7509, type=PUT, success=True, result=None, waitDurations=[0]
 [26435, StaffOperationEvent]: staff=staff-0, total=-2, structure=7509
 [26640, RequestEvent]: requestTime=26640, agent=user-10.2, structure=7509, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7509, position=1557433256, capacity=27, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7509, position=1557433256, capacity=27, initialStock=2], cause=END_OF_SIM
 Trace of agent 7513
 [0, InputEvent]: generatedElement=[id=7513, position=305615940, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25361, RequestEvent]: requestTime=25361, agent=user-16.4, structure=7513, type=GET, success=True, result=[id=B-7513-1, origin=305615940, seats=1], waitDurations=[0]
 [25430, RequestEvent]: requestTime=25430, agent=user-16.3, structure=7513, type=GET, success=True, result=[id=B-7513-2, origin=305615940, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7513, position=305615940, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7513, position=305615940, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7517
 [0, InputEvent]: generatedElement=[id=7517, position=360697036, capacity=13, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25721, RequestEvent]: requestTime=25721, agent=user-16.3, structure=7517, type=PUT, success=True, result=None, waitDurations=[0]
 [26042, StaffOperationEvent]: staff=staff-0, total=-2, structure=7517
 [26471, RequestEvent]: requestTime=26471, agent=user-6.2, structure=7517, type=PUT, success=True, result=None, waitDurations=[0]
 [27395, RequestEvent]: requestTime=27395, agent=user-6.4, structure=7517, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7517, position=360697036, capacity=13, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7517, position=360697036, capacity=13, initialStock=2], cause=END_OF_SIM
 Trace of agent 7561
 [0, InputEvent]: generatedElement=[id=7561, position=629117500, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [24984, RequestEvent]: requestTime=24984, agent=user-4.4, structure=7561, type=GET, success=True, result=[id=B-7561-1, origin=629117500, seats=1], waitDurations=[0]
 [25061, RequestEvent]: requestTime=25061, agent=user-4.3, structure=7561, type=GET, success=True, result=[id=B-7561-2, origin=629117500, seats=1], waitDurations=[0]
 [33305, StaffOperationEvent]: staff=staff-0, total=1, structure=7561
-[35000.0, LeaveSimulationEvent]: agent=[id=7561, position=629117500, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7561, position=629117500, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7566
 [0, InputEvent]: generatedElement=[id=7566, position=5062068889, capacity=25, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25563, RequestEvent]: requestTime=25563, agent=user-9.4, structure=7566, type=GET, success=True, result=[id=B-7566-1, origin=5062068889, seats=1], waitDurations=[0]
 [26127, RequestEvent]: requestTime=26127, agent=user-9.2, structure=7566, type=GET, success=True, result=[id=B-7566-2, origin=5062068889, seats=1], waitDurations=[0]
 [26362, RequestEvent]: requestTime=26162, agent=user-9.1, structure=7566, type=GET, success=False, result=None, waitDurations=[200]
 [27465, StaffOperationEvent]: staff=staff-0, total=3, structure=7566
-[35000.0, LeaveSimulationEvent]: agent=[id=7566, position=5062068889, capacity=25, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7566, position=5062068889, capacity=25, initialStock=2], cause=END_OF_SIM
 Trace of agent 7569
 [0, InputEvent]: generatedElement=[id=7569, position=330312319, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [24763, RequestEvent]: requestTime=24763, agent=user-14.2, structure=7569, type=GET, success=True, result=[id=B-7569-1, origin=330312319, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7569, position=330312319, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7569, position=330312319, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7572
 [0, InputEvent]: generatedElement=[id=7572, position=1558756143, capacity=28, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [24802, RequestEvent]: requestTime=24802, agent=user-14.1, structure=7572, type=GET, success=True, result=[id=B-7572-1, origin=1558756143, seats=1], waitDurations=[0]
 [25000, RequestEvent]: requestTime=25000, agent=user-14.3, structure=7572, type=GET, success=True, result=[id=B-7572-2, origin=1558756143, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7572, position=1558756143, capacity=28, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7572, position=1558756143, capacity=28, initialStock=2], cause=END_OF_SIM
 Trace of agent 7587
 [0, InputEvent]: generatedElement=[id=7587, position=335895716, capacity=20, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [27949, RequestEvent]: requestTime=27949, agent=user-19.2, structure=7587, type=GET, success=True, result=[id=B-7587-1, origin=335895716, seats=1], waitDurations=[0]
 [28361, StaffOperationEvent]: staff=staff-0, total=2, structure=7587
 [28366, RequestEvent]: requestTime=28366, agent=user-19.1, structure=7587, type=GET, success=True, result=[id=B-7587-2, origin=335895716, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7587, position=335895716, capacity=20, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7587, position=335895716, capacity=20, initialStock=2], cause=END_OF_SIM
 Trace of agent 7488
 [0, InputEvent]: generatedElement=[id=7488, position=287431463, capacity=17, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [29236, StaffOperationEvent]: staff=staff-0, total=-1, structure=7488
 [30059, RequestEvent]: requestTime=30059, agent=user-21.3, structure=7488, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7488, position=287431463, capacity=17, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7488, position=287431463, capacity=17, initialStock=2], cause=END_OF_SIM
 Trace of agent 7518
 [0, InputEvent]: generatedElement=[id=7518, position=1395099946, capacity=26, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25709, RequestEvent]: requestTime=25709, agent=user-16.4, structure=7518, type=PUT, success=True, result=None, waitDurations=[0]
 [25982, StaffOperationEvent]: staff=staff-0, total=-2, structure=7518
 [26533, RequestEvent]: requestTime=26533, agent=user-6.1, structure=7518, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7518, position=1395099946, capacity=26, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7518, position=1395099946, capacity=26, initialStock=2], cause=END_OF_SIM
 Trace of agent 7524
 [0, InputEvent]: generatedElement=[id=7524, position=292687583, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [26690, StaffOperationEvent]: staff=staff-0, total=-1, structure=7524
 [26724, RequestEvent]: requestTime=26724, agent=user-8.1, structure=7524, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7524, position=292687583, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7524, position=292687583, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7525
 [0, InputEvent]: generatedElement=[id=7525, position=279635052, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [26342, RequestEvent]: requestTime=26342, agent=user-11.2, structure=7525, type=PUT, success=True, result=None, waitDurations=[0]
 [26431, RequestEvent]: requestTime=26431, agent=user-11.1, structure=7525, type=PUT, success=True, result=None, waitDurations=[0]
 [26595, StaffOperationEvent]: staff=staff-0, total=-2, structure=7525
-[35000.0, LeaveSimulationEvent]: agent=[id=7525, position=279635052, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7525, position=279635052, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7529
 [0, InputEvent]: generatedElement=[id=7529, position=272118247, capacity=20, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25374, StaffOperationEvent]: staff=staff-0, total=-1, structure=7529
 [26576, RequestEvent]: requestTime=26576, agent=user-9.4, structure=7529, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7529, position=272118247, capacity=20, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7529, position=272118247, capacity=20, initialStock=2], cause=END_OF_SIM
 Trace of agent 7530
 [0, InputEvent]: generatedElement=[id=7530, position=360946943, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25201, StaffOperationEvent]: staff=staff-0, total=-2, structure=7530
 [25824, RequestEvent]: requestTime=25824, agent=user-15.1, structure=7530, type=PUT, success=True, result=None, waitDurations=[0]
 [25973, RequestEvent]: requestTime=25973, agent=user-15.2, structure=7530, type=PUT, success=True, result=None, waitDurations=[0]
 [26699, RequestEvent]: requestTime=26699, agent=user-9.3, structure=7530, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7530, position=360946943, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7530, position=360946943, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7560
 [0, InputEvent]: generatedElement=[id=7560, position=309348865, capacity=14, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [26902, RequestEvent]: requestTime=26902, agent=user-6.4, structure=7560, type=GET, success=True, result=[id=B-7560-1, origin=309348865, seats=1], waitDurations=[0]
@@ -1935,55 +1935,55 @@ Trace of agent 7560
 [28618, StaffOperationEvent]: staff=staff-0, total=2, structure=7560
 [29571, RequestEvent]: requestTime=29571, agent=user-21.2, structure=7560, type=GET, success=True, result=[id=B-7517-1, origin=360697036, seats=1], waitDurations=[0]
 [29599, RequestEvent]: requestTime=29599, agent=user-21.3, structure=7560, type=GET, success=True, result=[id=B-7518-2, origin=1395099946, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7560, position=309348865, capacity=14, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7560, position=309348865, capacity=14, initialStock=2], cause=END_OF_SIM
 Trace of agent 7592
 [0, InputEvent]: generatedElement=[id=7592, position=270767546, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25993, RequestEvent]: requestTime=25993, agent=user-8.2, structure=7592, type=GET, success=True, result=[id=B-7592-1, origin=270767546, seats=1], waitDurations=[0]
 [26019, RequestEvent]: requestTime=26019, agent=user-8.1, structure=7592, type=GET, success=True, result=[id=B-7592-2, origin=270767546, seats=1], waitDurations=[0]
 [30417, StaffOperationEvent]: staff=staff-0, total=2, structure=7592
-[35000.0, LeaveSimulationEvent]: agent=[id=7592, position=270767546, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7592, position=270767546, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7490
 [0, InputEvent]: generatedElement=[id=7490, position=286359266, capacity=14, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25603, RequestEvent]: requestTime=25603, agent=user-14.2, structure=7490, type=PUT, success=True, result=None, waitDurations=[0]
 [29307, StaffOperationEvent]: staff=staff-0, total=-1, structure=7490
-[35000.0, LeaveSimulationEvent]: agent=[id=7490, position=286359266, capacity=14, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7490, position=286359266, capacity=14, initialStock=2], cause=END_OF_SIM
 Trace of agent 7498
 [0, InputEvent]: generatedElement=[id=7498, position=315770059, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [24027, RequestEvent]: requestTime=24027, agent=user-0.3, structure=7498, type=GET, success=True, result=[id=B-7498-1, origin=315770059, seats=1], waitDurations=[0]
 [24380, RequestEvent]: requestTime=24380, agent=user-0.2, structure=7498, type=GET, success=True, result=[id=B-7498-2, origin=315770059, seats=1], waitDurations=[0]
 [24608, RequestEvent]: requestTime=24408, agent=user-0.1, structure=7498, type=GET, success=False, result=None, waitDurations=[200]
-[35000.0, LeaveSimulationEvent]: agent=[id=7498, position=315770059, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7498, position=315770059, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7537
 [0, InputEvent]: generatedElement=[id=7537, position=1557678364, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25581, RequestEvent]: requestTime=25581, agent=user-2.1, structure=7537, type=PUT, success=True, result=None, waitDurations=[0]
 [30872, StaffOperationEvent]: staff=staff-0, total=-1, structure=7537
-[35000.0, LeaveSimulationEvent]: agent=[id=7537, position=1557678364, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7537, position=1557678364, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7571
 [0, InputEvent]: generatedElement=[id=7571, position=330312113, capacity=20, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25522, StaffOperationEvent]: staff=staff-0, total=2, structure=7571
 [25632, RequestEvent]: requestTime=25632, agent=user-13.4, structure=7571, type=GET, success=True, result=[id=B-7571-1, origin=330312113, seats=1], waitDurations=[0]
 [25798, RequestEvent]: requestTime=25798, agent=user-13.2, structure=7571, type=GET, success=True, result=[id=B-7571-2, origin=330312113, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7571, position=330312113, capacity=20, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7571, position=330312113, capacity=20, initialStock=2], cause=END_OF_SIM
 Trace of agent 7574
 [0, InputEvent]: generatedElement=[id=7574, position=3917173803, capacity=21, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [24956, RequestEvent]: requestTime=24956, agent=user-15.2, structure=7574, type=GET, success=True, result=[id=B-7574-1, origin=3917173803, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7574, position=3917173803, capacity=21, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7574, position=3917173803, capacity=21, initialStock=2], cause=END_OF_SIM
 Trace of agent 7577
 [0, InputEvent]: generatedElement=[id=7577, position=301589923, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [29656, RequestEvent]: requestTime=29656, agent=user-21.1, structure=7577, type=GET, success=True, result=[id=B-7577-1, origin=301589923, seats=1], waitDurations=[0]
 [32788, StaffOperationEvent]: staff=staff-0, total=1, structure=7577
-[35000.0, LeaveSimulationEvent]: agent=[id=7577, position=301589923, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7577, position=301589923, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7579
 [0, InputEvent]: generatedElement=[id=7579, position=293265059, capacity=24, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25610, StaffOperationEvent]: staff=staff-0, total=1, structure=7579
 [29865, RequestEvent]: requestTime=29865, agent=user-20.1, structure=7579, type=GET, success=True, result=[id=B-7579-1, origin=293265059, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7579, position=293265059, capacity=24, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7579, position=293265059, capacity=24, initialStock=2], cause=END_OF_SIM
 Trace of agent 7514
 [0, InputEvent]: generatedElement=[id=7514, position=287727836, capacity=28, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [22599, RequestEvent]: requestTime=22599, agent=user-17.1, structure=7514, type=GET, success=True, result=[id=B-7514-1, origin=287727836, seats=1], waitDurations=[0]
 [28719, StaffOperationEvent]: staff=staff-0, total=1, structure=7514
 [29439, RequestEvent]: requestTime=29439, agent=user-21.4, structure=7514, type=GET, success=True, result=[id=B-7514-2, origin=287727836, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7514, position=287727836, capacity=28, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7514, position=287727836, capacity=28, initialStock=2], cause=END_OF_SIM
 Trace of agent 7547
 [0, InputEvent]: generatedElement=[id=7547, position=303614872, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [24902, RequestEvent]: requestTime=24902, agent=user-16.1, structure=7547, type=GET, success=True, result=[id=B-7547-1, origin=303614872, seats=1], waitDurations=[0]
@@ -1991,43 +1991,43 @@ Trace of agent 7547
 [25184, RequestEvent]: requestTime=24984, agent=user-16.4, structure=7547, type=GET, success=False, result=None, waitDurations=[200]
 [25253, RequestEvent]: requestTime=25053, agent=user-16.3, structure=7547, type=GET, success=False, result=None, waitDurations=[200]
 [28836, StaffOperationEvent]: staff=staff-0, total=1, structure=7547
-[35000.0, LeaveSimulationEvent]: agent=[id=7547, position=303614872, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7547, position=303614872, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7548
 [0, InputEvent]: generatedElement=[id=7548, position=5161769946, capacity=32, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25183, RequestEvent]: requestTime=25183, agent=user-16.1, structure=7548, type=PUT, success=True, result=None, waitDurations=[0]
 [26210, StaffOperationEvent]: staff=staff-0, total=-2, structure=7548
 [27364, RequestEvent]: requestTime=27364, agent=user-6.3, structure=7548, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7548, position=5161769946, capacity=32, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7548, position=5161769946, capacity=32, initialStock=2], cause=END_OF_SIM
 Trace of agent 7553
 [0, InputEvent]: generatedElement=[id=7553, position=3051685748, capacity=16, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25293, StaffOperationEvent]: staff=staff-0, total=-2, structure=7553
 [27232, RequestEvent]: requestTime=27232, agent=user-9.2, structure=7553, type=PUT, success=True, result=None, waitDurations=[0]
 [27820, RequestEvent]: requestTime=27820, agent=user-9.1, structure=7553, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7553, position=3051685748, capacity=16, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7553, position=3051685748, capacity=16, initialStock=2], cause=END_OF_SIM
 Trace of agent 7557
 [0, InputEvent]: generatedElement=[id=7557, position=287401603, capacity=16, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [26058, RequestEvent]: requestTime=26058, agent=user-4.1, structure=7557, type=GET, success=True, result=[id=B-7557-1, origin=287401603, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7557, position=287401603, capacity=16, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7557, position=287401603, capacity=16, initialStock=2], cause=END_OF_SIM
 Trace of agent 7589
 [0, InputEvent]: generatedElement=[id=7589, position=302101544, capacity=25, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [24301, RequestEvent]: requestTime=24301, agent=user-5.1, structure=7589, type=GET, success=True, result=[id=B-7589-1, origin=302101544, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7589, position=302101544, capacity=25, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7589, position=302101544, capacity=25, initialStock=2], cause=END_OF_SIM
 Trace of agent 7487
 [0, InputEvent]: generatedElement=[id=7487, position=290027760, capacity=14, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25737, RequestEvent]: requestTime=25737, agent=user-9.3, structure=7487, type=GET, success=True, result=[id=B-7487-1, origin=290027760, seats=1], waitDurations=[0]
 [26798, RequestEvent]: requestTime=26798, agent=user-9.1, structure=7487, type=GET, success=True, result=[id=B-7487-2, origin=290027760, seats=1], waitDurations=[0]
 [31028, StaffOperationEvent]: staff=staff-0, total=1, structure=7487
-[35000.0, LeaveSimulationEvent]: agent=[id=7487, position=290027760, capacity=14, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7487, position=290027760, capacity=14, initialStock=2], cause=END_OF_SIM
 Trace of agent 7512
 [0, InputEvent]: generatedElement=[id=7512, position=1737307952, capacity=21, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25363, RequestEvent]: requestTime=25363, agent=user-16.2, structure=7512, type=PUT, success=True, result=None, waitDurations=[0]
 [29973, StaffOperationEvent]: staff=staff-0, total=-1, structure=7512
-[35000.0, LeaveSimulationEvent]: agent=[id=7512, position=1737307952, capacity=21, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7512, position=1737307952, capacity=21, initialStock=2], cause=END_OF_SIM
 Trace of agent 7478
 [0, InputEvent]: generatedElement=[id=7478, position=2417854742, capacity=18, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25496, RequestEvent]: requestTime=25496, agent=user-14.1, structure=7478, type=PUT, success=True, result=None, waitDurations=[0]
 [27024, StaffOperationEvent]: staff=staff-0, total=-1, structure=7478
-[35000.0, LeaveSimulationEvent]: agent=[id=7478, position=2417854742, capacity=18, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7478, position=2417854742, capacity=18, initialStock=2], cause=END_OF_SIM
 Trace of agent 7479
 [0, InputEvent]: generatedElement=[id=7479, position=3383262202, capacity=21, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [24675, RequestEvent]: requestTime=24675, agent=user-0.3, structure=7479, type=PUT, success=True, result=None, waitDurations=[0]
@@ -2035,35 +2035,35 @@ Trace of agent 7479
 [25585, RequestEvent]: requestTime=25585, agent=user-0.1, structure=7479, type=PUT, success=True, result=None, waitDurations=[0]
 [25653, RequestEvent]: requestTime=25653, agent=user-14.3, structure=7479, type=PUT, success=True, result=None, waitDurations=[0]
 [26963, StaffOperationEvent]: staff=staff-0, total=-2, structure=7479
-[35000.0, LeaveSimulationEvent]: agent=[id=7479, position=3383262202, capacity=21, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7479, position=3383262202, capacity=21, initialStock=2], cause=END_OF_SIM
 Trace of agent 7486
 [0, InputEvent]: generatedElement=[id=7486, position=3397963523, capacity=20, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25515, RequestEvent]: requestTime=25515, agent=user-4.3, structure=7486, type=PUT, success=True, result=None, waitDurations=[0]
 [29383, StaffOperationEvent]: staff=staff-0, total=-1, structure=7486
-[35000.0, LeaveSimulationEvent]: agent=[id=7486, position=3397963523, capacity=20, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7486, position=3397963523, capacity=20, initialStock=2], cause=END_OF_SIM
 Trace of agent 7499
 [0, InputEvent]: generatedElement=[id=7499, position=286359257, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [29116, StaffOperationEvent]: staff=staff-0, total=-2, structure=7499
 [29948, RequestEvent]: requestTime=29948, agent=user-21.2, structure=7499, type=PUT, success=True, result=None, waitDurations=[0]
 [30201, RequestEvent]: requestTime=30201, agent=user-21.1, structure=7499, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7499, position=286359257, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7499, position=286359257, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent 7501
 [0, InputEvent]: generatedElement=[id=7501, position=315882188, capacity=13, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [26539, RequestEvent]: requestTime=26539, agent=user-13.4, structure=7501, type=PUT, success=True, result=None, waitDurations=[0]
 [28979, StaffOperationEvent]: staff=staff-0, total=-2, structure=7501
 [29762, RequestEvent]: requestTime=29762, agent=user-21.4, structure=7501, type=PUT, success=True, result=None, waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7501, position=315882188, capacity=13, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7501, position=315882188, capacity=13, initialStock=2], cause=END_OF_SIM
 Trace of agent 7506
 [0, InputEvent]: generatedElement=[id=7506, position=292661232, capacity=25, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [26624, RequestEvent]: requestTime=26624, agent=user-10.1, structure=7506, type=PUT, success=True, result=None, waitDurations=[0]
 [29800, StaffOperationEvent]: staff=staff-0, total=-1, structure=7506
-[35000.0, LeaveSimulationEvent]: agent=[id=7506, position=292661232, capacity=25, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7506, position=292661232, capacity=25, initialStock=2], cause=END_OF_SIM
 Trace of agent 7570
 [0, InputEvent]: generatedElement=[id=7570, position=1294763581, capacity=15, initialStock=2], type=<class 'starling_sim.basemodel.agent.stations.vehicle_sharing_station.VehicleSharingStation'>
 [25689, RequestEvent]: requestTime=25689, agent=user-13.3, structure=7570, type=GET, success=True, result=[id=B-7570-1, origin=1294763581, seats=1], waitDurations=[0]
 [25709, StaffOperationEvent]: staff=staff-0, total=2, structure=7570
 [25715, RequestEvent]: requestTime=25715, agent=user-13.1, structure=7570, type=GET, success=True, result=[id=B-7570-2, origin=1294763581, seats=1], waitDurations=[0]
-[35000.0, LeaveSimulationEvent]: agent=[id=7570, position=1294763581, capacity=15, initialStock=2], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=7570, position=1294763581, capacity=15, initialStock=2], cause=END_OF_SIM
 Trace of agent staff-0
 [0, InputEvent]: generatedElement=[id=staff-0, origin=5549193367, seats=20], type=<class 'starling_sim.models.SB_VS_R.repositioning_staff.RepositioningStaff'>
 [25000, IdleEvent]: idleDuration=25000
@@ -2160,4 +2160,4 @@ Trace of agent staff-0
 [32818, RouteEvent]: mode=drive, start=301589923, end=629117500, duration=487, distance=3701
 [33305, StaffOperationEvent]: staff=staff-0, total=1, structure=7561
 [33335, RouteEvent]: mode=drive, start=629117500, end=5549193367, duration=576, distance=3672
-[35000.0, LeaveSimulationEvent]: agent=[id=staff-0, origin=5549193367, seats=20], cause=END_OF_SIM
+[35000, LeaveSimulationEvent]: agent=[id=staff-0, origin=5549193367, seats=20], cause=END_OF_SIM
