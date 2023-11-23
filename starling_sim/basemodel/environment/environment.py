@@ -626,23 +626,14 @@ class Environment:
         # extend graph with stops when needed
         if extend_graph:
             for index, row in stops_table.iterrows():
-                # get stop and node information
-                nearest_node = row["nearest_node"]
+                # if the node has no close neighbour, add a new node at stop location
+                if row["nearest_node"] is None or row["node_distance"] > max_distance:
 
-                # if the node has a close neighbour, don't add a node
-                if nearest_node is not None:
-                    nearest_loc = self.get_localisation(nearest_node, modes[0])
-                    stop_loc = [row["stop_lat"], row["stop_lon"]]
-                    eucl_dist = 1000 * distance.great_circle(nearest_loc, stop_loc).kilometers
-                    if eucl_dist <= max_distance:
-                        continue
+                    self.add_node(
+                        row["stop_id"],
+                        {"y": row["stop_lat"], "x": row["stop_lon"], "osmid": row["stop_id"]},
+                        modes,
+                    )
 
-                # otherwise, extend the graph : add a new node at stop location
-                self.add_node(
-                    row["stop_id"],
-                    {"y": row["stop_lat"], "x": row["stop_lon"], "osmid": row["stop_id"]},
-                    modes,
-                )
-
-                # update the stop's nearest node
-                stops_table.loc[index, "nearest_node"] = row["stop_id"]
+                    # update the stop's nearest node
+                    stops_table.loc[index, "nearest_node"] = row["stop_id"]
