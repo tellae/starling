@@ -37,8 +37,8 @@ class Agent(Traced):
                 "title": "Agent duplicates",
                 "description": "Generate duplicates of this agent",
                 "type": "integer",
-                "minimum": 1
-            }
+                "minimum": 1,
+            },
         },
         "required": ["agent_id", "agent_type", "mode", "icon"],
     }

@@ -503,7 +503,7 @@ class Environment:
         # if there is no candidate nodes, the nearest node is None
         if len(target_graph.nodes) == 0:
             if isinstance(x_coordinates, list):
-                nearest_nodes = [None]*len(x_coordinates)
+                nearest_nodes = [None] * len(x_coordinates)
             else:
                 nearest_nodes = None
             if return_dist:
@@ -513,7 +513,9 @@ class Environment:
 
         target_topology = OSMNetwork(modes, graph=target_graph)
 
-        return target_topology.localisations_nearest_nodes(x_coordinates, y_coordinates, return_dist=return_dist)
+        return target_topology.localisations_nearest_nodes(
+            x_coordinates, y_coordinates, return_dist=return_dist
+        )
 
     def get_common_nodes_of(self, modes):
         """
@@ -622,7 +624,10 @@ class Environment:
         longitudes = stops_table["stop_lon"].values
 
         # compute each stop nearest node
-        stops_table["nearest_node"], stops_table["node_distance"] = self.localisations_nearest_nodes(longitudes, latitudes, modes, return_dist=True)
+        (
+            stops_table["nearest_node"],
+            stops_table["node_distance"],
+        ) = self.localisations_nearest_nodes(longitudes, latitudes, modes, return_dist=True)
 
         # extend graph with stops when needed
         # problem : with don't consider newly added nodes as possible neighbours

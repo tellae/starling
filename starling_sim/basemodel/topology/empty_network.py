@@ -36,7 +36,7 @@ class EmptyNetwork(Topology):
         return [self.graph.nodes[position]["y"], self.graph.nodes[position]["x"]]
 
     def nearest_position(self, localisation):
-        return ox.distance.nearest_nodes(self.graph,  float(localisation[1]),float(localisation[0]))
+        return ox.distance.nearest_nodes(self.graph, float(localisation[1]), float(localisation[0]))
 
     def localisations_nearest_nodes(self, x_coordinates, y_coordinates, return_dist=False):
         # convert coordinate lists to np.array
