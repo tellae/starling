@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Simulation parameters",
   "description": "Parameters of a simulation run",
   "type": "object",

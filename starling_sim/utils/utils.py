@@ -16,7 +16,7 @@ import shutil
 import copy
 from shapely.geometry import Polygon, LineString
 from numbers import Integral
-from jsonschema import Draft7Validator, Draft4Validator, validators, ValidationError, RefResolver
+from jsonschema import validate, ValidationError
 from starling_sim.utils.paths import (
     schemas_folder,
     gtfs_feeds_folder,
@@ -219,21 +219,16 @@ def create_file_information(
 # json schema validation
 
 # use the type check from Draft4Validator, because Draft7 considers 1.0 as integer
-CustomValidator = validators.extend(Draft7Validator, type_checker=Draft4Validator.TYPE_CHECKER)
+# CustomValidator = validators.extend(Draft7Validator, type_checker=Draft4Validator.TYPE_CHECKER)
 
 
 def validate_against_schema(instance, schema, raise_exception=True):
     # load schema object
     schema = load_schema(schema, False)
 
-    # get the absolute path and setup a resolver
-    schema_abs_path = "file:///{0}/".format(os.path.abspath(schemas_folder()).replace("\\", "/"))
-    resolver = RefResolver(schema_abs_path, schema)
-    validator = CustomValidator(schema=schema, resolver=resolver)
-
     # validate against schema and catch eventual exception
     try:
-        validator.validate(instance)
+        validate(instance, schema)
         return True
     except ValidationError as e:
         if raise_exception:

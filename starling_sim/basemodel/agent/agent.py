@@ -18,6 +18,7 @@ class Agent(Traced):
     """
 
     SCHEMA = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
             "agent_id": {"type": "string", "title": "Agent ID", "description": "Unique identifier"},
