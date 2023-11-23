@@ -1,5 +1,6 @@
 import logging
 import sys
+import hashlib
 from starling_sim.basemodel.topology.osm_network import OSMNetwork
 from starling_sim.basemodel.topology.empty_network import EmptyNetwork
 from starling_sim.utils.config import config
@@ -624,16 +625,21 @@ class Environment:
         stops_table["nearest_node"], stops_table["node_distance"] = self.localisations_nearest_nodes(longitudes, latitudes, modes, return_dist=True)
 
         # extend graph with stops when needed
+        # problem : with don't consider newly added nodes as possible neighbours
         if extend_graph:
             for index, row in stops_table.iterrows():
                 # if the node has no close neighbour, add a new node at stop location
                 if row["nearest_node"] is None or row["node_distance"] > max_distance:
+                    # define node id TODO : ensure that the node doesn't already exist in topologies ?
+                    m = hashlib.md5()
+                    m.update(row["stop_id"].encode("utf-8"))
+                    node_id = int(str(int(m.hexdigest(), 16))[0:10])
 
                     self.add_node(
-                        row["stop_id"],
+                        node_id,
                         {"y": row["stop_lat"], "x": row["stop_lon"], "osmid": row["stop_id"]},
                         modes,
                     )
 
                     # update the stop's nearest node
-                    stops_table.loc[index, "nearest_node"] = row["stop_id"]
+                    stops_table.loc[index, "nearest_node"] = node_id
