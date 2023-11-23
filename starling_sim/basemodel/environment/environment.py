@@ -621,9 +621,9 @@ class Environment:
         longitudes = stops_table["stop_lon"].values
 
         # compute each stop nearest node
-        stops_table["nearest_node"] = self.localisations_nearest_nodes(longitudes, latitudes, modes)
+        stops_table["nearest_node"], stops_table["node_distance"] = self.localisations_nearest_nodes(longitudes, latitudes, modes, return_dist=True)
 
-        # extend graph with stops if asked
+        # extend graph with stops when needed
         if extend_graph:
             for index, row in stops_table.iterrows():
                 # get stop and node information
