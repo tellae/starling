@@ -484,7 +484,7 @@ class Environment:
         :param modes: topology modes
         :param return_dist: optionally also return distance between points and nearest nodes
 
-        :return: list of nearest nodes
+        :return: list of nearest nodes or (nearest_nodes, distances)
         """
 
         if isinstance(modes, list):
@@ -501,7 +501,14 @@ class Environment:
 
         # if there is no candidate nodes, the nearest node is None
         if len(target_graph.nodes) == 0:
-            return
+            if isinstance(x_coordinates, list):
+                nearest_nodes = [None]*len(x_coordinates)
+            else:
+                nearest_nodes = None
+            if return_dist:
+                return nearest_nodes, None
+            else:
+                return nearest_nodes
 
         target_topology = OSMNetwork(modes, graph=target_graph)
 
