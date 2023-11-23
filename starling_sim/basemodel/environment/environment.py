@@ -470,7 +470,7 @@ class Environment:
 
         return best_node
 
-    def localisations_nearest_nodes(self, x_coordinates, y_coordinates, modes):
+    def localisations_nearest_nodes(self, x_coordinates, y_coordinates, modes, return_dist=False):
         """
         Call the topology localisations_nearest_nodes method.
 
@@ -482,6 +482,7 @@ class Environment:
         :param x_coordinates: list of X coordinates of the localisations
         :param y_coordinates: list of Y coordinates of the localisations
         :param modes: topology modes
+        :param return_dist: optionally also return distance between points and nearest nodes
 
         :return: list of nearest nodes
         """
@@ -504,7 +505,7 @@ class Environment:
 
         target_topology = OSMNetwork(modes, graph=target_graph)
 
-        return target_topology.localisations_nearest_nodes(x_coordinates, y_coordinates)
+        return target_topology.localisations_nearest_nodes(x_coordinates, y_coordinates, return_dist=return_dist)
 
     def get_common_nodes_of(self, modes):
         """

@@ -38,10 +38,10 @@ class EmptyNetwork(Topology):
     def nearest_position(self, localisation):
         return ox.distance.nearest_nodes(self.graph,  float(localisation[1]),float(localisation[0]))
 
-    def localisations_nearest_nodes(self, x_coordinates, y_coordinates):
+    def localisations_nearest_nodes(self, x_coordinates, y_coordinates, return_dist=False):
         # convert coordinate lists to np.array
         x_array = np.array(x_coordinates, dtype=np.float32)
         y_array = np.array(y_coordinates, dtype=np.float32)
 
         # we use osmnx nearest_nodes function
-        return ox.distance.nearest_nodes(self.graph, x_array, y_array)
+        return ox.distance.nearest_nodes(self.graph, x_array, y_array, return_dist=return_dist)
