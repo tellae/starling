@@ -146,8 +146,6 @@ class WaitKPI(KPI):
             self.indicator_dict[self.KEY_WAIT] += event.waiting_time
 
 
-
-
 class GetVehicleKPI(KPI):
     """
     This KPI evaluates the number of vehicle uses

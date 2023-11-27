@@ -47,9 +47,10 @@ CLASSIFIERS = [
     "Intended Audience :: Developers",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Scientific/Engineering :: GIS",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
+    "Python :: 3 :: Only ",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "License :: CeCILL-B Free Software License Agreement (CECILL-B)",
 ]
 
@@ -73,7 +74,7 @@ setuptools.setup(
     url="https://github.com/tellae/starling",
     packages=setuptools.find_packages() + ["starling_sim/schemas"],
     classifiers=CLASSIFIERS,
-    python_requires=">=3.6",
+    python_requires=">=3.9",
     install_requires=INSTALL_REQUIRES,
     include_package_data=True,
 )

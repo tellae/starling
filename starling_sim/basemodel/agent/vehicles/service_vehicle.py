@@ -176,10 +176,12 @@ class ServiceVehicle(Vehicle):
                 # remove stop from planning
                 self.planning.remove(stop)
 
-                processed_dropoff = self.process_user_stop(dropoff)
+                processed_dropoff = [self.process_user_stop(dropoff)]
 
-            if processed_dropoff is not None and processed_dropoff != []:
-                self.log_message("Dropped off {}".format(processed_dropoff))
+            if processed_dropoff:
+                self.log_message(
+                    "Dropped off {}".format([request.agent.id for request in processed_dropoff])
+                )
 
         # trace dropoffs
         stop_event.set_dropoffs(processed_dropoff, self.sim.scheduler.now())
@@ -195,10 +197,12 @@ class ServiceVehicle(Vehicle):
             if isinstance(pickup, list):
                 processed_pickup = self.process_stop_list(pickup)
             else:
-                processed_pickup = self.process_user_stop(pickup)
+                processed_pickup = [self.process_user_stop(pickup)]
 
-            if processed_pickup is not None and processed_pickup != []:
-                self.log_message("Picked up {}".format(processed_pickup))
+            if processed_pickup:
+                self.log_message(
+                    "Picked up {}".format([request.agent.id for request in processed_pickup])
+                )
 
         # trace pickups
         stop_event.set_pickups(processed_pickup, self.sim.scheduler.now())

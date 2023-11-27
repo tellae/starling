@@ -1,5 +1,6 @@
 import logging
 import sys
+import hashlib
 from starling_sim.basemodel.topology.osm_network import OSMNetwork
 from starling_sim.basemodel.topology.empty_network import EmptyNetwork
 from starling_sim.utils.config import config
@@ -470,7 +471,7 @@ class Environment:
 
         return best_node
 
-    def localisations_nearest_nodes(self, x_coordinates, y_coordinates, modes):
+    def localisations_nearest_nodes(self, x_coordinates, y_coordinates, modes, return_dist=False):
         """
         Call the topology localisations_nearest_nodes method.
 
@@ -482,8 +483,9 @@ class Environment:
         :param x_coordinates: list of X coordinates of the localisations
         :param y_coordinates: list of Y coordinates of the localisations
         :param modes: topology modes
+        :param return_dist: optionally also return distance between points and nearest nodes
 
-        :return: list of nearest nodes
+        :return: list of nearest nodes or (nearest_nodes, distances)
         """
 
         if isinstance(modes, list):
@@ -500,11 +502,20 @@ class Environment:
 
         # if there is no candidate nodes, the nearest node is None
         if len(target_graph.nodes) == 0:
-            return
+            if isinstance(x_coordinates, list):
+                nearest_nodes = [None] * len(x_coordinates)
+            else:
+                nearest_nodes = None
+            if return_dist:
+                return nearest_nodes, None
+            else:
+                return nearest_nodes
 
         target_topology = OSMNetwork(modes, graph=target_graph)
 
-        return target_topology.localisations_nearest_nodes(x_coordinates, y_coordinates)
+        return target_topology.localisations_nearest_nodes(
+            x_coordinates, y_coordinates, return_dist=return_dist
+        )
 
     def get_common_nodes_of(self, modes):
         """
@@ -613,28 +624,27 @@ class Environment:
         longitudes = stops_table["stop_lon"].values
 
         # compute each stop nearest node
-        stops_table["nearest_node"] = self.localisations_nearest_nodes(longitudes, latitudes, modes)
+        (
+            stops_table["nearest_node"],
+            stops_table["node_distance"],
+        ) = self.localisations_nearest_nodes(longitudes, latitudes, modes, return_dist=True)
 
-        # extend graph with stops if asked
+        # extend graph with stops when needed
+        # problem : with don't consider newly added nodes as possible neighbours
         if extend_graph:
             for index, row in stops_table.iterrows():
-                # get stop and node information
-                nearest_node = row["nearest_node"]
+                # if the node has no close neighbour, add a new node at stop location
+                if row["nearest_node"] is None or row["node_distance"] > max_distance:
+                    # define node id TODO : ensure that the node doesn't already exist in topologies ?
+                    m = hashlib.md5()
+                    m.update(row["stop_id"].encode("utf-8"))
+                    node_id = int(str(int(m.hexdigest(), 16))[0:10])
 
-                # if the node has a close neighbour, don't add a node
-                if nearest_node is not None:
-                    nearest_loc = self.get_localisation(nearest_node, modes[0])
-                    stop_loc = [row["stop_lat"], row["stop_lon"]]
-                    eucl_dist = 1000 * distance.great_circle(nearest_loc, stop_loc).kilometers
-                    if eucl_dist <= max_distance:
-                        continue
+                    self.add_node(
+                        node_id,
+                        {"y": row["stop_lat"], "x": row["stop_lon"], "osmid": row["stop_id"]},
+                        modes,
+                    )
 
-                # otherwise, extend the graph : add a new node at stop location
-                self.add_node(
-                    row["stop_id"],
-                    {"y": row["stop_lat"], "x": row["stop_lon"], "osmid": row["stop_id"]},
-                    modes,
-                )
-
-                # update the stop's nearest node
-                stops_table.loc[index, "nearest_node"] = row["stop_id"]
+                    # update the stop's nearest node
+                    stops_table.loc[index, "nearest_node"] = node_id

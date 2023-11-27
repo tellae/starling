@@ -331,7 +331,7 @@ class Person(MovingAgent):
             result = yield request.event_
             result = {request.event_: result}
 
-        self.sim.scheduler.env.exit(result)
+        return result
 
     def wait_trip_request_(self, request):
         # wait for the pickup

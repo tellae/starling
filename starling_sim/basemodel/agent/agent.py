@@ -18,6 +18,7 @@ class Agent(Traced):
     """
 
     SCHEMA = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
             "agent_id": {"type": "string", "title": "Agent ID", "description": "Unique identifier"},
@@ -36,8 +37,8 @@ class Agent(Traced):
                 "title": "Agent duplicates",
                 "description": "Generate duplicates of this agent",
                 "type": "integer",
-                "minimum": 1
-            }
+                "minimum": 1,
+            },
         },
         "required": ["agent_id", "agent_type", "mode", "icon"],
     }
