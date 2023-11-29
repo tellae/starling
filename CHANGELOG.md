@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.10.20 (2023-11-29)
+
+
+### Bug Fixes
+
+* error in Python3 only classifier ([0746c23](https://github.com/tellae/starling/commit/0746c2340bc4318695e2749bda86d655973fe775))
+
 ### 0.10.19 (2023-11-27)
 
 ### 0.10.18 (2023-11-20)
