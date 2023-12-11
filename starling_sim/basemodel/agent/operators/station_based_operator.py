@@ -33,9 +33,10 @@ class StationBasedOperator(Operator):
         self.stations_dict_name = stations_dict
         self.stations = self.sim.agentPopulation.new_population(stations_dict)
 
-    def init_depot_points(self, depot_points_coord):
-        if depot_points_coord is not None and len(depot_points_coord) > 1:
-            self.log_message("Multiple depot points are not supported yet", 30)
-            depot_points_coord = [depot_points_coord[0]]
+    def init_depot_points(self, depot_points):
 
-        super().init_depot_points(depot_points_coord)
+        if depot_points is not None and len(depot_points) > 1:
+            self.log_message("Multiple depot points are not supported yet. Using first depot.", 30)
+            depot_points = [depot_points[0]]
+
+        super().init_depot_points(depot_points)
