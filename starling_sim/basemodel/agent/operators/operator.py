@@ -128,6 +128,11 @@ class Operator(Agent):
                         "const": "gtfs",
                         "title": "GTFS",
                         "description": "Use the stop points of the global gtfs.",
+                    },
+                    {
+                        "title": "Other",
+                        "description": "Another option. The 'init_stops' method must be overriden to manage this case.",
+                        "type": "string"
                     }
                 ]
             },
