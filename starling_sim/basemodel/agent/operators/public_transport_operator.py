@@ -88,8 +88,8 @@ class PublicTransportOperator(Operator):
 
     FLEET_TYPE = PUBLIC_TRANSPORT_TYPE
 
-    def __init__(self, simulation_model, agent_id, fleet_dict, **kwargs):
-        super().__init__(simulation_model, agent_id, fleet_dict, stop_points_from="gtfs", **kwargs)
+    def __init__(self, simulation_model, agent_id, fleet_dict, extend_graph_with_stops=True, **kwargs):
+        super().__init__(simulation_model, agent_id, fleet_dict, stop_points_from="gtfs", extend_graph_with_stops=extend_graph_with_stops, **kwargs)
 
     def init_service_info(self):
         # get the complete timetables from simulation model
