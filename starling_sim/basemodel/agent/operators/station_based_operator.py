@@ -21,6 +21,9 @@ class StationBasedOperator(Operator):
             },
         },
         "required": ["stations_dict"],
+        "remove_props": [
+            "stop_points_from"
+        ]
     }
 
     def __init__(self, simulation_model, agent_id, fleet_dict, stations_dict, **kwargs):
