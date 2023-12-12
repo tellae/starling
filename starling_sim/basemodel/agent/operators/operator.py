@@ -114,15 +114,15 @@ class Operator(Agent):
             "stop_points_from": {
                 "title": "Stop points source",
                 "description": "Indicates how stop points are generated. "
-                               "If not provided, the operator starts with an empty set of stop points.",
+                "If not provided, the operator starts with an empty set of stop points.",
                 "type": "string",
                 "oneOf": [
                     {
                         "title": "GeoJSON input",
                         "description": "A GeoJSON file placed in the inputs folder, with Point features. "
-                                       "Optional properties 'stop_id' and 'stop_name'.",
+                        "Optional properties 'stop_id' and 'stop_name'.",
                         "type": "string",
-                        "pattern": "(.)*(.geojson)"
+                        "pattern": "(.)*(.geojson)",
                     },
                     {
                         "const": "gtfs",
@@ -132,9 +132,9 @@ class Operator(Agent):
                     {
                         "title": "Other",
                         "description": "Another option. The 'init_stops' method must be overriden to manage this case.",
-                        "type": "string"
-                    }
-                ]
+                        "type": "string",
+                    },
+                ],
             },
             "extend_graph_with_stops": {
                 "advanced": True,
@@ -234,7 +234,7 @@ class Operator(Agent):
         extend_graph_with_stops=False,
         zone_polygon=None,
         operation_parameters=None,
-        **kwargs
+        **kwargs,
     ):
         """
         Initialise the service operator with the relevant properties.
@@ -434,7 +434,9 @@ class Operator(Agent):
         elif stop_points_from == "gtfs":
             stops_table = self._stops_table_from_gtfs()
         else:
-            raise ValueError(f"Unsupported value for parameter 'stop_points_from' : {stop_points_from}")
+            raise ValueError(
+                f"Unsupported value for parameter 'stop_points_from' : {stop_points_from}"
+            )
 
         # create stop points from table and assign them to the operator
         # TODO : prefix ? error, stopPoints will be named differently
@@ -462,9 +464,7 @@ class Operator(Agent):
 
         :return: stops table
         """
-        stops_table = stop_table_from_gtfs(
-            self.service_info
-        )
+        stops_table = stop_table_from_gtfs(self.service_info)
         return stops_table
 
     def add_stops(self, stops_table, id_prefix=""):
@@ -798,7 +798,7 @@ class Operator(Agent):
         destination_position=None,
         destination_stop=None,
         destination_time=None,
-        **kwargs
+        **kwargs,
     ):
         """
         Build a request for a trip with the operator service from the given information.

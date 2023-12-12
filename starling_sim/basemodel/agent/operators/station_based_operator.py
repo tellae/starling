@@ -21,9 +21,7 @@ class StationBasedOperator(Operator):
             },
         },
         "required": ["stations_dict"],
-        "remove_props": [
-            "stop_points_from"
-        ]
+        "remove_props": ["stop_points_from"],
     }
 
     def __init__(self, simulation_model, agent_id, fleet_dict, stations_dict, **kwargs):
@@ -34,7 +32,6 @@ class StationBasedOperator(Operator):
         self.stations = self.sim.agentPopulation.new_population(stations_dict)
 
     def init_depot_points(self, depot_points):
-
         if depot_points is not None and len(depot_points) > 1:
             self.log_message("Multiple depot points are not supported yet. Using first depot.", 30)
             depot_points = [depot_points[0]]
