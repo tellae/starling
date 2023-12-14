@@ -115,7 +115,6 @@ class Operator(Agent):
                 "title": "Stop points source",
                 "description": "Indicates how stop points are generated. "
                 "If not provided, the operator starts with an empty set of stop points.",
-                "type": "string",
                 "anyOf": [
                     {
                         "title": "GeoJSON input",
@@ -132,7 +131,6 @@ class Operator(Agent):
                     {
                         "title": "Other",
                         "description": "Another option. The 'init_stops' method must be overriden to manage this case.",
-                        "type": "string",
                     },
                 ],
             },
