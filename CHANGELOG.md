@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.11.0 (2023-12-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* improve stop points initialization (#90)
+
+### Features
+
+* improve stop points initialization ([#90](https://github.com/tellae/starling/issues/90)) ([b62d07f](https://github.com/tellae/starling/commit/b62d07fcb345c6b39d6e74afd4aaac72f2a108ef))
+
 ### 0.10.20 (2023-11-29)
 
 
