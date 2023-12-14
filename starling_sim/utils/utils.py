@@ -260,7 +260,7 @@ def add_defaults_and_validate(instance, schema, raise_exception=True):
 
 
 def add_defaults(instance, schema, current_prop=None):
-    if schema["type"] == "object" and "default" not in schema:
+    if "type" in schema and schema["type"] == "object" and "default" not in schema:
         for prop in schema["properties"].keys():
             if current_prop is None:
                 prop_instance = instance
