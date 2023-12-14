@@ -5,6 +5,8 @@ from starling_sim.utils.utils import (
     points_in_zone,
     json_load,
     load_schema,
+    stops_table_from_geojson,
+    stop_table_from_gtfs,
 )
 from starling_sim.utils.paths import (
     gtfs_feeds_folder,
@@ -109,6 +111,29 @@ class Operator(Agent):
                 },
                 "default": [],
             },
+            "stop_points_from": {
+                "title": "Stop points source",
+                "description": "Indicates how stop points are generated. "
+                "If not provided, the operator starts with an empty set of stop points.",
+                "anyOf": [
+                    {
+                        "title": "GeoJSON input",
+                        "description": "A GeoJSON file placed in the inputs folder, with Point features. "
+                        "Optional properties 'stop_id' and 'stop_name'.",
+                        "type": "string",
+                        "pattern": "(.)*(.geojson)",
+                    },
+                    {
+                        "const": "gtfs",
+                        "title": "GTFS",
+                        "description": "Use the stop points of the global gtfs.",
+                    },
+                    {
+                        "title": "Other",
+                        "description": "Another option. The 'init_stops' method must be overriden to manage this case.",
+                    },
+                ],
+            },
             "extend_graph_with_stops": {
                 "advanced": True,
                 "title": "Extend graph with stops",
@@ -203,25 +228,27 @@ class Operator(Agent):
         mode=None,
         staff_dict=None,
         depot_points=None,
+        stop_points_from=None,
+        extend_graph_with_stops=False,
         zone_polygon=None,
         operation_parameters=None,
-        extend_graph_with_stops=False,
-        **kwargs
+        **kwargs,
     ):
         """
         Initialise the service operator with the relevant properties.
 
         The operator class present many different attributes. All are not
-        necessarily used when when describing a transport system operator.
+        necessarily used when describing a transport system operator.
 
         :param simulation_model: SimulationModel object
         :param agent_id: operator's id
         :param fleet_dict: name of the population that contains the operator's fleet
         :param staff_dict: name of the population that contains the operator's staff
         :param depot_points: list of dicts describing operator depot points
+        :param stop_points_from: stop points source
+        :param extend_graph_with_stops: boolean indicating if the graph should be extended with the stop points
         :param zone_polygon: list of GPS points delimiting the service zone
         :param operation_parameters: additional parameters used for service operation
-        :param extend_graph_with_stops: boolean indicating if the graph should be extended with the stop points
         :param kwargs:
         """
 
@@ -262,7 +289,7 @@ class Operator(Agent):
 
         # a dict of the service stop points {id: StopPoint}
         self.stopPoints = dict()
-        self.init_stops()
+        self.init_stops(stop_points_from)
 
         # set the dict containing the depot points of the service
         self.depotPoints = dict()
@@ -392,10 +419,51 @@ class Operator(Agent):
             # create depot as a StopPoint object and add it to depotPoints
             self.new_stop_point(position, depot_id, name, allow_existing=False, is_depot=True)
 
-    def init_stops(self):
+    def init_stops(self, stop_points_from):
         """
-        Initialise the stopPoints attribute with using simulation data.
+        Initialise the stopPoints attribute using the provided method.
         """
+
+        # get a table of stop points using the provided method
+        if stop_points_from is None:
+            return
+        elif stop_points_from.endswith(".geojson"):
+            stops_table = self._stops_table_from_geojson(stop_points_from)
+        elif stop_points_from == "gtfs":
+            stops_table = self._stops_table_from_gtfs()
+        else:
+            raise ValueError(
+                f"Unsupported value for parameter 'stop_points_from' : {stop_points_from}"
+            )
+
+        # create stop points from table and assign them to the operator
+        # TODO : prefix ? error, stopPoints will be named differently
+        if not stops_table.empty:
+            self.add_stops(stops_table, id_prefix="")
+
+    def _stops_table_from_geojson(self, filename):
+        """
+        Create a stops table from the provided GeoJSON input filename.
+
+        :param filename: input filename (*.geojson)
+
+        :return: stops table
+        """
+        stops_filepath = scenario_agent_input_filepath(
+            self.sim.scenario.scenario_folder,
+            filename,
+        )
+        stops_table = stops_table_from_geojson(stops_filepath)
+        return stops_table
+
+    def _stops_table_from_gtfs(self):
+        """
+        Create a stops table from the operator's GTFS (service_info).
+
+        :return: stops table
+        """
+        stops_table = stop_table_from_gtfs(self.service_info)
+        return stops_table
 
     def add_stops(self, stops_table, id_prefix=""):
         """
@@ -728,7 +796,7 @@ class Operator(Agent):
         destination_position=None,
         destination_stop=None,
         destination_time=None,
-        **kwargs
+        **kwargs,
     ):
         """
         Build a request for a trip with the operator service from the given information.

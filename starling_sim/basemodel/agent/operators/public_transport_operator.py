@@ -12,7 +12,7 @@ class PublicTransportOperator(Operator):
     """
 
     SCHEMA = {
-        "remove_props": ["fleet_dict"],
+        "remove_props": ["fleet_dict", "stop_points_from"],
         "properties": {
             "extend_graph_with_stops": {
                 "advanced": True,
@@ -88,8 +88,17 @@ class PublicTransportOperator(Operator):
 
     FLEET_TYPE = PUBLIC_TRANSPORT_TYPE
 
-    def __init__(self, simulation_model, agent_id, fleet_dict, **kwargs):
-        super().__init__(simulation_model, agent_id, fleet_dict, **kwargs)
+    def __init__(
+        self, simulation_model, agent_id, fleet_dict, extend_graph_with_stops=True, **kwargs
+    ):
+        super().__init__(
+            simulation_model,
+            agent_id,
+            fleet_dict,
+            stop_points_from="gtfs",
+            extend_graph_with_stops=extend_graph_with_stops,
+            **kwargs
+        )
 
     def init_service_info(self):
         # get the complete timetables from simulation model
@@ -117,10 +126,11 @@ class PublicTransportOperator(Operator):
 
         self.service_info = feed
 
-    def init_stops(self):
-        # add the stop points of active trips of the gtfs
+    def _stops_table_from_gtfs(self):
+        # only keep active stop points
         stops_table = stop_table_from_gtfs(self.service_info, active_stops_only=True)
-        self.add_stops(stops_table)
+
+        return stops_table
 
     def init_trips(self):
         # add the active trips of the gtfs

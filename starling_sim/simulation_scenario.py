@@ -98,6 +98,7 @@ class SimulationScenario:
             raise ValueError("Error while loading the scenario parameters : {}".format(str(e)))
 
         # check scenario folder against scenario name
+        # in fact this is not necessary, scenario name is not used for pathing anymore
         if os.path.basename(os.path.dirname(self.scenario_folder)) != self.parameters["scenario"]:
             raise ValueError("The scenario folder must be named after the scenario name")
 
