@@ -116,7 +116,7 @@ class Operator(Agent):
                 "description": "Indicates how stop points are generated. "
                 "If not provided, the operator starts with an empty set of stop points.",
                 "type": "string",
-                "oneOf": [
+                "anyOf": [
                     {
                         "title": "GeoJSON input",
                         "description": "A GeoJSON file placed in the inputs folder, with Point features. "
