@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.11.1 (2024-01-08)
+
+
+### Bug Fixes
+
+* position_in_zone is now correctly returns self without zone ([#91](https://github.com/tellae/starling/issues/91)) ([1d66c5e](https://github.com/tellae/starling/commit/1d66c5e0bd49fd7848e863390f2665f99d217883))
+
 ## 0.11.0 (2023-12-14)
 
 
