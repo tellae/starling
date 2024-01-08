@@ -594,7 +594,7 @@ class Operator(Agent):
 
         # if no service zone, all is in service zone
         if self.serviceZone is None:
-            return None
+            return self
 
         # get position GPS localisation from global environment
         position_localisation = self.sim.environment.get_localisation(position)
