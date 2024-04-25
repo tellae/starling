@@ -20,19 +20,18 @@ class KPI:
     #: **agentId**: id of the agent
     KEY_ID = "agentId"
 
-    def __init__(self, include_agent_id: bool = True, time_profile=None, export_keys: list = None):
+    def __init__(self, time_profile=None, export_keys: list = None):
         """
         The indicator_dict associates values to the indicators names
 
         The keys attribute correspond to the keys of the indicator_dict
         """
-        # include an column
 
         # profile describing time periods
         self.time_profile = time_profile
 
         # list of indicator names of this KPI
-        self.keys = self._init_keys()
+        self.keys = []
         self._export_keys = export_keys
 
         # current agent on which KPI is evaluated
@@ -52,9 +51,9 @@ class KPI:
 
     def _init_keys(self):
         # return class attributes starting with "KEY_"
-        res = filter(lambda x: x.startswith("KEY_"), map(lambda x: x[0], inspect.getmembers(self.__class__, lambda a: not(inspect.isroutine(a)))))
-        print(res)
-        return res
+        keys = list(map(lambda x: x[1], filter(lambda x: x[0].startswith("KEY_"), inspect.getmembers(self.__class__, lambda a: not (inspect.isroutine(a))))))
+        keys.remove(self.KEY_ID)
+        return keys
 
     def new_indicator_dict(self):
         """
@@ -68,8 +67,16 @@ class KPI:
         """
         Setup method called during simulation setup.
 
+        After calling this method, the `keys` attribute should be set.
+
         :param simulation_model:
-        :return:
+        """
+        self._indicators_setup(simulation_model)
+        self.keys = self._init_keys()
+
+    def _indicators_setup(self, simulation_model):
+        """
+        Setup attributes that need the simulation model to be initialised.
         """
         pass
 
@@ -92,14 +99,14 @@ class KPI:
         # reset indicators attributes
         self.current_timestamp = 0
         self.current_profile_index = 0
-        self.kpi_rows = {key: [] for key in self.keys}
+        self.kpi_rows = {key: [] for key in self.export_keys}
         self.indicator_dict = self.new_indicator_dict()
 
     def end_of_events(self):
         self.append_kpi_row()
 
     def append_kpi_row(self, reset_indicators=False):
-        for key in self.indicator_dict():
+        for key in self.export_keys:
             self.kpi_rows[key].append(self.indicator_dict[key])
 
         if reset_indicators:
@@ -125,9 +132,7 @@ class KPI:
         :param event: processed event
         :return:
         """
-
-        if isinstance(event, InputEvent):
-            self.indicator_dict[self.KEY_ID] = agent.id
+        raise NotImplementedError
 
 
 class MoveKPI(KPI):
@@ -140,11 +145,11 @@ class MoveKPI(KPI):
     #: **{mode}Time**: time travelled in <mode> [seconds]
     SUFFIX_KEY_TIME = "{mode}Time"
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.modes = []
-        super().__init__()
+        super().__init__(**kwargs)
 
-    def setup(self, simulation_model):
+    def _indicators_setup(self, simulation_model):
         self.modes = list(simulation_model.environment.topologies.keys())
 
     def _init_keys(self):
@@ -152,6 +157,7 @@ class MoveKPI(KPI):
         for mode in self.modes:
             keys.append(self.SUFFIX_KEY_DISTANCE.format(mode=mode))
             keys.append(self.SUFFIX_KEY_TIME.format(mode=mode))
+        return keys
 
     def _update(self, event):
         """
@@ -159,8 +165,6 @@ class MoveKPI(KPI):
 
         :param event:
         """
-
-        super()._update(event)
 
         if isinstance(event, MoveEvent):
             self.indicator_dict[self.SUFFIX_KEY_DISTANCE.format(mode=event.mode)] += event.distance
@@ -181,8 +185,6 @@ class WaitKPI(KPI):
 
         :param event:
         """
-
-        super()._update(event)
 
         if isinstance(event, RequestEvent):
             self.indicator_dict[self.KEY_WAIT] += sum(event.request.waitSequence)
@@ -206,8 +208,6 @@ class GetVehicleKPI(KPI):
         :param event:
         """
 
-        super()._update(event)
-
         if isinstance(event, GetVehicleEvent):
             self.indicator_dict[self.KEY_GET_VEHICLE] += event.agent.number
 
@@ -230,14 +230,22 @@ class SuccessKPI(KPI):
     #: **nbSuccessRequest**: number of successful requests
     KEY_SUCCESS_REQUEST = "nbSuccessRequest"
 
+    def _init_keys(self):
+        return [
+            self.KEY_FAILED_GET,
+            self.KEY_SUCCESS_GET,
+            self.KEY_FAILED_PUT,
+            self.KEY_SUCCESS_PUT,
+            self.KEY_FAILED_REQUEST,
+            self.KEY_SUCCESS_REQUEST
+        ]
+
     def _update(self, event):
         """
         Add request events according to their success
 
         :param event:
         """
-
-        super()._update(event)
 
         if isinstance(event, RequestEvent):
             if event.request.success:
@@ -268,14 +276,20 @@ class StaffOperationKPI(KPI):
     #: **nbSuccessPutStaff**: number of successful puts by staff
     KEY_SUCCESS_PUT_STAFF = "nbSuccessPutStaff"
 
+    def _init_keys(self):
+        return [
+            self.KEY_FAILED_GET_STAFF,
+            self.KEY_SUCCESS_GET_STAFF,
+            self.KEY_FAILED_PUT_STAFF,
+            self.KEY_SUCCESS_PUT_STAFF
+        ]
+
     def _update(self, event):
         """
         Add operations to the total
 
         :param event:
         """
-
-        super()._update(event)
 
         if isinstance(event, StaffOperationEvent):
             goal = event.goal
@@ -294,28 +308,39 @@ class OccupationKPI(KPI):
     and the stock relative time/distance
     """
 
-    def __init__(self):
-        #: **emptyTime**: time spent empty [seconds]
-        self.KEY_EMPTY_TIME = "emptyTime"
-        #: **emptyDistance**: distance travelled empty [meters]
-        self.KEY_EMPTY_DISTANCE = "emptyDistance"
-        #: **fullTime**: time spent full [seconds]
-        self.KEY_FULL_TIME = "fullTime"
-        #: **fullDistance**: distance travelled full [meters]
-        self.KEY_FULL_DISTANCE = "fullDistance"
-        #: **stockTime**: stock relative time (stock*time) [seconds]
-        self.KEY_STOCK_TIME = "stockTime"
-        #: **stockDistance**: stock relative distance (stock*distance) [meters]
-        self.KEY_STOCK_DISTANCE = "stockDistance"
-        #: **maxStock**: maximum stock
-        self.KEY_MAX_STOCK = "maxStock"
+    #: **emptyTime**: time spent empty [seconds]
+    KEY_EMPTY_TIME = "emptyTime"
+    #: **emptyDistance**: distance travelled empty [meters]
+    KEY_EMPTY_DISTANCE = "emptyDistance"
+    #: **fullTime**: time spent full [seconds]
+    KEY_FULL_TIME = "fullTime"
+    #: **fullDistance**: distance travelled full [meters]
+    KEY_FULL_DISTANCE = "fullDistance"
+    #: **stockTime**: stock relative time (stock*time) [seconds]
+    KEY_STOCK_TIME = "stockTime"
+    #: **stockDistance**: stock relative distance (stock*distance) [meters]
+    KEY_STOCK_DISTANCE = "stockDistance"
+    #: **maxStock**: maximum stock
+    KEY_MAX_STOCK = "maxStock"
 
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.capacity = None
         self.currentStock = None
         self.previousTime = 0
         self.currentDistance = None
+
+    def _init_keys(self):
+        return [
+            self.KEY_EMPTY_TIME,
+            self.KEY_EMPTY_DISTANCE,
+            self.KEY_FULL_TIME,
+            self.KEY_FULL_DISTANCE,
+            self.KEY_STOCK_TIME,
+            self.KEY_STOCK_DISTANCE,
+            self.KEY_MAX_STOCK,
+        ]
 
     def reset_for_agent(self, agent):
         super().reset_for_agent(agent)
@@ -389,8 +414,6 @@ class OccupationKPI(KPI):
         :param event:
         """
 
-        super()._update(event)
-
         if isinstance(event, InputEvent):
             self.capacity = self.get_capacity(event.element)
             self.currentStock = self.get_initial_stock(event.element)
@@ -445,8 +468,8 @@ class VehicleOccupationKPI(OccupationKPI):
     and a passenger relative distance and time.
     """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.currentDistance = 0
 
     def get_capacity(self, element):
@@ -497,7 +520,7 @@ class ChargeKPI(KPI):
     #: **value**: numeric value of the charge change
     KEY_VALUE = "value"
 
-    def __init__(self, non_empty_only=True, public_transport=True):
+    def __init__(self, non_empty_only=True, public_transport=True, **kwargs):
         # boolean indicating if only non empty pickups and dropoffs should be traced
         self.non_empty_only = non_empty_only
 
@@ -507,7 +530,7 @@ class ChargeKPI(KPI):
         self.trips = None
         self.routes = None
 
-        super().__init__()
+        super().__init__(**kwargs)
 
     def _init_keys(self):
         keys = [
@@ -521,7 +544,7 @@ class ChargeKPI(KPI):
             keys = [self.KEY_ROUTE_ID, self.KEY_TRIP_DIRECTION] + keys
         return keys
 
-    def setup(self, simulation_model):
+    def _indicators_setup(self, simulation_model):
         if self.public_transport:
             self.trips = simulation_model.gtfs.trips
             self.routes = simulation_model.gtfs.routes
@@ -565,8 +588,6 @@ class ChargeKPI(KPI):
         :param event:
         """
 
-        self.indicator_dict[self.KEY_ID] = self.agent.id
-
         trip_id = event.trip
 
         self.indicator_dict[self.KEY_TRIP_ID] = trip_id
@@ -586,8 +607,8 @@ class ServiceKPI(KPI):
     #: **serviceDuration**: vehicle service duration [seconds]
     KEY_SERVICE_DURATION = "serviceDuration"
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.currentServiceStart = None
         self.totalServiceDuration = None
 
@@ -630,7 +651,7 @@ class ServiceKPI(KPI):
             self.currentServiceStart = None
 
 
-# TODO : remove profile
+# TODO : disable profile
 class TransferKPI(KPI):
     """
     This KPI lists the transfers realised by a user,
@@ -657,8 +678,8 @@ class TransferKPI(KPI):
     #: **toStop**: destination stop of transfer
     KEY_TO_STOP = "toStop"
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.trips = None
         self.routes = None
@@ -674,10 +695,23 @@ class TransferKPI(KPI):
         self.to_trip = None
         self.to_stop = None
 
-    def setup(self, simulation_model):
+    def _indicators_setup(self, simulation_model):
         if simulation_model.gtfs is not None:
             self.trips = simulation_model.gtfs.trips
             self.routes = simulation_model.gtfs.routes
+
+    def _init_keys(self):
+        return [
+            self.KEY_WALK_DIST,
+            self.KEY_WALK_DURATION,
+            self.KEY_WAIT_TIME,
+            self.KEY_FROM_ROUTE,
+            self.KEY_FROM_TRIP,
+            self.KEY_FROM_STOP,
+            self.KEY_TO_ROUTE,
+            self.KEY_TO_TRIP,
+            self.KEY_TO_STOP,
+        ]
 
     def new_indicator_dict(self):
         return dict()
@@ -732,7 +766,6 @@ class TransferKPI(KPI):
         self.to_stop = None
 
     def write_variables(self):
-        self.indicator_dict[self.KEY_ID] = self.agent.id
         self.indicator_dict[self.KEY_WALK_DIST] = self.current_walk_distance
         self.indicator_dict[self.KEY_WALK_DURATION] = self.current_walk_duration
         self.indicator_dict[self.KEY_WAIT_TIME] = self.current_wait_time
@@ -820,8 +853,6 @@ class DestinationReachedKPI(KPI):
         :param event:
         """
 
-        super()._update(event)
-
         if isinstance(event, DestinationReachedEvent):
             self.indicator_dict[self.KEY_DESTINATION_REACHED] = event.timestamp
 
@@ -843,8 +874,6 @@ class LeaveSimulationKPI(KPI):
 
         :param event:
         """
-
-        super()._update(event)
 
         if isinstance(event, LeaveSimulationEvent):
             self.indicator_dict[self.KEY_LEAVE_SIMULATION] = event.cause

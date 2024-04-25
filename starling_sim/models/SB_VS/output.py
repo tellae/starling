@@ -23,7 +23,7 @@ class Output(OutputFactory):
         # users kpi
         move_kpi = MoveKPI()
         wait_kpi = WaitKPI()
-        success_kpi = SuccessKPI(["nbFailedRequest"])
+        success_kpi = SuccessKPI(export_keys=["nbFailedRequest"])
         destination_kpi = DestinationReachedKPI()
         leave_simulation_kpi = LeaveSimulationKPI()
         users_kpi_output = KpiOutput(
@@ -36,7 +36,7 @@ class Output(OutputFactory):
         vehicles_kpi_output = KpiOutput("vehicle", [move_kpi, get_vehicle_kpi])
 
         # stations kpi
-        success_kpi = SuccessKPI(["nbSuccessGet", "nbFailedGet", "nbSuccessPut", "nbFailedPut"])
+        success_kpi = SuccessKPI(export_keys=["nbSuccessGet", "nbFailedGet", "nbSuccessPut", "nbFailedPut"])
         wait_kpi = WaitKPI()
         availability_kpi = StationOccupationKPI()
         stations_kpi_output = KpiOutput("station", [success_kpi, wait_kpi, availability_kpi])

@@ -2,6 +2,7 @@ from starling_sim.basemodel.output.kpis import KPI
 
 import logging
 import pandas as pd
+import os
 
 
 class KpiOutput:
@@ -24,6 +25,7 @@ class KpiOutput:
 
         # list of kpi to evaluate the given agents
         self.kpi_list = kpi_list
+        self.columns = None
 
         # output file
         self.filename = None
@@ -45,8 +47,12 @@ class KpiOutput:
         self.filename = filename
         self.folder = folder
 
+        # setup kpis and get columns
+        columns = [KPI.KEY_ID]
         for kpi in self.kpi_list:
             kpi.setup(simulation_model)
+            columns += kpi.export_keys
+        self.columns = columns
 
         if isinstance(self.population_names, list):
             self.populations = [
@@ -56,60 +62,24 @@ class KpiOutput:
         else:
             self.populations = [simulation_model.agentPopulation[self.population_names]]
 
-    def agent_kpi_dict(self, agent):
-        """
-        Computes the KPIs for the given agent
-        by calling their update method for all its trace
-        :param agent:
-        :return:
-        """
-
-        indicators_dict = dict()
-
-        # evaluate all indicators
-        for kpi in self.kpi_list:
-            kpi_rows = kpi.evaluate_for_agent(agent)
-
-        # # merge all completed indicators
-        # for kpi in self.kpi_list:
-        #     indicators_dict.update(kpi.indicator_dict)
-        #
-        #     # raising a warning with sphinx
-        #     # indicators_dict = {**indicators_dict, **kpi.indicator_dict}
-        #
-        #     # reset kpi values
-        #     kpi.new_indicator_dict()
-
-        # return complete indicator dict
-        return indicators_dict
-
     def write_kpi_table(self):
         """
         Write the KPI of the population in the csv file
         obtained from out file attributes
         The KPIs evaluated are defined by the kpi_list attribute
         """
-
-        # first row is always agent's id, then we add the kpi_list keys
-        header_list = [KPI.KEY_ID]
-        for kpi in self.kpi_list:
-            header_list += kpi.keys
-
-        path = self.folder + self.filename
-
-        kpi_table = pd.DataFrame()
-
-        # compute the kpi table for each population dict
-        for population in self.populations:
-            kpi_table = pd.concat([kpi_table, self.compute_population_kpi_table(population)])
+        print(self.filename)
+        # build the KPI table for all agents of each population
+        kpi_table = self.build_kpi_table()
 
         # do not generate a kpi output if the kpi table is empty
         if kpi_table.empty:
             return
-
+        print(kpi_table)
+        path = str(os.path.join(self.folder, self.filename))
         try:
             # write the dataframe into a csv file
-            kpi_table.to_csv(path, sep=";", index=False, columns=header_list)
+            kpi_table.to_csv(path, sep=";", index=False)
 
             # signal new file to output factory
             mimetype = "text/csv"
@@ -128,27 +98,50 @@ class KpiOutput:
                 "Could not generate kpi output {}, " "error occurred : {}".format(path, e)
             )
 
-    def compute_population_kpi_table(self, population):
+    def build_kpi_table(self) -> pd.DataFrame:
         """
-        Compute a kpi table for the given population dict.
+        Build the output KPI table.
 
-        :param population: population dict {id: agent}
-        :return: DataFrame containing the KPI values
+        KPIs from self.kpis are evaluated on each agent of each population from self.populations.
+
+        :return: KPI DataFrame
         """
 
-        df_output = pd.DataFrame()
+        kpi_tables = []
+        # compute kpi tables for each population dict
+        for population in self.populations:
+            # compute a kpi table for each agent of the population
+            for agent in population.values():
+                kpi_tables.append(self.compute_agent_kpis(agent))
 
-        for agent in population.values():
-            # create kpi dict for the agent
-            agent_indicators = self.agent_kpi_dict(agent)
+        return pd.concat(kpi_tables)
 
-            # build a dataframe from the dict
-            if isinstance(agent_indicators[KPI.KEY_ID], list):
-                df = pd.DataFrame(agent_indicators)
-            else:
-                df = pd.DataFrame(agent_indicators, index=[0])
+    def compute_agent_kpis(self, agent) -> pd.DataFrame:
+        """
+        Build a DataFrame containing indicator evaluated on the given agent.
 
-            # append the dataframe to the total output
-            df_output = pd.concat([df_output, df])
+        The DataFrame columns are defined by the KPIs `keys` attributes,
+        with and additional column for the agent id, and an optional column
+        for time profiling.
 
-        return df_output
+        The DataFrame can contain several rows, for instance when KPIs
+        are profiled by time.
+
+        :param agent: Agent on which KPIs are evaluated
+
+        :return: DataFrame containing indicators evaluated on the given agent
+        """
+
+        df = dict()
+        # evaluate indicators on agent
+        for kpi in self.kpi_list:
+            kpi_rows = kpi.evaluate_for_agent(agent)
+            df.update(kpi_rows)
+
+        # set agent id for all rows
+        df[KPI.KEY_ID] = agent.id
+
+        # convert dict to DataFrame
+        df = pd.DataFrame(df, columns=self.columns)
+
+        return df
