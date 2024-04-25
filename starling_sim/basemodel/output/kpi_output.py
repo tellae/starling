@@ -66,23 +66,19 @@ class KpiOutput:
 
         indicators_dict = dict()
 
-        # get agent trace
-        events = agent.trace.eventList
-
-        # evaluate all indicators in a single pass
-        for event in events:
-            for kpi in self.kpi_list:
-                kpi.update(event, agent)
-
-        # merge all completed indicators
+        # evaluate all indicators
         for kpi in self.kpi_list:
-            indicators_dict.update(kpi.indicator_dict)
+            kpi_rows = kpi.evaluate_for_agent(agent)
 
-            # raising a warning with sphinx
-            # indicators_dict = {**indicators_dict, **kpi.indicator_dict}
-
-            # reset kpi values
-            kpi.new_indicator_dict()
+        # # merge all completed indicators
+        # for kpi in self.kpi_list:
+        #     indicators_dict.update(kpi.indicator_dict)
+        #
+        #     # raising a warning with sphinx
+        #     # indicators_dict = {**indicators_dict, **kpi.indicator_dict}
+        #
+        #     # reset kpi values
+        #     kpi.new_indicator_dict()
 
         # return complete indicator dict
         return indicators_dict
