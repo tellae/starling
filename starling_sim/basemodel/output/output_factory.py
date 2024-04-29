@@ -176,6 +176,7 @@ class OutputFactory:
             try:
                 kpi_output.write_kpi_table()
             except Exception as e:
+                raise e
                 logging.warning(self.GENERATION_ERROR_FORMAT.format(kpi_output.name + " kpi", e))
 
     def generate_trace_output(self, simulation_model):

@@ -20,15 +20,14 @@ class KPI:
     #: **agentId**: id of the agent
     KEY_ID = "agentId"
 
-    def __init__(self, time_profile=None, export_keys: list = None):
+    def __init__(self, export_keys: list = None):
         """
         The indicator_dict associates values to the indicators names
 
         The keys attribute correspond to the keys of the indicator_dict
         """
 
-        # profile describing time periods
-        self.time_profile = time_profile
+        self.kpi_output = None
 
         # list of indicator names of this KPI
         self.keys = []
@@ -39,10 +38,8 @@ class KPI:
 
         # event time follow up
         self.current_timestamp = None
-        self.current_profile_index = 0
 
         # indicators evaluation attributes
-        self.kpi_rows = None
         self.indicator_dict = None
 
     @property
@@ -91,34 +88,26 @@ class KPI:
         # signal end of events
         self.end_of_events()
 
-        return self.kpi_rows
-
     def reset_for_agent(self, agent):
         # set studied agent
         self.agent = agent
         # reset indicators attributes
         self.current_timestamp = 0
-        self.current_profile_index = 0
-        self.kpi_rows = {key: [] for key in self.export_keys}
         self.indicator_dict = self.new_indicator_dict()
 
     def end_of_events(self):
-        self.append_kpi_row()
+        self.new_kpi_row()
 
-    def append_kpi_row(self, reset_indicators=False):
+    def new_kpi_row(self):
+        # add kpi row
         for key in self.export_keys:
-            self.kpi_rows[key].append(self.indicator_dict[key])
+            self.kpi_output.kpi_rows[key].append(self.indicator_dict[key])
 
-        if reset_indicators:
-            self.indicator_dict = self.new_indicator_dict()
+        # reset indicators
+        self.indicator_dict = self.new_indicator_dict()
 
     def update_from_event(self, event: Event):
         assert event.timestamp >= self.current_timestamp, "Event list should be ordered chronologically"
-
-        # case when current profile range is finished
-        if self.time_profile and event.timestamp > self.time_profile[self.current_profile_index]:
-            self.append_kpi_row()
-            self.current_profile_index += 1
 
         # update timestamp
         self.current_timestamp = event.timestamp

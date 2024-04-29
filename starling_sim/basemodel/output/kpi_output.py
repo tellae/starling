@@ -27,6 +27,10 @@ class KpiOutput:
         self.kpi_list = kpi_list
         self.columns = None
 
+        # dict containing kpi values
+        self.kpi_rows = None
+        self.time_profile = None
+
         # output file
         self.filename = None
         self.folder = None
@@ -51,6 +55,7 @@ class KpiOutput:
         columns = [KPI.KEY_ID]
         for kpi in self.kpi_list:
             kpi.setup(simulation_model)
+            kpi.kpi_output = self
             columns += kpi.export_keys
         self.columns = columns
 
@@ -114,9 +119,10 @@ class KpiOutput:
             for agent in population.values():
                 kpi_tables.append(self.compute_agent_kpis(agent))
 
-        return pd.concat(kpi_tables)
+        result = pd.concat(kpi_tables)
+        return result
 
-    def compute_agent_kpis(self, agent) -> pd.DataFrame:
+    def compute_agent_kpis(self, agent):
         """
         Build a DataFrame containing indicator evaluated on the given agent.
 
@@ -132,16 +138,13 @@ class KpiOutput:
         :return: DataFrame containing indicators evaluated on the given agent
         """
 
-        df = dict()
+        self.kpi_rows = {key: [] for key in self.columns}
+
         # evaluate indicators on agent
         for kpi in self.kpi_list:
-            kpi_rows = kpi.evaluate_for_agent(agent)
-            df.update(kpi_rows)
+            kpi.evaluate_for_agent(agent)
 
-        # set agent id for all rows
-        df[KPI.KEY_ID] = agent.id
+        self.kpi_rows[KPI.KEY_ID] = agent.id
+        res = pd.DataFrame(self.kpi_rows)
 
-        # convert dict to DataFrame
-        df = pd.DataFrame(df, columns=self.columns)
-
-        return df
+        return res
