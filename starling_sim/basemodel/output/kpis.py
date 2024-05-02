@@ -41,6 +41,10 @@ class KPI:
 
         # indicators evaluation attributes
         self.indicator_dict = None
+        
+        # time profiling
+        self.profile = None
+        self.current_profile_index = 0
 
     @property
     def export_keys(self):
@@ -60,14 +64,17 @@ class KPI:
         """
         return {key: 0 for key in self.keys}
 
-    def setup(self, simulation_model):
+    def setup(self, kpi_output, simulation_model):
         """
         Setup method called during simulation setup.
 
         After calling this method, the `keys` attribute should be set.
 
+        :param kpi_output: parent KpiOutput
         :param simulation_model:
         """
+        self.kpi_output = kpi_output
+        self.profile = kpi_output.time_profile
         self._indicators_setup(simulation_model)
         self.keys = self._init_keys()
 
@@ -89,13 +96,24 @@ class KPI:
         self.end_of_events()
 
     def reset_for_agent(self, agent):
+        print("kpi reset")
         # set studied agent
         self.agent = agent
         # reset indicators attributes
         self.current_timestamp = 0
         self.indicator_dict = self.new_indicator_dict()
+        self.current_profile_index = 0
 
     def end_of_events(self):
+        if self.profile:
+            while self.current_profile_index < len(self.profile):
+                self.end_of_profile_range()
+        else:
+            self.new_kpi_row()
+
+    def end_of_profile_range(self):
+        print("end of profile range", self.current_profile_index)
+        self.current_profile_index += 1
         self.new_kpi_row()
 
     def new_kpi_row(self):
@@ -108,6 +126,12 @@ class KPI:
 
     def update_from_event(self, event: Event):
         assert event.timestamp >= self.current_timestamp, "Event list should be ordered chronologically"
+
+        print(event)
+        if self.profile and self.current_profile_index < len(self.profile)-1 and event.timestamp > self.profile[self.current_profile_index + 1]:
+            print("out of time profile", self.current_profile_index, self.profile[self.current_profile_index], self.profile[self.current_profile_index + 1])
+            while self.current_profile_index < len(self.profile)-1 and event.timestamp > self.profile[self.current_profile_index+1]:
+                self.end_of_profile_range()
 
         # update timestamp
         self.current_timestamp = event.timestamp
@@ -549,26 +573,27 @@ class ChargeKPI(KPI):
         """
 
         if isinstance(event, StopEvent):
+            # add a row for each stop type
             if event.dropoffs:
                 self.update_stop_information(event)
                 self.indicator_dict[self.KEY_TIME] = event.dropoff_time
                 self.indicator_dict[self.KEY_BOARD_TYPE] = -1
                 self.indicator_dict[self.KEY_VALUE] = len(event.dropoffs)
-                self.append_kpi_row(reset_indicators=True)
-
+                self.new_kpi_row()
             if event.pickups:
                 self.update_stop_information(event)
                 self.indicator_dict[self.KEY_TIME] = event.pickup_time
                 self.indicator_dict[self.KEY_BOARD_TYPE] = 1
                 self.indicator_dict[self.KEY_VALUE] = len(event.pickups)
-                self.append_kpi_row(reset_indicators=True)
+                self.new_kpi_row()
 
+            # add a row even if stop is empty if asked
             if not event.pickups and not event.dropoffs and not self.non_empty_only:
                 self.update_stop_information(event)
                 self.indicator_dict[self.KEY_TIME] = event.timestamp
                 self.indicator_dict[self.KEY_BOARD_TYPE] = 0
                 self.indicator_dict[self.KEY_VALUE] = 0
-                self.append_kpi_row(reset_indicators=True)
+                self.new_kpi_row()
 
     def update_stop_information(self, event):
         """

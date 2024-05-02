@@ -27,7 +27,8 @@ class Output(OutputFactory):
         destination_kpi = DestinationReachedKPI()
         leave_simulation_kpi = LeaveSimulationKPI()
         users_kpi_output = KpiOutput(
-            "user", [move_kpi, wait_kpi, success_kpi, destination_kpi, leave_simulation_kpi]
+            "user", [move_kpi, wait_kpi, success_kpi, destination_kpi, leave_simulation_kpi],
+            time_profiling=[22000, 23000, 24000, 25000, 26000, 27000, 28000, 29000, 30000]
         )
 
         # vehicle kpi

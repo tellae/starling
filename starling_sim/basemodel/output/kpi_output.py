@@ -3,10 +3,11 @@ from starling_sim.basemodel.output.kpis import KPI
 import logging
 import pandas as pd
 import os
+from datetime import datetime, time, timedelta
 
 
 class KpiOutput:
-    def __init__(self, population_names, kpi_list, kpi_name=None):
+    def __init__(self, population_names, kpi_list, time_profiling=None, kpi_name=None):
         # simulation model access
         self.sim = None
 
@@ -30,6 +31,8 @@ class KpiOutput:
         # dict containing kpi values
         self.kpi_rows = None
         self.time_profile = None
+        if time_profiling:
+            self.time_profile = [0] + time_profiling
 
         # output file
         self.filename = None
@@ -53,8 +56,10 @@ class KpiOutput:
 
         # setup kpis and get columns
         columns = [KPI.KEY_ID]
+        if self.time_profile:
+            columns.append("time")
         for kpi in self.kpi_list:
-            kpi.setup(simulation_model)
+            kpi.setup(self, simulation_model)
             kpi.kpi_output = self
             columns += kpi.export_keys
         self.columns = columns
@@ -73,14 +78,17 @@ class KpiOutput:
         obtained from out file attributes
         The KPIs evaluated are defined by the kpi_list attribute
         """
-        print(self.filename)
+
         # build the KPI table for all agents of each population
         kpi_table = self.build_kpi_table()
+
+        if self.time_profile:
+            kpi_table["time"] = kpi_table["time"].apply(lambda x: (datetime.min + timedelta(seconds=x)).strftime("%H:%M:%S"))
 
         # do not generate a kpi output if the kpi table is empty
         if kpi_table.empty:
             return
-        print(kpi_table)
+
         path = str(os.path.join(self.folder, self.filename))
         try:
             # write the dataframe into a csv file
@@ -145,6 +153,9 @@ class KpiOutput:
             kpi.evaluate_for_agent(agent)
 
         self.kpi_rows[KPI.KEY_ID] = agent.id
-        res = pd.DataFrame(self.kpi_rows)
+        if self.time_profile:
+            self.kpi_rows["time"] = self.time_profile
+
+        res = pd.DataFrame(self.kpi_rows, columns=self.columns)
 
         return res
