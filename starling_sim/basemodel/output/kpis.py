@@ -518,12 +518,8 @@ class ChargeKPI(KPI):
     This KPI evaluates the trips's boards and un-boards
     """
 
-    #: **routeId**: gtfs route id
-    KEY_ROUTE_ID = "routeId"
     #: **tripId**: gtfs trip id
     KEY_TRIP_ID = "tripId"
-    #: **tripDirection**: gtfs trip direction
-    KEY_TRIP_DIRECTION = "tripDirection"
     #: **time**: simulation timestamp of board/un-board
     KEY_TIME = "time"
     #: **stopId**: stop id of board/un-board
@@ -533,34 +529,11 @@ class ChargeKPI(KPI):
     #: **value**: numeric value of the charge change
     KEY_VALUE = "value"
 
-    def __init__(self, non_empty_only=True, public_transport=True, **kwargs):
+    def __init__(self, non_empty_only=True, **kwargs):
         # boolean indicating if only non empty pickups and dropoffs should be traced
         self.non_empty_only = non_empty_only
 
-        # boolean indicating if the simulated system is public transports (with gtfs tables)
-        self.public_transport = public_transport
-
-        self.trips = None
-        self.routes = None
-
         super().__init__(**kwargs)
-
-    def _init_keys(self):
-        keys = [
-            self.KEY_TRIP_ID,
-            self.KEY_TIME,
-            self.KEY_STOP_ID,
-            self.KEY_BOARD_TYPE,
-            self.KEY_VALUE,
-        ]
-        if self.public_transport:
-            keys = [self.KEY_ROUTE_ID, self.KEY_TRIP_DIRECTION] + keys
-        return keys
-
-    def _indicators_setup(self, simulation_model):
-        if self.public_transport:
-            self.trips = simulation_model.gtfs.trips
-            self.routes = simulation_model.gtfs.routes
 
     def new_indicator_dict(self):
         return dict()
@@ -608,9 +581,36 @@ class ChargeKPI(KPI):
 
         self.indicator_dict[self.KEY_STOP_ID] = get_stop_id_of_event(event)
 
-        if self.public_transport:
-            self.indicator_dict[self.KEY_ROUTE_ID] = get_route_id_of_trip(self.trips, trip_id, event)
-            self.indicator_dict[self.KEY_TRIP_DIRECTION] = get_direction_of_trip(self.trips, trip_id)
+
+class PublicTransportChargeKPI(ChargeKPI):
+    """
+    This KPI evaluates the public transport trips's boards and un-boards
+    """
+
+    #: **routeId**: gtfs route id
+    KEY_ROUTE_ID = "routeId"
+    #: **tripDirection**: gtfs trip direction
+    KEY_TRIP_DIRECTION = "tripDirection"
+
+    def __init__(self, **kwargs):
+        self.trips = None
+        self.routes = None
+
+        super().__init__(**kwargs)
+
+    def _init_keys(self):
+        keys = super()._init_keys()
+        return [self.KEY_ROUTE_ID, self.KEY_TRIP_DIRECTION] + keys
+
+    def _indicators_setup(self, simulation_model):
+        self.trips = simulation_model.gtfs.trips
+        self.routes = simulation_model.gtfs.routes
+
+    def update_stop_information(self, event):
+        super().update_stop_information(event)
+
+        self.indicator_dict[self.KEY_ROUTE_ID] = get_route_id_of_trip(self.trips, event.trip, event)
+        self.indicator_dict[self.KEY_TRIP_DIRECTION] = get_direction_of_trip(self.trips, event.trip)
 
 
 class ServiceKPI(KPI):
