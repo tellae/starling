@@ -614,6 +614,10 @@ class VehicleOccupationKPI(OccupationKPI):
         super().reset_for_agent(agent)
         self.currentDistance = 0
 
+    def end_of_profile_range(self):
+        super().end_of_profile_range()
+        self.currentDistance = 0
+
     def get_capacity(self, element):
         return element.seats
 
