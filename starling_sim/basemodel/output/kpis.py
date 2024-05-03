@@ -667,6 +667,9 @@ class ChargeKPI(KPI):
     def new_indicator_dict(self):
         return dict()
 
+    def _init_keys(self):
+        return [self.KEY_TRIP_ID, self.KEY_TIME, self.KEY_STOP_ID, self.KEY_BOARD_TYPE, self.KEY_VALUE]
+
     def end_of_events(self):
         pass
 
@@ -731,7 +734,7 @@ class PublicTransportChargeKPI(ChargeKPI):
         super().__init__(**kwargs)
 
     def _init_keys(self):
-        return [self.KEY_ROUTE_ID, self.KEY_TRIP_DIRECTION, self.KEY_TRIP_ID, self.KEY_TIME, self.KEY_STOP_ID, self.KEY_BOARD_TYPE, self.KEY_VALUE]
+        return [self.KEY_ROUTE_ID, self.KEY_TRIP_DIRECTION] + super()._init_keys()
 
     def _indicators_setup(self, simulation_model):
         self.trips = simulation_model.gtfs.trips
