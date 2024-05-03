@@ -731,8 +731,7 @@ class PublicTransportChargeKPI(ChargeKPI):
         super().__init__(**kwargs)
 
     def _init_keys(self):
-        keys = super()._init_keys()
-        return [self.KEY_ROUTE_ID, self.KEY_TRIP_DIRECTION] + keys
+        return [self.KEY_ROUTE_ID, self.KEY_TRIP_DIRECTION, self.KEY_TRIP_ID, self.KEY_TIME, self.KEY_STOP_ID, self.KEY_BOARD_TYPE, self.KEY_VALUE]
 
     def _indicators_setup(self, simulation_model):
         self.trips = simulation_model.gtfs.trips
