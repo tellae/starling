@@ -110,8 +110,9 @@ class KPI(ABC):
         # reset kpi
         self.reset_for_agent(agent)
 
-        # browse agent's events
-        for event in agent.trace.eventList:
+        # browse agent's events in chronological order
+        events = sorted(agent.trace.eventList, key=lambda x: x.timestamp)
+        for event in events:
             self.update_from_event(event)
 
         # signal end of events
