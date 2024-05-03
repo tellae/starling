@@ -75,6 +75,13 @@
       "description": "Generate key performance indicator (KPI) files",
       "default": true
     },
+    "kpi_time_profile": {
+      "advanced": true,
+      "type": ["boolean", "array"],
+      "title": "KPI time profile",
+      "description": "Divide agent KPIs by time intervals",
+      "default": false
+    },
     "traces_output": {
       "advanced":  true,
       "type": "boolean",

@@ -32,6 +32,8 @@ class OutputFactory:
 
         self.sim = None
 
+        self.kpi_profiling = None
+
     def setup(self, simulation_model):
         """
         Setup method called during simulation setup.
@@ -43,6 +45,7 @@ class OutputFactory:
 
         # set simulation model
         self.sim = simulation_model
+        self.kpi_profiling = self.sim.scenario["kpi_time_profile"]
 
         # get output folder
         output_folder = simulation_model.scenario.outputs_folder
@@ -176,7 +179,6 @@ class OutputFactory:
             try:
                 kpi_output.write_kpi_table()
             except Exception as e:
-                raise e
                 logging.warning(self.GENERATION_ERROR_FORMAT.format(kpi_output.name + " kpi", e))
 
     def generate_trace_output(self, simulation_model):

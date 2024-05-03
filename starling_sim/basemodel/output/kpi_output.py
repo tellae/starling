@@ -35,7 +35,10 @@ class KpiOutput:
         self.kpi_rows = None
         self.time_profile = None
         if time_profiling:
-            self.time_profile = [0] + time_profiling
+            if isinstance(time_profiling, bool):
+                self.time_profile = [hour*3600 for hour in range(24)]
+            else:
+                self.time_profile = [0] + time_profiling
 
         # output file
         self.filename = None
