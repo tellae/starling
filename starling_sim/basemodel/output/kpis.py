@@ -83,6 +83,11 @@ class KPI(ABC):
         self.keys = self._init_keys()
 
     def set_profile(self, time_profile):
+        """
+        Set time profile, which defines time intervals of KPI rows.
+
+        :param time_profile:
+        """
         assert self.PROFILE_COMPATIBILITY or time_profile is None, f"{self.__class__.__name__} is not compatible with time profiling"
         self.profile = time_profile
 
@@ -93,6 +98,15 @@ class KPI(ABC):
         pass
 
     def evaluate_for_agent(self, agent):
+        """
+        Evaluate KPI indicators for the given agent.
+
+        Indicators are evaluated by browsing the agent's
+        events in chronological and updating values according
+        to the KPI description.
+
+        :param agent: Traced agent
+        """
         # reset kpi
         self.reset_for_agent(agent)
 
@@ -104,6 +118,11 @@ class KPI(ABC):
         self.end_of_events()
 
     def reset_for_agent(self, agent):
+        """
+        Reset indicators of the KPI in preparation of a new evaluation.
+
+        :param agent:
+        """
         # set studied agent
         self.agent = agent
         # reset indicators attributes
@@ -112,17 +131,30 @@ class KPI(ABC):
         self.current_profile_index = 0
 
     def end_of_events(self):
+        """
+        Execute certain actions when the event list evaluation has ended.
+        """
         if self.profile:
+            # if profiling is on, fill rows until the last profile interval
             while self.current_profile_index < len(self.profile):
                 self.end_of_profile_range()
         else:
+            # otherwise, just add a row containing the KPI evaluation
             self.new_kpi_row()
 
     def end_of_profile_range(self):
+        """
+        Add a new row with indicators of current interval and jump to the next one.
+        """
         self.current_profile_index += 1
         self.new_kpi_row()
 
     def new_kpi_row(self):
+        """
+        Add a new row to the output table.
+
+        Indicators are reset after their data has been added to a row.
+        """
         # add kpi row
         for key in self.export_keys:
             self.kpi_output.kpi_rows[key].append(self.indicator_dict[key])
@@ -131,9 +163,23 @@ class KPI(ABC):
         self.indicator_dict = self.new_indicator_dict()
 
     def is_in_later_profile(self, timestamp):
+        """
+        Test if time profiling is enabled and if the given timestamp is in a later profile interval.
+
+        :param timestamp:
+        :return: boolean indicating if timestamp in a later profile interval
+        """
         return self.profile and self.current_profile_index < len(self.profile) - 1 and timestamp >= self.profile[self.current_profile_index + 1]
 
     def update_from_event(self, event: Event):
+        """
+        Update indicators based on the event contents.
+
+        If event is in a later profile interval, jump
+        to the right interval before processing the event.
+
+        :param event: Event instance
+        """
         assert event.timestamp >= self.current_timestamp, "Event list should be ordered chronologically"
 
         # if event is in a later profile range, jump to it
