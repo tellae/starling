@@ -6,6 +6,9 @@ import os
 from datetime import datetime, time, timedelta
 
 
+KEY_TIME_RANGE = "timeRange"
+
+
 class KpiOutput:
     def __init__(self, population_names, kpi_list, time_profiling=None, kpi_name=None):
         # simulation model access
@@ -57,7 +60,7 @@ class KpiOutput:
         # setup kpis and get columns
         columns = [KPI.KEY_ID]
         if self.time_profile:
-            columns.append("time")
+            columns.append(KEY_TIME_RANGE)
         for kpi in self.kpi_list:
             kpi.setup(self, simulation_model)
             kpi.kpi_output = self
@@ -83,7 +86,7 @@ class KpiOutput:
         kpi_table = self.build_kpi_table()
 
         if self.time_profile:
-            kpi_table["time"] = kpi_table["time"].apply(lambda x: (datetime.min + timedelta(seconds=x)).strftime("%H:%M:%S"))
+            kpi_table[KEY_TIME_RANGE] = kpi_table[KEY_TIME_RANGE].apply(lambda x: (datetime.min + timedelta(seconds=x)).strftime("%H:%M:%S"))
 
         # do not generate a kpi output if the kpi table is empty
         if kpi_table.empty:
@@ -154,7 +157,7 @@ class KpiOutput:
 
         self.kpi_rows[KPI.KEY_ID] = agent.id
         if self.time_profile:
-            self.kpi_rows["time"] = self.time_profile
+            self.kpi_rows[KEY_TIME_RANGE] = self.time_profile
 
         res = pd.DataFrame(self.kpi_rows, columns=self.columns)
 

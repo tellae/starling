@@ -7,15 +7,19 @@ from starling_sim.utils.constants import (
     SERVICE_END,
 )
 import inspect
+from abc import ABC, abstractmethod
 
 
-class KPI:
+class KPI(ABC):
     """
     Generic structure of a KPI class
 
     Its sub-classes compute and update specific indicator
     from given events
     """
+
+    # indicates if this KPI is compatible with time profiling
+    PROFILE_COMPATIBILITY = True
 
     #: **agentId**: id of the agent
     KEY_ID = "agentId"
@@ -74,9 +78,13 @@ class KPI:
         :param simulation_model:
         """
         self.kpi_output = kpi_output
-        self.profile = kpi_output.time_profile
+        self.set_profile(kpi_output.time_profile)
         self._indicators_setup(simulation_model)
         self.keys = self._init_keys()
+
+    def set_profile(self, time_profile):
+        assert self.PROFILE_COMPATIBILITY or time_profile is None, f"{self.__class__.__name__} is not compatible with time profiling"
+        self.profile = time_profile
 
     def _indicators_setup(self, simulation_model):
         """
@@ -96,7 +104,6 @@ class KPI:
         self.end_of_events()
 
     def reset_for_agent(self, agent):
-        print("kpi reset")
         # set studied agent
         self.agent = agent
         # reset indicators attributes
@@ -112,7 +119,6 @@ class KPI:
             self.new_kpi_row()
 
     def end_of_profile_range(self):
-        print("end of profile range", self.current_profile_index)
         self.current_profile_index += 1
         self.new_kpi_row()
 
@@ -124,20 +130,22 @@ class KPI:
         # reset indicators
         self.indicator_dict = self.new_indicator_dict()
 
+    def is_in_later_profile(self, timestamp):
+        return self.profile and self.current_profile_index < len(self.profile) - 1 and timestamp >= self.profile[self.current_profile_index + 1]
+
     def update_from_event(self, event: Event):
         assert event.timestamp >= self.current_timestamp, "Event list should be ordered chronologically"
 
-        print(event)
-        if self.profile and self.current_profile_index < len(self.profile)-1 and event.timestamp > self.profile[self.current_profile_index + 1]:
-            print("out of time profile", self.current_profile_index, self.profile[self.current_profile_index], self.profile[self.current_profile_index + 1])
-            while self.current_profile_index < len(self.profile)-1 and event.timestamp > self.profile[self.current_profile_index+1]:
-                self.end_of_profile_range()
+        # if event is in a later profile range, jump to it
+        while self.is_in_later_profile(event.timestamp):
+            self.end_of_profile_range()
 
         # update timestamp
         self.current_timestamp = event.timestamp
 
         self._update(event)
 
+    @abstractmethod
     def _update(self, event):
         """
         Update the kpi values according to the event content and the agent.
@@ -145,10 +153,61 @@ class KPI:
         :param event: processed event
         :return:
         """
-        raise NotImplementedError
 
 
-class MoveKPI(KPI):
+class DurationKPI(KPI, ABC):
+
+    def _update(self, event):
+        self.add_proportioned_indicators(event)
+
+    def add_proportioned_indicators(self, event):
+        # evaluate total duration of event
+        total_duration = self.evaluate_event_duration(event)
+        if total_duration is None:  # skip event if result is None
+            return
+
+        # while current profile does not contain profile end, add proportioned indicators and jump to next profile
+        current_timestamp = event.timestamp
+        while self.is_in_later_profile(event.timestamp + total_duration):
+            # evaluate the duration spent in the current profile
+            duration_current = self.profile[self.current_profile_index + 1] - 1 - current_timestamp
+
+            # evaluate indicators for the current profile range
+            indicators = self.evaluate_indicators_on_profile_range(event, current_timestamp, duration_current)
+            self.add_indicators(indicators)
+
+            self.end_of_profile_range()
+            current_timestamp = self.profile[self.current_profile_index] - 1
+
+        duration_last = event.timestamp + total_duration - current_timestamp
+        indicators = self.evaluate_indicators_on_profile_range(event, current_timestamp, duration_last)
+        self.add_indicators(indicators)
+
+    def add_indicators(self, indicators):
+
+        for key, value in indicators.items():
+            self.indicator_dict[key] += value
+
+    @abstractmethod
+    def evaluate_event_duration(self, event):
+        """
+
+        :param event:
+        :return:
+        """
+
+    @abstractmethod
+    def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
+        """
+
+        :param event:
+        :param current_timestamp:
+        :param duration_on_range:
+        :return:
+        """
+
+
+class MoveKPI(DurationKPI):
     """
     This KPI evaluates the distance and spent time for each one of the simulation modes
     """
@@ -172,19 +231,26 @@ class MoveKPI(KPI):
             keys.append(self.SUFFIX_KEY_TIME.format(mode=mode))
         return keys
 
-    def _update(self, event):
-        """
-        Add travelled distances and durations
-
-        :param event:
-        """
-
+    def evaluate_event_duration(self, event):
         if isinstance(event, MoveEvent):
-            self.indicator_dict[self.SUFFIX_KEY_DISTANCE.format(mode=event.mode)] += event.distance
-            self.indicator_dict[self.SUFFIX_KEY_TIME.format(mode=event.mode)] += event.duration
+            return event.duration
+        else:
+            return None
+
+    def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
+        if duration_on_range == 0:
+            duration = 0
+            distance = 0
+        else:
+            duration = duration_on_range
+            distance = round(event.distance * duration_on_range / event.duration)
+        return {
+            self.SUFFIX_KEY_TIME.format(mode=event.mode): duration,
+            self.SUFFIX_KEY_DISTANCE.format(mode=event.mode): distance
+        }
 
 
-class WaitKPI(KPI):
+class WaitKPI(DurationKPI):
     """
     This KPI evaluates the time spent waiting
     """
@@ -192,18 +258,19 @@ class WaitKPI(KPI):
     #: **waitTime**: total traced wait time [seconds]
     KEY_WAIT = "waitTime"
 
-    def _update(self, event):
-        """
-        Add total wait duration of the request
-
-        :param event:
-        """
-
+    def evaluate_event_duration(self, event):
         if isinstance(event, RequestEvent):
-            self.indicator_dict[self.KEY_WAIT] += sum(event.request.waitSequence)
+            duration = sum(event.request.waitSequence)
+        elif isinstance(event, WaitEvent):
+            duration = event.waiting_time
+        else:
+            duration = None
+        return duration
 
-        if isinstance(event, WaitEvent):
-            self.indicator_dict[self.KEY_WAIT] += event.waiting_time
+    def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
+        return {
+            self.KEY_WAIT: duration_on_range
+        }
 
 
 class GetVehicleKPI(KPI):
@@ -382,15 +449,12 @@ class OccupationKPI(KPI):
         """
         return self.currentStock
 
-    def add_to_stock(self, value, timestamp):
-        """
-        Update the full and empty time and distance counts, according to the previous
-        stock value, then updates the stock and time.
+    def end_of_profile_range(self):
+        if self.current_profile_index < len(self.profile) - 1:
+            self.update_timestamp(self.profile[self.current_profile_index + 1] - 1)
+        super().end_of_profile_range()
 
-        :param value: stock change (negative for stock loss)
-        :param timestamp: timestamp of the stock change event
-        """
-
+    def update_timestamp(self, timestamp):
         # compute time spent with last stock
         duration = int(timestamp - self.previousTime)
 
@@ -409,10 +473,22 @@ class OccupationKPI(KPI):
         if self.currentDistance is not None:
             self.indicator_dict[self.KEY_STOCK_DISTANCE] += self.currentDistance * self.currentStock
 
-        # update stock and current time
-        self.currentStock += value
+        # set time of last update
         self.previousTime = timestamp
 
+    def add_to_stock(self, value, timestamp):
+        """
+        Update the full and empty time and distance counts, according to the previous
+        stock value, then updates the stock and time.
+
+        :param value: stock change (negative for stock loss)
+        :param timestamp: timestamp of the stock change event
+        """
+        # update indicators for previous period
+        self.update_timestamp(timestamp)
+
+        # update current stock
+        self.currentStock += value
         if self.currentStock > self.indicator_dict[self.KEY_MAX_STOCK]:
             self.indicator_dict[self.KEY_MAX_STOCK] = self.currentStock
 
@@ -433,7 +509,7 @@ class OccupationKPI(KPI):
             self.indicator_dict[self.KEY_MAX_STOCK] = self.currentStock
 
         if isinstance(event, LeaveSimulationEvent):
-            self.add_to_stock(0, event.timestamp)
+            self.update_timestamp(event.timestamp)
 
 
 class StationOccupationKPI(OccupationKPI):
@@ -444,6 +520,9 @@ class StationOccupationKPI(OccupationKPI):
 
     def _init_keys(self):
         return [self.KEY_EMPTY_TIME, self.KEY_FULL_TIME, self.KEY_STOCK_TIME]
+
+    def new_indicator_dict(self):
+        return {key: 0 for key in [self.KEY_EMPTY_TIME, self.KEY_FULL_TIME, self.KEY_STOCK_TIME, self.KEY_MAX_STOCK]}
 
     def get_capacity(self, element):
         return element.capacity
@@ -474,7 +553,6 @@ class StationOccupationKPI(OccupationKPI):
                 self.add_to_stock(event.total, event.timestamp)
 
 
-# TODO : reset currentDistance
 class VehicleOccupationKPI(OccupationKPI):
     """
     This KPI evaluates the time and distance in the empty and full states (of vehicle),
@@ -483,6 +561,10 @@ class VehicleOccupationKPI(OccupationKPI):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.currentDistance = 0
+
+    def reset_for_agent(self, agent):
+        super().reset_for_agent(agent)
         self.currentDistance = 0
 
     def get_capacity(self, element):
@@ -512,11 +594,11 @@ class VehicleOccupationKPI(OccupationKPI):
             self.currentDistance += event.distance
 
 
-# TODO : disable profile
 class ChargeKPI(KPI):
     """
     This KPI evaluates the trips's boards and un-boards
     """
+    PROFILE_COMPATIBILITY = False
 
     #: **tripId**: gtfs trip id
     KEY_TRIP_ID = "tripId"
@@ -537,6 +619,9 @@ class ChargeKPI(KPI):
 
     def new_indicator_dict(self):
         return dict()
+
+    def end_of_events(self):
+        pass
 
     def _update(self, event):
         """
@@ -623,11 +708,21 @@ class ServiceKPI(KPI):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.currentServiceStart = None
-        self.totalServiceDuration = None
+        self.last_service_marker = None
 
-    def new_indicator_dict(self):
-        return {self.KEY_SERVICE_DURATION: "NA"}
+    def reset_for_agent(self, agent):
+        self.last_service_marker = None
+        super().reset_for_agent(agent)
+
+    def end_of_profile_range(self):
+        if self.current_profile_index < len(self.profile) - 1:
+            self.update_indicator(self.profile[self.current_profile_index + 1] - 1)
+        super().end_of_profile_range()
+
+    def update_indicator(self, timestamp):
+        if self.last_service_marker is not None:
+            self.indicator_dict[self.KEY_SERVICE_DURATION] += timestamp - self.last_service_marker
+            self.last_service_marker = timestamp
 
     def _update(self, event):
         if isinstance(event, ServiceEvent):
@@ -640,38 +735,27 @@ class ServiceKPI(KPI):
             else:
                 raise ValueError("Unsupported service status " + event.new)
 
-        if isinstance(event, LeaveSimulationEvent):
-            if self.totalServiceDuration is None or self.currentServiceStart is not None:
-                self.indicator_dict[self.KEY_SERVICE_DURATION] = "NA"
-            else:
-                self.indicator_dict[self.KEY_SERVICE_DURATION] = self.totalServiceDuration
-            self.currentServiceStart = None
-
     def start_service(self, timestamp):
-        if self.currentServiceStart is not None:
+        if self.last_service_marker is not None:
             raise ValueError("Service starts but has not ended")
         else:
-            self.currentServiceStart = timestamp
+            self.last_service_marker = timestamp
 
     def close_service(self, timestamp):
-        if self.currentServiceStart is None:
+        if self.last_service_marker is None:
             raise ValueError("Service ends but has not started")
         else:
-            duration = timestamp - self.currentServiceStart
-            if self.totalServiceDuration is None:
-                self.totalServiceDuration = duration
-            else:
-                self.totalServiceDuration += duration
-            self.currentServiceStart = None
+            self.update_indicator(timestamp)
+            self.last_service_marker = None
 
 
-# TODO : disable profile
 class TransferKPI(KPI):
     """
     This KPI lists the transfers realised by a user,
     with additional information such as walk distance and duration,
     wait duration, from/to trip/stop
     """
+    PROFILE_COMPATIBILITY = False
 
     #: **walkDistance**: walk distance of transfer [meters]
     KEY_WALK_DIST = "walkDistance"
@@ -726,6 +810,9 @@ class TransferKPI(KPI):
             self.KEY_TO_TRIP,
             self.KEY_TO_STOP,
         ]
+
+    def end_of_events(self):
+        pass
 
     def new_indicator_dict(self):
         return dict()
@@ -791,7 +878,7 @@ class TransferKPI(KPI):
 
         self.indicator_dict[self.KEY_TO_TRIP] = self.to_trip
         self.indicator_dict[self.KEY_TO_STOP] = self.to_stop
-        self.append_kpi_row(reset_indicators=True)
+        self.new_kpi_row()
 
 
 # TODO : remove ? useless with TransferKPI
