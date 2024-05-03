@@ -28,18 +28,19 @@ class Output(OutputFactory):
         leave_simulation_kpi = LeaveSimulationKPI()
         users_kpi_output = KpiOutput(
             "user", [move_kpi, wait_kpi, success_kpi, destination_kpi, leave_simulation_kpi],
+            time_profiling=self.kpi_profiling
         )
 
         # vehicle kpi
         move_kpi = MoveKPI()
         get_vehicle_kpi = GetVehicleKPI()
-        vehicles_kpi_output = KpiOutput("vehicle", [move_kpi, get_vehicle_kpi])
+        vehicles_kpi_output = KpiOutput("vehicle", [move_kpi, get_vehicle_kpi], time_profiling=self.kpi_profiling)
 
         # stations kpi
         success_kpi = SuccessKPI(export_keys=["nbSuccessGet", "nbFailedGet", "nbSuccessPut", "nbFailedPut"])
         wait_kpi = WaitKPI()
         availability_kpi = StationOccupationKPI()
-        stations_kpi_output = KpiOutput("station", [success_kpi, wait_kpi, availability_kpi])
+        stations_kpi_output = KpiOutput("station", [success_kpi, wait_kpi, availability_kpi], time_profiling=self.kpi_profiling)
 
         self.kpi_outputs = [users_kpi_output, vehicles_kpi_output, stations_kpi_output]
 
