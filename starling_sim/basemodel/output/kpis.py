@@ -289,8 +289,13 @@ class MoveKPI(DurationKPI):
             duration = 0
             distance = 0
         else:
-            duration = duration_on_range
-            distance = round(event.distance * duration_on_range / event.duration)
+            if isinstance(event, RouteEvent):
+                route_data = event.get_route_data_in_interval(current_timestamp, current_timestamp + duration_on_range)
+                duration = sum(route_data["time"])
+                distance = sum(route_data["length"])
+            else:
+                duration = duration_on_range
+                distance = round(event.distance * duration_on_range / event.duration)
         return {
             self.SUFFIX_KEY_TIME.format(mode=event.mode): duration,
             self.SUFFIX_KEY_DISTANCE.format(mode=event.mode): distance

@@ -101,6 +101,53 @@ class RouteEvent(MoveEvent):
         self.distance = sum(route_data["length"])
         self.duration = sum(route_data["time"])
 
+    def get_route_data_in_interval(self, start_time, end_time):
+        durations = self.data["time"]
+        distances = self.data["length"]
+
+        index = 0
+
+        interval_durations = []
+        interval_distances = []
+
+        current_timestamp = self.timestamp
+
+        while current_timestamp < end_time:
+            segment_duration = durations[index]
+            segment_distance = distances[index]
+
+            if current_timestamp < start_time:
+                # current segment is before the interval
+                if current_timestamp + segment_duration < start_time:
+                    current_timestamp += segment_duration
+                # current segment steps over the interval start
+                else:
+                    # evaluate part that is in the interval
+                    duration_in_interval = current_timestamp + segment_duration - start_time
+                    interval_durations.append(duration_in_interval)
+                    interval_distances.append(round(segment_distance * duration_in_interval / segment_duration))
+                    current_timestamp += segment_duration
+            else:
+                # current segment is in the interval
+                if current_timestamp + segment_duration < end_time:
+                    interval_durations.append(segment_duration)
+                    interval_distances.append(segment_distance)
+                    current_timestamp += segment_duration
+                # current segment steps over the interval end
+                else:
+                    # evaluate part that is in the interval
+                    duration_in_interval = end_time - current_timestamp
+                    interval_durations.append(duration_in_interval)
+                    interval_distances.append(round(segment_distance * duration_in_interval / segment_duration))
+                    current_timestamp = end_time
+
+            index += 1
+
+        return {
+            "time": interval_durations,
+            "length": interval_distances
+        }
+
     def __str__(self):
         return super().__str__() + "mode={}, start={}, end={}, duration={}, distance={}".format(
             self.mode, self.data["route"][0], self.data["route"][-1], self.duration, self.distance
