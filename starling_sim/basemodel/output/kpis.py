@@ -511,19 +511,20 @@ class OccupationKPI(KPI):
         duration = int(timestamp - self.previousTime)
 
         # add time to relevant time count
-        if self.currentStock == 0:
-            self.indicator_dict[self.KEY_EMPTY_TIME] += duration
-            if self.currentDistance is not None:
-                self.indicator_dict[self.KEY_EMPTY_DISTANCE] += self.currentDistance
-        elif self.currentStock == self.capacity:
-            self.indicator_dict[self.KEY_FULL_TIME] += duration
-            if self.currentDistance is not None:
-                self.indicator_dict[self.KEY_FULL_DISTANCE] += self.currentDistance
+        if self.currentStock is not None:
+            if self.currentStock == 0:
+                self.indicator_dict[self.KEY_EMPTY_TIME] += duration
+                if self.currentDistance is not None:
+                    self.indicator_dict[self.KEY_EMPTY_DISTANCE] += self.currentDistance
+            elif self.currentStock == self.capacity:
+                self.indicator_dict[self.KEY_FULL_TIME] += duration
+                if self.currentDistance is not None:
+                    self.indicator_dict[self.KEY_FULL_DISTANCE] += self.currentDistance
 
-        # add stock relative time and distance
-        self.indicator_dict[self.KEY_STOCK_TIME] += duration * self.currentStock
-        if self.currentDistance is not None:
-            self.indicator_dict[self.KEY_STOCK_DISTANCE] += self.currentDistance * self.currentStock
+            # add stock relative time and distance
+            self.indicator_dict[self.KEY_STOCK_TIME] += duration * self.currentStock
+            if self.currentDistance is not None:
+                self.indicator_dict[self.KEY_STOCK_DISTANCE] += self.currentDistance * self.currentStock
 
         # set time of last update
         self.previousTime = timestamp
@@ -562,6 +563,7 @@ class OccupationKPI(KPI):
 
         if isinstance(event, LeaveSimulationEvent):
             self.update_timestamp(event.timestamp)
+            self.currentStock = None
 
 
 class StationOccupationKPI(OccupationKPI):
