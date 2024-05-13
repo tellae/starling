@@ -3,6 +3,7 @@ from starling_sim.basemodel.output.kpis import KPI
 import logging
 import pandas as pd
 import os
+import math
 from datetime import datetime, time, timedelta
 
 
@@ -33,12 +34,7 @@ class KpiOutput:
 
         # dict containing kpi values
         self.kpi_rows = None
-        self.time_profile = None
-        if time_profiling:
-            if isinstance(time_profiling, bool):
-                self.time_profile = [hour*3600 for hour in range(24)]
-            else:
-                self.time_profile = [0] + time_profiling
+        self.time_profile = time_profiling
 
         # output file
         self.filename = None
@@ -63,7 +59,14 @@ class KpiOutput:
         # setup kpis and get columns
         columns = [KPI.KEY_ID]
         if self.time_profile:
+            # evaluate time profile intervals
+            if isinstance(self.time_profile, bool):
+                self.time_profile = [hour * 3600 for hour in range(math.ceil(self.sim.scenario["limit"] / 3600))]
+            else:
+                self.time_profile = self.time_profile if self.time_profile[0] == 0 else [0] + self.time_profile
+            # add a time range column
             columns.append(KEY_TIME_RANGE)
+
         for kpi in self.kpi_list:
             kpi.setup(self, simulation_model)
             kpi.kpi_output = self
