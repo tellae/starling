@@ -618,11 +618,15 @@ class VehicleOccupationKPI(OccupationKPI):
             self.add_to_stock(-event.agent.number, event.timestamp)
 
         if isinstance(event, MoveEvent):
+            self.add_proportioned_indicators(event)
 
-
-
-
-            self.currentDistance += event.distance
+    def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
+        if isinstance(event, RouteEvent):
+            route_data = event.get_route_data_in_interval(current_timestamp,
+                                                          current_timestamp + duration_on_range)
+            self.currentDistance += sum(route_data["length"])
+        else:
+            self.currentDistance += round(event.distance * duration_on_range / event.duration)
 
 
 class ChargeKPI(KPI):
