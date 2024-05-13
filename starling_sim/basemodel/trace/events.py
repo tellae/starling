@@ -32,9 +32,17 @@ class Event:
 
 
 class DurationEvent(Event, ABC):
+    """
+    This abstract event describes an event that takes place over several time steps.
+    """
 
     @property
     def total_duration(self):
+        """
+        Get the total duration of the event.
+
+        :return: integer describing the total event duration
+        """
         return self._total_duration()
 
     @abstractmethod
