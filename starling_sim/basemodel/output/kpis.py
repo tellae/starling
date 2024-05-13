@@ -460,7 +460,7 @@ class OccupationKPI(KPI):
 
         self.capacity = None
         self.currentStock = None
-        self.previousTime = 0
+        self.previousTime = -1
         self.currentDistance = None
 
     def _init_keys(self):
@@ -478,7 +478,7 @@ class OccupationKPI(KPI):
         super().reset_for_agent(agent)
         self.capacity = None
         self.currentStock = None
-        self.previousTime = 0
+        self.previousTime = -1
         self.currentDistance = None
 
     def get_capacity(self, element):
