@@ -192,6 +192,38 @@ class KPI(ABC):
 
         self._update(event)
 
+    def add_proportioned_indicators(self, event):
+        # evaluate total duration of event
+        if not isinstance(event, DurationEvent):
+            raise ValueError("add_proportioned_indicators should be called on DurationEvent instances")
+        total_duration = event.total_duration
+
+        # while current profile does not contain profile end, add proportioned indicators and jump to next profile
+        current_timestamp = event.timestamp
+        while self.is_in_later_profile(event.timestamp + total_duration):
+            # evaluate the duration spent in the current profile
+            duration_current = self.profile[self.current_profile_index + 1] - 1 - current_timestamp
+
+            # evaluate indicators for the current profile range
+            self.evaluate_indicators_on_profile_range(event, current_timestamp, duration_current)
+
+            self.end_of_profile_range()
+            current_timestamp = self.profile[self.current_profile_index] - 1
+
+        duration_last = event.timestamp + total_duration - current_timestamp
+        self.evaluate_indicators_on_profile_range(event, current_timestamp, duration_last)
+
+    def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
+        """
+        Evaluate and update KPI indicators for the given event on the specified time interval.
+
+        :param event:
+        :param current_timestamp:
+        :param duration_on_range:
+        :return:
+        """
+        raise NotImplementedError
+
     @abstractmethod
     def _update(self, event):
         """
@@ -202,59 +234,7 @@ class KPI(ABC):
         """
 
 
-class DurationKPI(KPI, ABC):
-
-    def _update(self, event):
-        self.add_proportioned_indicators(event)
-
-    def add_proportioned_indicators(self, event):
-        # evaluate total duration of event
-        total_duration = self.evaluate_event_duration(event)
-        if total_duration is None:  # skip event if result is None
-            return
-
-        # while current profile does not contain profile end, add proportioned indicators and jump to next profile
-        current_timestamp = event.timestamp
-        while self.is_in_later_profile(event.timestamp + total_duration):
-            # evaluate the duration spent in the current profile
-            duration_current = self.profile[self.current_profile_index + 1] - 1 - current_timestamp
-
-            # evaluate indicators for the current profile range
-            indicators = self.evaluate_indicators_on_profile_range(event, current_timestamp, duration_current)
-            self.add_indicators(indicators)
-
-            self.end_of_profile_range()
-            current_timestamp = self.profile[self.current_profile_index] - 1
-
-        duration_last = event.timestamp + total_duration - current_timestamp
-        indicators = self.evaluate_indicators_on_profile_range(event, current_timestamp, duration_last)
-        self.add_indicators(indicators)
-
-    def add_indicators(self, indicators):
-
-        for key, value in indicators.items():
-            self.indicator_dict[key] += value
-
-    @abstractmethod
-    def evaluate_event_duration(self, event):
-        """
-
-        :param event:
-        :return:
-        """
-
-    @abstractmethod
-    def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
-        """
-
-        :param event:
-        :param current_timestamp:
-        :param duration_on_range:
-        :return:
-        """
-
-
-class MoveKPI(DurationKPI):
+class MoveKPI(KPI):
     """
     This KPI evaluates the distance and spent time for each one of the simulation modes
     """
@@ -278,11 +258,9 @@ class MoveKPI(DurationKPI):
             keys.append(self.SUFFIX_KEY_TIME.format(mode=mode))
         return keys
 
-    def evaluate_event_duration(self, event):
+    def _update(self, event):
         if isinstance(event, MoveEvent):
-            return event.duration
-        else:
-            return None
+            self.add_proportioned_indicators(event)
 
     def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
         if duration_on_range == 0:
@@ -296,13 +274,11 @@ class MoveKPI(DurationKPI):
             else:
                 duration = duration_on_range
                 distance = round(event.distance * duration_on_range / event.duration)
-        return {
-            self.SUFFIX_KEY_TIME.format(mode=event.mode): duration,
-            self.SUFFIX_KEY_DISTANCE.format(mode=event.mode): distance
-        }
+        self.indicator_dict[self.SUFFIX_KEY_TIME.format(mode=event.mode)] += duration
+        self.indicator_dict[self.SUFFIX_KEY_DISTANCE.format(mode=event.mode)] += distance
 
 
-class WaitKPI(DurationKPI):
+class WaitKPI(KPI):
     """
     This KPI evaluates the time spent waiting
     """
@@ -310,19 +286,12 @@ class WaitKPI(DurationKPI):
     #: **waitTime**: total traced wait time [seconds]
     KEY_WAIT = "waitTime"
 
-    def evaluate_event_duration(self, event):
-        if isinstance(event, RequestEvent):
-            duration = sum(event.request.waitSequence)
-        elif isinstance(event, WaitEvent):
-            duration = event.waiting_time
-        else:
-            duration = None
-        return duration
+    def _update(self, event):
+        if isinstance(event, WaitEvent):
+            self.add_proportioned_indicators(event)
 
     def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
-        return {
-            self.KEY_WAIT: duration_on_range
-        }
+        self.indicator_dict[self.KEY_WAIT] += duration_on_range
 
 
 class GetVehicleKPI(KPI):
@@ -649,6 +618,10 @@ class VehicleOccupationKPI(OccupationKPI):
             self.add_to_stock(-event.agent.number, event.timestamp)
 
         if isinstance(event, MoveEvent):
+
+
+
+
             self.currentDistance += event.distance
 
 

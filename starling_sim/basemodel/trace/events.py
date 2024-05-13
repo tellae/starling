@@ -1,6 +1,7 @@
 """
 This module contains event classes that compose agents' traces
 """
+from abc import ABC, abstractmethod
 
 
 class Event:
@@ -30,6 +31,17 @@ class Event:
             return "[{}, {}, {}]: ".format(self.message, self.__class__.__name__, self.timestamp)
 
 
+class DurationEvent(Event, ABC):
+
+    @property
+    def total_duration(self):
+        return self._total_duration()
+
+    @abstractmethod
+    def _total_duration(self) -> int:
+        raise NotImplementedError
+
+
 class InputEvent(Event):
     """
     This event describes the generation of a traced element.
@@ -51,7 +63,7 @@ class InputEvent(Event):
         )
 
 
-class MoveEvent(Event):
+class MoveEvent(DurationEvent):
     """
     This event describes an agent moving
     """
@@ -71,6 +83,9 @@ class MoveEvent(Event):
         self.distance = move_distance
         self.duration = move_duration
         self.mode = mode
+
+    def _total_duration(self) -> int:
+        return self.duration
 
 
 class RouteEvent(MoveEvent):
@@ -181,7 +196,7 @@ class PositionChangeEvent(MoveEvent):
         )
 
 
-class WaitEvent(Event):
+class WaitEvent(DurationEvent):
     """
     This event describes the a waiting agent
     """
@@ -197,6 +212,9 @@ class WaitEvent(Event):
         super().__init__(time, message)
         self.reason = reason
         self.waiting_time = waiting_time
+
+    def _total_duration(self):
+        return self.waiting_time
 
     def __str__(self):
         return super().__str__() + "waitedTime={}, reason={}".format(self.waiting_time, self.reason)
@@ -237,7 +255,7 @@ class ServiceEvent(Event):
         return super().__str__() + "formerStatus={}, newStatus={}".format(self.former, self.new)
 
 
-class RequestEvent(Event):
+class RequestEvent(DurationEvent):
     """
     This event describes a user request
     """
@@ -251,6 +269,9 @@ class RequestEvent(Event):
         """
         super().__init__(time, message)
         self.request = request
+
+    def _total_duration(self):
+        return sum(self.request.waitSequence)
 
     def __str__(self):
         return super().__str__() + str(self.request)
