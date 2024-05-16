@@ -287,7 +287,7 @@ class MoveKPI(KPI):
         else:
             if isinstance(event, RouteEvent):
                 route_data = event.get_route_data_in_interval(
-                    current_timestamp, current_timestamp + duration_on_range
+                    current_timestamp, current_timestamp + duration_on_range + 1
                 )
                 duration = sum(route_data["time"])
                 distance = sum(route_data["length"])
@@ -653,7 +653,7 @@ class VehicleOccupationKPI(OccupationKPI):
     def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
         if isinstance(event, RouteEvent):
             route_data = event.get_route_data_in_interval(
-                current_timestamp, current_timestamp + duration_on_range
+                current_timestamp, current_timestamp + duration_on_range + 1
             )
             self.currentDistance += sum(route_data["length"])
         else:
