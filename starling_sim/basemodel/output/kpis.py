@@ -553,7 +553,7 @@ class OccupationKPI(KPI):
             self.indicator_dict[self.KEY_MAX_STOCK] = self.currentStock
 
         if isinstance(event, LeaveSimulationEvent):
-            self.update_timestamp(event.timestamp)
+            self.update_timestamp(event.timestamp - 1)
             self.currentStock = None
 
 
