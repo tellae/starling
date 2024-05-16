@@ -287,7 +287,7 @@ class WaitKPI(KPI):
     KEY_WAIT = "waitTime"
 
     def _update(self, event):
-        if isinstance(event, WaitEvent):
+        if isinstance(event, WaitEvent) or isinstance(event, RequestEvent):
             self.add_proportioned_indicators(event)
 
     def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
