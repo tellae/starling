@@ -61,9 +61,13 @@ class KpiOutput:
         if self.time_profile:
             # evaluate time profile intervals
             if isinstance(self.time_profile, bool):
-                self.time_profile = [hour * 3600 for hour in range(math.ceil(self.sim.scenario["limit"] / 3600))]
+                self.time_profile = [
+                    hour * 3600 for hour in range(math.ceil(self.sim.scenario["limit"] / 3600))
+                ]
             else:
-                self.time_profile = self.time_profile if self.time_profile[0] == 0 else [0] + self.time_profile
+                self.time_profile = (
+                    self.time_profile if self.time_profile[0] == 0 else [0] + self.time_profile
+                )
             # add a time range column
             columns.append(KEY_TIME_RANGE)
 
@@ -92,7 +96,9 @@ class KpiOutput:
         kpi_table = self.build_kpi_table()
 
         if self.time_profile:
-            kpi_table[KEY_TIME_RANGE] = kpi_table[KEY_TIME_RANGE].apply(lambda x: (datetime.min + timedelta(seconds=x)).strftime("%H:%M:%S"))
+            kpi_table[KEY_TIME_RANGE] = kpi_table[KEY_TIME_RANGE].apply(
+                lambda x: (datetime.min + timedelta(seconds=x)).strftime("%H:%M:%S")
+            )
 
         # do not generate a kpi output if the kpi table is empty
         if kpi_table.empty:

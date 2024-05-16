@@ -45,7 +45,7 @@ class KPI(ABC):
 
         # indicators evaluation attributes
         self.indicator_dict = None
-        
+
         # time profiling
         self.profile = None
         self.current_profile_index = 0
@@ -56,7 +56,15 @@ class KPI(ABC):
 
     def _init_keys(self):
         # return class attributes starting with "KEY_"
-        keys = list(map(lambda x: x[1], filter(lambda x: x[0].startswith("KEY_"), inspect.getmembers(self.__class__, lambda a: not (inspect.isroutine(a))))))
+        keys = list(
+            map(
+                lambda x: x[1],
+                filter(
+                    lambda x: x[0].startswith("KEY_"),
+                    inspect.getmembers(self.__class__, lambda a: not (inspect.isroutine(a))),
+                ),
+            )
+        )
         keys.remove(self.KEY_ID)
         return keys
 
@@ -88,7 +96,9 @@ class KPI(ABC):
 
         :param time_profile:
         """
-        assert self.PROFILE_COMPATIBILITY or time_profile is None, f"{self.__class__.__name__} is not compatible with time profiling"
+        assert (
+            self.PROFILE_COMPATIBILITY or time_profile is None
+        ), f"{self.__class__.__name__} is not compatible with time profiling"
         self.profile = time_profile
 
     def _indicators_setup(self, simulation_model):
@@ -170,7 +180,11 @@ class KPI(ABC):
         :param timestamp:
         :return: boolean indicating if timestamp in a later profile interval
         """
-        return self.profile and self.current_profile_index < len(self.profile) - 1 and timestamp >= self.profile[self.current_profile_index + 1]
+        return (
+            self.profile
+            and self.current_profile_index < len(self.profile) - 1
+            and timestamp >= self.profile[self.current_profile_index + 1]
+        )
 
     def update_from_event(self, event: Event):
         """
@@ -181,7 +195,9 @@ class KPI(ABC):
 
         :param event: Event instance
         """
-        assert event.timestamp >= self.current_timestamp, "Event list should be ordered chronologically"
+        assert (
+            event.timestamp >= self.current_timestamp
+        ), "Event list should be ordered chronologically"
 
         # if event is in a later profile range, jump to it
         while self.is_in_later_profile(event.timestamp):
@@ -195,7 +211,9 @@ class KPI(ABC):
     def add_proportioned_indicators(self, event):
         # evaluate total duration of event
         if not isinstance(event, DurationEvent):
-            raise ValueError("add_proportioned_indicators should be called on DurationEvent instances")
+            raise ValueError(
+                "add_proportioned_indicators should be called on DurationEvent instances"
+            )
         total_duration = event.total_duration
 
         # while current profile does not contain profile end, add proportioned indicators and jump to next profile
@@ -268,7 +286,9 @@ class MoveKPI(KPI):
             distance = 0
         else:
             if isinstance(event, RouteEvent):
-                route_data = event.get_route_data_in_interval(current_timestamp, current_timestamp + duration_on_range)
+                route_data = event.get_route_data_in_interval(
+                    current_timestamp, current_timestamp + duration_on_range
+                )
                 duration = sum(route_data["time"])
                 distance = sum(route_data["length"])
             else:
@@ -338,7 +358,7 @@ class SuccessKPI(KPI):
             self.KEY_FAILED_PUT,
             self.KEY_SUCCESS_PUT,
             self.KEY_FAILED_REQUEST,
-            self.KEY_SUCCESS_REQUEST
+            self.KEY_SUCCESS_REQUEST,
         ]
 
     def _update(self, event):
@@ -382,7 +402,7 @@ class StaffOperationKPI(KPI):
             self.KEY_FAILED_GET_STAFF,
             self.KEY_SUCCESS_GET_STAFF,
             self.KEY_FAILED_PUT_STAFF,
-            self.KEY_SUCCESS_PUT_STAFF
+            self.KEY_SUCCESS_PUT_STAFF,
         ]
 
     def _update(self, event):
@@ -493,7 +513,9 @@ class OccupationKPI(KPI):
             # add stock relative time and distance
             self.indicator_dict[self.KEY_STOCK_TIME] += duration * self.currentStock
             if self.currentDistance is not None:
-                self.indicator_dict[self.KEY_STOCK_DISTANCE] += self.currentDistance * self.currentStock
+                self.indicator_dict[self.KEY_STOCK_DISTANCE] += (
+                    self.currentDistance * self.currentStock
+                )
 
         # set time of last update
         self.previousTime = timestamp
@@ -545,7 +567,15 @@ class StationOccupationKPI(OccupationKPI):
         return [self.KEY_EMPTY_TIME, self.KEY_FULL_TIME, self.KEY_STOCK_TIME]
 
     def new_indicator_dict(self):
-        return {key: 0 for key in [self.KEY_EMPTY_TIME, self.KEY_FULL_TIME, self.KEY_STOCK_TIME, self.KEY_MAX_STOCK]}
+        return {
+            key: 0
+            for key in [
+                self.KEY_EMPTY_TIME,
+                self.KEY_FULL_TIME,
+                self.KEY_STOCK_TIME,
+                self.KEY_MAX_STOCK,
+            ]
+        }
 
     def get_capacity(self, element):
         return element.capacity
@@ -622,8 +652,9 @@ class VehicleOccupationKPI(OccupationKPI):
 
     def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
         if isinstance(event, RouteEvent):
-            route_data = event.get_route_data_in_interval(current_timestamp,
-                                                          current_timestamp + duration_on_range)
+            route_data = event.get_route_data_in_interval(
+                current_timestamp, current_timestamp + duration_on_range
+            )
             self.currentDistance += sum(route_data["length"])
         else:
             self.currentDistance += round(event.distance * duration_on_range / event.duration)
@@ -633,6 +664,7 @@ class ChargeKPI(KPI):
     """
     This KPI evaluates the trips's boards and un-boards
     """
+
     PROFILE_COMPATIBILITY = False
 
     #: **tripId**: gtfs trip id
@@ -656,7 +688,13 @@ class ChargeKPI(KPI):
         return dict()
 
     def _init_keys(self):
-        return [self.KEY_TRIP_ID, self.KEY_TIME, self.KEY_STOP_ID, self.KEY_BOARD_TYPE, self.KEY_VALUE]
+        return [
+            self.KEY_TRIP_ID,
+            self.KEY_TIME,
+            self.KEY_STOP_ID,
+            self.KEY_BOARD_TYPE,
+            self.KEY_VALUE,
+        ]
 
     def end_of_events(self):
         pass
@@ -792,6 +830,7 @@ class TransferKPI(KPI):
     with additional information such as walk distance and duration,
     wait duration, from/to trip/stop
     """
+
     PROFILE_COMPATIBILITY = False
 
     #: **walkDistance**: walk distance of transfer [meters]
@@ -907,11 +946,15 @@ class TransferKPI(KPI):
         self.indicator_dict[self.KEY_WALK_DIST] = self.current_walk_distance
         self.indicator_dict[self.KEY_WALK_DURATION] = self.current_walk_duration
         self.indicator_dict[self.KEY_WAIT_TIME] = self.current_wait_time
-        self.indicator_dict[self.KEY_FROM_ROUTE] = get_route_short_name_of_trip(self.trips, self.routes, self.from_trip)
+        self.indicator_dict[self.KEY_FROM_ROUTE] = get_route_short_name_of_trip(
+            self.trips, self.routes, self.from_trip
+        )
 
         self.indicator_dict[self.KEY_FROM_TRIP] = self.from_trip
         self.indicator_dict[self.KEY_FROM_STOP] = self.from_stop
-        self.indicator_dict[self.KEY_TO_ROUTE] = get_route_short_name_of_trip(self.trips, self.routes, self.to_trip)
+        self.indicator_dict[self.KEY_TO_ROUTE] = get_route_short_name_of_trip(
+            self.trips, self.routes, self.to_trip
+        )
 
         self.indicator_dict[self.KEY_TO_TRIP] = self.to_trip
         self.indicator_dict[self.KEY_TO_STOP] = self.to_stop

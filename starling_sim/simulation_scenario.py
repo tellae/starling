@@ -1,6 +1,7 @@
 """
 This module manages the parameters of the simulation
 """
+
 import datetime
 import logging
 import os

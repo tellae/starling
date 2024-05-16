@@ -1,6 +1,7 @@
 """
 This module contains event classes that compose agents' traces
 """
+
 from abc import ABC, abstractmethod
 
 
@@ -148,7 +149,9 @@ class RouteEvent(MoveEvent):
                     # evaluate part that is in the interval
                     duration_in_interval = current_timestamp + segment_duration - start_time
                     interval_durations.append(duration_in_interval)
-                    interval_distances.append(round(segment_distance * duration_in_interval / segment_duration))
+                    interval_distances.append(
+                        round(segment_distance * duration_in_interval / segment_duration)
+                    )
                     current_timestamp += segment_duration
             else:
                 # current segment is in the interval
@@ -161,15 +164,14 @@ class RouteEvent(MoveEvent):
                     # evaluate part that is in the interval
                     duration_in_interval = end_time - current_timestamp
                     interval_durations.append(duration_in_interval)
-                    interval_distances.append(round(segment_distance * duration_in_interval / segment_duration))
+                    interval_distances.append(
+                        round(segment_distance * duration_in_interval / segment_duration)
+                    )
                     current_timestamp = end_time
 
             index += 1
 
-        return {
-            "time": interval_durations,
-            "length": interval_distances
-        }
+        return {"time": interval_durations, "length": interval_distances}
 
     def __str__(self):
         return super().__str__() + "mode={}, start={}, end={}, duration={}, distance={}".format(
