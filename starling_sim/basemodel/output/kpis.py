@@ -283,7 +283,7 @@ class MoveKPI(KPI):
     def evaluate_indicators_on_profile_range(self, event, current_timestamp, duration_on_range):
         if duration_on_range == 0:
             duration = 0
-            distance = 0
+            distance = event.distance
         else:
             if isinstance(event, RouteEvent):
                 route_data = event.get_route_data_in_interval(
