@@ -136,7 +136,7 @@ class RouteEvent(MoveEvent):
 
         current_timestamp = self.timestamp
 
-        while current_timestamp < end_time:
+        while current_timestamp < end_time and index < len(durations):
             segment_duration = durations[index]
             segment_distance = distances[index]
 
