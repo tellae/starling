@@ -657,7 +657,10 @@ class VehicleOccupationKPI(OccupationKPI):
             )
             self.currentDistance += sum(route_data["length"])
         else:
-            self.currentDistance += round(event.distance * duration_on_range / event.duration)
+            if duration_on_range == 0:
+                self.currentDistance += event.distance
+            else:
+                self.currentDistance += round(event.distance * duration_on_range / event.duration)
 
 
 class ChargeKPI(KPI):
