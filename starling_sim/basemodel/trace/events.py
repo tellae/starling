@@ -136,13 +136,13 @@ class RouteEvent(MoveEvent):
 
         current_timestamp = self.timestamp
 
-        while current_timestamp < end_time and index < len(durations):
+        while index < len(durations) and (current_timestamp < end_time or (current_timestamp == end_time and durations[index] == 0)):
             segment_duration = durations[index]
             segment_distance = distances[index]
 
             if current_timestamp < start_time:
                 # current segment is before the interval
-                if current_timestamp + segment_duration < start_time:
+                if current_timestamp + segment_duration <= start_time:
                     current_timestamp += segment_duration
                 # current segment steps over the interval start
                 else:
@@ -155,7 +155,7 @@ class RouteEvent(MoveEvent):
                     current_timestamp += segment_duration
             else:
                 # current segment is in the interval
-                if current_timestamp + segment_duration < end_time:
+                if current_timestamp + segment_duration <= end_time:
                     interval_durations.append(segment_duration)
                     interval_distances.append(segment_distance)
                     current_timestamp += segment_duration
