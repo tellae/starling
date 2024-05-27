@@ -8,6 +8,7 @@ from starling_sim.utils.constants import (
 )
 import inspect
 from abc import ABC, abstractmethod
+import math
 
 
 class KPI(ABC):
@@ -86,20 +87,21 @@ class KPI(ABC):
         :param simulation_model:
         """
         self.kpi_output = kpi_output
-        self.set_profile(kpi_output.time_profile)
+        time_profile = self.kpi_output.sim.scenario["kpi_time_profile"]
+        if self.PROFILE_COMPATIBILITY and time_profile:
+            if isinstance(time_profile, bool):
+                # default profile is one hour intervals until simulation ends
+                self.profile = [
+                    hour * 3600 for hour in range(math.ceil(self.kpi_output.sim.scenario["limit"] / 3600))
+                ]
+            else:
+                # otherwise, use provided time profile (add missing 0)
+                self.profile = (
+                    time_profile if time_profile[0] == 0 else [0] + time_profile
+                )
+
         self._indicators_setup(simulation_model)
         self.keys = self._init_keys()
-
-    def set_profile(self, time_profile):
-        """
-        Set time profile, which defines time intervals of KPI rows.
-
-        :param time_profile:
-        """
-        assert (
-            self.PROFILE_COMPATIBILITY or time_profile is None
-        ), f"{self.__class__.__name__} is not compatible with time profiling"
-        self.profile = time_profile
 
     def _indicators_setup(self, simulation_model):
         """

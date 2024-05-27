@@ -11,7 +11,7 @@ KEY_TIME_RANGE = "timeRange"
 
 
 class KpiOutput:
-    def __init__(self, population_names, kpi_list, time_profiling=None, kpi_name=None):
+    def __init__(self, population_names, kpi_list, kpi_name=None):
         # simulation model access
         self.sim = None
 
@@ -34,7 +34,9 @@ class KpiOutput:
 
         # dict containing kpi values
         self.kpi_rows = None
-        self.time_profile = time_profiling
+
+        # indicates if KpiOutput is time profiled
+        self.time_profiling = None
 
         # output file
         self.filename = None
@@ -58,23 +60,21 @@ class KpiOutput:
 
         # setup kpis and get columns
         columns = [KPI.KEY_ID]
-        if self.time_profile:
-            # evaluate time profile intervals
-            if isinstance(self.time_profile, bool):
-                self.time_profile = [
-                    hour * 3600 for hour in range(math.ceil(self.sim.scenario["limit"] / 3600))
-                ]
-            else:
-                self.time_profile = (
-                    self.time_profile if self.time_profile[0] == 0 else [0] + self.time_profile
-                )
-            # add a time range column
-            columns.append(KEY_TIME_RANGE)
-
+        time_profiling = None
         for kpi in self.kpi_list:
+            # setup kpi
             kpi.setup(self, simulation_model)
-            kpi.kpi_output = self
+            if time_profiling is None:
+                time_profiling = kpi.profile is not None
+            else:
+                assert time_profiling == (kpi.profile is not None), f"KPIs profiling types cannot be mixed ({self.name})"
+
+            # add kpi columns
             columns += kpi.export_keys
+
+        self.time_profiling = time_profiling
+        if self.time_profiling:
+            columns.insert(1, KEY_TIME_RANGE)
         self.columns = columns
 
         if isinstance(self.population_names, list):
@@ -95,7 +95,7 @@ class KpiOutput:
         # build the KPI table for all agents of each population
         kpi_table = self.build_kpi_table()
 
-        if self.time_profile:
+        if self.time_profiling:
             kpi_table[KEY_TIME_RANGE] = kpi_table[KEY_TIME_RANGE].apply(
                 lambda x: (datetime.min + timedelta(seconds=x)).strftime("%H:%M:%S")
             )
@@ -168,8 +168,8 @@ class KpiOutput:
             kpi.evaluate_for_agent(agent)
 
         self.kpi_rows[KPI.KEY_ID] = agent.id
-        if self.time_profile:
-            self.kpi_rows[KEY_TIME_RANGE] = self.time_profile
+        if self.time_profiling:
+            self.kpi_rows[KEY_TIME_RANGE] = self.kpi_list[0].profile
 
         res = pd.DataFrame(self.kpi_rows, columns=self.columns)
 
