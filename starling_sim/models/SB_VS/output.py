@@ -23,23 +23,32 @@ class Output(OutputFactory):
         # users kpi
         move_kpi = MoveKPI()
         wait_kpi = WaitKPI()
-        success_kpi = SuccessKPI(["nbFailedRequest"])
+        success_kpi = SuccessKPI(export_keys=["nbFailedRequest"])
         destination_kpi = DestinationReachedKPI()
         leave_simulation_kpi = LeaveSimulationKPI()
         users_kpi_output = KpiOutput(
-            "user", [move_kpi, wait_kpi, success_kpi, destination_kpi, leave_simulation_kpi]
+            "user",
+            [move_kpi, wait_kpi, success_kpi, destination_kpi, leave_simulation_kpi],
         )
 
         # vehicle kpi
         move_kpi = MoveKPI()
         get_vehicle_kpi = GetVehicleKPI()
-        vehicles_kpi_output = KpiOutput("vehicle", [move_kpi, get_vehicle_kpi])
+        vehicles_kpi_output = KpiOutput(
+            "vehicle",
+            [move_kpi, get_vehicle_kpi],
+        )
 
         # stations kpi
-        success_kpi = SuccessKPI(["nbSuccessGet", "nbFailedGet", "nbSuccessPut", "nbFailedPut"])
+        success_kpi = SuccessKPI(
+            export_keys=["nbSuccessGet", "nbFailedGet", "nbSuccessPut", "nbFailedPut"]
+        )
         wait_kpi = WaitKPI()
         availability_kpi = StationOccupationKPI()
-        stations_kpi_output = KpiOutput("station", [success_kpi, wait_kpi, availability_kpi])
+        stations_kpi_output = KpiOutput(
+            "station",
+            [success_kpi, wait_kpi, availability_kpi],
+        )
 
         self.kpi_outputs = [users_kpi_output, vehicles_kpi_output, stations_kpi_output]
 

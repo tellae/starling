@@ -2,6 +2,8 @@
 This module contains event classes that compose agents' traces
 """
 
+from abc import ABC, abstractmethod
+
 
 class Event:
     """
@@ -30,6 +32,25 @@ class Event:
             return "[{}, {}, {}]: ".format(self.message, self.__class__.__name__, self.timestamp)
 
 
+class DurationEvent(Event, ABC):
+    """
+    This abstract event describes an event that takes place over several time steps.
+    """
+
+    @property
+    def total_duration(self):
+        """
+        Get the total duration of the event.
+
+        :return: integer describing the total event duration
+        """
+        return self._total_duration()
+
+    @abstractmethod
+    def _total_duration(self) -> int:
+        raise NotImplementedError
+
+
 class InputEvent(Event):
     """
     This event describes the generation of a traced element.
@@ -51,7 +72,7 @@ class InputEvent(Event):
         )
 
 
-class MoveEvent(Event):
+class MoveEvent(DurationEvent):
     """
     This event describes an agent moving
     """
@@ -71,6 +92,9 @@ class MoveEvent(Event):
         self.distance = move_distance
         self.duration = move_duration
         self.mode = mode
+
+    def _total_duration(self) -> int:
+        return self.duration
 
 
 class RouteEvent(MoveEvent):
@@ -100,6 +124,57 @@ class RouteEvent(MoveEvent):
         self.data = route_data
         self.distance = sum(route_data["length"])
         self.duration = sum(route_data["time"])
+
+    def get_route_data_in_interval(self, start_time, end_time):
+        durations = self.data["time"]
+        distances = self.data["length"]
+
+        index = 0
+
+        interval_durations = []
+        interval_distances = []
+
+        current_timestamp = self.timestamp
+
+        while index < len(durations) and (
+            current_timestamp < end_time
+            or (current_timestamp == end_time and durations[index] == 0)
+        ):
+            segment_duration = durations[index]
+            segment_distance = distances[index]
+
+            if current_timestamp < start_time:
+                # current segment is before the interval
+                if current_timestamp + segment_duration <= start_time:
+                    current_timestamp += segment_duration
+                # current segment steps over the interval start
+                else:
+                    # evaluate part that is in the interval
+                    duration_in_interval = current_timestamp + segment_duration - start_time
+                    interval_durations.append(duration_in_interval)
+                    interval_distances.append(
+                        round(segment_distance * duration_in_interval / segment_duration)
+                    )
+                    current_timestamp += segment_duration
+            else:
+                # current segment is in the interval
+                if current_timestamp + segment_duration <= end_time:
+                    interval_durations.append(segment_duration)
+                    interval_distances.append(segment_distance)
+                    current_timestamp += segment_duration
+                # current segment steps over the interval end
+                else:
+                    # evaluate part that is in the interval
+                    duration_in_interval = end_time - current_timestamp
+                    interval_durations.append(duration_in_interval)
+                    interval_distances.append(
+                        round(segment_distance * duration_in_interval / segment_duration)
+                    )
+                    current_timestamp = end_time
+
+            index += 1
+
+        return {"time": interval_durations, "length": interval_distances}
 
     def __str__(self):
         return super().__str__() + "mode={}, start={}, end={}, duration={}, distance={}".format(
@@ -134,7 +209,7 @@ class PositionChangeEvent(MoveEvent):
         )
 
 
-class WaitEvent(Event):
+class WaitEvent(DurationEvent):
     """
     This event describes the a waiting agent
     """
@@ -150,6 +225,9 @@ class WaitEvent(Event):
         super().__init__(time, message)
         self.reason = reason
         self.waiting_time = waiting_time
+
+    def _total_duration(self):
+        return self.waiting_time
 
     def __str__(self):
         return super().__str__() + "waitedTime={}, reason={}".format(self.waiting_time, self.reason)
@@ -190,7 +268,7 @@ class ServiceEvent(Event):
         return super().__str__() + "formerStatus={}, newStatus={}".format(self.former, self.new)
 
 
-class RequestEvent(Event):
+class RequestEvent(DurationEvent):
     """
     This event describes a user request
     """
@@ -204,6 +282,9 @@ class RequestEvent(Event):
         """
         super().__init__(time, message)
         self.request = request
+
+    def _total_duration(self):
+        return sum(self.request.waitSequence)
 
     def __str__(self):
         return super().__str__() + str(self.request)

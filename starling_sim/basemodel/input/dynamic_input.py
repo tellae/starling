@@ -187,10 +187,10 @@ class DynamicInput(Traced):
                 duplicated_feature = copy.deepcopy(feature)
                 del duplicated_feature["properties"]["duplicates"]
                 # create a new id using the original agent id and the duplicate index
-                duplicated_feature["properties"][
-                    "agent_id"
-                ] = self.DUPLICATE_AGENT_ID_FORMAT.format(
-                    original_id=input_dict["agent_id"], index=i
+                duplicated_feature["properties"]["agent_id"] = (
+                    self.DUPLICATE_AGENT_ID_FORMAT.format(
+                        original_id=input_dict["agent_id"], index=i
+                    )
                 )
 
                 new_agents.append(self.new_agent_input(duplicated_feature))

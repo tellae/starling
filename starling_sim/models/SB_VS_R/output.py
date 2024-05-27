@@ -45,6 +45,7 @@ class Output(OutputFactory):
         # staff kpi
         move_kpi = MoveKPI()
         wait_kpi = WaitKPI()
+        success_kpi = SuccessKPI(["nbSuccessGet", "nbFailedGet", "nbSuccessPut", "nbFailedPut"])
         operation_kpi = StaffOperationKPI()
         staff_kpi_output = KpiOutput("staff", [move_kpi, wait_kpi, success_kpi, operation_kpi])
 
