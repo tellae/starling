@@ -67,7 +67,9 @@ class KpiOutput:
             if time_profiling is None:
                 time_profiling = kpi.profile is not None
             else:
-                assert time_profiling == (kpi.profile is not None), f"KPIs profiling types cannot be mixed ({self.name})"
+                assert time_profiling == (
+                    kpi.profile is not None
+                ), f"KPIs profiling types cannot be mixed ({self.name})"
 
             # add kpi columns
             columns += kpi.export_keys

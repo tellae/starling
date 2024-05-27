@@ -35,7 +35,8 @@ class Output(OutputFactory):
         move_kpi = MoveKPI()
         get_vehicle_kpi = GetVehicleKPI()
         vehicles_kpi_output = KpiOutput(
-            "vehicle", [move_kpi, get_vehicle_kpi],
+            "vehicle",
+            [move_kpi, get_vehicle_kpi],
         )
 
         # stations kpi
@@ -45,7 +46,8 @@ class Output(OutputFactory):
         wait_kpi = WaitKPI()
         availability_kpi = StationOccupationKPI()
         stations_kpi_output = KpiOutput(
-            "station", [success_kpi, wait_kpi, availability_kpi],
+            "station",
+            [success_kpi, wait_kpi, availability_kpi],
         )
 
         self.kpi_outputs = [users_kpi_output, vehicles_kpi_output, stations_kpi_output]

@@ -92,13 +92,12 @@ class KPI(ABC):
             if isinstance(time_profile, bool):
                 # default profile is one hour intervals until simulation ends
                 self.profile = [
-                    hour * 3600 for hour in range(math.ceil(self.kpi_output.sim.scenario["limit"] / 3600))
+                    hour * 3600
+                    for hour in range(math.ceil(self.kpi_output.sim.scenario["limit"] / 3600))
                 ]
             else:
                 # otherwise, use provided time profile (add missing 0)
-                self.profile = (
-                    time_profile if time_profile[0] == 0 else [0] + time_profile
-                )
+                self.profile = time_profile if time_profile[0] == 0 else [0] + time_profile
 
         self._indicators_setup(simulation_model)
         self.keys = self._init_keys()
