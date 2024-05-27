@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.11.2 (2024-05-27)
+
+
+### Features
+
+* time profiled KPIs ([#92](https://github.com/tellae/starling/issues/92)) ([7ef4b24](https://github.com/tellae/starling/commit/7ef4b24e8747175bbf2eec27a40ca2c27c59942a))
+
 ### 0.11.1 (2024-01-08)
 
 
