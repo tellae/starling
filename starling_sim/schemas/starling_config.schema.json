@@ -66,9 +66,9 @@
     },
     "stop_sequence_separator": {
       "title": "Stop sequence separator",
-      "description": "Separator used to build stop sequences in GTFS",
+      "description": "Separator used to build stop sequences in GTFS. Must not be present in any stop id.",
       "type": ["string"],
-      "default": "-"
+      "default": ";"
     }
   }
 }
