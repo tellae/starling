@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.11.3 (2024-10-21)
+
+
+### Bug Fixes
+
+* change default value of "stop_sequence_separator" config to ";" ([#94](https://github.com/tellae/starling/issues/94)) ([c0cd1c5](https://github.com/tellae/starling/commit/c0cd1c5a76cf73802880de52295fe770a6781c16))
+
 ### 0.11.2 (2024-05-27)
 
 
