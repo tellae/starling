@@ -27,7 +27,7 @@ class EmptyNetwork(Topology):
     def init_graph(self):
         # initialise an empty graph object
         logging.debug("Generating an empty graph for mode '{}'".format(self.mode))
-        self.graph = nx.MultiDiGraph()
+        self.graph = nx.MultiDiGraph(crs="epsg:4326")
 
     def add_time_and_length(self, u, v, d):
         pass
