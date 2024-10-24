@@ -108,10 +108,6 @@ class ServiceVehicle(Vehicle):
     # event tracing
 
     def trace_event(self, event):
-        if isinstance(event, StopEvent):
-            for request in event.pickups + event.dropoffs:
-                request.agent.trace_event(event)
-
         if isinstance(event, StaffOperationEvent):
             if event.structure is not None:
                 event.structure.trace_event(event)
@@ -185,6 +181,8 @@ class ServiceVehicle(Vehicle):
 
         # trace dropoffs
         stop_event.set_dropoffs(processed_dropoff, self.sim.scheduler.now())
+        for request in processed_dropoff:
+            request.agent.trace_event(stop_event)
 
         yield self.execute_process(self.spend_time_(dwell_time))
 
@@ -206,6 +204,8 @@ class ServiceVehicle(Vehicle):
 
         # trace pickups
         stop_event.set_pickups(processed_pickup, self.sim.scheduler.now())
+        for request in processed_pickup:
+            request.agent.trace_event(stop_event)
 
         self.trace_event(stop_event)
 
