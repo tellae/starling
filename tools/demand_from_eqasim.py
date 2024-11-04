@@ -30,7 +30,7 @@ parser = argparse.ArgumentParser(
     epilog="Examples:\n\n"
            "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet\n"
            "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet --sample 0.01 --seed 42\n"
-           "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet --within data/eqasim/example_zone.geojson\n"
+           "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet --spatial-filter data/eqasim/example_zone.geojson\n"
            "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet -o ./starling_population.geojson\n",
     formatter_class=argparse.RawDescriptionHelpFormatter,
 )
@@ -42,7 +42,7 @@ parser.add_argument(
 
 
 parser.add_argument(
-    "--within",
+    "--spatial-filter",
     help="file describing a geometry used as spatial filter",
     type=str,
     metavar="GEOJSON_FILE"
@@ -95,18 +95,21 @@ if __name__ == "__main__":
     population = gpd.read_parquet(input_args.eqasim_file)
     assert population.crs is not None
 
-    # sample the population
-    if input_args.sample is not None:
-        population = population.sample(frac=input_args.sample, random_state=input_args.seed)
-
-    # apply spatial filter to the population
-    if input_args.within is not None:
-        filter_gdf = gpd.read_file(input_args.within, driver="GeoJSON")
-        filter_gdf.to_crs(population.crs, inplace=True)
-        population = population.sjoin(filter_gdf, how="inner", predicate=input_args.predicate)
+    # read spatial filter file
+    if input_args.spatial_filter is not None:
+        spatial_filter = gpd.read_file(input_args.spatial_filter, driver="GeoJSON")
+        spatial_filter.to_crs(starling_population.crs, inplace=True)
+    else:
+        spatial_filter = None
 
     # generate the Starling population from the resulting sample
-    starling_population = demand_from_eqasim(population)
+    starling_population = demand_from_eqasim(
+        population,
+        sample_rate=input_args.sample,
+        sample_seed=input_args.seed,
+        spatial_filter=spatial_filter,
+        spatial_predicate=input_args.predicate
+    )
 
     # write file
     print(f"Creating Starling demand file at: {filepath}")
