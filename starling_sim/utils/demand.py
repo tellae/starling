@@ -25,8 +25,17 @@ def demand_from_eqasim(eqasim_population: gpd.GeoDataFrame, sample_rate: float =
 
     # apply spatial filter to the population
     if spatial_filter is not None:
-        # TODO: join on points
-        starling_population = starling_population.sjoin(spatial_filter, how="inner")
+        # get a column containing the points composing the LineString
+        starling_population["OD"] = starling_population.geometry.extract_unique_points()
+
+        # apply filter: only keep elements that have all their points within the spatial filter
+        starling_population.set_geometry("OD")
+        starling_population = starling_population.sjoin(spatial_filter, how="inner", predicate="within")
+        starling_population.set_geometry("geometry")
+        starling_population.drop(columns=["OD"], inplace=True)
+
+    if starling_population.empty:
+        raise ValueError("Population is empty after applying filters")
 
     # eqasim population are in epsg:2154, convert to epsg:4326
     starling_population.to_crs("epsg:4326", inplace=True)
