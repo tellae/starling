@@ -49,15 +49,6 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--predicate",
-    help="binary predicate used for spatial spatial filtering. "
-         "See https://geopandas.org/en/stable/docs/user_guide/mergingdata.html#binary-predicate-joins for more information",
-    choices=["intersects", "within"],
-    default="intersects"
-)
-
-
-parser.add_argument(
     "-s",
     "--sample",
     help="Population sampling rate, between 0 and 1",
@@ -98,7 +89,7 @@ if __name__ == "__main__":
     # read spatial filter file
     if input_args.spatial_filter is not None:
         spatial_filter = gpd.read_file(input_args.spatial_filter, driver="GeoJSON")
-        spatial_filter.to_crs(starling_population.crs, inplace=True)
+        spatial_filter.to_crs(population.crs, inplace=True)
     else:
         spatial_filter = None
 
@@ -108,7 +99,6 @@ if __name__ == "__main__":
         sample_rate=input_args.sample,
         sample_seed=input_args.seed,
         spatial_filter=spatial_filter,
-        spatial_predicate=input_args.predicate
     )
 
     # write file

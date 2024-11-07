@@ -1,12 +1,11 @@
 """
 This module contains utils for generating and managing Starling demand.
 """
-from os import popen
 
 import pandas as pd
 import geopandas as gpd
 
-def demand_from_eqasim(eqasim_population: gpd.GeoDataFrame, sample_rate: float = None, sample_seed = None, spatial_filter: gpd.GeoDataFrame=None, spatial_predicate: str = None) -> gpd.GeoDataFrame:
+def demand_from_eqasim(eqasim_population: gpd.GeoDataFrame, sample_rate: float = None, sample_seed = None, spatial_filter: gpd.GeoDataFrame=None) -> gpd.GeoDataFrame:
     """
     Generate a Starling population from an Eqasim population.
 
@@ -14,7 +13,6 @@ def demand_from_eqasim(eqasim_population: gpd.GeoDataFrame, sample_rate: float =
     :param sample_rate: fraction of the original population that is kept in the final population
     :param sample_seed: seed used for sampling
     :param spatial_filter: GeoDataFrame used as spatial filter
-    :param spatial_predicate: predicate used for spatial filtering
 
     :return: GeoDataFrame of a Starling population generated from the Eqasim population
     """
@@ -22,12 +20,13 @@ def demand_from_eqasim(eqasim_population: gpd.GeoDataFrame, sample_rate: float =
     starling_population = eqasim_population.copy()
 
     # sample the population
-    if input_args.sample is not None:
+    if sample_rate is not None:
         starling_population = starling_population.sample(frac=sample_rate, random_state=sample_seed)
 
     # apply spatial filter to the population
     if spatial_filter is not None:
-        starling_population = starling_population.sjoin(spatial_filter, how="inner", predicate=spatial_predicate)
+        # TODO: join on points
+        starling_population = starling_population.sjoin(spatial_filter, how="inner")
 
     # eqasim population are in epsg:2154, convert to epsg:4326
     starling_population.to_crs("epsg:4326", inplace=True)
