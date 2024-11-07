@@ -32,7 +32,7 @@ def demand_from_eqasim(eqasim_population: gpd.GeoDataFrame, sample_rate: float =
     starling_population.to_crs("epsg:4326", inplace=True)
 
     # convert to int
-    starling_population["origin_time"] = starling_population["origin_time"].astype(int)
+    starling_population["origin_time"] = starling_population["departure_time"].astype(int)
 
     # add attributes specific to Starling demand
     add_starling_demand_attributes(starling_population)
