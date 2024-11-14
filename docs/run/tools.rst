@@ -16,3 +16,11 @@ generate_osm_graph.py
 
 .. automodule:: tools.generate_osm_graph
     :noindex:
+
+*********************
+demand_from_eqasim.py
+*********************
+
+.. automodule:: tools.demand_from_eqasim
+    :noindex:
+

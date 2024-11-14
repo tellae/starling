@@ -1,19 +1,17 @@
 """
-This python script imports generate a Starling population from a given Eqasim population.
+This Python script generates a Starling population from a given Eqasim population.
+The available options allow filtering and sampling the Eqasim population.
 
-The population represents the "demand" in a Starling simulation: they use the available
+In a Starling simulation, the population represents the "demand": agents that use the available
 transport services in order to reach their destination.
 
-Eqasim allows generating realistic synthetic populations from opendata sources.
-See https://github.com/eqasim-org/ile-de-france for more information.
+`Eqasim <https://github.com/eqasim-org/ile-de-france>`_ is an open source synthetic population generation pipeline.
 
-The available options allow filtering and sampling the given Eqasim population.
-
-Run the script with ``-h`` (or ``--help``) to see the execution options.
+Run the script with ``-h`` (or ``--help``) to see the execution options and examples.
 
 .. code-block:: bash
 
-    python3 -m --help
+    python3 -m tools.demand_from_eqasim --help
 
 """
 
