@@ -104,10 +104,36 @@ class Environment:
     #         for topology in self.topologies.values():
     #             topology.update()
 
-    # TODO : Move to subclass ? Not very pretty
     # environment utils
 
     def compute_route_data(self, route, duration, origin, destination, parameters, mode):
+        """
+        Compute a route data from the given parameters
+
+        :param route: list of consecutive nodes in the environment.
+            If None, a shortest path from <origin> to <destination> is computed
+        :param duration: total duration of the route execution.
+            If None, use the "time" links of the environment
+        :param origin: origin used for the shortest path computation
+        :param destination: destination used for the shortest path computation
+        :param parameters: agent specific parameters used for path evaluation
+        :param mode: mode of the move
+        :return: route_data={"route": position_list, "length": length_list, "time": time_list}
+        """
+
+        topology = self.topologies[mode]
+
+        time=None
+        if route is None:
+            route, time, length = topology.dijkstra_shortest_path_and_length(
+                origin, destination, parameters
+            )
+
+        return topology.evaluate_route_data(route, duration=duration, durations_sum_to=time)
+
+
+
+    def compute_route_data2(self, route, duration, origin, destination, parameters, mode):
         """
         Compute a route data from the given parameters
 
