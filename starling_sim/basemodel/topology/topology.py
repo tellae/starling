@@ -1,6 +1,5 @@
 from starling_sim.basemodel.topology.simple_time_weight import SimpleTimeWeight
 from starling_sim.basemodel.topology.bike_weight_osm import BikeWeightOSM
-from starling_sim.basemodel.output.feature_factory import route_localisations
 
 
 import networkx as nx
@@ -323,10 +322,40 @@ class Topology(ABC):
 
         return route_data
 
-    # def path_to_linestring(self, path, duration=None):
-    #     route_data = self.evaluate_route_data(path, duration=duration)
-    #
-    #     localisations, timestamps = route_localisations()
+    def route_event_trace(self, route_event, time_limit=None):
+        """
+
+        :param route_event: RouteEvent instance
+        :param time_limit: stop evaluating routes after this timestamp
+
+        :return: tuple of lists, localisations and timestamps
+        """
+
+        route = route_event.data["route"]
+        durations = route_event.data["time"]
+
+        current_time = route_event.timestamp
+
+        localisations = []
+        timestamps = []
+
+        for i in range(len(route)):
+            # compute current time
+            current_time += durations[i]
+
+            # we stop at simulation time limit
+            if time_limit is not None and current_time > time_limit:
+                break
+
+            # append the localisation and time data
+            if isinstance(route[i], tuple):
+                localisations.append(route[i])
+            else:
+                localisations.append(self.position_localisation(route[i]))
+
+            timestamps.append(current_time)
+
+        return localisations, timestamps
 
 
     # get graph information

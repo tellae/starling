@@ -64,7 +64,7 @@ def get_element_line_string(geojson_output, element):
     if not hasattr(agent, "origin"):
         return None
 
-    # lists of localisations [lng, lat] and timestamps
+    # lists of localisations [lat, lon] and timestamps
     localisations = []
     timestamps = []
 
@@ -99,9 +99,7 @@ def get_element_line_string(geojson_output, element):
             mode = event.mode
 
             # get the list of route localisations and timestamps
-            route_positions, route_timestamps = route_localisations(
-                event, geojson_output.sim.scenario["limit"], geojson_output.graphs[mode]
-            )
+            route_positions, route_timestamps = geojson_output.graphs[mode].route_event_trace(event, time_limit=geojson_output.sim.scenario["limit"])
 
             # add it to the agent's lists
             localisations = localisations + route_positions
@@ -128,49 +126,13 @@ def get_element_line_string(geojson_output, element):
     timestamps.append(99999)
 
     # reverse lat and lon
+    # position_localisation returns a (lat, lon) tuple
     new_locs = []
     for loc in localisations:
         new_locs.append([loc[1], loc[0]])
     localisations = new_locs
 
     return localisations, timestamps
-
-
-def route_localisations(route_event, time_limit, topology):
-    """
-    Return the localisations and timestamps of the given event route.
-
-    :param route_event: RouteEvent
-    :param time_limit: time limit of the simulation
-    :param topology: Topology object corresponding to the route used
-    :return: tuple of lists, localisations and timestamps
-    """
-    route = route_event.data["route"]
-    durations = route_event.data["time"]
-
-    current_time = route_event.timestamp
-
-    localisations = []
-    timestamps = []
-
-    for i in range(len(route)):
-        # compute current time
-        current_time += durations[i]
-
-        # we stop at simulation time limit
-        if current_time > time_limit:
-            break
-
-        # append the localisation and time data
-        if isinstance(route[i], tuple):
-            localisations.append(route[i])
-        else:
-            localisations.append(topology.position_localisation(route[i]))
-
-        timestamps.append(current_time)
-
-    return localisations, timestamps
-
 
 def add_agent_id(feature, element, agent_id=None):
     if agent_id is None:
