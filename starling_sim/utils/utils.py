@@ -776,25 +776,6 @@ def save_osm_graph(graph, filename, folder):
         print("Saved osm graph at " + filepath)
 
 
-def osm_graph_from_file(filename, folder=None):
-    """
-    Import an osm graph from a .graphml file.
-
-    :param filename: path to the .graphml file
-    :param folder: folder containing the .graphml file.
-        Default is the osm graphs folder.
-
-    :return: a networkx graph, or None if import fails
-    """
-
-    if folder is None:
-        folder = osm_graphs_folder()
-
-    filepath = folder + filename
-
-    return ox.load_graphml(filepath)
-
-
 # gtfs utils
 
 
