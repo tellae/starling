@@ -3,8 +3,7 @@ import osmnx as ox
 import numpy as np
 
 from starling_sim.basemodel.topology.topology import Topology
-from starling_sim.utils.paths import graph_speeds_folder
-from starling_sim.utils.utils import json_load, osm_graph_from_file
+from starling_sim.utils.utils import json_load
 
 
 class OSMNetwork(Topology):
@@ -50,7 +49,7 @@ class OSMNetwork(Topology):
                         self.mode, self.network_file
                     )
                 )
-                self.graph = osm_graph_from_file(self.network_file)
+                self.graph = ox.load_graphml(self.network_file)
 
         if self.speed_file is None:
             logging.error("No speed file provided for topology initialisation")
@@ -61,7 +60,7 @@ class OSMNetwork(Topology):
                     self.mode, self.speed_file
                 )
             )
-            self.speeds = json_load(graph_speeds_folder() + self.speed_file)
+            self.speeds = json_load(self.speed_file)
 
     def add_time_and_length(self, u, v, d):
         """

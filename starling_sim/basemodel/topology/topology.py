@@ -1,6 +1,7 @@
 from starling_sim.basemodel.topology.simple_time_weight import SimpleTimeWeight
 from starling_sim.basemodel.topology.bike_weight_osm import BikeWeightOSM
 
+
 import networkx as nx
 from abc import ABC
 
@@ -195,6 +196,167 @@ class Topology(ABC):
             current_position = next_position
 
         return total_duration, total_length
+
+    def evaluate_path_lengths(self, path: list) -> list:
+        """
+        Evaluate the intermediate arc lengths of the given path.
+
+        :param path: list of adjacent graph nodes
+        :return: list of arc length values
+        """
+
+        def evaluate_arc_length(previous_position, new_position, _):
+            return self.get_edge_data(previous_position, new_position, self.LENGTH_ATTRIBUTE)
+
+        return self.evaluate_on_path(path, evaluate_arc_length, 0)
+
+    def evaluate_path_durations(self, path: list) -> list:
+        """
+        Evaluate the intermediate arc durations of the given path.
+
+        :param path: list of adjacent graph nodes
+        :return: list of arc duration values
+        """
+
+        def evaluate_arc_duration(previous_position, new_position, _):
+            return self.get_edge_data(previous_position, new_position, self.TIME_ATTRIBUTE)
+
+        return self.evaluate_on_path(path, evaluate_arc_duration, 0)
+
+    def evaluate_path_durations_with_uniform_speed(self, path: list, speed: float, lengths: list):
+        """
+        Evaluate the intermediate arc durations of the given path with a uniform speed.
+
+        Durations are evaluated by dividing length values by the given speed,
+        considered uniform on the path.
+
+        :param path: list of adjacent graph nodes
+        :param speed: uniform speed on the path
+        :param lengths: list of arc length values
+        :return: list of arc duration values
+        """
+        def evaluate_arc_duration(_previous_pos, _new_pos, i):
+            return float(lengths[i]) / speed
+
+        return self.evaluate_on_path(path, evaluate_arc_duration, 0)
+
+    def evaluate_on_path(path, func, first_value=0):
+        """
+        Evaluate numeric values along the given path.
+
+        The func parameter is a function that evaluates a value given the arc
+        origin and destination nodes and its position in the path:
+        func(start, end, path_index) -> value
+
+        The evaluation result is rounded, and a remainder is stored to be added
+        to the next evaluated value.
+
+        :param path: list of adjacent graph nodes
+        :param func: function used to evaluate data on each path arc
+        :param first_value: first value of the returned list
+        :return: evaluated values
+        """
+
+        # start with first arc, node 0 to 1
+        previous_position = path[0]
+
+        # use provided initial value
+        values = [first_value]
+
+        # since the link values may not be integers, we use a remainder
+        remainder = 0
+
+        for i in range(1, len(path)):
+            new_position = path[i]
+            arc_value = func(previous_position, new_position, i) + remainder
+
+            # update remainder
+            remainder = arc_value - int(arc_value)
+
+            # add value to data list
+            values.append(int(arc_value))
+
+            # update previous position
+            previous_position = path[i]
+
+        return values
+
+    evaluate_on_path = staticmethod(evaluate_on_path)
+
+    def evaluate_route_data(self, path, duration=None, durations_sum_to=None):
+        """
+        Evaluate a route_data object from the given path.
+
+        :param path: list of adjacent graph nodes
+        :param duration: total duration of the route
+        :param durations_sum_to: value the total duration must sum to
+
+        :return: { "route": path_nodes, "length": length_list, "time": time_list }
+        """
+
+        # build an object { "route": path_nodes, "length": length_list, "time": time_list }
+        route_data = {
+            "route": path,
+            "length": self.evaluate_path_lengths(path)
+        }
+
+        if duration is not None:
+            if duration == 0:
+                speed = float("inf")
+            else:
+                total_length = sum(route_data["length"])
+                speed = float(total_length) / duration
+            durations = self.evaluate_path_durations_with_uniform_speed(path, speed, route_data["length"])
+        else:
+            durations = self.evaluate_path_durations(path)
+        route_data["time"] = durations
+
+        # check that the duration fits (to avoid round-up error)
+        if duration is None and durations_sum_to is not None:
+            duration = durations_sum_to
+
+        time_sum = sum(route_data["time"])
+
+        if duration is not None and duration != time_sum:
+            route_data["time"][-1] += int(duration - time_sum)
+
+        return route_data
+
+    def route_event_trace(self, route_event, time_limit=None):
+        """
+
+        :param route_event: RouteEvent instance
+        :param time_limit: stop evaluating routes after this timestamp
+
+        :return: tuple of lists, localisations and timestamps
+        """
+
+        route = route_event.data["route"]
+        durations = route_event.data["time"]
+
+        current_time = route_event.timestamp
+
+        localisations = []
+        timestamps = []
+
+        for i in range(len(route)):
+            # compute current time
+            current_time += durations[i]
+
+            # we stop at simulation time limit
+            if time_limit is not None and current_time > time_limit:
+                break
+
+            # append the localisation and time data
+            if isinstance(route[i], tuple):
+                localisations.append(route[i])
+            else:
+                localisations.append(self.position_localisation(route[i]))
+
+            timestamps.append(current_time)
+
+        return localisations, timestamps
+
 
     # get graph information
 
