@@ -7,7 +7,7 @@ from starling_sim.model_simulator import launch_simulation, ModelSimulator
 from starling_sim.utils.data_tree import create_data_tree, import_examples
 from starling_sim.utils.simulation_logging import DEFAULT_LOGGER_LEVEL, setup_logging
 from starling_sim.utils import paths
-from starling_sim import __version__
+from starling_sim.version import __version__
 
 
 def run_main():

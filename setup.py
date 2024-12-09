@@ -6,7 +6,7 @@ See license in LICENSE.txt.
 
 import setuptools
 import os
-from starling_sim import __version__
+from starling_sim.version import __version__
 
 # short description of the project
 DESC = "Agent-based framework for mobility simulation"
