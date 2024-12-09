@@ -11,7 +11,7 @@ from copy import deepcopy
 from starling_sim.utils.utils import json_load, add_defaults_and_validate
 from starling_sim.utils import paths
 from starling_sim.utils.config import config
-from starling_sim import __version__
+from starling_sim.version import __version__
 
 
 class SimulationScenario:
