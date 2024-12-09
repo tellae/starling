@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.11.6](https://github.com/tellae/starling/compare/v0.11.5...v0.11.6) (2024-12-09)
+
+
+### Bug Fixes
+
+* remove unused files ([#103](https://github.com/tellae/starling/issues/103)) ([e4e19f2](https://github.com/tellae/starling/commit/e4e19f28aeeee04f3971c914153d140bf752f0a9))
+
 ### 0.11.5 (2024-12-09)
 
 ### 0.11.4 (2024-11-28)
