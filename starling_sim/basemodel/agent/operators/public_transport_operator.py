@@ -137,8 +137,7 @@ class PublicTransportOperator(Operator):
         stop_times = self.service_info.get_stop_times()
 
         # only keep the first arrival time and filter with simulation time limit
-        min_stop_sequence = stop_times["stop_sequence"].min()
-        stop_times = stop_times[stop_times["stop_sequence"] == min_stop_sequence]
+        stop_times = stop_times.loc[stop_times.groupby('trip_id')["stop_sequence"].idxmin()]
         stop_times = stop_times.sort_values(by="arrival_time")
         stop_times["arrival_time_num"] = stop_times["arrival_time"].apply(get_sec)
         stop_times = stop_times[stop_times["arrival_time_num"] < self.sim.scenario["limit"]]
@@ -175,10 +174,15 @@ class PublicTransportOperator(Operator):
         # get trips ordered by first arrival time
         trips = self.service_info.get_trips()
         stop_times = self.service_info.get_stop_times()
-        min_stop_sequence = stop_times["stop_sequence"].min()
-        stop_times = stop_times[stop_times["stop_sequence"] == min_stop_sequence]
+
+        # filter the first stop_time for each trip
+        stop_times = stop_times.loc[stop_times.groupby('trip_id')["stop_sequence"].idxmin()]
+
+        # convert arrival times to seconds and keep the ones that occur during the simulation time
         stop_times["arrival_time_num"] = stop_times["arrival_time"].apply(get_sec)
         stop_times = stop_times[stop_times["arrival_time_num"] < self.sim.scenario["limit"]]
+
+        # get table with trips and their departure times
         trips = pd.merge(trips, stop_times, on="trip_id")
         trips = trips.sort_values(by="arrival_time")
 
@@ -187,6 +191,7 @@ class PublicTransportOperator(Operator):
             trips["block_id"] = np.nan
             block_ids = [np.nan]
         else:
+            trips["block_id"] = trips["block_id"].fillna(trips["trip_id"])
             block_ids = trips.drop_duplicates(subset="block_id")["block_id"].values
 
         for block_id in block_ids:
