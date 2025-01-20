@@ -73,7 +73,7 @@ def add_starling_demand_attributes(population: pd.DataFrame, agent_id_generator:
     """
 
     population["agent_type"] = "user"
-    population["icon_type"] = "user"
+    population["icon"] = "user"
     population["agent_id"] = agent_id_generator(population)
     population["mode"] = "walk"
 
