@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.11.7](https://github.com/tellae/starling/compare/v0.11.6...v0.11.7) (2025-01-20)
+
+
+### Bug Fixes
+
+* fixed an error occuring when trips had different stop sequence minimums ([#110](https://github.com/tellae/starling/issues/110)) ([15322cd](https://github.com/tellae/starling/commit/15322cd804e28b3ff3a5c77f79b524bd738190cd))
+* revert change of demand "icon" into "icon_type" ([#108](https://github.com/tellae/starling/issues/108)) ([177dfaf](https://github.com/tellae/starling/commit/177dfaf088fec944a91b4e19f04c88e59bae7ad7))
+
 ## [0.11.6](https://github.com/tellae/starling/compare/v0.11.5...v0.11.6) (2024-12-09)
 
 
