@@ -5,6 +5,11 @@ This module contains utils for generating and managing Starling demand.
 import pandas as pd
 import geopandas as gpd
 
+
+#: expected columns on a Starling population GeoDataFrame
+STARLING_MINIMUM_COLUMNS = ["agent_type", "icon", "agent_id", "mode", "origin_time", "geometry"]
+
+
 def demand_from_eqasim(eqasim_population: gpd.GeoDataFrame, sample_rate: float = None, sample_seed = None, spatial_filter: gpd.GeoDataFrame=None) -> gpd.GeoDataFrame:
     """
     Generate a Starling population from an Eqasim population.
@@ -16,6 +21,9 @@ def demand_from_eqasim(eqasim_population: gpd.GeoDataFrame, sample_rate: float =
 
     :return: GeoDataFrame of a Starling population generated from the Eqasim population
     """
+
+    if eqasim_population.empty:
+        return gpd.GeoDataFrame(columns=STARLING_MINIMUM_COLUMNS, crs="epsg:4326")
 
     starling_population = eqasim_population.copy()
 
@@ -51,7 +59,7 @@ def demand_from_eqasim(eqasim_population: gpd.GeoDataFrame, sample_rate: float =
 
 def default_agent_ids(population: pd.DataFrame) -> list:
     """
-    Default fonction for generating agent ids on a population.
+    Default function for generating agent ids on a population.
 
     :param population: population DataFrame on which agent ids are generated
     :return: list of agent ids
@@ -73,7 +81,7 @@ def add_starling_demand_attributes(population: pd.DataFrame, agent_id_generator:
     """
 
     population["agent_type"] = "user"
-    population["icon_type"] = "user"
+    population["icon"] = "user"
     population["agent_id"] = agent_id_generator(population)
     population["mode"] = "walk"
 
