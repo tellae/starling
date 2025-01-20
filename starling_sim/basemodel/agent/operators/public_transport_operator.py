@@ -133,18 +133,11 @@ class PublicTransportOperator(Operator):
         return stops_table
 
     def init_trips(self):
-        # add the active trips of the gtfs
-        stop_times = self.service_info.get_stop_times()
-
-        # only keep the first arrival time and filter with simulation time limit
-        min_stop_sequence = stop_times["stop_sequence"].min()
-        stop_times = stop_times[stop_times["stop_sequence"] == min_stop_sequence]
-        stop_times = stop_times.sort_values(by="arrival_time")
-        stop_times["arrival_time_num"] = stop_times["arrival_time"].apply(get_sec)
-        stop_times = stop_times[stop_times["arrival_time_num"] < self.sim.scenario["limit"]]
+        # get the trips table
+        trips_table = self._trips_table_from_gtfs()
 
         # create the planning of each trip
-        for index, row in stop_times.iterrows():
+        for index, row in trips_table.iterrows():
             trip_planning = self.build_planning_of_trip(row["trip_id"])
             self.add_trip(None, trip_planning, trip_id=row["trip_id"])
 
@@ -172,33 +165,27 @@ class PublicTransportOperator(Operator):
         trip is generated.
         """
 
-        # get trips ordered by first arrival time
-        trips = self.service_info.get_trips()
-        stop_times = self.service_info.get_stop_times()
-        min_stop_sequence = stop_times["stop_sequence"].min()
-        stop_times = stop_times[stop_times["stop_sequence"] == min_stop_sequence]
-        stop_times["arrival_time_num"] = stop_times["arrival_time"].apply(get_sec)
-        stop_times = stop_times[stop_times["arrival_time_num"] < self.sim.scenario["limit"]]
-        trips = pd.merge(trips, stop_times, on="trip_id")
-        trips = trips.sort_values(by="arrival_time")
+        # get trips table
+        trips_table = self._trips_table_from_gtfs()
 
         # get the block_id values
-        if "block_id" not in trips.columns:
-            trips["block_id"] = np.nan
+        if "block_id" not in trips_table.columns:
+            trips_table["block_id"] = np.nan
             block_ids = [np.nan]
         else:
-            block_ids = trips.drop_duplicates(subset="block_id")["block_id"].values
+            trips_table["block_id"] = trips_table["block_id"].fillna(trips_table["trip_id"])
+            block_ids = trips_table.drop_duplicates(subset="block_id")["block_id"].values
 
         for block_id in block_ids:
             if pd.isna(block_id):
-                block_trips = trips[pd.isna(trips["block_id"])]["trip_id"].values
+                block_trips = trips_table[pd.isna(trips_table["block_id"])]["trip_id"].values
                 # if block_id is nan, generate separate vehicles for each trip
                 for trip_id in block_trips:
                     vehicle_id = self.operationParameters["service_vehicle_prefix"] + trip_id
                     self.create_service_vehicle(vehicle_id, [trip_id])
             else:
-                block_trips = trips[trips["block_id"] == block_id]["trip_id"].values
-                # otherwise, generate a vehicle with multiple with multiple trips
+                block_trips = trips_table[trips_table["block_id"] == block_id]["trip_id"].values
+                # otherwise, generate a vehicle with multiple trips
                 vehicle_id = self.operationParameters["service_vehicle_prefix"] + block_id
                 self.create_service_vehicle(vehicle_id, block_trips)
 
