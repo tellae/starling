@@ -7,6 +7,7 @@ from starling_sim.utils.utils import (
     load_schema,
     stops_table_from_geojson,
     stop_table_from_gtfs,
+    get_sec,
 )
 from starling_sim.utils.paths import (
     gtfs_feeds_folder,
@@ -464,6 +465,33 @@ class Operator(Agent):
         """
         stops_table = stop_table_from_gtfs(self.service_info)
         return stops_table
+
+    def _trips_table_from_gtfs(self) -> pd.DataFrame:
+        """
+        Evaluate a table of trips with their first stop time.
+
+        An additional "arrival_time_num" column is added, containing arrival times in seconds.
+
+        :return: DataFrame of trips and stop times, sorted by arrival_time
+        """
+        # get trips and stop_times tables
+        trips = self.service_info.get_trips()
+        stop_times = self.service_info.get_stop_times()
+
+        # filter the first stop time for each trip
+        stop_times = stop_times.loc[stop_times.groupby('trip_id')["stop_sequence"].idxmin()]
+
+        # convert arrival times to seconds
+        stop_times["arrival_time_num"] = stop_times["arrival_time"].apply(get_sec)
+
+        # only keep trips active during the simulation time frame
+        stop_times = stop_times[stop_times["arrival_time_num"] < self.sim.scenario["limit"]]
+
+        # merge tables and sort by departure time
+        trips = pd.merge(trips, stop_times, on="trip_id")
+        trips = trips.sort_values(by="arrival_time")
+
+        return trips
 
     def add_stops(self, stops_table, id_prefix=""):
         """
