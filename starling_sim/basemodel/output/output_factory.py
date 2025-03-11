@@ -5,6 +5,31 @@ from starling_sim.utils.constants import RUN_SUMMARY_FILENAME
 
 import logging
 
+# unused decorator
+def output_file_generator(
+        compressed_mimetype: str = None,
+        content: str = None,
+        subject: str = None,
+):
+
+    def decorator(method):
+        def wrapper(self, *args, **kwargs):
+
+            filepaths, mimetype = method(self, *args, **kwargs)
+
+            if isinstance(filepaths, str):
+                filepaths = [filepaths]
+            elif isinstance(filepaths, list):
+                pass
+            else:
+                raise ValueError("Returned filepath should be a string or a list of strings")
+
+            for filepath in filepaths:
+                self.new_output_file(filepath, mimetype, compressed_mimetype, content, subject)
+
+        return wrapper
+    return decorator
+
 
 class OutputFactory:
     """
