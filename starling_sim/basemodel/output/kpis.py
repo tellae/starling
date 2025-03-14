@@ -370,15 +370,15 @@ class SuccessKPI(KPI):
         """
 
         if isinstance(event, RequestEvent):
-            if event.request.success:
+            if event.success:
                 self.indicator_dict[self.KEY_SUCCESS_REQUEST] += 1
-                if event.request.type == StationRequest.GET_REQUEST:
+                if event.type == StationRequest.GET_REQUEST:
                     self.indicator_dict[self.KEY_SUCCESS_GET] += 1
                 else:
                     self.indicator_dict[self.KEY_SUCCESS_PUT] += 1
             else:
                 self.indicator_dict[self.KEY_FAILED_REQUEST] += 1
-                if event.request.type == StationRequest.GET_REQUEST:
+                if event.type == StationRequest.GET_REQUEST:
                     self.indicator_dict[self.KEY_FAILED_GET] += 1
                 else:
                     self.indicator_dict[self.KEY_FAILED_PUT] += 1
@@ -549,8 +549,8 @@ class OccupationKPI(KPI):
         """
 
         if isinstance(event, InputEvent):
-            self.capacity = self.get_capacity(event.element)
-            self.currentStock = self.get_initial_stock(event.element)
+            self.capacity = self.get_capacity(self.agent)
+            self.currentStock = self.get_initial_stock(self.agent)
             self.indicator_dict[self.KEY_MAX_STOCK] = self.currentStock
 
         if isinstance(event, LeaveSimulationEvent):
@@ -593,14 +593,13 @@ class StationOccupationKPI(OccupationKPI):
 
         super()._update(event)
 
-        if isinstance(event, RequestEvent) and event.request.success:
-            request = event.request
+        if isinstance(event, RequestEvent) and event.success:
 
             # update time counts and current time
-            if request.type == StationRequest.GET_REQUEST:
-                self.add_to_stock(-1, request.timestamp)
-            elif request.type == StationRequest.PUT_REQUEST:
-                self.add_to_stock(1, request.timestamp)
+            if event.type == StationRequest.GET_REQUEST:
+                self.add_to_stock(-1, event.requestTime)
+            elif event.type == StationRequest.PUT_REQUEST:
+                self.add_to_stock(1, event.requestTime)
 
         if isinstance(event, StaffOperationEvent):
             if event.total != 0:
@@ -744,7 +743,7 @@ class ChargeKPI(KPI):
 
         self.indicator_dict[self.KEY_TRIP_ID] = trip_id
 
-        self.indicator_dict[self.KEY_STOP_ID] = get_stop_id_of_event(event)
+        self.indicator_dict[self.KEY_STOP_ID] = event.stop
 
 
 class PublicTransportChargeKPI(ChargeKPI):
@@ -909,14 +908,11 @@ class TransferKPI(KPI):
             self.current_walk_duration += event.duration
 
         elif isinstance(event, RequestEvent):
-            self.current_wait_time += sum(event.request.waitSequence)
+            self.current_wait_time += sum(event.waitSequence)
 
         elif isinstance(event, StopEvent):
-            if isinstance(event.stop, StopPoint):
-                stop_id = event.stop.id
-            elif isinstance(event.stop, UserStop):
-                stop_id = event.stop.stopPoint
-            else:
+            stop_id = event.stop
+            if stop_id == "":
                 stop_id = None
 
             dropoff_agents = [request.agent.id for request in event.dropoffs]

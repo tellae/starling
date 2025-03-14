@@ -781,7 +781,7 @@ class Operator(Agent):
             timeout_event = self.sim.scheduler.new_event_object() | self.sim.scheduler.timeout(
                 duration_before_max_pickup_time
             )
-            trip_request.pickupEvent = timeout_event
+            trip_request.pickupEvent_ = timeout_event
 
         return trip_request
 

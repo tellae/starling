@@ -1,4 +1,5 @@
 from starling_sim.basemodel.output.geojson_output import new_geojson_output
+from starling_sim.basemodel.output.event_file_output import EventFileOutput
 from starling_sim.utils.utils import json_pretty_dump, create_file_information
 from starling_sim.utils.config import config
 from starling_sim.utils.constants import RUN_SUMMARY_FILENAME
@@ -54,6 +55,8 @@ class OutputFactory:
 
         # GeojsonOutput object, will generate the visualisation output
         self.geojson_output = None
+
+        self.event_file_output = EventFileOutput()
 
         self.sim = None
 
@@ -157,6 +160,13 @@ class OutputFactory:
         It must be extended to generate the output using specific methods.
         """
 
+        if True:
+            try:
+                self.generate_event_file(simulation_model)
+            except Exception as e:
+                raise e
+                logging.warning(self.GENERATION_ERROR_FORMAT.format("events", e))
+
         # traces output
         if simulation_model.scenario["traces_output"]:
             try:
@@ -178,6 +188,13 @@ class OutputFactory:
 
         # run summary output
         self.generate_run_summary(simulation_model.scenario)
+
+    def generate_event_file(self, simulation_model):
+        self.event_file_output.add_agent_traces(simulation_model)
+        output_folder = simulation_model.scenario.outputs_folder
+        filepath = output_folder + "events.xml"
+        self.event_file_output.write(filepath)
+        self.new_output_file(filepath, "application/xml", content="events")
 
     def generate_geojson_output(self, simulation_model):
         """

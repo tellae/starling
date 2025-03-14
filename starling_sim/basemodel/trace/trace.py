@@ -103,5 +103,5 @@ def trace_simulation_end(simulation_model):
     for agent in simulation_model.agentPopulation.get_total_population():
         if not isinstance(agent.trace.eventList[-1], LeaveSimulationEvent):
             agent.trace_event(
-                LeaveSimulationEvent(simulation_model.scheduler.now(), agent, END_OF_SIM_LEAVE)
+                LeaveSimulationEvent(simulation_model.scheduler.now(), END_OF_SIM_LEAVE)
             )
