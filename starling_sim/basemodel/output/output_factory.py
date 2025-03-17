@@ -56,8 +56,6 @@ class OutputFactory:
         # GeojsonOutput object, will generate the visualisation output
         self.geojson_output = None
 
-        self.event_file_output = EventFileOutput()
-
         self.sim = None
 
     def setup(self, simulation_model):
@@ -190,10 +188,18 @@ class OutputFactory:
         self.generate_run_summary(simulation_model.scenario)
 
     def generate_event_file(self, simulation_model):
-        self.event_file_output.add_agent_traces(simulation_model)
+        """
+        Generate event file output.
+
+        :param simulation_model:
+        """
+        event_file_output = EventFileOutput()
+        event_file_output.add_agent_traces(simulation_model)
+
         output_folder = simulation_model.scenario.outputs_folder
         filepath = output_folder + "events.xml"
-        self.event_file_output.write(filepath)
+        event_file_output.write(filepath)
+
         self.new_output_file(filepath, "application/xml", content="events")
 
     def generate_geojson_output(self, simulation_model):
