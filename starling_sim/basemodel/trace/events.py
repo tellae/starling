@@ -8,19 +8,18 @@ from xml.etree.ElementTree import Element
 
 class Event:
     """
-    This class represents the events contained in the trace
+    This class represents the events contained in the trace.
 
-    It should be extended to describe the different kinds of events of the agents
+    It should be extended to describe the different kinds of events of the simulation.
     """
 
-    def __init__(self, time, message=""):
-        """
+    def __init__(self, time):
 
-        :param time: timestamp of the traced event
-        :param message: eventual message to be added to the event
-        """
+        # simulation time at which the event occurred
         self.timestamp = time
-        self.message = message
+
+        # message from the simulation environment at event tracing
+        self.message = ""
 
     @property
     def name(self):
@@ -109,14 +108,14 @@ class InputEvent(Event):
     This event describes the generation of a traced element.
     """
 
-    def __init__(self, time, agent, message=""):
+    def __init__(self, time, agent):
         """
-        Creates a generation event
+        Creates a generation event.
+
         :param time: timestamp of the generation
         :param agent: generated agent
-        :param message: eventual message to be added to the event
         """
-        super().__init__(time, message=message)
+        super().__init__(time)
 
         self.id = agent.id
         self.agentType = agent.type
@@ -129,7 +128,7 @@ class MoveEvent(DurationEvent):
     This event describes an agent moving
     """
 
-    def __init__(self, time, origin, destination, move_distance, move_duration, mode, message=""):
+    def __init__(self, time, origin, destination, move_distance, move_duration, mode):
         """
         Creates a moving event
         :param time: timestamp of departure
@@ -138,10 +137,9 @@ class MoveEvent(DurationEvent):
         :param move_distance: move distance
         :param move_duration: time spent moving
         :param mode: transport mode ("walk", "bike", "drive",..)
-        :param message: eventual message to be added to the event
         """
 
-        super().__init__(time, message=message)
+        super().__init__(time)
         self.origin = origin
         self.destination = destination
         self.distance = move_distance
@@ -157,7 +155,7 @@ class RouteEvent(MoveEvent):
     This event describes the route of an agent
     """
 
-    def __init__(self, time, route_data, mode, message=""):
+    def __init__(self, time, route_data, mode):
         """
         Creates a route event.
 
@@ -165,12 +163,11 @@ class RouteEvent(MoveEvent):
         :param route_data: {"route": list of nodes,
             "length": list of link lengths, "time": list of link durations}
         :param mode: transport mode ("walk", "bike", "drive",..)
-        :param message: eventual message to be added to the event
         :return:
         """
 
         super().__init__(
-            time, route_data["route"][0], route_data["route"][-1], sum(route_data["length"]), sum(route_data["time"]), mode, message=message
+            time, route_data["route"][0], route_data["route"][-1], sum(route_data["length"]), sum(route_data["time"]), mode
         )
 
         self.data = route_data
@@ -266,7 +263,7 @@ class PositionChangeEvent(MoveEvent):
     This event describes a position change of an agent
     """
 
-    def __init__(self, time, origin, destination, distance, duration, mode, message=""):
+    def __init__(self, time, origin, destination, distance, duration, mode):
         """
         Creates a position change event
         :param destination:
@@ -275,9 +272,8 @@ class PositionChangeEvent(MoveEvent):
         :param time: timestamp of the traced event
         :param origin: describes a position, e.g. a node id
         :param mode: transport mode used to reach this position
-        :param message: eventual message to be added to the event
         """
-        super().__init__(time, origin, destination, distance, duration, mode, message)
+        super().__init__(time, origin, destination, distance, duration, mode)
 
 
 class WaitEvent(DurationEvent):
@@ -285,15 +281,14 @@ class WaitEvent(DurationEvent):
     This event describes the a waiting agent
     """
 
-    def __init__(self, time, reason, waiting_time, message=""):
+    def __init__(self, time, reason, waiting_time):
         """
         Creates a wait event
         :param time: timestamp of the waiting start
         :param reason: reason of the waiting event
         :param waiting_time: waited duration
-        :param message: eventual message to be added to the event
         """
-        super().__init__(time, message)
+        super().__init__(time)
         self.reason = reason
         self.waiting_time = waiting_time
 
@@ -306,15 +301,14 @@ class IdleEvent(Event):
     This event describes an idle agent
     """
 
-    def __init__(self, time, idle_duration, message=""):
+    def __init__(self, time, idle_duration):
         """
         Creates an idle event
         :param time: start of the idle period
         :param idle_duration: duration of the idle period
-        :param message: eventual message to be added to the event
         """
 
-        super().__init__(time, message)
+        super().__init__(time)
         self.duration = idle_duration
 
 
@@ -323,8 +317,8 @@ class ServiceEvent(Event):
     This event describes a status change of an agent service.
     """
 
-    def __init__(self, time, former_status, new_status, message=""):
-        super().__init__(time, message)
+    def __init__(self, time, former_status, new_status):
+        super().__init__(time)
         # former and new status values
         self.former = former_status
         self.new = new_status
@@ -335,14 +329,13 @@ class RequestEvent(DurationEvent):
     This event describes a user request
     """
 
-    def __init__(self, time, request, message=""):
+    def __init__(self, time, request):
         """
         Creates a request event
         :param time: timestamp of the request
         :param request: Request object
-        :param message: eventual message to be added to the event
         """
-        super().__init__(time, message)
+        super().__init__(time)
 
         self.agent = request.agent
         self.requestTime = request.timestamp
@@ -361,8 +354,8 @@ class StopEvent(Event):
     This event describes the processing of a Stop
     """
 
-    def __init__(self, time, operator, service_vehicle, trip, stop, message=""):
-        super().__init__(time, message)
+    def __init__(self, time, operator, service_vehicle, trip, stop):
+        super().__init__(time)
 
         self.operator = operator
         self.serviceVehicle = service_vehicle
@@ -477,7 +470,7 @@ class StaffOperationEvent(Event):
     This event describes a staff operation
     """
 
-    def __init__(self, time, staff, total, goal, targets=None, structure=None, message=""):
+    def __init__(self, time, staff, total, goal, targets=None, structure=None):
         """
         Create a staff operation event.
 
@@ -489,7 +482,7 @@ class StaffOperationEvent(Event):
         :param structure: structure where the operation is realised
         """
 
-        super().__init__(time, message)
+        super().__init__(time)
 
         self.staff = staff
         self.total = total
@@ -505,15 +498,14 @@ class GetVehicleEvent(Event):
     This event describes an agent getting a vehicle
     """
 
-    def __init__(self, time, agent, vehicle, message=""):
+    def __init__(self, time, agent, vehicle):
         """
         Creates a get vehicle event
         :param time: timestamp of the get event
         :param agent: new occupant
         :param vehicle: concerned vehicle
-        :param message: eventual message to be added to the event
         """
-        super().__init__(time, message)
+        super().__init__(time)
         self.agent = agent
         self.vehicle = vehicle
 
@@ -522,15 +514,14 @@ class LeaveVehicleEvent(Event):
     This event describes an agent returning a vehicle
     """
 
-    def __init__(self, time, agent, vehicle, message=""):
+    def __init__(self, time, agent, vehicle):
         """
         Creates a leave vehicle event
         :param time: timestamp of the return event
         :param agent: agent returning vehicle
         :param vehicle: concerned vehicle
-        :param message: eventual message to be added to the event
         """
-        super().__init__(time, message)
+        super().__init__(time)
         self.agent = agent
         self.vehicle = vehicle
 
@@ -540,16 +531,16 @@ class LeaveSystemEvent(Event):
     This event describes an agent leaving the simulation
     """
 
-    def __init__(self, time, message=""):
-        super().__init__(time, message=message)
+    def __init__(self, time):
+        super().__init__(time)
 
 class DestinationReachedEvent(Event):
     """
     This event describes an agent reaching its destination
     """
 
-    def __init__(self, time, message=""):
-        super().__init__(time, message=message)
+    def __init__(self, time):
+        super().__init__(time)
 
 
 class LeaveSimulationEvent(Event):
@@ -557,8 +548,8 @@ class LeaveSimulationEvent(Event):
     This event describes an agent leaving the simulation.
     """
 
-    def __init__(self, time, cause, message=""):
-        super().__init__(time, message=message)
+    def __init__(self, time, cause):
+        super().__init__(time)
 
         # leave code
         self.cause = cause
