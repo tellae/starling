@@ -158,11 +158,10 @@ class OutputFactory:
         It must be extended to generate the output using specific methods.
         """
 
-        if True:
+        if simulation_model.scenario["events_output"]:
             try:
                 self.generate_event_file(simulation_model)
             except Exception as e:
-                raise e
                 logging.warning(self.GENERATION_ERROR_FORMAT.format("events", e))
 
         # traces output
@@ -193,13 +192,19 @@ class OutputFactory:
 
         :param simulation_model:
         """
+        # create the event output instance
         event_file_output = EventFileOutput()
         event_file_output.add_agent_traces(simulation_model)
 
+        # evaluate file name and path
         output_folder = simulation_model.scenario.outputs_folder
-        filepath = output_folder + "events.xml"
+        scenario = simulation_model.scenario.name
+        filepath = output_folder + config["events_format"].format(scenario=scenario)
+
+        # call write method to generate file
         event_file_output.write(filepath)
 
+        # signal output file creation
         self.new_output_file(filepath, "application/xml", content="events")
 
     def generate_geojson_output(self, simulation_model):

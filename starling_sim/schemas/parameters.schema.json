@@ -85,8 +85,15 @@
     "traces_output": {
       "advanced":  true,
       "type": "boolean",
-      "title": "Traces output",
+      "title": "[deprecated] Traces output",
       "description": "Generate agent traces file",
+      "default": false
+    },
+    "events_output": {
+      "advanced": true,
+      "type": "boolean",
+      "title": "Events output",
+      "description": "Generate a simulation events file",
       "default": false
     },
     "time_log": {
