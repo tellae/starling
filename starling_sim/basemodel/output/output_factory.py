@@ -1,5 +1,5 @@
 from starling_sim.basemodel.output.geojson_output import new_geojson_output
-from starling_sim.basemodel.output.event_file_output import EventFileOutput
+from starling_sim.basemodel.output.simulation_events import SimulationEvents
 from starling_sim.utils.utils import json_pretty_dump, create_file_information
 from starling_sim.utils.config import config
 from starling_sim.utils.constants import RUN_SUMMARY_FILENAME
@@ -193,8 +193,7 @@ class OutputFactory:
         :param simulation_model:
         """
         # create the event output instance
-        event_file_output = EventFileOutput()
-        event_file_output.add_agent_traces(simulation_model)
+        event_file_output = SimulationEvents.from_simulation_model(simulation_model)
 
         # evaluate file name and path
         output_folder = simulation_model.scenario.outputs_folder
