@@ -22,19 +22,13 @@ class Event:
         self.timestamp = time
         self.message = message
 
-    def __str__(self):
-        """
-        Gives a string display to the event
-        """
+    @property
+    def name(self):
+        return self.__class__.__name__
 
-        if self.message == "":
-            return "[{}, {}]: ".format(self.timestamp, self.__class__.__name__)
-        else:
-            return "[{}, {}, {}]: ".format(self.message, self.__class__.__name__, self.timestamp)
-
-    def to_xml(self) -> Element:
-
-        attributes = self._xml_attrib()
+    @property
+    def xml_attrib(self):
+        attributes = self._get_xml_attrib()
         to_delete = []
         for key in attributes.keys():
             if hasattr(attributes[key], "id"):
@@ -50,14 +44,20 @@ class Event:
         if "message" in attributes:
             del attributes["message"]
 
+        return attributes
+
+    def to_xml(self) -> Element:
+        # create XML Element
         element = Element(
-            self.__class__.__name__,
-            attrib=attributes
+            self.name,
+            attrib=self.xml_attrib
         )
 
+        # add eventual message
         if self.message:
-            element.text(self.message)
+            element.text = self.message
 
+        # add eventual sub elements
         sub_elements = self._xml_sub_elements()
         if sub_elements:
             for sub_element in sub_elements:
@@ -65,11 +65,24 @@ class Event:
 
         return element
 
-    def _xml_attrib(self) -> dict:
+    def _get_xml_attrib(self) -> dict:
         return self.__dict__.copy()
 
     def _xml_sub_elements(self) -> list | None:
         return None
+
+    def __str__(self):
+        # get attributes without timestamp
+        attributes = self.xml_attrib
+        del attributes["timestamp"]
+        str_attributes = ", ".join([f"{k}={v}" for k, v in attributes.items()])
+
+        # get message
+        message = f", {self.message}" if self.message else ""
+
+        # format
+        res = "[{timestamp}, {event}{message}]: {attributes}"
+        return res.format(timestamp=self.timestamp, event=self.name, message=message, attributes=str_attributes)
 
 
 class DurationEvent(Event, ABC):
@@ -110,9 +123,6 @@ class InputEvent(Event):
         self.mode = agent.mode
         self.icon = agent.icon
 
-    def __str__(self):
-        return super().__str__() + "TODO"
-
 
 class MoveEvent(DurationEvent):
     """
@@ -140,11 +150,6 @@ class MoveEvent(DurationEvent):
 
     def _total_duration(self) -> int:
         return self.duration
-
-    def __str__(self):
-        return super().__str__() + "mode={}, start={}, end={}, duration={}, distance={}".format(
-            self.mode, self.origin, self.destination, self.duration, self.distance
-        )
 
 
 class RouteEvent(MoveEvent):
@@ -250,7 +255,7 @@ class RouteEvent(MoveEvent):
 
         return sub_elements
 
-    def _xml_attrib(self):
+    def _get_xml_attrib(self):
         res = {k: str(v) for k, v in self.__dict__.items()}
         del res["data"]
         return res
@@ -295,9 +300,6 @@ class WaitEvent(DurationEvent):
     def _total_duration(self):
         return self.waiting_time
 
-    def __str__(self):
-        return super().__str__() + "waitedTime={}, reason={}".format(self.waiting_time, self.reason)
-
 
 class IdleEvent(Event):
     """
@@ -315,9 +317,6 @@ class IdleEvent(Event):
         super().__init__(time, message)
         self.duration = idle_duration
 
-    def __str__(self):
-        return super().__str__() + "idleDuration={}".format(self.duration)
-
 
 class ServiceEvent(Event):
     """
@@ -329,9 +328,6 @@ class ServiceEvent(Event):
         # former and new status values
         self.former = former_status
         self.new = new_status
-
-    def __str__(self):
-        return super().__str__() + "formerStatus={}, newStatus={}".format(self.former, self.new)
 
 
 class RequestEvent(DurationEvent):
@@ -358,9 +354,6 @@ class RequestEvent(DurationEvent):
 
     def _total_duration(self):
         return sum(self.waitSequence)
-
-    def __str__(self):
-        return super().__str__() + "TODO"
 
 
 class StopEvent(Event):
@@ -407,11 +400,6 @@ class StopEvent(Event):
         self.pickups = pickups
         self.pickup_time = pickup_time
 
-    def __str__(self):
-        return super().__str__() + "stop={}, trip={}, serviceVehicle={}".format(
-            self.stop, self.trip, self.serviceVehicle.id
-        )
-
     def _xml_sub_elements(self) -> list | None:
 
         sub_elements = []
@@ -433,8 +421,8 @@ class StopEvent(Event):
         return sub_elements
 
 
-    def _xml_attrib(self):
-        attrib = super()._xml_attrib()
+    def _get_xml_attrib(self):
+        attrib = super()._get_xml_attrib()
         del attrib["pickups"]
         del attrib["dropoffs"]
 
@@ -511,15 +499,6 @@ class StaffOperationEvent(Event):
             self.targets = []
         self.structure = structure
 
-    def __str__(self):
-        if self.structure is None:
-            struct = None
-        else:
-            struct = self.structure.id
-        return super().__str__() + "staff={}, total={}, structure={}".format(
-            self.staff.id, self.total, struct
-        )
-
 
 class GetVehicleEvent(Event):
     """
@@ -538,10 +517,6 @@ class GetVehicleEvent(Event):
         self.agent = agent
         self.vehicle = vehicle
 
-    def __str__(self):
-        return super().__str__() + "agent={}, getVehicle={}".format(self.agent.id, self.vehicle.id)
-
-
 class LeaveVehicleEvent(Event):
     """
     This event describes an agent returning a vehicle
@@ -559,11 +534,6 @@ class LeaveVehicleEvent(Event):
         self.agent = agent
         self.vehicle = vehicle
 
-    def __str__(self):
-        return super().__str__() + "agent={}, leaveVehicle={}".format(
-            self.agent.id, self.vehicle.id
-        )
-
 
 class LeaveSystemEvent(Event):
     """
@@ -573,10 +543,6 @@ class LeaveSystemEvent(Event):
     def __init__(self, time, message=""):
         super().__init__(time, message=message)
 
-    def __str__(self):
-        return super().__str__() + "leavingSystem={}".format(self.timestamp)
-
-
 class DestinationReachedEvent(Event):
     """
     This event describes an agent reaching its destination
@@ -584,9 +550,6 @@ class DestinationReachedEvent(Event):
 
     def __init__(self, time, message=""):
         super().__init__(time, message=message)
-
-    def __str__(self):
-        return super().__str__() + "arrivalTime={}".format(self.timestamp)
 
 
 class LeaveSimulationEvent(Event):
@@ -599,9 +562,6 @@ class LeaveSimulationEvent(Event):
 
         # leave code
         self.cause = cause
-
-    def __str__(self):
-        return super().__str__() + "cause={}".format(self.cause)
 
 
 # class EndOfSimulationEvent(Event):
