@@ -1,4 +1,4 @@
-from starling_sim.basemodel.output.event_file_output import EventFileOutput
+from starling_sim.basemodel.output.simulation_events import SimulationEvents
 from starling_sim.basemodel.trace.events import *
 from starling_sim.basemodel.trace.trace import Traced
 
@@ -19,7 +19,7 @@ class TestEventFileOutput:
 
     def test_agent_events(self, traced):
 
-        evt_output = EventFileOutput()
+        evt_output = SimulationEvents()
 
         evt_output.traced_to_xml(traced)
 
