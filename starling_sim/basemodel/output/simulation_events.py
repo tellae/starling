@@ -3,6 +3,7 @@ from xml.etree.ElementTree import Element, ElementTree
 from collections.abc import Iterable
 from starling_sim.utils.utils import (
     gz_compression,
+    gz_decompression
 )
 
 VERSION = "0.0.1"
@@ -76,6 +77,11 @@ class SimulationEvents:
 
         :return: SimulationEvents instance
         """
+        # decrompress file if necessary
+        if filepath.endswith(".gz"):
+            gz_decompression(filepath, delete_source=False)
+            filepath = filepath[:-3]
+
         tree = ET.parse(filepath)
         instance = SimulationEvents()
         instance.set_tree(tree)
