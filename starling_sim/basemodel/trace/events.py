@@ -3,33 +3,85 @@ This module contains event classes that compose agents' traces
 """
 
 from abc import ABC, abstractmethod
+from builtins import hasattr
+from xml.etree.ElementTree import Element
 
 
 class Event:
     """
-    This class represents the events contained in the trace
+    This class represents the events contained in the trace.
 
-    It should be extended to describe the different kinds of events of the agents
+    It should be extended to describe the different kinds of events of the simulation.
     """
 
-    def __init__(self, time, message=""):
-        """
+    def __init__(self, time):
 
-        :param time: timestamp of the traced event
-        :param message: eventual message to be added to the event
-        """
+        # simulation time at which the event occurred
         self.timestamp = time
-        self.message = message
+
+        # message from the simulation environment at event tracing
+        self.message = ""
+
+    @property
+    def name(self):
+        return self.__class__.__name__
+
+    @property
+    def xml_attrib(self):
+        attributes = self._get_xml_attrib()
+        to_delete = []
+        for key in attributes.keys():
+            if hasattr(attributes[key], "id"):
+                attributes[key] = getattr(attributes[key], "id", "")
+            if key.endswith("_"):
+                to_delete.append(key)
+
+        for key in to_delete:
+            del attributes[key]
+
+        attributes = {k: str(v) for k, v in attributes.items()}
+
+        if "message" in attributes:
+            del attributes["message"]
+
+        return attributes
+
+    def to_xml(self) -> Element:
+        # create XML Element
+        element = Element(self.name, attrib=self.xml_attrib)
+
+        # add eventual message
+        if self.message:
+            element.text = self.message
+
+        # add eventual sub elements
+        sub_elements = self._xml_sub_elements()
+        if sub_elements:
+            for sub_element in sub_elements:
+                element.append(sub_element)
+
+        return element
+
+    def _get_xml_attrib(self) -> dict:
+        return self.__dict__.copy()
+
+    def _xml_sub_elements(self) -> list | None:
+        return None
 
     def __str__(self):
-        """
-        Gives a string display to the event
-        """
+        # get attributes without timestamp
+        attributes = self.xml_attrib
+        del attributes["timestamp"]
+        str_attributes = ", ".join([f"{k}={v}" for k, v in attributes.items()])
 
-        if self.message == "":
-            return "[{}, {}]: ".format(self.timestamp, self.__class__.__name__)
-        else:
-            return "[{}, {}, {}]: ".format(self.message, self.__class__.__name__, self.timestamp)
+        # get message
+        message = f", {self.message}" if self.message else ""
+
+        # format
+        res = "[{timestamp}, {event}{message}]: {attributes}"
+        return res.format(
+            timestamp=self.timestamp, event=self.name, message=message, attributes=str_attributes
+        )
 
 
 class DurationEvent(Event, ABC):
@@ -56,20 +108,19 @@ class InputEvent(Event):
     This event describes the generation of a traced element.
     """
 
-    def __init__(self, time, element, message=""):
+    def __init__(self, time, agent):
         """
-        Creates a generation event
-        :param time: timestamp of the generation
-        :param element: generated element
-        :param message: eventual message to be added to the event
-        """
-        super().__init__(time, message=message)
-        self.element = element
+        Creates a generation event.
 
-    def __str__(self):
-        return super().__str__() + "generatedElement={}, type={}".format(
-            self.element, type(self.element)
-        )
+        :param time: timestamp of the generation
+        :param agent: generated agent
+        """
+        super().__init__(time)
+
+        self.id = agent.id
+        self.agentType = agent.type
+        self.mode = agent.mode
+        self.icon = agent.icon
 
 
 class MoveEvent(DurationEvent):
@@ -77,18 +128,20 @@ class MoveEvent(DurationEvent):
     This event describes an agent moving
     """
 
-    def __init__(self, time, move_distance, move_duration, mode, message=""):
+    def __init__(self, time, origin, destination, move_distance, move_duration, mode):
         """
         Creates a moving event
         :param time: timestamp of departure
+        :param origin: origin position
+        :param destination: destination position
         :param move_distance: move distance
         :param move_duration: time spent moving
         :param mode: transport mode ("walk", "bike", "drive",..)
-        :param message: eventual message to be added to the event
         """
 
-        super().__init__(time, message=message)
-
+        super().__init__(time)
+        self.origin = origin
+        self.destination = destination
         self.distance = move_distance
         self.duration = move_duration
         self.mode = mode
@@ -102,7 +155,7 @@ class RouteEvent(MoveEvent):
     This event describes the route of an agent
     """
 
-    def __init__(self, time, route_data, mode, message=""):
+    def __init__(self, time, route_data, mode):
         """
         Creates a route event.
 
@@ -110,18 +163,24 @@ class RouteEvent(MoveEvent):
         :param route_data: {"route": list of nodes,
             "length": list of link lengths, "time": list of link durations}
         :param mode: transport mode ("walk", "bike", "drive",..)
-        :param message: eventual message to be added to the event
         :return:
         """
 
         super().__init__(
-            time, sum(route_data["length"]), sum(route_data["time"]), mode, message=message
+            time,
+            route_data["route"][0],
+            route_data["route"][-1],
+            sum(route_data["length"]),
+            sum(route_data["time"]),
+            mode,
         )
 
         self.data = route_data
 
     def set_route_data(self, route_data):
         self.data = route_data
+        self.origin = route_data["route"][0]
+        self.destination = route_data["route"][-1]
         self.distance = sum(route_data["length"])
         self.duration = sum(route_data["time"])
 
@@ -176,10 +235,35 @@ class RouteEvent(MoveEvent):
 
         return {"time": interval_durations, "length": interval_distances}
 
-    def __str__(self):
-        return super().__str__() + "mode={}, start={}, end={}, duration={}, distance={}".format(
-            self.mode, self.data["route"][0], self.data["route"][-1], self.duration, self.distance
-        )
+    def _xml_sub_elements(self) -> list | None:
+        sub_elements = []
+
+        route = self.data["route"]
+        length = self.data["length"]
+        time = self.data["time"]
+        from_position = route[0]
+
+        for i in range(1, len(self.data["route"])):
+            to_position = route[i]
+            edge_element = Element(
+                "edge",
+                attrib={
+                    "from": str(from_position),
+                    "to": str(to_position),
+                    "length": str(length[i]),
+                    "time": str(time[i]),
+                },
+            )
+
+            sub_elements.append(edge_element)
+            from_position = to_position
+
+        return sub_elements
+
+    def _get_xml_attrib(self):
+        res = {k: str(v) for k, v in self.__dict__.items()}
+        del res["data"]
+        return res
 
 
 class PositionChangeEvent(MoveEvent):
@@ -187,7 +271,7 @@ class PositionChangeEvent(MoveEvent):
     This event describes a position change of an agent
     """
 
-    def __init__(self, time, origin, destination, distance, duration, mode, message=""):
+    def __init__(self, time, origin, destination, distance, duration, mode):
         """
         Creates a position change event
         :param destination:
@@ -196,17 +280,8 @@ class PositionChangeEvent(MoveEvent):
         :param time: timestamp of the traced event
         :param origin: describes a position, e.g. a node id
         :param mode: transport mode used to reach this position
-        :param message: eventual message to be added to the event
         """
-        super().__init__(time, distance, duration, mode, message)
-
-        self.origin = origin
-        self.destination = destination
-
-    def __str__(self):
-        return super().__str__() + "mode={}, start={}, end={}, duration={}, distance={}".format(
-            self.mode, self.origin, self.destination, self.duration, self.distance
-        )
+        super().__init__(time, origin, destination, distance, duration, mode)
 
 
 class WaitEvent(DurationEvent):
@@ -214,23 +289,19 @@ class WaitEvent(DurationEvent):
     This event describes the a waiting agent
     """
 
-    def __init__(self, time, reason, waiting_time, message=""):
+    def __init__(self, time, reason, waiting_time):
         """
         Creates a wait event
         :param time: timestamp of the waiting start
         :param reason: reason of the waiting event
         :param waiting_time: waited duration
-        :param message: eventual message to be added to the event
         """
-        super().__init__(time, message)
+        super().__init__(time)
         self.reason = reason
         self.waiting_time = waiting_time
 
     def _total_duration(self):
         return self.waiting_time
-
-    def __str__(self):
-        return super().__str__() + "waitedTime={}, reason={}".format(self.waiting_time, self.reason)
 
 
 class IdleEvent(Event):
@@ -238,19 +309,15 @@ class IdleEvent(Event):
     This event describes an idle agent
     """
 
-    def __init__(self, time, idle_duration, message=""):
+    def __init__(self, time, idle_duration):
         """
         Creates an idle event
         :param time: start of the idle period
         :param idle_duration: duration of the idle period
-        :param message: eventual message to be added to the event
         """
 
-        super().__init__(time, message)
+        super().__init__(time)
         self.duration = idle_duration
-
-    def __str__(self):
-        return super().__str__() + "idleDuration={}".format(self.duration)
 
 
 class ServiceEvent(Event):
@@ -258,14 +325,11 @@ class ServiceEvent(Event):
     This event describes a status change of an agent service.
     """
 
-    def __init__(self, time, former_status, new_status, message=""):
-        super().__init__(time, message)
+    def __init__(self, time, former_status, new_status):
+        super().__init__(time)
         # former and new status values
         self.former = former_status
         self.new = new_status
-
-    def __str__(self):
-        return super().__str__() + "formerStatus={}, newStatus={}".format(self.former, self.new)
 
 
 class RequestEvent(DurationEvent):
@@ -273,21 +337,24 @@ class RequestEvent(DurationEvent):
     This event describes a user request
     """
 
-    def __init__(self, time, request, message=""):
+    def __init__(self, time, request):
         """
         Creates a request event
         :param time: timestamp of the request
         :param request: Request object
-        :param message: eventual message to be added to the event
         """
-        super().__init__(time, message)
-        self.request = request
+        super().__init__(time)
+
+        self.agent = request.agent
+        self.requestTime = request.timestamp
+        self.type = request.type
+        self.structure = request.structure
+        self.success = request.success
+        self.result = request.result
+        self.waitSequence = request.waitSequence
 
     def _total_duration(self):
-        return sum(self.request.waitSequence)
-
-    def __str__(self):
-        return super().__str__() + str(self.request)
+        return sum(self.waitSequence)
 
 
 class StopEvent(Event):
@@ -295,12 +362,17 @@ class StopEvent(Event):
     This event describes the processing of a Stop
     """
 
-    def __init__(self, time, operator, service_vehicle, trip, stop, message=""):
-        super().__init__(time, message)
+    def __init__(self, time, operator, service_vehicle, trip, stop):
+        super().__init__(time)
 
         self.operator = operator
         self.serviceVehicle = service_vehicle
-        self.stop = stop
+        self.stop = ""
+        if stop.type == stop.STOP_POINT:
+            self.stop = stop.id
+        elif hasattr(stop, "stopPoint"):
+            self.stop = stop.stopPoint
+
         self.trip = trip
 
         # list of requests served during dropoff
@@ -329,10 +401,38 @@ class StopEvent(Event):
         self.pickups = pickups
         self.pickup_time = pickup_time
 
-    def __str__(self):
-        return super().__str__() + "stop={}, trip={}, serviceVehicle={}".format(
-            self.stop, self.trip, self.serviceVehicle.id
-        )
+    def _xml_sub_elements(self) -> list | None:
+
+        sub_elements = []
+
+        for request in self.dropoffs:
+            element = Element(
+                "dropoff",
+                attrib={
+                    "timestamp": str(self.dropoff_time),
+                    "agent": request.agent.id,
+                },
+            )
+            sub_elements.append(element)
+
+        for request in self.pickups:
+            element = Element(
+                "pickup",
+                attrib={
+                    "timestamp": str(self.pickup_time),
+                    "agent": request.agent.id,
+                },
+            )
+            sub_elements.append(element)
+
+        return sub_elements
+
+    def _get_xml_attrib(self):
+        attrib = super()._get_xml_attrib()
+        del attrib["pickups"]
+        del attrib["dropoffs"]
+
+        return attrib
 
 
 # deprecated, use StopEvent
@@ -383,7 +483,7 @@ class StaffOperationEvent(Event):
     This event describes a staff operation
     """
 
-    def __init__(self, time, staff, total, goal, targets=None, structure=None, message=""):
+    def __init__(self, time, staff, total, goal, targets=None, structure=None):
         """
         Create a staff operation event.
 
@@ -395,7 +495,7 @@ class StaffOperationEvent(Event):
         :param structure: structure where the operation is realised
         """
 
-        super().__init__(time, message)
+        super().__init__(time)
 
         self.staff = staff
         self.total = total
@@ -405,35 +505,22 @@ class StaffOperationEvent(Event):
             self.targets = []
         self.structure = structure
 
-    def __str__(self):
-        if self.structure is None:
-            struct = None
-        else:
-            struct = self.structure.id
-        return super().__str__() + "staff={}, total={}, structure={}".format(
-            self.staff.id, self.total, struct
-        )
-
 
 class GetVehicleEvent(Event):
     """
     This event describes an agent getting a vehicle
     """
 
-    def __init__(self, time, agent, vehicle, message=""):
+    def __init__(self, time, agent, vehicle):
         """
         Creates a get vehicle event
         :param time: timestamp of the get event
         :param agent: new occupant
         :param vehicle: concerned vehicle
-        :param message: eventual message to be added to the event
         """
-        super().__init__(time, message)
+        super().__init__(time)
         self.agent = agent
         self.vehicle = vehicle
-
-    def __str__(self):
-        return super().__str__() + "agent={}, getVehicle={}".format(self.agent.id, self.vehicle.id)
 
 
 class LeaveVehicleEvent(Event):
@@ -441,22 +528,16 @@ class LeaveVehicleEvent(Event):
     This event describes an agent returning a vehicle
     """
 
-    def __init__(self, time, agent, vehicle, message=""):
+    def __init__(self, time, agent, vehicle):
         """
         Creates a leave vehicle event
         :param time: timestamp of the return event
         :param agent: agent returning vehicle
         :param vehicle: concerned vehicle
-        :param message: eventual message to be added to the event
         """
-        super().__init__(time, message)
+        super().__init__(time)
         self.agent = agent
         self.vehicle = vehicle
-
-    def __str__(self):
-        return super().__str__() + "agent={}, leaveVehicle={}".format(
-            self.agent.id, self.vehicle.id
-        )
 
 
 class LeaveSystemEvent(Event):
@@ -464,11 +545,8 @@ class LeaveSystemEvent(Event):
     This event describes an agent leaving the simulation
     """
 
-    def __init__(self, time, message=""):
-        super().__init__(time, message=message)
-
-    def __str__(self):
-        return super().__str__() + "leavingSystem={}".format(self.timestamp)
+    def __init__(self, time):
+        super().__init__(time)
 
 
 class DestinationReachedEvent(Event):
@@ -476,11 +554,8 @@ class DestinationReachedEvent(Event):
     This event describes an agent reaching its destination
     """
 
-    def __init__(self, time, message=""):
-        super().__init__(time, message=message)
-
-    def __str__(self):
-        return super().__str__() + "arrivalTime={}".format(self.timestamp)
+    def __init__(self, time):
+        super().__init__(time)
 
 
 class LeaveSimulationEvent(Event):
@@ -488,17 +563,11 @@ class LeaveSimulationEvent(Event):
     This event describes an agent leaving the simulation.
     """
 
-    def __init__(self, time, agent, cause, message=""):
-        super().__init__(time, message=message)
+    def __init__(self, time, cause):
+        super().__init__(time)
 
-        # agent leaving the simulation
-        self.agent = agent
-
-        #
+        # leave code
         self.cause = cause
-
-    def __str__(self):
-        return super().__str__() + "agent={}, cause={}".format(self.agent, self.cause)
 
 
 # class EndOfSimulationEvent(Event):

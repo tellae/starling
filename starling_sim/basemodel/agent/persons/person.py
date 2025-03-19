@@ -134,8 +134,8 @@ class Person(MovingAgent):
 
         # add request events to requested agents
         if isinstance(event, RequestEvent):
-            if event.request.structure is not None:
-                event.request.structure.trace_event(event)
+            if event.structure is not None:
+                event.structure.trace_event(event)
 
     # simulation interactions
 

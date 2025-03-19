@@ -1,9 +1,37 @@
 from starling_sim.basemodel.output.geojson_output import new_geojson_output
+from starling_sim.basemodel.output.simulation_events import SimulationEvents
 from starling_sim.utils.utils import json_pretty_dump, create_file_information
 from starling_sim.utils.config import config
 from starling_sim.utils.constants import RUN_SUMMARY_FILENAME
 
 import logging
+
+
+# unused decorator
+def output_file_generator(
+    compressed_mimetype: str = None,
+    content: str = None,
+    subject: str = None,
+):
+
+    def decorator(method):
+        def wrapper(self, *args, **kwargs):
+
+            filepaths, mimetype = method(self, *args, **kwargs)
+
+            if isinstance(filepaths, str):
+                filepaths = [filepaths]
+            elif isinstance(filepaths, list):
+                pass
+            else:
+                raise ValueError("Returned filepath should be a string or a list of strings")
+
+            for filepath in filepaths:
+                self.new_output_file(filepath, mimetype, compressed_mimetype, content, subject)
+
+        return wrapper
+
+    return decorator
 
 
 class OutputFactory:
@@ -132,6 +160,12 @@ class OutputFactory:
         It must be extended to generate the output using specific methods.
         """
 
+        if simulation_model.scenario["events_output"]:
+            try:
+                self.generate_event_file(simulation_model)
+            except Exception as e:
+                logging.warning(self.GENERATION_ERROR_FORMAT.format("events", e))
+
         # traces output
         if simulation_model.scenario["traces_output"]:
             try:
@@ -153,6 +187,30 @@ class OutputFactory:
 
         # run summary output
         self.generate_run_summary(simulation_model.scenario)
+
+    def generate_event_file(self, simulation_model):
+        """
+        Generate event file output.
+
+        :param simulation_model:
+        """
+        # create the event output instance
+        event_file_output = SimulationEvents.from_simulation_model(simulation_model)
+
+        # evaluate file name and path
+        output_folder = simulation_model.scenario.outputs_folder
+        scenario = simulation_model.scenario.name
+        filepath = output_folder + config["events_format"].format(scenario=scenario)
+
+        # call write method to generate file
+        event_file_output.write(filepath)
+
+        # signal output file creation
+        if filepath.endswith(".gz"):
+            mimetype = "application/gzip"
+        else:
+            mimetype = "application/xml"
+        self.new_output_file(filepath, mimetype, compressed_mimetype="application/xml", content="events")
 
     def generate_geojson_output(self, simulation_model):
         """

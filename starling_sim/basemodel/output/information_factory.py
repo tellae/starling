@@ -1,6 +1,7 @@
 from starling_sim.basemodel.trace.events import *
 from starling_sim.basemodel.agent.vehicles.vehicle import Vehicle
 from starling_sim.basemodel.agent.stations.vehicle_sharing_station import VehicleSharingStation
+from starling_sim.basemodel.agent.requests import Request
 from starling_sim.utils.constants import END_OF_SIM_LEAVE
 
 from abc import ABC
@@ -135,12 +136,10 @@ class StockInformation(InformationFactory):
             if isinstance(event, InputEvent):
                 self.append_value_and_timestamp(agent.initial_stock, 0)
 
-            elif isinstance(event, RequestEvent) and event.request.success:
-                request = event.request
-
-                if request.type == request.GET_REQUEST:
+            elif isinstance(event, RequestEvent) and event.success:
+                if event.type == Request.GET_REQUEST:
                     value = self.values[-1] - 1
-                elif request.type == request.PUT_REQUEST:
+                elif event.type == Request.PUT_REQUEST:
                     value = self.values[-1] + 1
                 else:
                     return
@@ -176,7 +175,7 @@ class DelayInformation(InformationFactory):
             service_info = agent.operator.service_info
             stop_times = service_info.get_stop_times()
             theo_departure_time = stop_times[
-                (stop_times["trip_id"] == event.trip) & (stop_times["stop_id"] == event.stop.id)
+                (stop_times["trip_id"] == event.trip) & (stop_times["stop_id"] == event.stop)
             ]["departure_time_num"].values[0]
 
             # compute the delay

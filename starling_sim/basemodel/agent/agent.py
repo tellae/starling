@@ -241,7 +241,7 @@ class Agent(Traced):
                 self.log_message("Leaving simulation: {} ({})".format(cause_desc, cause))
 
         # trace a LeaveSimulationEvent containing the leaving code
-        event = LeaveSimulationEvent(self.sim.scheduler.now(), self, cause)
+        event = LeaveSimulationEvent(self.sim.scheduler.now(), cause)
         self.trace_event(event)
 
         return

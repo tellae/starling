@@ -7,6 +7,7 @@
     "traces_output": true,
     "visualisation_output": true,
     "kpi_output": true,
+    "events_output": true,
     "dynamic_input_file": null,
     "init_input_file": "operator_nantes.geojson",
     "topologies": {

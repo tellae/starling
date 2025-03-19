@@ -31,11 +31,17 @@
       "default": "{kpi_output}.csv.gz"
     },
     "traces_format": {
-      "title": "Traces output format",
+      "title": "[deprecated] Traces output format",
       "description": "Filename format of the traces output. Placeholder: {scenario}",
       "type": "string",
       "pattern": "(.)*(.txt)",
       "default": "traces.txt"
+    },
+    "events_format": {
+      "title": "Events output format",
+      "description": "Filename format of the events output. Placeholder: {scenario}",
+      "pattern": "(.)*(.xml)",
+      "default": "events.xml.gz"
     },
     "max_stop_distance": {
       "title": "Max stop distance [meters]",

@@ -99,7 +99,9 @@ def get_element_line_string(geojson_output, element):
             mode = event.mode
 
             # get the list of route localisations and timestamps
-            route_positions, route_timestamps = geojson_output.graphs[mode].route_event_trace(event, time_limit=geojson_output.sim.scenario["limit"])
+            route_positions, route_timestamps = geojson_output.graphs[mode].route_event_trace(
+                event, time_limit=geojson_output.sim.scenario["limit"]
+            )
 
             # add it to the agent's lists
             localisations = localisations + route_positions
@@ -133,6 +135,7 @@ def get_element_line_string(geojson_output, element):
     localisations = new_locs
 
     return localisations, timestamps
+
 
 def add_agent_id(feature, element, agent_id=None):
     if agent_id is None:

@@ -6,6 +6,7 @@
     "traces_output": true,
     "visualisation_output": true,
     "kpi_output": true,
+    "events_output": true,
     "dynamic_input_file": "users_nantes.geojson",
     "init_input_file": "ff_bikes_nantes.geojson",
     "topologies": {

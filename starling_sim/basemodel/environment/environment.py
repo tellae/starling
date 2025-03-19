@@ -124,7 +124,7 @@ class Environment:
 
         topology = self.topologies[mode]
 
-        time=None
+        time = None
         if route is None:
             route, time, length = topology.dijkstra_shortest_path_and_length(
                 origin, destination, parameters
