@@ -1,5 +1,6 @@
 from builtins import isinstance
 from starling_sim.basemodel.output.simulation_events import SimulationEvents
+from starling_sim.utils import paths
 from xml.etree.ElementTree import Element
 import pytest
 
