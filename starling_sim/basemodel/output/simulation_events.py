@@ -1,6 +1,9 @@
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import Element, ElementTree
 from collections.abc import Iterable
+from starling_sim.utils.utils import (
+    gz_compression,
+)
 
 VERSION = "0.0.1"
 
@@ -130,7 +133,22 @@ class SimulationEvents:
         """
         Write the tree to a XML file.
 
+        If the filepath ends with ".gz", the output file is compressed.
+
         :param filepath: path to the target file
         """
+
+        # check gz extension
+        if filepath.endswith(".gz"):
+            to_gz = True
+            filepath = filepath[:-3]
+        else:
+            to_gz = False
+
         ET.indent(self.tree, space="\t", level=0)
         self.tree.write(filepath)
+
+        if to_gz:
+            gz_compression(filepath)
+
+

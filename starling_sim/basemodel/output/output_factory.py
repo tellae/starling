@@ -206,7 +206,11 @@ class OutputFactory:
         event_file_output.write(filepath)
 
         # signal output file creation
-        self.new_output_file(filepath, "application/xml", content="events")
+        if filepath.endswith(".gz"):
+            mimetype = "application/gzip"
+        else:
+            mimetype = "application/xml"
+        self.new_output_file(filepath, mimetype, compressed_mimetype="application/xml", content="events")
 
     def generate_geojson_output(self, simulation_model):
         """

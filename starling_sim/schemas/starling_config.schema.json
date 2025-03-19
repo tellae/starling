@@ -41,7 +41,7 @@
       "title": "Events output format",
       "description": "Filename format of the events output. Placeholder: {scenario}",
       "pattern": "(.)*(.xml)",
-      "default": "events.xml"
+      "default": "events.xml.gz"
     },
     "max_stop_distance": {
       "title": "Max stop distance [meters]",

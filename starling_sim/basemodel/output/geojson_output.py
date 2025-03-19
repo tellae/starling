@@ -173,7 +173,7 @@ class GeojsonOutput(ABC):
         # build file path
         path = self.folder + self.filename
 
-        # check bz2 extension
+        # check gz extension
         if path.endswith(".gz"):
             to_gz = True
             path = path[:-3]
