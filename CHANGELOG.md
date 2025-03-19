@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.1](https://github.com/tellae/starling/compare/v1.0.0...v1.0.1) (2025-03-19)
+
+
+### Bug Fixes
+
+* error in test_simulation_events ([#114](https://github.com/tellae/starling/issues/114)) ([3d588f6](https://github.com/tellae/starling/commit/3d588f6e723bb6db097902f0206810974050db2e))
+* SimulationEvents now reads compressed events file ([#116](https://github.com/tellae/starling/issues/116)) ([c709914](https://github.com/tellae/starling/commit/c709914affa960fc1af2402ea8b9ef8b81e652f6))
+
 ## [1.0.0](https://github.com/tellae/starling/compare/v0.11.7...v1.0.0) (2025-03-19)
 
 
