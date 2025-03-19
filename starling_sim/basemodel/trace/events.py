@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 from builtins import hasattr
 from xml.etree.ElementTree import Element
 
+
 class Event:
     """
     This class represents the events contained in the trace.
@@ -47,10 +48,7 @@ class Event:
 
     def to_xml(self) -> Element:
         # create XML Element
-        element = Element(
-            self.name,
-            attrib=self.xml_attrib
-        )
+        element = Element(self.name, attrib=self.xml_attrib)
 
         # add eventual message
         if self.message:
@@ -81,7 +79,9 @@ class Event:
 
         # format
         res = "[{timestamp}, {event}{message}]: {attributes}"
-        return res.format(timestamp=self.timestamp, event=self.name, message=message, attributes=str_attributes)
+        return res.format(
+            timestamp=self.timestamp, event=self.name, message=message, attributes=str_attributes
+        )
 
 
 class DurationEvent(Event, ABC):
@@ -167,7 +167,12 @@ class RouteEvent(MoveEvent):
         """
 
         super().__init__(
-            time, route_data["route"][0], route_data["route"][-1], sum(route_data["length"]), sum(route_data["time"]), mode
+            time,
+            route_data["route"][0],
+            route_data["route"][-1],
+            sum(route_data["length"]),
+            sum(route_data["time"]),
+            mode,
         )
 
         self.data = route_data
@@ -240,12 +245,15 @@ class RouteEvent(MoveEvent):
 
         for i in range(1, len(self.data["route"])):
             to_position = route[i]
-            edge_element = Element("edge", attrib={
-                "from": str(from_position),
-                "to": str(to_position),
-                "length": str(length[i]),
-                "time": str(time[i])
-            })
+            edge_element = Element(
+                "edge",
+                attrib={
+                    "from": str(from_position),
+                    "to": str(to_position),
+                    "length": str(length[i]),
+                    "time": str(time[i]),
+                },
+            )
 
             sub_elements.append(edge_element)
             from_position = to_position
@@ -398,21 +406,26 @@ class StopEvent(Event):
         sub_elements = []
 
         for request in self.dropoffs:
-            element = Element("dropoff", attrib={
-                "timestamp": str(self.dropoff_time),
-                "agent": request.agent.id,
-            })
+            element = Element(
+                "dropoff",
+                attrib={
+                    "timestamp": str(self.dropoff_time),
+                    "agent": request.agent.id,
+                },
+            )
             sub_elements.append(element)
 
         for request in self.pickups:
-            element = Element("pickup", attrib={
-                "timestamp": str(self.pickup_time),
-                "agent": request.agent.id,
-            })
+            element = Element(
+                "pickup",
+                attrib={
+                    "timestamp": str(self.pickup_time),
+                    "agent": request.agent.id,
+                },
+            )
             sub_elements.append(element)
 
         return sub_elements
-
 
     def _get_xml_attrib(self):
         attrib = super()._get_xml_attrib()
@@ -509,6 +522,7 @@ class GetVehicleEvent(Event):
         self.agent = agent
         self.vehicle = vehicle
 
+
 class LeaveVehicleEvent(Event):
     """
     This event describes an agent returning a vehicle
@@ -533,6 +547,7 @@ class LeaveSystemEvent(Event):
 
     def __init__(self, time):
         super().__init__(time)
+
 
 class DestinationReachedEvent(Event):
     """

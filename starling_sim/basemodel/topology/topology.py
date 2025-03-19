@@ -235,6 +235,7 @@ class Topology(ABC):
         :param lengths: list of arc length values
         :return: list of arc duration values
         """
+
         def evaluate_arc_duration(_previous_pos, _new_pos, i):
             return float(lengths[i]) / speed
 
@@ -295,10 +296,7 @@ class Topology(ABC):
         """
 
         # build an object { "route": path_nodes, "length": length_list, "time": time_list }
-        route_data = {
-            "route": path,
-            "length": self.evaluate_path_lengths(path)
-        }
+        route_data = {"route": path, "length": self.evaluate_path_lengths(path)}
 
         if duration is not None:
             if duration == 0:
@@ -306,7 +304,9 @@ class Topology(ABC):
             else:
                 total_length = sum(route_data["length"])
                 speed = float(total_length) / duration
-            durations = self.evaluate_path_durations_with_uniform_speed(path, speed, route_data["length"])
+            durations = self.evaluate_path_durations_with_uniform_speed(
+                path, speed, route_data["length"]
+            )
         else:
             durations = self.evaluate_path_durations(path)
         route_data["time"] = durations
@@ -356,7 +356,6 @@ class Topology(ABC):
             timestamps.append(current_time)
 
         return localisations, timestamps
-
 
     # get graph information
 

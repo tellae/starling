@@ -10,7 +10,12 @@ import geopandas as gpd
 STARLING_MINIMUM_COLUMNS = ["agent_type", "icon", "agent_id", "mode", "origin_time", "geometry"]
 
 
-def demand_from_eqasim(eqasim_population: gpd.GeoDataFrame, sample_rate: float = None, sample_seed = None, spatial_filter: gpd.GeoDataFrame=None) -> gpd.GeoDataFrame:
+def demand_from_eqasim(
+    eqasim_population: gpd.GeoDataFrame,
+    sample_rate: float = None,
+    sample_seed=None,
+    spatial_filter: gpd.GeoDataFrame = None,
+) -> gpd.GeoDataFrame:
     """
     Generate a Starling population from an Eqasim population.
 
@@ -38,7 +43,9 @@ def demand_from_eqasim(eqasim_population: gpd.GeoDataFrame, sample_rate: float =
 
         # apply filter: only keep elements that have all their points within the spatial filter
         starling_population.set_geometry("OD")
-        starling_population = starling_population.sjoin(spatial_filter, how="inner", predicate="within")
+        starling_population = starling_population.sjoin(
+            spatial_filter, how="inner", predicate="within"
+        )
         starling_population.set_geometry("geometry")
         starling_population.drop(columns=["OD"], inplace=True)
 
@@ -67,8 +74,9 @@ def default_agent_ids(population: pd.DataFrame) -> list:
     return ["u-" + str(i) for i in range(len(population))]
 
 
-
-def add_starling_demand_attributes(population: pd.DataFrame, agent_id_generator: callable = default_agent_ids) -> pd.DataFrame:
+def add_starling_demand_attributes(
+    population: pd.DataFrame, agent_id_generator: callable = default_agent_ids
+) -> pd.DataFrame:
     """
     Add default Starling users attributes: agent type, icon, agent id and mode.
 
@@ -86,4 +94,3 @@ def add_starling_demand_attributes(population: pd.DataFrame, agent_id_generator:
     population["mode"] = "walk"
 
     return population
-

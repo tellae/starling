@@ -26,10 +26,10 @@ from starling_sim.utils.demand import demand_from_eqasim
 parser = argparse.ArgumentParser(
     description="Script for the generation of Starling demand from an Eqasim population",
     epilog="Examples:\n\n"
-           "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet\n"
-           "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet --sample 0.01 --seed 42\n"
-           "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet --spatial-filter data/eqasim/example_zone.geojson\n"
-           "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet -o ./starling_population.geojson\n",
+    "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet\n"
+    "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet --sample 0.01 --seed 42\n"
+    "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet --spatial-filter data/eqasim/example_zone.geojson\n"
+    "python3 -m tools.demand_from_eqasim data/eqasim/example_population.geoparquet -o ./starling_population.geojson\n",
     formatter_class=argparse.RawDescriptionHelpFormatter,
 )
 
@@ -43,7 +43,7 @@ parser.add_argument(
     "--spatial-filter",
     help="file describing a geometry used as spatial filter",
     type=str,
-    metavar="GEOJSON_FILE"
+    metavar="GEOJSON_FILE",
 )
 
 parser.add_argument(
@@ -51,18 +51,16 @@ parser.add_argument(
     "--sample",
     help="Population sampling rate, between 0 and 1",
     type=float,
-    metavar="SAMPLE_RATE"
+    metavar="SAMPLE_RATE",
 )
 
-parser.add_argument(
-    "--seed", help="random seed used for sampling", type=int
-)
+parser.add_argument("--seed", help="random seed used for sampling", type=int)
 
 parser.add_argument(
     "-o",
     "--outfile",
     help="name of the output file. Default is the input filename with '.geojson' extension. "
-         "If only a filename is provided, generate the new file in the same folder than the Eqasim population file",
+    "If only a filename is provided, generate the new file in the same folder than the Eqasim population file",
     type=str,
 )
 
@@ -80,7 +78,9 @@ if __name__ == "__main__":
     assert filepath.endswith(".geojson"), "The generated file must have the '.geojson' extension"
 
     # read Eqasim population
-    assert input_args.eqasim_file.endswith(".geoparquet"), "A file with the '.geoparquet' extension is expected as the first argument"
+    assert input_args.eqasim_file.endswith(
+        ".geoparquet"
+    ), "A file with the '.geoparquet' extension is expected as the first argument"
     population = gpd.read_parquet(input_args.eqasim_file)
     assert population.crs is not None
 

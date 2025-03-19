@@ -479,7 +479,7 @@ class Operator(Agent):
         stop_times = self.service_info.get_stop_times()
 
         # filter the first stop time for each trip
-        stop_times = stop_times.loc[stop_times.groupby('trip_id')["stop_sequence"].idxmin()]
+        stop_times = stop_times.loc[stop_times.groupby("trip_id")["stop_sequence"].idxmin()]
 
         # convert arrival times to seconds
         stop_times["arrival_time_num"] = stop_times["arrival_time"].apply(get_sec)

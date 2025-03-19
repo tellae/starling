@@ -6,11 +6,12 @@ from starling_sim.utils.constants import RUN_SUMMARY_FILENAME
 
 import logging
 
+
 # unused decorator
 def output_file_generator(
-        compressed_mimetype: str = None,
-        content: str = None,
-        subject: str = None,
+    compressed_mimetype: str = None,
+    content: str = None,
+    subject: str = None,
 ):
 
     def decorator(method):
@@ -29,6 +30,7 @@ def output_file_generator(
                 self.new_output_file(filepath, mimetype, compressed_mimetype, content, subject)
 
         return wrapper
+
     return decorator
 
 

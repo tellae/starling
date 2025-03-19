@@ -13,7 +13,7 @@ class TestEventFileOutput:
         traced.trace.eventList = [
             InputEvent(2000, None),
             RouteEvent(5000, {"route": [100, 200], "time": [0, 20], "length": [0, 45]}, "walk"),
-            StopEvent(6000, "OPR", "S1", "trip_id", "stop_id")
+            StopEvent(6000, "OPR", "S1", "trip_id", "stop_id"),
         ]
         return traced
 
