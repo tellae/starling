@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/tellae/starling/compare/v0.11.7...v1.0.0) (2025-03-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* for the need of this feature, the Event sub classes have been modified, and the "trace" file generation has been impacted. Parsing of the "traces" file will probably break.
+
+### Features
+
+* new event file output ([#112](https://github.com/tellae/starling/issues/112)) ([c044000](https://github.com/tellae/starling/commit/c044000699e2383581e13a96d755dc2d1e526d18))
+
 ## [0.11.7](https://github.com/tellae/starling/compare/v0.11.6...v0.11.7) (2025-01-20)
 
 
