@@ -83,7 +83,7 @@ class SimulationEvents:
 
     # event browsing
 
-    def agents_events(self, agent_type: str = None) -> Iterable[Element]:
+    def agents_events(self, agent_type: str = None) -> list:
         """
         Return an iterable over the "agent"-tagged elements.
 
@@ -91,14 +91,16 @@ class SimulationEvents:
 
         :param agent_type: agent type filter
 
-        :return: iterable of "agent" elements
+        :return: list of "agent" elements matching the agent type
         """
-
+        agent_list = []
         for agent in self.agents:
             if agent_type is not None and agent.get("agentType") != agent_type:
                 continue
 
-            yield agent
+            agent_list.append(agent)
+
+        return agent_list
 
     def agent_element(self, agent_id: str) -> Element | None:
         """
