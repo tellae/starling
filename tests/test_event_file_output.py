@@ -1,28 +1,37 @@
+from builtins import isinstance
 from starling_sim.basemodel.output.simulation_events import SimulationEvents
-from starling_sim.basemodel.trace.events import *
-from starling_sim.basemodel.trace.trace import Traced
-
+from xml.etree.ElementTree import Element
 import pytest
 
 
-class TestEventFileOutput:
+class TestSimulationEvents:
 
     @pytest.fixture(scope="class")
-    def traced(self):
-        traced = Traced("user-0.1")
-        traced.trace.eventList = [
-            InputEvent(2000, None),
-            RouteEvent(5000, {"route": [100, 200], "time": [0, 20], "length": [0, 45]}, "walk"),
-            StopEvent(6000, "OPR", "S1", "trip_id", "stop_id"),
-        ]
-        return traced
+    def event_file(self):
+        return paths.model_folder("SB_VS") + "example_nantes/reference/events.xml"
 
-    def test_agent_events(self, traced):
+    @pytest.fixture(scope="class")
+    def instance(self, event_file):
+        return SimulationEvents.from_file(event_file)
 
-        evt_output = SimulationEvents()
+    def test_from_file(self, event_file):
 
-        evt_output.traced_to_xml(traced)
+        res = SimulationEvents.from_file(event_file)
 
-        print(evt_output.tostring())
+        assert isinstance(res, SimulationEvents)
 
-        # evt_output.write()
+    def test_agents_events(self, instance):
+
+        user_events = instance.agents_events(agent_type="user")
+
+        assert len(user_events) == 46
+        assert isinstance(user_events[0], Element)
+        assert user_events[0].get("agentType") == "user"
+
+    def test_agent_element(self, instance):
+
+        agent = instance.agent_element("user-0.1")
+
+        assert isinstance(agent, Element)
+        assert agent.get("id") == "user-0.1"
+
