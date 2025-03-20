@@ -367,6 +367,7 @@ class StopEvent(Event):
 
         self.operator = operator
         self.serviceVehicle = service_vehicle
+        self.position = stop.position
         self.stop = ""
         if stop.type == stop.STOP_POINT:
             self.stop = stop.id
