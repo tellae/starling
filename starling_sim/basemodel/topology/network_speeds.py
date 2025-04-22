@@ -56,7 +56,7 @@ class SpeedByHighwayType(NetworkEdgeSpeed):
     If a list of tags is provided, use the first one.
     If the tag ends with '_links' and is not found in the speed mapper,
     look for the tag value without the '_link' suffix.
-    If the tag is not found in the mapper, use the 'other' value of the mapper.
+    If the tag is still not found in the mapper, use the 'other' value of the mapper.
     """
     def __init__(self, speeds_json_file: str):
         """
