@@ -55,7 +55,7 @@ class Environment:
                 topology = OSMNetwork(
                     mode,
                     network_file=osm_graphs_folder() + network_file,
-                    speed_file=graph_speeds_folder() + speeds_file,
+                    speed_file=graph_speeds_folder() + speeds_file if isinstance(speeds_file, str) else speeds_file,
                     store_paths=store,
                     weight_class=weight_class,
                 )

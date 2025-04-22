@@ -38,7 +38,7 @@
           "description": "Array of two string items, the network file and the speeds file, or null to generate an empty graph",
           "type": ["array", "null"],
           "items": {
-            "type": "string"
+            "type": ["string", "number"]
           },
           "minItems": 2,
           "maxItems": 3

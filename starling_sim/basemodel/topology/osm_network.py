@@ -1,9 +1,11 @@
 import logging
 import osmnx as ox
 import numpy as np
+import pandas as pd
 
 from starling_sim.basemodel.topology.topology import Topology
 from starling_sim.utils.utils import json_load
+from starling_sim.basemodel.topology.network_speeds import ConstantSpeed, SpeedByHighwayType, SpeedByEdge
 
 
 class OSMNetwork(Topology):
@@ -36,7 +38,9 @@ class OSMNetwork(Topology):
         self.speed_file = speed_file
 
         self.graph = graph
-        self.speeds = None
+
+        # subclass of NetworkEdgeSpeed used to evaluate edge speed
+        self.network_speed = None
 
     def init_graph(self):
         if self.graph is None:
@@ -60,7 +64,19 @@ class OSMNetwork(Topology):
                     self.mode, self.speed_file
                 )
             )
-            self.speeds = json_load(self.speed_file)
+            network_speed = None
+            if isinstance(self.speed_file, int) or isinstance(self.speed_file, float):
+                network_speed = ConstantSpeed(self.speed_file)
+            elif isinstance(self.speed_file, str):
+                if self.speed_file.endswith(".json"):
+                    network_speed = SpeedByHighwayType(self.speed_file)
+                elif self.speed_file.endswith(".csv"):
+                    network_speed = SpeedByEdge(self.speed_file)
+
+            if network_speed is None:
+                raise ValueError(f"Unsupported parameter type/format for network speed: {self.speed_file}")
+
+            self.network_speed = network_speed
 
     def add_time_and_length(self, u, v, d):
         """
@@ -74,20 +90,13 @@ class OSMNetwork(Topology):
         :param d:
         """
 
-        if isinstance(d["highway"], list):
-            d["highway"] = d["highway"][0]
+        # evaluate edge speed (in km/h)
+        speed = self.network_speed(u, v, d)
 
-        # differentiate speeds among the link types
-        if d["highway"] in self.speeds:
-            speed = self.speeds[d["highway"]]["speed"]
-        elif d["highway"].endswith("_link") and d["highway"][:-5] in self.speeds:
-            speed = self.speeds[d["highway"][:-5]]["speed"]
-        else:
-            speed = self.speeds["other"]["speed"]
-
+        # store speed
         d["speed"] = speed
 
-        # round the length values
+        # round the length value
         d[self.LENGTH_ATTRIBUTE] = round(d[self.LENGTH_ATTRIBUTE])
 
         # time is valued in seconds

@@ -22,7 +22,6 @@ class EmptyNetwork(Topology):
         super().__init__(transport_mode, weight_class=weight_class, store_paths=store_paths)
 
         self.graph = None
-        self.speeds = None
 
     def init_graph(self):
         # initialise an empty graph object
