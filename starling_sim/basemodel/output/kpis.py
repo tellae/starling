@@ -268,7 +268,7 @@ class MoveKPI(KPI):
         super().__init__(**kwargs)
 
     def _indicators_setup(self, simulation_model):
-        self.modes = list(simulation_model.environment.topologies.keys())
+        self.modes = simulation_model.environment.modes
 
     def _init_keys(self):
         keys = []

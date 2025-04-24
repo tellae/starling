@@ -594,7 +594,7 @@ class DynamicInput(Traced):
             input_value = None
 
         # get the list of topologies and the global dict of modes
-        topologies = list(self.sim.environment.topologies.keys())
+        topologies = self.sim.environment.modes
         agent_type_modes = self.sim.modes
 
         # get the keyword to replace
