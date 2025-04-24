@@ -35,13 +35,43 @@
       "description": "Files for initialising the topologies",
       "properties": {
         "additional_properties": {
-          "description": "Array of two string items, the network file and the speeds file, or null to generate an empty graph",
-          "type": ["array", "null"],
-          "items": {
-            "type": ["string", "number"]
-          },
-          "minItems": 2,
-          "maxItems": 3
+          "description": "Object containing network initialisation information, or null to generate an empty graph",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type":  "object",
+              "properties": {
+                "graph": {
+                  "description": "Name of the file containing the network graph describing the topology, stored in the graph folder",
+                  "type": "string"
+                },
+                "speeds": {
+                  "description": "Name of the file containing the network speeds (stored in the speeds folder) or a number describing a constant speed for all network edges",
+                  "type": ["string", "number"]
+                },
+                "weight": {
+                  "description": "Key describing pointing to the class to evaluate the weight on network edges (see topology.py::NETWORK_WEIGHT_CLASSES)",
+                  "type": "string"
+                },
+                "network_class": {
+                  "description": "Topology subclass used for representing this network",
+                  "type": "string"
+                }
+              },
+              "required": ["graph", "speeds"]
+            },
+            {
+              "description": "[DEPRECATED] Array of two string items, the network file and the speeds file, or null to generate an empty graph",
+              "type": "array",
+              "items": {
+                "type": ["string", "number"]
+              },
+              "minItems": 2,
+              "maxItems": 3
+            }
+          ]
         }
       },
       "required": ["walk"]

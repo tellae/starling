@@ -13,7 +13,7 @@ class Environment:
     Describes an environment in which the simulation will take place
     """
 
-    def __init__(self, scenario, network="osm"):
+    def __init__(self, scenario):
         """
         Initialization of the environment, without import of data structures.
 
@@ -21,49 +21,20 @@ class Environment:
         """
 
         self.sim = None
-        self.topologies = {}
-
-        # get the topologies dict
-        topologies_dict = scenario["topologies"]
 
         # get the 'store_paths' parameter
         if "store_paths" in scenario:
-            store_paths = scenario["store_paths"]
+            self.store_paths = scenario["store_paths"]
         else:
-            store_paths = False
+            self.store_paths = False
 
-        weight_class = None
+        self.topologies = dict()
 
-        for mode, info in topologies_dict.items():
-            # see if paths of this topology should be stored
-            if isinstance(store_paths, dict):
-                if mode not in store_paths:
-                    raise ValueError("Missing topology in parameter 'store_paths'")
-                else:
-                    store = store_paths[mode]
-            else:
-                store = store_paths
+        # fill the topologies dict
+        topologies_info = scenario["topologies"]
 
-            if info is None:
-                topology = EmptyNetwork(mode, store_paths=store)
-            # create a topology object according to the given network type
-            elif network == "osm":
-                network_file = info[0]
-                speeds_file = info[1]
-                if len(info) == 3:
-                    weight_class = info[2]
-                topology = OSMNetwork(
-                    mode,
-                    network_file=osm_graphs_folder() + network_file,
-                    speed_file=graph_speeds_folder() + speeds_file if isinstance(speeds_file, str) else speeds_file,
-                    store_paths=store,
-                    weight_class=weight_class,
-                )
-            else:
-                logging.error("Unknown network type {}".format(network))
-                continue
-
-            self.topologies[mode] = topology
+        for mode, info in topologies_info.items():
+            self._add_topology(mode, info)
 
     def setup(self, simulation_model):
         """
@@ -78,6 +49,80 @@ class Environment:
         self.sim = simulation_model
         for topology in self.topologies.values():
             topology.setup()
+
+    def _add_topology(self, mode, info):
+        """
+        Add a new topology to the environment.
+
+        This method adds an instance of a Topology subclass to the self._topologies dict.
+
+        :param mode: name of the mode
+        :param info: topology initialisation info
+        """
+
+        # see if paths of this topology should be stored
+        if isinstance(self.store_paths, dict):
+            if mode not in self.store_paths:
+                raise ValueError("Missing topology in parameter 'store_paths'")
+            else:
+                store = self.store_paths[mode]
+        else:
+            store = self.store_paths
+
+        weight_class = None
+
+        if info is None:
+            topology = EmptyNetwork(mode, store_paths=store)
+        else:
+            # fetch init info from parameters
+            if isinstance(info, dict):
+                network_info = info["graph"]
+                speeds_info = info["speeds"]
+                weight_class = info.get("weight", None)
+                network_class = info.get("network_class", "OSMNetwork")
+            elif isinstance(info, list):  # array specification is deprecated
+                network_info = info[0]
+                speeds_info = info[1]
+                if len(info) == 3:
+                    weight_class = info[2]
+                network_class = "OSMNetwork"
+            else:
+                raise ValueError(f"Unsupported type for '{mode}' topology info: {type(info)}")
+
+            # create the Topology instance
+            topology = self._create_topology_instance(mode, network_class, network_info, speeds_info, weight_class, store)
+
+        # add the topology to the topologies dict
+        self.topologies[mode] = topology
+
+    def _create_topology_instance(mode, network_class, network_info, speeds_info, weight_class, store_paths):
+        """
+        Create a new topology instance from the given information.
+
+        Create and return an instance of a Topology subclass describing a mode network.
+
+        :param mode: name of the mode
+        :param network_class: Topology subclass used
+        :param network_info: data used for graph setup
+        :param speeds_info: data used for speeds setup
+        :param weight_class: weight class used to define edge weights
+        :param store_paths: whether to store paths or not
+
+        :return: instance of a Topology subclass
+        """
+        if network_class == "OSMNetwork":
+            topology = OSMNetwork(
+                mode,
+                network_file=osm_graphs_folder() + network_info,
+                speed_file=graph_speeds_folder() + speeds_info if isinstance(speeds_info, str) else speeds_info,
+                store_paths=store_paths,
+                weight_class=weight_class,
+            )
+        else:
+            raise ValueError("Unknown network type {}".format(network_class))
+
+        return topology
+    _create_topology_instance = staticmethod(_create_topology_instance)
 
     # def periodic_update_(self, period):
     #     """
