@@ -9,9 +9,18 @@
     "events_output": true,
     "dynamic_input_file": "users_nantes.geojson",
     "init_input_file": ["operator.geojson", "operated_stations_nantes.geojson"],
-    "topologies": {
-        "walk": ["SGwalk_Nantes.graphml.bz2", "speeds_walk.json"],
-        "bike": ["SGbike_Nantes.graphml.bz2", "speeds_bike.json"],
-        "drive": ["SGdrive_Nantes.graphml.bz2", "speeds_drive.json"]
+        "topologies": {
+        "walk": {
+            "graph": "SGwalk_Nantes.graphml.bz2",
+            "speeds": "speeds_walk.json"
+        },
+        "bike": {
+            "graph": "SGbike_Nantes.graphml.bz2",
+            "speeds": "speeds_bike.json"
+        },
+        "drive" : {
+            "graph": "SGdrive_Nantes.graphml.bz2",
+            "speeds": "speeds_drive.json"
+        }
     }
 }
