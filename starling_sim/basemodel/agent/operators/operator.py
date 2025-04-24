@@ -410,7 +410,7 @@ class Operator(Agent):
 
             # infer depot position according to service modes
             if self.mode is None:
-                depot_modes = list(self.sim.environment.topologies.values())
+                depot_modes = self.sim.environment.modes
             else:
                 depot_modes = list(self.mode.values())
             position = self.sim.environment.nearest_node_in_modes(

@@ -324,7 +324,7 @@ class PalZhangGCH(Algorithm):
                 continue
 
             # compute travel time to other stations
-            travel_time[station.id] = self.sim.environment.topologies[
+            travel_time[station.id] = self.sim.environment[
                 self.vehicle_mode
             ].shortest_path_length(current_station.position, station.position, None)
 
@@ -365,7 +365,7 @@ class PalZhangGCH(Algorithm):
                 origin, self.operator.stations.values(), 1
             )[0]
 
-            travel_time = self.sim.environment.topologies["walk"].shortest_path_length(
+            travel_time = self.sim.environment["walk"].shortest_path_length(
                 origin, origin_station.position, None
             )
             origin_station_time = origin_time + travel_time
@@ -376,7 +376,7 @@ class PalZhangGCH(Algorithm):
                 destination, self.operator.stations.values(), 1
             )[0]
 
-            travel_time = self.sim.environment.topologies[
+            travel_time = self.sim.environment[
                 self.operator.mode["fleet"]
             ].shortest_path_length(origin_station.position, destination_station.position, None)
 

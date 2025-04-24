@@ -72,9 +72,6 @@ class GeojsonOutput(ABC):
         # simulation model from which information is extracted
         self.sim = None
 
-        # dict of the simulation topologies
-        self.graphs = None
-
         # construction of the output structure as a FeatureCollection
 
         # dict giving the information factories for each agent type
@@ -109,7 +106,6 @@ class GeojsonOutput(ABC):
         """
 
         self.sim = simulation_model
-        self.graphs = simulation_model.environment.topologies
         self.features = []
         self.filename = filename
         self.folder = folder

@@ -24,17 +24,27 @@ class Environment:
 
         # get the 'store_paths' parameter
         if "store_paths" in scenario:
-            self.store_paths = scenario["store_paths"]
+            self._store_paths = scenario["store_paths"]
         else:
-            self.store_paths = False
+            self._store_paths = False
 
-        self.topologies = dict()
+        self._topologies = dict()
 
         # fill the topologies dict
         topologies_info = scenario["topologies"]
 
         for mode, info in topologies_info.items():
             self._add_topology(mode, info)
+
+    def __getitem__(self, item):
+        return self._topologies[item]
+
+    @property
+    def modes(self) -> list:
+        """
+        List of modes of the environment
+        """
+        return list(self._topologies.keys())
 
     def setup(self, simulation_model):
         """
@@ -47,7 +57,7 @@ class Environment:
         """
 
         self.sim = simulation_model
-        for topology in self.topologies.values():
+        for topology in self._topologies.values():
             topology.setup()
 
     def _add_topology(self, mode, info):
@@ -61,13 +71,13 @@ class Environment:
         """
 
         # see if paths of this topology should be stored
-        if isinstance(self.store_paths, dict):
-            if mode not in self.store_paths:
+        if isinstance(self._store_paths, dict):
+            if mode not in self._store_paths:
                 raise ValueError("Missing topology in parameter 'store_paths'")
             else:
-                store = self.store_paths[mode]
+                store = self._store_paths[mode]
         else:
-            store = self.store_paths
+            store = self._store_paths
 
         weight_class = None
 
@@ -93,7 +103,7 @@ class Environment:
             topology = self._create_topology_instance(mode, network_class, network_info, speeds_info, weight_class, store)
 
         # add the topology to the topologies dict
-        self.topologies[mode] = topology
+        self._topologies[mode] = topology
 
     def _create_topology_instance(mode, network_class, network_info, speeds_info, weight_class, store_paths):
         """
@@ -167,7 +177,7 @@ class Environment:
         :return: route_data={"route": position_list, "length": length_list, "time": time_list}
         """
 
-        topology = self.topologies[mode]
+        topology = self._topologies[mode]
 
         time = None
         if route is None:
@@ -224,10 +234,10 @@ class Environment:
 
     def get_localisation(self, node, mode=None):
         if mode is not None:
-            return self.topologies[mode].position_localisation(node)
+            return self[mode].position_localisation(node)
         else:
             agent_localisation = None
-            for topology in self.topologies.values():
+            for topology in self._topologies.values():
                 agent_localisation = None
                 try:
                     return topology.position_localisation(node)
@@ -243,7 +253,7 @@ class Environment:
             logging.warning("No mode provided for network distance computation")
             return None
         else:
-            path, duration, _ = self.topologies[mode].dijkstra_shortest_path_and_length(
+            path, duration, _ = self[mode].dijkstra_shortest_path_and_length(
                 source, target, parameters
             )
             if return_path:
@@ -434,7 +444,7 @@ class Environment:
 
         for node in intersection_set:
             # get the node's localisation
-            node_localisation = self.topologies[modes[0]].position_localisation(node)
+            node_localisation = self[modes[0]].position_localisation(node)
 
             # compute euclidean distance
             dist = distance.great_circle(localisation, node_localisation)
@@ -464,16 +474,16 @@ class Environment:
         """
 
         if isinstance(modes, list):
-            base_graph = self.topologies[modes[0]].graph
+            base_graph = self[modes[0]].graph
             target_graph = base_graph.copy()
 
             for mode in modes[1:]:
-                intersect_graph = self.topologies[mode].graph
+                intersect_graph = self[mode].graph
 
                 target_graph.remove_nodes_from(n for n in base_graph if n not in intersect_graph)
 
         else:
-            target_graph = self.topologies[modes].graph
+            target_graph = self[modes].graph
 
         # if there is no candidate nodes, the nearest node is None
         if len(target_graph.nodes) == 0:
@@ -501,11 +511,11 @@ class Environment:
         """
 
         # initialize the set of common nodes with the first topology nodes
-        intersection_set = set(self.topologies[modes[0]].graph.nodes)
+        intersection_set = set(self[modes[0]].graph.nodes)
 
         # realize the intersection with other topologies
         for mode in modes[1:]:
-            intersection_set = intersection_set & set(self.topologies[mode].graph.nodes)
+            intersection_set = intersection_set & set(self[mode].graph.nodes)
 
         return intersection_set
 
@@ -567,7 +577,7 @@ class Environment:
         """
 
         for mode in modes:
-            topology = self.topologies[mode]
+            topology = self[mode]
 
             if node_id in topology.graph.nodes:
                 # logging.warning("Adding node already in graph {}".format(node_id))

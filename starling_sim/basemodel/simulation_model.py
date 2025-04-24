@@ -251,8 +251,8 @@ class SimulationModel:
         self.scenario.set_stat("execution_time", duration)
 
         shortest_path_count = 0
-        for topology in self.environment.topologies.values():
-            shortest_path_count += topology.shortest_path_count
+        for mode in self.environment.modes:
+            shortest_path_count += self.environment[mode].shortest_path_count
         self.scenario.set_stat("shortest_paths", shortest_path_count)
 
     def generate_output(self):
