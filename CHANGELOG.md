@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/tellae/starling/compare/v1.0.1...v1.1.0) (2025-04-28)
+
+
+### Features
+
+* edge speeds improvements ([#120](https://github.com/tellae/starling/issues/120)) ([cd2fc88](https://github.com/tellae/starling/commit/cd2fc88211f8bcaeb262677689db7b581ed64bc5))
+
+
+### Bug Fixes
+
+* add stop position to StopEvent attributes ([#117](https://github.com/tellae/starling/issues/117)) ([9b7d249](https://github.com/tellae/starling/commit/9b7d2498fdc4c1501537dfdce896e3fbfb8f15f8))
+* error from path store initialisation ([#121](https://github.com/tellae/starling/issues/121)) ([8e41963](https://github.com/tellae/starling/commit/8e41963e7a5eb3a66355f7185cf7f85d74597601))
+
 ## [1.0.1](https://github.com/tellae/starling/compare/v1.0.0...v1.0.1) (2025-03-19)
 
 
