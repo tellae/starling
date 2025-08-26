@@ -79,12 +79,6 @@ def configure_logger(level=ALGO_LEVEL):
     # enable starling logs
     logger.enable("starling_sim")
 
-    # add a log level for agents
-    logger.level(AGENT_LEVEL, no=15, color="<blue>", icon="🐍")
-
-    # add a log level for algorithms
-    logger.level(ALGO_LEVEL, no=13, color="<cyan>", icon="🐍")
-
     # remove default sink
     logger.remove()
 
