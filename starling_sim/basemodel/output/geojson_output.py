@@ -19,6 +19,7 @@ from starling_sim.utils.utils import (
 from starling_sim.utils.config import config
 
 from abc import ABC
+from loguru import logger
 
 # list of supported icons for the geojson format
 ICON_LIST = [
@@ -307,10 +308,8 @@ def new_geojson_output():
     elif geojson_version == 1:
         geojson_output = GeojsonOutput1()
     else:
-        logging.warning(
-            "Unknown geojson format version {}. Give only the main version number.".format(
-                geojson_version
-            )
+        logger.warning(
+            f"Unknown geojson format version {geojson_version}. Give only the main version number."
         )
         geojson_output = None
 

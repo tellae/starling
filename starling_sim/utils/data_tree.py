@@ -3,9 +3,9 @@ This module contains functions for the creation of the data folder tree and
 the import of example scenarios from Tellae's Google Drive.
 """
 
-import logging
 import os
 import subprocess
+from loguru import logger
 
 from starling_sim.utils import paths
 from starling_sim.utils.utils import create_if_not_exists
@@ -20,33 +20,33 @@ def create_data_tree():
     Create the data tree according to the paths stored in paths.py.
     """
 
-    logging.info("Creating data tree as described in simulator_sim.utils.paths\n")
+    logger.info("Creating data tree as described in simulator_sim.utils.paths\n")
 
     # data folder
-    logging.info("Creating folder {}".format(paths.data_folder()))
+    logger.info("Creating folder {}".format(paths.data_folder()))
     create_if_not_exists(paths.data_folder())
 
-    logging.info("Creating folder {}".format(paths.common_inputs_folder()))
+    logger.info("Creating folder {}".format(paths.common_inputs_folder()))
     create_if_not_exists(paths.common_inputs_folder())
 
     # environment folder
-    logging.info("Creating folder {}".format(paths.environment_folder()))
+    logger.info("Creating folder {}".format(paths.environment_folder()))
     create_if_not_exists(paths.environment_folder())
 
     # OSM graphs folder
-    logging.info("Creating folder {}".format(paths.osm_graphs_folder()))
+    logger.info("Creating folder {}".format(paths.osm_graphs_folder()))
     create_if_not_exists(paths.osm_graphs_folder())
 
     # graph speeds folder
-    logging.info("Creating folder {}".format(paths.graph_speeds_folder()))
+    logger.info("Creating folder {}".format(paths.graph_speeds_folder()))
     create_if_not_exists(paths.graph_speeds_folder())
 
     # GTFS feeds folder
-    logging.info("Creating folder {}".format(paths.gtfs_feeds_folder()))
+    logger.info("Creating folder {}".format(paths.gtfs_feeds_folder()))
     create_if_not_exists(paths.gtfs_feeds_folder())
 
     # models folder
-    logging.info("Creating folder {}".format(paths.models_folder()))
+    logger.info("Creating folder {}".format(paths.models_folder()))
     create_if_not_exists(paths.models_folder())
 
 
@@ -76,7 +76,7 @@ def import_examples_from_test_data(test_data_folder):
     :param test_data_folder: data folder to copy
     """
 
-    logging.info("Copying contents of {}".format(test_data_folder))
+    logger.info("Copying contents of {}".format(test_data_folder))
 
     list_dir = os.listdir(test_data_folder)
 

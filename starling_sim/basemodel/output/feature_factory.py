@@ -4,9 +4,7 @@ from starling_sim.utils.utils import (
     new_multi_polygon_feature,
 )
 from starling_sim.basemodel.trace.events import InputEvent, RouteEvent, PositionChangeEvent
-
-import logging
-
+from loguru import logger
 
 def create_point_feature(geojson_output, element, agent_id=None, icon_type=None, agent_type=None):
     point = get_element_point(geojson_output, element)
@@ -90,7 +88,7 @@ def get_element_line_string(geojson_output, element):
                 current_time = event.timestamp
                 timestamps.append(current_time)
             else:
-                logging.warning("InputEvent does not come first in {}'s trace".format(agent.id))
+                logger.warning(f"InputEvent does not come first in {agent.id}'s trace")
 
         # for a route event, add all localisations
         # of the route (origin and dest included)

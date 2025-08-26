@@ -1,4 +1,4 @@
-import logging
+from loguru import logger
 import osmnx as ox
 import numpy as np
 import pandas as pd
@@ -45,24 +45,20 @@ class OSMNetwork(Topology):
     def init_graph(self):
         if self.graph is None:
             if self.network_file is None:
-                logging.error("No network file provided for topology initialisation")
+                logger.error("No network file provided for topology initialisation")
                 raise ValueError("Network file provided is {}".format(self.network_file))
             else:
-                logging.debug(
-                    "Importing OSM graph for mode '{}' from file {}".format(
-                        self.mode, self.network_file
-                    )
+                logger.debug(
+                    f"Importing OSM graph for mode '{self.mode}' from file {self.network_file}"
                 )
                 self.graph = ox.load_graphml(self.network_file)
 
         if self.speed_file is None:
-            logging.error("No speed file provided for topology initialisation")
+            logger.error("No speed file provided for topology initialisation")
             raise ValueError("Speed file provided is {}".format(self.network_file))
         else:
-            logging.debug(
-                "Importing graph speeds for mode '{}' from file {}".format(
-                    self.mode, self.speed_file
-                )
+            logger.debug(
+                f"Importing graph speeds for mode '{self.mode}' from file {self.speed_file}"
             )
             network_speed = None
             if isinstance(self.speed_file, int) or isinstance(self.speed_file, float):

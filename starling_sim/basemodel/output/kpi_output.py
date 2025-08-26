@@ -1,10 +1,9 @@
 from starling_sim.basemodel.output.kpis import KPI
 
-import logging
+from loguru import logger
 import pandas as pd
 import os
-import math
-from datetime import datetime, time, timedelta
+from datetime import datetime, timedelta
 
 
 KEY_TIME_RANGE = "timeRange"
@@ -124,8 +123,8 @@ class KpiOutput:
             )
 
         except KeyError as e:
-            logging.warning(
-                "Could not generate kpi output {}, " "error occurred : {}".format(path, e)
+            logger.warning(
+                f"Could not generate kpi output {path}, error occurred : {e}"
             )
 
     def build_kpi_table(self) -> pd.DataFrame:

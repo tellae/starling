@@ -1,11 +1,11 @@
 import argparse
-import logging
 import os
 import json
+from loguru import logger
 
 from starling_sim.model_simulator import launch_simulation, ModelSimulator
 from starling_sim.utils.data_tree import create_data_tree, import_examples
-from starling_sim.utils.simulation_logging import DEFAULT_LOGGER_LEVEL, setup_logging
+from starling_sim.utils.simulation_logging import configure_logger
 from starling_sim.utils import paths
 from starling_sim.version import __version__
 
@@ -21,8 +21,7 @@ def run_main():
         "-l",
         "--level",
         help="specify the logger level. See simulation_logging.py for more information.",
-        type=int,
-        default=None,
+        default="ALGO",
     )
 
     parser.add_argument(
@@ -74,9 +73,7 @@ def run_main():
     input_args = parser.parse_args()
 
     # setup logging
-    if input_args.level is None:
-        input_args.level = DEFAULT_LOGGER_LEVEL
-    setup_logging(input_args.level)
+    configure_logger(input_args.level)
 
     if input_args.json_schema is not None:
         model_class = ModelSimulator.get_model_class(input_args.json_schema, input_args.package)
@@ -110,5 +107,5 @@ def run_main():
         exit(0)
 
     # launch simulation
-    logging.info("Launching Starling {}\n".format(__version__))
+    logger.info("Launching Starling {}\n".format(__version__))
     launch_simulation(input_args.scenario_path, input_args.package)

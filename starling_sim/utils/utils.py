@@ -4,7 +4,7 @@ This module contains utils for the Starling framework.
 
 import os
 import subprocess
-import logging
+from loguru import logger
 import json
 import geopandas
 import pandas as pd
@@ -25,7 +25,6 @@ from starling_sim.utils.paths import (
     PARAMETERS_FILENAME,
     INPUT_FOLDER_NAME,
 )
-from starling_sim.utils.simulation_logging import BLANK_LOGGER
 
 pd.set_option("display.expand_frame_repr", False)
 
@@ -157,8 +156,7 @@ def gz_decompression(filepath, delete_source=True):
 
     # test if the file ends with .gz
     if not filepath.endswith(".gz"):
-        logging.log(
-            30,
+        logger.warning(
             "File to decompress does not end with '.gz'. Continuing without decompressing the file.",
         )
 
@@ -234,11 +232,8 @@ def validate_against_schema(instance, schema, raise_exception=True):
         if raise_exception:
             raise e
         else:
-            logging.log(
-                30,
-                "JSON Schema validation of :\n\n{}\n\nfailed with message:\n\n {} ".format(
-                    instance, e
-                ),
+            logger.warning(
+                f"JSON Schema validation of :\n\n{instance}\n\nfailed with message:\n\n {e} "
             )
             return False
 
@@ -819,15 +814,13 @@ def import_gtfs_feed(gtfs_filename, transfer_restriction=None, folder=None):
         count = transfer_table.groupby(["stop_A", "stop_B"], as_index=False).agg(["count"])
         counts_not_equal_to_2 = count[count["min_transfer_time"]["count"] != 2]
         if not counts_not_equal_to_2.empty:
-            logging.warning(
-                "Transfer table of {} is not symmetrical (in term of arcs, not transfer times)".format(
-                    gtfs_filename
-                )
+            logger.warning(
+                f"Transfer table of {gtfs_filename} is not symmetrical (in term of arcs, not transfer times)"
             )
         if not is_transitive(feed.transfers) and transfer_restriction is not None:
             feed.transfers = transitively_closed_transfers(feed.transfers, transfer_restriction)
     else:
-        logging.warning("The given GTFS has no transfer table")
+        logger.warning("The given GTFS has no transfer table")
 
     return feed
 
@@ -847,11 +840,9 @@ def transitively_closed_transfers(transfers, restrict_transfer_time):
 
     # restrict original transfers so the final set of transfers isn't too large
     if restrict_transfer_time is not None:
-        logging.info(
+        logger.info(
             "The GTFS transfer table is not transitively closed. "
-            "Transfers are restricted to duration under {} seconds and then made transitive.".format(
-                restrict_transfer_time
-            )
+            f"Transfers are restricted to duration under {restrict_transfer_time} seconds and then made transitive."
         )
         transfers = transfers[transfers["min_transfer_time"] <= restrict_transfer_time]
         return make_transfers_transitively_closed(transfers)
@@ -1039,31 +1030,11 @@ def create_if_not_exists(folder):
         return False
 
 
-# console log
-
-
-def display_horizontal_bar(lvl=20):
-    """
-    Display a horizontal bar in the terminal.
-
-    Try to make it the size of the terminal width.
-
-    :param lvl: log level
-    """
-
-    try:
-        bar_size = os.get_terminal_size().columns
-    except OSError:
-        bar_size = 100
-
-    BLANK_LOGGER.log(lvl, "\u2014" * bar_size)
-
-
 # multiple scenarios
 
 
 def create_sub_scenarios(simulation_scenario):
-    logging.info("Creating sub scenarios of: " + simulation_scenario.name)
+    logger.info(f"Creating sub scenarios of: {simulation_scenario}")
 
     nb_scenarios = simulation_scenario["multiple"]
     scenarios_folder = os.path.join(simulation_scenario.scenario_folder, "scenarios")
@@ -1084,10 +1055,10 @@ def create_sub_scenarios(simulation_scenario):
         scenario_paths.append(sub_scenario_folder)
 
         if os.path.exists(sub_scenario_folder):
-            logging.info("Scenario {} already created".format(sub_scenario_name))
+            logger.info(f"Scenario {sub_scenario_name} already created")
             continue
         else:
-            logging.info("Creating scenario " + sub_scenario_name)
+            logger.info(f"Creating scenario {sub_scenario_name}")
 
         # create sub scenario folders
         create_if_not_exists(sub_scenario_folder)
@@ -1109,6 +1080,6 @@ def create_sub_scenarios(simulation_scenario):
             input_filepath = os.path.join("..", "..", "..", INPUT_FOLDER_NAME, input_file)
             os.symlink(input_filepath, os.path.join(sub_scenario_inputs_folder, input_file))
 
-    logging.info("End of sub scenarios creation\n")
+    logger.info("End of sub scenarios creation\n")
 
     return scenario_paths

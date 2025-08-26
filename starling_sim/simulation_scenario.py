@@ -3,7 +3,7 @@ This module manages the parameters of the simulation
 """
 
 import datetime
-import logging
+from loguru import logger
 import os
 import json
 from copy import deepcopy
@@ -126,12 +126,10 @@ class SimulationScenario:
         """
 
         if item not in self.parameters:
-            logging.error(
-                "Trying to access unknown parameter '"
-                + str(item)
-                + "'. Does it appears in the parameter entry ?"
+            logger.error(
+                f"Trying to access unknown parameter '{str(item)}'. Does it appears in the parameter entry ?"
             )
-            raise KeyError("The parameter '" + str(item) + "' does not exist")
+            raise KeyError(f"The parameter '{str(item)}' does not exist")
 
         return self.parameters[item]
 
@@ -191,6 +189,6 @@ class SimulationScenario:
         stats = self.runSummary["stats"]
 
         if key in stats:
-            logging.warning("Overwriting '{}' scenario statistic".format(key))
+            logger.warning(f"Overwriting '{key}' scenario statistic")
 
         stats[key] = value

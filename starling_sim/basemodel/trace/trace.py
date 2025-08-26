@@ -10,9 +10,11 @@ generated agent at the end of the simulation will output its final
 position in the simulation, and not its origin.
 """
 
-from starling_sim.utils.simulation_logging import TRACED_LOGGER, AGENT_LEVEL
+from starling_sim.utils.simulation_logging import AGENT_LEVEL
 from starling_sim.basemodel.trace.events import LeaveSimulationEvent
 from starling_sim.utils.constants import END_OF_SIM_LEAVE
+
+from loguru import logger
 
 
 class Trace:
@@ -91,7 +93,7 @@ class Traced:
         else:
             extra_params["timestamp"] = "--"
 
-        TRACED_LOGGER.log(lvl, message, extra=extra_params)
+        logger.log(lvl, "[{timestamp}], {id} : {message}", message=message, **extra_params)
 
 
 def trace_simulation_end(simulation_model):

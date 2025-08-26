@@ -68,109 +68,137 @@ These additional loggers may also be used by any module developed around
 Starling to display simulation logs.
 """
 
-import logging
+from loguru import logger
+import sys
+
+AGENT_LEVEL = "AGENT"
+ALGO_LEVEL = "ALGO"
 
 
-#: logging format of the base logger
-BASE_LOGGER_FORMAT = "%(levelname)s :: %(message)s"
+def configure_logger(level=ALGO_LEVEL):
+    # enable starling logs
+    logger.enable("starling_sim")
 
-#: default logging level of the simulations
-DEFAULT_LOGGER_LEVEL = 13
+    # add a log level for agents
+    logger.level(AGENT_LEVEL, no=15, color="<blue>", icon="🐍")
 
-#: additional logging level AGENT for agent activity logs
-AGENT_LEVEL, AGENT_LEVEL_NAME = 15, "AGENT"
+    # add a log level for algorithms
+    logger.level(ALGO_LEVEL, no=13, color="<cyan>", icon="🐍")
 
-#: additional logging level for algorithms logs
-ALGO_LEVEL, ALGO_LEVEL_NAME = 13, "ALGO"
+    # remove default sink
+    logger.remove()
 
+    # add a simple sink
+    logger.add(sys.stderr, format="<level>{level: <8} :: {message}</level>", level=level)
 
-def setup_logging(logger_level):
-    """
-    Setup the logging configuration for the run.
+def add_agent_file_sink(filepath):
+    # add a file sink for agent logs
+    logger.add(filepath, format="[{timestamp}], {id} : {message}", filter="starling_sim.basemodel.agent.agent", level=AGENT_LEVEL)
 
-    :param logger_level: integer describing the logger level
-    """
-
-    # add levels specific to the project
-
-    # new logging level for traced agents
-    logging.addLevelName(AGENT_LEVEL, AGENT_LEVEL_NAME)
-
-    # new logging level for algorithms
-    logging.addLevelName(ALGO_LEVEL, ALGO_LEVEL_NAME)
-
-    # set the base logger level
-    logging.basicConfig(format=BASE_LOGGER_FORMAT, level=logger_level)
-
-
-#: logging format of TRACED_LOGGER
-TRACED_LOGGER_FORMAT = "%(levelname)s :: [%(timestamp)s], %(id)s : %(message)s"
-
-
-def new_traced_logger():
-    """
-    Create and return a logger for the traced agents.
-
-    :return: Logger object from the logging library
-    """
-
-    traced_logger = logging.getLogger("traced_logger")
-    traced_logger.propagate = False
-    formatter = logging.Formatter(TRACED_LOGGER_FORMAT)
-    stream_handler = logging.StreamHandler()
-    stream_handler.setFormatter(formatter)
-    traced_logger.addHandler(stream_handler)
-
-    return traced_logger
-
-
-#: logging format of ALGO_LOGGER
-ALGO_LOGGER_FORMAT = "%(levelname)s :: %(alg_name)s : %(message)s"
-
-
-def new_algo_logger():
-    """
-    Create and return a logger for the simulation algorithms.
-
-    :return: Logger object from the logging library
-    """
-
-    algo_logger = logging.getLogger("algo_logger")
-    algo_logger.propagate = False
-    formatter = logging.Formatter(ALGO_LOGGER_FORMAT)
-    stream_handler = logging.StreamHandler()
-    stream_handler.setFormatter(formatter)
-    algo_logger.addHandler(stream_handler)
-
-    return algo_logger
-
-
-#: logging format of BLANK_LOGGER
-BLANK_LOGGER_FORMAT = "%(message)s"
-
-
-def new_blank_logger():
-    """
-    Create and return a logger without prefix.
-
-    :return: Logger object from the logging library
-    """
-
-    blank_logger = logging.getLogger("blank_logger")
-    blank_logger.propagate = False
-    formatter = logging.Formatter(BLANK_LOGGER_FORMAT)
-    stream_handler = logging.StreamHandler()
-    stream_handler.setFormatter(formatter)
-    blank_logger.addHandler(stream_handler)
-
-    return blank_logger
-
-
-#: Traced objects logger
-TRACED_LOGGER = new_traced_logger()
-
-#: algorithms logger
-ALGO_LOGGER = new_algo_logger()
-
-#: blank logger
-BLANK_LOGGER = new_blank_logger()
+#
+# import logging
+#
+#
+# #: logging format of the base logger
+# BASE_LOGGER_FORMAT = "%(levelname)s :: %(message)s"
+#
+# #: default logging level of the simulations
+# DEFAULT_LOGGER_LEVEL = 13
+#
+# #: additional logging level AGENT for agent activity logs
+# AGENT_LEVEL, AGENT_LEVEL_NAME = 15, "AGENT"
+#
+# #: additional logging level for algorithms logs
+# ALGO_LEVEL, ALGO_LEVEL_NAME = 13, "ALGO"
+#
+#
+# def setup_logging(logger_level):
+#     """
+#     Setup the logging configuration for the run.
+#
+#     :param logger_level: integer describing the logger level
+#     """
+#
+#     # add levels specific to the project
+#
+#     # new logging level for traced agents
+#     logging.addLevelName(AGENT_LEVEL, AGENT_LEVEL_NAME)
+#
+#     # new logging level for algorithms
+#     logging.addLevelName(ALGO_LEVEL, ALGO_LEVEL_NAME)
+#
+#     # set the base logger level
+#     logging.basicConfig(format=BASE_LOGGER_FORMAT, level=logger_level)
+#
+#
+# #: logging format of TRACED_LOGGER
+# TRACED_LOGGER_FORMAT = "%(levelname)s :: [%(timestamp)s], %(id)s : %(message)s"
+#
+#
+# def new_traced_logger():
+#     """
+#     Create and return a logger for the traced agents.
+#
+#     :return: Logger object from the logging library
+#     """
+#
+#     traced_logger = logging.getLogger("traced_logger")
+#     traced_logger.propagate = False
+#     formatter = logging.Formatter(TRACED_LOGGER_FORMAT)
+#     stream_handler = logging.StreamHandler()
+#     stream_handler.setFormatter(formatter)
+#     traced_logger.addHandler(stream_handler)
+#
+#     return traced_logger
+#
+#
+# #: logging format of ALGO_LOGGER
+# ALGO_LOGGER_FORMAT = "%(levelname)s :: %(alg_name)s : %(message)s"
+#
+#
+# def new_algo_logger():
+#     """
+#     Create and return a logger for the simulation algorithms.
+#
+#     :return: Logger object from the logging library
+#     """
+#
+#     algo_logger = logging.getLogger("algo_logger")
+#     algo_logger.propagate = False
+#     formatter = logging.Formatter(ALGO_LOGGER_FORMAT)
+#     stream_handler = logging.StreamHandler()
+#     stream_handler.setFormatter(formatter)
+#     algo_logger.addHandler(stream_handler)
+#
+#     return algo_logger
+#
+#
+# #: logging format of BLANK_LOGGER
+# BLANK_LOGGER_FORMAT = "%(message)s"
+#
+#
+# def new_blank_logger():
+#     """
+#     Create and return a logger without prefix.
+#
+#     :return: Logger object from the logging library
+#     """
+#
+#     blank_logger = logging.getLogger("blank_logger")
+#     blank_logger.propagate = False
+#     formatter = logging.Formatter(BLANK_LOGGER_FORMAT)
+#     stream_handler = logging.StreamHandler()
+#     stream_handler.setFormatter(formatter)
+#     blank_logger.addHandler(stream_handler)
+#
+#     return blank_logger
+#
+#
+# #: Traced objects logger
+# TRACED_LOGGER = new_traced_logger()
+#
+# #: algorithms logger
+# ALGO_LOGGER = new_algo_logger()
+#
+# #: blank logger
+# BLANK_LOGGER = new_blank_logger()

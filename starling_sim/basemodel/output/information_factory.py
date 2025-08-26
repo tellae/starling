@@ -5,7 +5,7 @@ from starling_sim.basemodel.agent.requests import Request
 from starling_sim.utils.constants import END_OF_SIM_LEAVE
 
 from abc import ABC
-import logging
+from loguru import logger
 
 
 class InformationFactory(ABC):
@@ -62,8 +62,8 @@ class InformationFactory(ABC):
 
         # log a warning if values and timestamps are of different lengths
         if len(self.values) != len(self.timestamps):
-            logging.warning(
-                "Values and timestamps of information {} have different lengths.".format(self.key)
+            logger.warning(
+                f"Values and timestamps of information {self.key} have different lengths."
             )
             return dict()
 

@@ -1,4 +1,5 @@
-from starling_sim.utils.simulation_logging import ALGO_LOGGER, ALGO_LEVEL
+from starling_sim.utils.simulation_logging import ALGO_LEVEL
+from loguru import logger
 
 
 class Algorithm:
@@ -40,10 +41,8 @@ class Algorithm:
         :param lvl: level value, default is ALGO_LEVEL
         """
 
-        if self.verbose or lvl >= 30:
-            extra_params = {"alg_name": self.NAME}
-
-            ALGO_LOGGER.log(lvl, message, extra=extra_params)
+        if self.verbose or logger.level(lvl).no >= 30:
+            logger.log(lvl, f"{self.NAME} : {message}")
 
     def __str__(self):
         """
