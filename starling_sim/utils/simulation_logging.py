@@ -3,14 +3,14 @@ Simulation logs offer an insight of the flow of events during the simulation run
 They are displayed in chronological order and contain various information such as simulation setup,
 output generation or agent activity.
 
-Simulation logs are managed with the Python
-`logging <https://docs.python.org/3.6/library/logging>`_ library.
+Simulation logs are managed using the
+`loguru <https://loguru.readthedocs.io/en/stable/index.html>`_ library.
 
 *************************
 Simulation logging levels
 *************************
 
-In addition to the base levels of *logging*, we introduce two new ones:
+In addition to the base levels of `loguru`, we introduce two new ones:
 
 - An agent level that displays the agents' activities
 - An algorithm level that displays the algorithms' steps
@@ -30,6 +30,8 @@ This results in the following available levels:
      - 40
    * - WARNING
      - 30
+   * - SUCCESS
+     - 25
    * - INFO
      - 20
    * - AGENT
@@ -38,34 +40,26 @@ This results in the following available levels:
      - 13
    * - DEBUG
      - 10
+   * - TRACE
+     - 5
+
+You can use these custom levels like this:
+
+.. code-block:: python
+
+    from loguru import logger
+    from starling_sim.utils.simulation_logging import ALGO_LEVEL
+
+    logger.log(ALGO_LEVEL, "my_message")
+
 
 The default logging level is 13.
-
 To run a simulation with a different logging level, you can use the ``-l`` (or ``--level``) option of main.py.
 For instance:
 
 .. code-block:: bash
 
-    python3 main.py data/models/SB_VS/example_nantes/ -l 20
-
-******************
-Simulation loggers
-******************
-
-We also create specific loggers for the :class:`~starling_sim.basemodel.trace.trace.Traced` and
-:class:`~starling_sim.basemodel.algorithms.algorithm.Algorithm` classes with
-different logging formats, in order to display additional information (such as the simulation time). For instance:
-
-.. code-block:: text
-
-    AGENT :: [50904], S1 : Picked up u-11
-
-In order to display logs, instances of these classes call their
-internal method log_message so the relevant information is fetched
-directly from their attributes and a default level is applied.
-
-These additional loggers may also be used by any module developed around
-Starling to display simulation logs.
+    python3 main.py data/models/SB_VS/example_nantes/ -l INFO
 """
 
 from loguru import logger
@@ -88,111 +82,3 @@ def configure_logger(level=ALGO_LEVEL):
 def add_agent_file_sink(filepath):
     # add a file sink for agent logs
     logger.add(filepath, format="[{timestamp}], {id} : {message}", filter="starling_sim.basemodel.agent.agent", level=AGENT_LEVEL)
-
-#
-# import logging
-#
-#
-# #: logging format of the base logger
-# BASE_LOGGER_FORMAT = "%(levelname)s :: %(message)s"
-#
-# #: default logging level of the simulations
-# DEFAULT_LOGGER_LEVEL = 13
-#
-# #: additional logging level AGENT for agent activity logs
-# AGENT_LEVEL, AGENT_LEVEL_NAME = 15, "AGENT"
-#
-# #: additional logging level for algorithms logs
-# ALGO_LEVEL, ALGO_LEVEL_NAME = 13, "ALGO"
-#
-#
-# def setup_logging(logger_level):
-#     """
-#     Setup the logging configuration for the run.
-#
-#     :param logger_level: integer describing the logger level
-#     """
-#
-#     # add levels specific to the project
-#
-#     # new logging level for traced agents
-#     logging.addLevelName(AGENT_LEVEL, AGENT_LEVEL_NAME)
-#
-#     # new logging level for algorithms
-#     logging.addLevelName(ALGO_LEVEL, ALGO_LEVEL_NAME)
-#
-#     # set the base logger level
-#     logging.basicConfig(format=BASE_LOGGER_FORMAT, level=logger_level)
-#
-#
-# #: logging format of TRACED_LOGGER
-# TRACED_LOGGER_FORMAT = "%(levelname)s :: [%(timestamp)s], %(id)s : %(message)s"
-#
-#
-# def new_traced_logger():
-#     """
-#     Create and return a logger for the traced agents.
-#
-#     :return: Logger object from the logging library
-#     """
-#
-#     traced_logger = logging.getLogger("traced_logger")
-#     traced_logger.propagate = False
-#     formatter = logging.Formatter(TRACED_LOGGER_FORMAT)
-#     stream_handler = logging.StreamHandler()
-#     stream_handler.setFormatter(formatter)
-#     traced_logger.addHandler(stream_handler)
-#
-#     return traced_logger
-#
-#
-# #: logging format of ALGO_LOGGER
-# ALGO_LOGGER_FORMAT = "%(levelname)s :: %(alg_name)s : %(message)s"
-#
-#
-# def new_algo_logger():
-#     """
-#     Create and return a logger for the simulation algorithms.
-#
-#     :return: Logger object from the logging library
-#     """
-#
-#     algo_logger = logging.getLogger("algo_logger")
-#     algo_logger.propagate = False
-#     formatter = logging.Formatter(ALGO_LOGGER_FORMAT)
-#     stream_handler = logging.StreamHandler()
-#     stream_handler.setFormatter(formatter)
-#     algo_logger.addHandler(stream_handler)
-#
-#     return algo_logger
-#
-#
-# #: logging format of BLANK_LOGGER
-# BLANK_LOGGER_FORMAT = "%(message)s"
-#
-#
-# def new_blank_logger():
-#     """
-#     Create and return a logger without prefix.
-#
-#     :return: Logger object from the logging library
-#     """
-#
-#     blank_logger = logging.getLogger("blank_logger")
-#     blank_logger.propagate = False
-#     formatter = logging.Formatter(BLANK_LOGGER_FORMAT)
-#     stream_handler = logging.StreamHandler()
-#     stream_handler.setFormatter(formatter)
-#     blank_logger.addHandler(stream_handler)
-#
-#     return blank_logger
-#
-#
-# #: Traced objects logger
-# TRACED_LOGGER = new_traced_logger()
-#
-# #: algorithms logger
-# ALGO_LOGGER = new_algo_logger()
-#
-# #: blank logger
-# BLANK_LOGGER = new_blank_logger()
