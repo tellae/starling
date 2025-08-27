@@ -1,5 +1,7 @@
 import numpy as np
 from abc import ABC
+from starling_sim.utils.simulation_logging import AGENT_LEVEL
+from loguru import logger
 
 
 class Dispatcher(ABC):
@@ -95,18 +97,18 @@ class Dispatcher(ABC):
     # dispatching loop for punctual algorithms
 
     def dispatching_loop_(self):
-        self.log_message("Dispatching loop not implemented", lvl=40)
+        self.log_message("Dispatching loop not implemented", lvl="ERROR")
         raise NotImplementedError
 
     # method for online dispatch of requests
 
     def online_dispatch(self, request):
-        self.log_message("Online dispatch method not implemented", lvl=40)
+        self.log_message("Online dispatch method not implemented", lvl="ERROR")
         raise NotImplementedError
 
     # logs and trace
 
-    def log_message(self, message, lvl=15):
+    def log_message(self, message, lvl=AGENT_LEVEL):
         """
         Log a message using the operator's dedicated method.
 
@@ -114,7 +116,7 @@ class Dispatcher(ABC):
         :param lvl:
         """
 
-        if self.verb or lvl >= 30:
+        if self.verb or logger.level(lvl).no >= 30:
             # add the name of the dispatcher as a prefix
             message = "{} : {}".format(self.name, message)
 

@@ -1,4 +1,4 @@
-import logging
+from loguru import logger
 
 from starling_sim.basemodel.population.agent_population import AgentPopulation
 
@@ -57,10 +57,8 @@ class DictPopulation(AgentPopulation):
         for population_name in population_names:
             # raise KeyError exception if agent already exists (and then cancel agent add)
             if agent.id in self.population[population_name]:
-                logging.error(
-                    "Agent {} already exists in population {}, cancelled introduction of duplicate".format(
-                        agent.id, population_name
-                    )
+                logger.error(
+                    f"Agent {agent.id} already exists in population {population_name}, cancelled introduction of duplicate"
                 )
                 raise KeyError
 
@@ -74,7 +72,7 @@ class DictPopulation(AgentPopulation):
         """
 
         if item not in self.population:
-            logging.warning("Trying to get unknown population " + item)
+            logger.warning(f"Trying to get unknown population {item}")
             return None
         return self.population[item]
 
@@ -88,5 +86,5 @@ class DictPopulation(AgentPopulation):
         """
 
         if key in self.population:
-            logging.warning("Assigning dict to an existing population " + key)
+            logger.warning(f"Assigning dict to an existing population {key}")
         self.population[key] = value

@@ -5,7 +5,6 @@ from starling_sim.utils.constants import DEFAULT_LEAVE, SIM_ERROR_LEAVE
 
 import traceback
 import copy
-import logging
 
 
 class Agent(Traced):

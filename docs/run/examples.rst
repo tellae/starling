@@ -49,7 +49,7 @@ with the ``-l`` option (see simulation_logging.py for more information):
 
 .. code-block:: bash
 
-    python3 main.py -l 20 data/models/SB_VS/example_nantes/
+    python3 main.py -l INFO data/models/SB_VS/example_nantes/
 
 *******
 Outputs

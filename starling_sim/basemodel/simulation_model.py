@@ -1,5 +1,5 @@
 import random
-import logging
+from loguru import logger
 import numpy
 import time
 
@@ -9,7 +9,7 @@ from starling_sim.basemodel.input.dynamic_input import DynamicInput
 from starling_sim.basemodel.output.output_factory import OutputFactory
 from starling_sim.basemodel.schedule.scheduler import Scheduler
 from starling_sim.basemodel.trace.trace import trace_simulation_end
-from starling_sim.utils.utils import import_gtfs_feed, display_horizontal_bar
+from starling_sim.utils.utils import import_gtfs_feed
 from starling_sim.utils.constants import BASE_LEAVING_CODES
 from starling_sim.utils.config import config
 
@@ -170,13 +170,13 @@ class SimulationModel:
         """
         start = time.time()
 
-        logging.info("Setting up model")
+        logger.info("Setting up model")
         # setup model elements
         self._setup_environment()
         self.setup_gtfs()
 
         duration = round(time.time() - start, 1)
-        logging.info("End of model setup. Elapsed time : {} seconds\n".format(duration))
+        logger.info(f"End of model setup. Elapsed time : {duration} seconds\n")
         self.scenario.set_stat("model_setup_time", duration)
 
     def _setup_scenario_run(self):
@@ -186,8 +186,8 @@ class SimulationModel:
         This method should be called before running a new simulation scenario.
         """
 
-        display_horizontal_bar()
-        logging.info("Setting up run of scenario: {}".format(self.scenario.name))
+        # display_horizontal_bar()
+        logger.info(f"Setting up run of scenario: {self.scenario.name}")
         start = time.time()
         # set the parameters and initialize the random seed
         self.setup_seeds()
@@ -197,28 +197,28 @@ class SimulationModel:
         self._setup_output_factory()
 
         duration = round(time.time() - start, 1)
-        logging.info("End of scenario setup. Elapsed time : {} seconds\n".format(duration))
+        logger.info(f"End of scenario setup. Elapsed time : {duration} seconds\n")
         self.scenario.set_stat("scenario_setup_time", duration)
 
     def _setup_environment(self):
         """
         Set up the simulation environment.
         """
-        logging.debug("Simulation environment setup")
+        logger.debug("Simulation environment setup")
         self.environment.setup(self)
 
     def _setup_dynamic_input(self):
         """
         Set up the simulation dynamic input.
         """
-        logging.debug("Dynamic input setup")
+        logger.debug("Dynamic input setup")
         self.dynamicInput.setup(self)
 
     def _setup_output_factory(self):
         """
         Set up the simulation output factory.
         """
-        logging.debug("Output factory setup")
+        logger.debug("Output factory setup")
         self.outputFactory.setup(self)
 
     def run(self):
@@ -228,7 +228,7 @@ class SimulationModel:
         This method can be extended to run other elements of the model
         """
 
-        logging.info("Starting simulation run")
+        logger.info("Starting simulation run")
 
         start = time.time()
 
@@ -247,7 +247,7 @@ class SimulationModel:
 
         duration = round(time.time() - start, 1)
 
-        logging.info("End of simulation run. Elapsed time : {} seconds\n".format(duration))
+        logger.info(f"End of simulation run. Elapsed time : {duration} seconds\n")
         self.scenario.set_stat("execution_time", duration)
 
         shortest_path_count = 0
@@ -260,7 +260,7 @@ class SimulationModel:
         Generate an output of the current simulation
         """
 
-        logging.info("Generating outputs")
+        logger.info("Generating outputs")
         self.outputFactory.extract_simulation(self)
 
     def add_base_leaving_codes(self):
@@ -282,7 +282,7 @@ class SimulationModel:
 
     def periodic_hour_log(self):
         while True:
-            logging.info("Current simulation time is {}".format(self.scheduler.now()))
+            logger.info(f"Current simulation time is {self.scheduler.now()}")
 
             yield self.scheduler.timeout(3600)
 
@@ -292,7 +292,7 @@ class SimulationModel:
         """
 
         if "gtfs_timetables" in self.scenario:
-            logging.debug("GTFS tables setup")
+            logger.debug("GTFS tables setup")
             # import the gtfs timetable from the zip given in the parameters
             restrict_transfers = config["transfer_restriction"]
             self.gtfs = import_gtfs_feed(self.scenario["gtfs_timetables"], restrict_transfers)

@@ -6,7 +6,7 @@ from starling_sim.simulation_scenario import SimulationScenario
 from starling_sim.utils.paths import model_import_path
 from starling_sim.utils.utils import create_sub_scenarios
 
-import logging
+from loguru import logger
 import time
 import importlib
 
@@ -62,18 +62,16 @@ class ModelSimulator:
         # get the Model class
         model_class = ModelSimulator.get_model_class(simulation_scenario["code"], pkg)
 
-        logging.info(
-            "Initialising simulation model: {} ({})\n".format(
-                model_class.name, simulation_scenario.model
-            )
+        logger.info(
+            f"Initialising simulation model: {model_class.name} ({simulation_scenario.model})\n"
         )
 
         # create a new instance of the simulation model
         try:
             simulation_model = model_class(simulation_scenario)
         except TypeError as e:
-            logging.error(
-                "Instantiation of {} failed with message :\n {}".format(model_class.__name__, e)
+            logger.error(
+                f"Instantiation of {model_class.__name__} failed with message :\n {e}"
             )
             raise e
 
@@ -115,8 +113,8 @@ class ModelSimulator:
             try:
                 model_class = module.Model
             except AttributeError as e:
-                logging.error(
-                    "Cannot find the class Model in {}.models.{}.model".format(pkg, model_code)
+                logger.error(
+                    f"Cannot find the class Model in {pkg}.models.{model_code}.model"
                 )
                 raise e
 
@@ -154,6 +152,4 @@ def launch_simulation(scenario_path, pkg):
     # generate simulation output
     simulator.generate_output()
 
-    logging.info("End of Starling execution\n")
-
-    logging.shutdown()
+    logger.info("End of Starling execution\n")

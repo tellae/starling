@@ -1,4 +1,4 @@
-import logging
+from loguru import logger
 import sys
 import hashlib
 from starling_sim.basemodel.topology.osm_network import OSMNetwork
@@ -250,7 +250,7 @@ class Environment:
     def compute_network_distance(self, source, target, mode, parameters=None, return_path=False):
         # if no mode is given, return None
         if mode is None:
-            logging.warning("No mode provided for network distance computation")
+            logger.warning("No mode provided for network distance computation")
             return None
         else:
             path, duration, _ = self[mode].dijkstra_shortest_path_and_length(
@@ -268,7 +268,7 @@ class Environment:
 
         # geopy would return a distance even if one localisation is None, caution
         if loc1 is None or loc2 is None:
-            logging.warning(
+            logger.warning(
                 "One of the given localisations is None, "
                 "computed euclidean distance will be false"
             )
@@ -325,7 +325,7 @@ class Environment:
                 )
 
             else:
-                logging.warning("Unknown distance type : " + str(distance_type))
+                logger.warning(f"Unknown distance type : {str(distance_type)}")
                 continue
 
             is_too_far = False
@@ -584,7 +584,7 @@ class Environment:
                 # TODO : test if properties are same
                 continue
 
-            logging.debug("Adding node {} to topology {}".format(node_id, mode))
+            logger.debug(f"Adding node {node_id} to topology {mode}")
 
             topology.graph.add_node(node_id, **properties)
 

@@ -4,7 +4,7 @@ from starling_sim.utils.utils import json_pretty_dump, create_file_information
 from starling_sim.utils.config import config
 from starling_sim.utils.constants import RUN_SUMMARY_FILENAME
 
-import logging
+from loguru import logger
 
 
 # unused decorator
@@ -145,10 +145,8 @@ class OutputFactory:
             subject=subject,
         )
 
-        logging.info(
-            "Generated {} output in file {}".format(
-                output_file_information["metadata"]["content"], filepath
-            )
+        logger.info(
+            f"Generated {output_file_information['metadata']['content']} output in file {filepath}"
         )
 
         self.output_files.append(output_file_information)
@@ -164,14 +162,14 @@ class OutputFactory:
             try:
                 self.generate_event_file(simulation_model)
             except Exception as e:
-                logging.warning(self.GENERATION_ERROR_FORMAT.format("events", e))
+                logger.warning(self.GENERATION_ERROR_FORMAT, "events", e)
 
         # traces output
         if simulation_model.scenario["traces_output"]:
             try:
                 self.generate_trace_output(simulation_model)
             except Exception as e:
-                logging.warning(self.GENERATION_ERROR_FORMAT.format("traces", e))
+                logger.warning(self.GENERATION_ERROR_FORMAT, "traces", e)
 
         # kpi output
         if simulation_model.scenario["kpi_output"]:
@@ -183,7 +181,7 @@ class OutputFactory:
             try:
                 self.generate_geojson_output(simulation_model)
             except Exception as e:
-                logging.warning(self.GENERATION_ERROR_FORMAT.format("visualisation", e))
+                logger.warning(self.GENERATION_ERROR_FORMAT, "visualisation", e)
 
         # run summary output
         self.generate_run_summary(simulation_model.scenario)
@@ -234,7 +232,7 @@ class OutputFactory:
             try:
                 kpi_output.write_kpi_table()
             except Exception as e:
-                logging.warning(self.GENERATION_ERROR_FORMAT.format(kpi_output.name + " kpi", e))
+                logger.warning(self.GENERATION_ERROR_FORMAT, kpi_output.name + " kpi", e)
 
     def generate_trace_output(self, simulation_model):
         """

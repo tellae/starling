@@ -4,7 +4,7 @@ It allows the representation of a time flow inside the simulation.
 """
 
 import simpy
-import logging
+from loguru import logger
 from numbers import Integral
 
 
@@ -64,7 +64,7 @@ class Scheduler:
             duration = self.time_limit - self.now()
 
         if not isinstance(duration, Integral) or duration < 0:
-            logging.error("Incorrect waiting duration given to scheduler")
+            logger.error("Incorrect waiting duration given to scheduler")
             raise ValueError(duration)
 
         return self.env.timeout(duration)
