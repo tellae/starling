@@ -579,7 +579,7 @@ def stop_table_from_gtfs(
     if active_stops_only:
         stop_times = gtfs_feed.get_stop_times()
         stop_ids = stop_times.drop_duplicates("stop_id")
-        gtfs_stops = pd.merge(gtfs_stops, stop_ids)[gtfs_stops.columns]
+        gtfs_stops = gtfs_stops[gtfs_stops["stop_id"].isin(stop_ids["stop_id"])]
 
     if routes is not None:
         gtfs_stops = gtfs_feed.get_stops(route_ids=routes)
