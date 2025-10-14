@@ -194,11 +194,11 @@ class Environment:
         length_remainder = 0
         times = [0]
         time_remainder = 0
-
+        max_sequence = max(shape_table["sequence"])
         # complete it with the shape data
         for index, row in shape_table.iterrows():
             # append localisation to route
-            if row["sequence"] == len(shape_table) + 1:
+            if row["sequence"] == max_sequence:
                 route.append(operator.stopPoints[to_stop].position)
             else:
                 route.append((row["lat"], row["lon"]))
