@@ -77,4 +77,9 @@ setuptools.setup(
     python_requires=">=3.9",
     install_requires=INSTALL_REQUIRES,
     include_package_data=True,
+    entry_points = {
+        'console_scripts': [
+            'starling-sim = starling_sim.cli:run_cli',
+        ]
+    }
 )
