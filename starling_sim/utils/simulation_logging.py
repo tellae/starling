@@ -54,12 +54,12 @@ You can use these custom levels like this:
 
 
 The default logging level is 13.
-To run a simulation with a different logging level, you can use the ``-l`` (or ``--level``) option of main.py.
+To run a simulation with a different logging level, you can use the ``-l`` (or ``--level``) option of the command line interface.
 For instance:
 
 .. code-block:: bash
 
-    python3 main.py data/models/SB_VS/example_nantes/ -l INFO
+    starling-sim -l INFO run data/models/SB_VS/example_nantes/
 """
 
 from loguru import logger

@@ -106,7 +106,7 @@ class ModelSimulator:
                 raise ModuleNotFoundError(
                     "Cannot find the module '{}'.\n"
                     "    Maybe there is an error in the model code ? "
-                    "Or maybe you forgot to use the -p option of main.py ?".format(model_path)
+                    "Or maybe you forgot to use the -p option of the starling-sim command ?".format(model_path)
                 )
 
             # try to get the Model class from the model module

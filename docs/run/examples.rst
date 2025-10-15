@@ -23,11 +23,11 @@ This also creates the data folder tree if it does not exist.
 The operation overwrites all the existing files, so if you have modified example scenarios,
 be sure to rename them.
 
-Run main.py with the ``-e`` (or ``--examples``) option to import the example scenarios.
+Run `starling-sim data` with the ``-e`` (or ``--examples``) option to import the example scenarios.
 
 .. code-block:: bash
 
-    python3 main.py -e
+    starling-sim data --examples
 
 You will find the scenarios in the folders of their
 respective models, in :data:`~starling_sim.utils.paths.data_folder`.
@@ -36,12 +36,12 @@ respective models, in :data:`~starling_sim.utils.paths.data_folder`.
 Run
 ***
 
-Example scenarios can be run like any other scenario by running main.py
+Example scenarios can be run like any other scenario by running `starling-sim run`
 with the path to the scenario folder. For instance:
 
 .. code-block:: bash
 
-    python3 main.py data/models/SB_VS/example_nantes/
+    starling-sim run data/models/SB_VS/example_nantes/
 
 You will then see the simulation logs display in the console, until the run finishes.
 If you find the logs too verbose, you can set the logging level to a higher level
@@ -49,7 +49,7 @@ with the ``-l`` option (see simulation_logging.py for more information):
 
 .. code-block:: bash
 
-    python3 main.py -l INFO data/models/SB_VS/example_nantes/
+    starling-sim -l INFO run data/models/SB_VS/example_nantes/
 
 *******
 Outputs

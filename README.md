@@ -96,18 +96,18 @@ You can now build the data structure and download example scenarios by
 running the following command in your environment
 
 ```bash
-python3 main.py -e
+starling-sim data --examples
 ```
 
 ### Usage
 
 Once the data is prepared, a scenario can be run from the project
-root by running main.py with the path to the scenario folder.
+root by running the `starling-sim` command with the path to the scenario folder.
 
 Run one of the example scenarios, for instance:
 
 ```bash
-python3 main.py data/models/SB_VS/example_nantes/
+starling-sim run data/models/SB_VS/example_nantes/
 ```
 
 You will see the progression of the simulation with the logs that
