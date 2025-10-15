@@ -10,10 +10,10 @@ This CLI should be called via the command line exposed by the Starling package.
 
 import argparse
 import json
-import logging
 import os
+from loguru import logger
 from starling_sim.version import __version__
-from starling_sim.utils.simulation_logging import DEFAULT_LOGGER_LEVEL, setup_logging
+from starling_sim.utils.simulation_logging import configure_logger
 from starling_sim.model_simulator import launch_simulation, ModelSimulator
 from starling_sim.utils import paths
 from starling_sim.utils.data_tree import create_data_tree, import_examples
@@ -33,8 +33,8 @@ parser.add_argument(
     "-l",
     "--level",
     help="specify the logger level. See simulation_logging.py for more information",
-    type=int,
-    default=None,
+    type=str,
+    default="ALGO",
 )
 
 parser.add_argument("--data-folder", help="specify and alternative data folder", default=None)
@@ -121,9 +121,7 @@ def run_cli():
     input_args = parser.parse_args()
 
     # setup logging
-    if input_args.level is None:
-        input_args.level = DEFAULT_LOGGER_LEVEL
-    setup_logging(input_args.level)
+    configure_logger(input_args.level)
 
     # setup data folder
     if input_args.data_folder is not None:
@@ -135,7 +133,7 @@ def run_cli():
     # act depending on action
     if input_args.action == "run":
         # launch simulation
-        logging.info("Launching Starling {}\n".format(__version__))
+        logger.info("Launching Starling {}\n".format(__version__))
         launch_simulation(input_args.scenario_path, input_args.package)
 
     elif input_args.action == "schema":
