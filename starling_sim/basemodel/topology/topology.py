@@ -333,7 +333,10 @@ class Topology(ABC):
         :return: tuple of lists, localisations and timestamps
         """
 
+        print(route_event)
+
         route = route_event.data["route"]
+        print(route)
         durations = route_event.data["time"]
 
         current_time = route_event.timestamp
@@ -351,7 +354,7 @@ class Topology(ABC):
 
             # append the localisation and time data
             if isinstance(route[i], tuple):
-                localisations.append(route[i])
+                localisations.append([route[i][1], route[i][0]])
             else:
                 localisations.append(self.position_localisation(route[i]))
 

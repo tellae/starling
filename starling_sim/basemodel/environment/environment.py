@@ -195,6 +195,7 @@ class Environment:
         times = [0]
         time_remainder = 0
         max_sequence = max(shape_table["sequence"])
+        print(shape_table)
         # complete it with the shape data
         for index, row in shape_table.iterrows():
             # append localisation to route
@@ -209,7 +210,7 @@ class Environment:
             lengths.append(int(length))
 
             # append duration to times
-            if row["sequence"] == len(shape_table) + 1:
+            if row["sequence"] == max_sequence:
                 time = duration - sum(times)
             else:
                 time = duration * row["distance_proportion"] + time_remainder
