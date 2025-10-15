@@ -1,0 +1,158 @@
+"""
+Command line interface for running Starling simulation and other utils scripts.
+
+This CLI should be called via the command line exposed by the Starling package.
+
+.. code-block:: bash
+
+    starling-sim --help
+"""
+
+import argparse
+import json
+import logging
+import os
+from starling_sim.version import __version__
+from starling_sim.utils.simulation_logging import DEFAULT_LOGGER_LEVEL, setup_logging
+from starling_sim.model_simulator import launch_simulation, ModelSimulator
+from starling_sim.utils import paths
+from starling_sim.utils.data_tree import create_data_tree, import_examples
+
+parser = argparse.ArgumentParser(
+    description="Starling command line interface",
+    epilog="Examples:\n\n"
+    "starling-sim --version\n"
+    "starling-sim run data/models/SB_VS/example_nantes --level 10\n"
+    "starling-sim data --data-tree\n\n",
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+)
+
+parser.add_argument("-v", "--version", action="version", version=__version__)
+
+parser.add_argument(
+    "-l",
+    "--level",
+    help="specify the logger level. See simulation_logging.py for more information",
+    type=int,
+    default=None,
+)
+
+parser.add_argument("--data-folder", help="specify and alternative data folder", default=None)
+
+# create a subparser for each possible action
+subparsers = parser.add_subparsers(
+    required=True, help="Action to perform", dest="action"
+)
+
+
+# parser for running Starling simulations
+run_parser = subparsers.add_parser(
+    "run",
+    description="Run a simulation scenario using the associated Starling model",
+    help="Run a simulation scenario",
+)
+
+run_parser.add_argument("scenario_path", help="path to scenario folder")
+
+run_parser.add_argument(
+    "-p",
+    "--package",
+    help="indicate an alternative name for the base package of starling",
+    type=str,
+    action="store",
+    default="starling_sim",
+)
+
+# parser for managing simulation data
+data_parser = subparsers.add_parser(
+    "data",
+    description="Generate folder tree or example data",
+    help="Generate folder tree or example data",
+)
+
+data_parser.add_argument(
+    "-D",
+    "--data-tree",
+    help="generate the data tree according to the paths stored in paths.py",
+    action="store_true",
+)
+
+
+data_parser.add_argument(
+    "-e",
+    "--examples",
+    help="import the example scenarios of the given model codes from the test folder",
+    action="store_true",
+)
+
+# parser for generating package docs
+# doc_parser = subparsers.add_parser(
+#     "doc",
+#     description="generate the project documentation using Sphinx and exit.",
+#     help="?",
+# )
+
+# parser for generating json schemas
+schema_parser = subparsers.add_parser(
+    "schema",
+    description="Generate a json schemas for the given model",
+    help="Generate json schemas for each agent type of the model",
+)
+
+schema_parser.add_argument(
+    "model",
+    help="generate json schemas for each agent type of the model",
+    metavar="MODEL_CODE",
+    type=str,
+    action="store",
+)
+
+# TODO: remove duplicate
+schema_parser.add_argument(
+    "-p",
+    "--package",
+    help="indicate an alternative name for the base package of starling",
+    type=str,
+    action="store",
+    default="starling_sim",
+)
+
+def run_cli():
+    input_args = parser.parse_args()
+
+    # setup logging
+    if input_args.level is None:
+        input_args.level = DEFAULT_LOGGER_LEVEL
+    setup_logging(input_args.level)
+
+    # setup data folder
+    if input_args.data_folder is not None:
+        if input_args.data_folder.endswith("/"):
+            paths._DATA_FOLDER = input_args.data_folder
+        else:
+            paths._DATA_FOLDER = input_args.data_folder + "/"
+
+    # act depending on action
+    if input_args.action == "run":
+        # launch simulation
+        logging.info("Launching Starling {}\n".format(__version__))
+        launch_simulation(input_args.scenario_path, input_args.package)
+
+    elif input_args.action == "schema":
+        model_class = ModelSimulator.get_model_class(input_args.model, input_args.package)
+        schemas = model_class.get_agent_type_schemas()
+        print(json.dumps(schemas, indent=4))
+    elif input_args.action == "data":
+        if input_args.data_tree:
+            # create empty data tree
+            create_data_tree()
+
+        if input_args.examples:
+            # import the example scenarios and environment
+            import_examples()
+    elif input_args.action == "doc":
+        # documentation generation
+        os.system("./docs/sphinx-doc.sh")
+    else:
+        raise ValueError(f"Unknown action '{input_args.action}'")
+
