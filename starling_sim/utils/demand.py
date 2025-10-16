@@ -1,9 +1,26 @@
 """
-This module contains utils for generating and managing Starling demand.
+This module contains functions for generating and managing Starling demand.
+
+In a Starling simulation, the population represents the "demand": agents that use the available
+transport services in order to reach their destination.
+
+This Python script generates a Starling population from a given Eqasim population.
+The available options allow filtering and sampling the Eqasim population.
+Among other utils, this module provides functions for generating a Starling population from
+an `Eqasim <https://github.com/eqasim-org/ile-de-france>`_ (open source synthetic population generation pipeline) output.
+
+The demand generation functions are accessible through the `starling-sim` command line. Run the following command for more information:
+
+.. code-block:: bash
+
+    starling-sim eqasim-demand -h
+
 """
 
 import pandas as pd
 import geopandas as gpd
+import argparse
+from os import path
 
 
 #: expected columns on a Starling population GeoDataFrame
@@ -94,3 +111,91 @@ def add_starling_demand_attributes(
     population["mode"] = "walk"
 
     return population
+
+# command line utils
+
+def eqasim_demand_from_args(input_args):
+    # evaluate export filepath
+    if input_args.outfile is None:
+        filepath = path.basename(input_args.eqasim_file).replace(".geoparquet", ".geojson")
+    else:
+        filepath = input_args.outfile
+    if path.basename(filepath) == filepath:
+        filepath = path.join(path.dirname(input_args.eqasim_file), filepath)
+    assert filepath.endswith(".geojson"), "The generated file must have the '.geojson' extension"
+
+    # read Eqasim population
+    assert input_args.eqasim_file.endswith(
+        ".geoparquet"
+    ), "A file with the '.geoparquet' extension is expected as the first argument"
+    population = gpd.read_parquet(input_args.eqasim_file)
+    assert population.crs is not None
+
+    # read spatial filter file
+    if input_args.spatial_filter is not None:
+        spatial_filter = gpd.read_file(input_args.spatial_filter, driver="GeoJSON")
+        spatial_filter.to_crs(population.crs, inplace=True)
+    else:
+        spatial_filter = None
+
+    # generate the Starling population from the resulting sample
+    starling_population = demand_from_eqasim(
+        population,
+        sample_rate=input_args.sample,
+        sample_seed=input_args.seed,
+        spatial_filter=spatial_filter,
+    )
+
+    # write file
+    print(f"Creating Starling demand file at: {filepath}")
+    starling_population.to_file(filepath, drop_id=True, driver="GeoJSON")
+
+def add_eqasim_demand_action(subparsers):
+    """
+    Add a subparser for the eqasim-demand action.
+
+    :param subparsers: argparse subparsers
+    """
+
+    demand_parser = subparsers.add_parser(
+        "eqasim-demand",
+        description="Script for the generation of Starling demand from an Eqasim population",
+        help="Generate a Starling population from Eqasim outputs",
+        epilog="Examples:\n\n"
+               "starling-sim eqasim-demand data/eqasim/example_population.geoparquet\n"
+               "starling-sim eqasim-demand data/eqasim/example_population.geoparquet --sample 0.01 --seed 42\n"
+               "starling-sim eqasim-demand data/eqasim/example_population.geoparquet --spatial-filter data/eqasim/example_zone.geojson\n"
+               "starling-sim eqasim-demand data/eqasim/example_population.geoparquet -o ./starling_population.geojson\n",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+
+    demand_parser.add_argument(
+        "eqasim_file",
+        help="Eqasim population geoparquet file",
+    )
+
+    demand_parser.add_argument(
+        "--spatial-filter",
+        help="file describing a geometry used as spatial filter",
+        type=str,
+        metavar="GEOJSON_FILE",
+    )
+
+    demand_parser.add_argument(
+        "-s",
+        "--sample",
+        help="Population sampling rate, between 0 and 1",
+        type=float,
+        metavar="SAMPLE_RATE",
+    )
+
+    demand_parser.add_argument("--seed", help="random seed used for sampling", type=int)
+
+    demand_parser.add_argument(
+        "-o",
+        "--outfile",
+        help="name of the output file. Default is the input filename with '.geojson' extension. "
+             "If only a filename is provided, generate the new file in the same folder than the Eqasim population file",
+        type=str,
+    )
+

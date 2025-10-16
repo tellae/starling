@@ -17,4 +17,3 @@ visualising results.
    simulation_logs
    visualisation
    examples
-   tools

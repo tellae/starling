@@ -236,7 +236,7 @@ def add_osm_graph_action(subparsers):
     osm_graph_parser = subparsers.add_parser(
         "osm-graph",
         description="Generate a NetworkX graph from OpenStreetMap",
-        help="Generate a NetworkX graph from OpenStreetMap",
+        help="Generate OSM graphs used in Starling simulations",
         epilog="Examples:\n\n"
                "starling-sim osm-graph -n walk place 'Nantes, France'\n"
                "starling-sim osm-graph -n bike point --point -1.2 47.4 -dist 3000\n"

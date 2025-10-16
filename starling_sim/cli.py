@@ -18,12 +18,16 @@ from starling_sim.model_simulator import launch_simulation, ModelSimulator
 from starling_sim.utils import paths
 from starling_sim.utils.data_tree import create_data_tree, import_examples
 from starling_sim.utils.osm_graphs import add_osm_graph_action
+from starling_sim.utils.demand import add_eqasim_demand_action
+
 
 parser = argparse.ArgumentParser(
     description="Starling command line interface",
     epilog="Examples:\n\n"
     "starling-sim --version\n"
     "starling-sim run data/models/SB_VS/example_nantes --level 10\n"
+    "starling-sim osm-graph -n bike place 'Nantes, France'\n"
+    "starling-sim eqasim-demand data/eqasim/example_population.geoparquet\n"
     "starling-sim data --data-tree\n\n",
     formatter_class=argparse.RawDescriptionHelpFormatter,
 )
@@ -38,7 +42,7 @@ parser.add_argument(
     default="ALGO",
 )
 
-parser.add_argument("--data-folder", help="specify and alternative data folder", default=None)
+parser.add_argument("--data-folder", help="specify an alternative data folder", default=None)
 
 # create a subparser for each possible action
 subparsers = parser.add_subparsers(
@@ -96,8 +100,8 @@ data_parser.add_argument(
 # parser for generating json schemas
 schema_parser = subparsers.add_parser(
     "schema",
-    description="Generate a json schemas for the given model",
-    help="Generate json schemas for each agent type of the model",
+    description="Generate json schemas for each agent type of the given model",
+    help="Generate the input schemas for a Starling model",
 )
 
 schema_parser.add_argument(
@@ -120,6 +124,9 @@ schema_parser.add_argument(
 
 # parser for osm graph generation
 add_osm_graph_action(subparsers)
+
+#parser for generating demand from eqasim population
+add_eqasim_demand_action(subparsers)
 
 
 def run_cli():

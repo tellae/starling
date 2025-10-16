@@ -27,7 +27,6 @@ Global structure of the repository
     |   ├── schemas             # json schemas
     │   └── utils               # programming utils
     |
-    ├── tools                   # tools for the simulation runs
     ├── data                    # data folder
     ├── tests                   # testing
     ├── docs                    # documentation files and scripts
