@@ -70,9 +70,7 @@ class ModelSimulator:
         try:
             simulation_model = model_class(simulation_scenario)
         except TypeError as e:
-            logger.error(
-                f"Instantiation of {model_class.__name__} failed with message :\n {e}"
-            )
+            logger.error(f"Instantiation of {model_class.__name__} failed with message :\n {e}")
             raise e
 
         # initialise and return the ModelSimulator object
@@ -106,16 +104,16 @@ class ModelSimulator:
                 raise ModuleNotFoundError(
                     "Cannot find the module '{}'.\n"
                     "    Maybe there is an error in the model code ? "
-                    "Or maybe you forgot to use the -p option of the starling-sim command ?".format(model_path)
+                    "Or maybe you forgot to use the -p option of the starling-sim command ?".format(
+                        model_path
+                    )
                 )
 
             # try to get the Model class from the model module
             try:
                 model_class = module.Model
             except AttributeError as e:
-                logger.error(
-                    f"Cannot find the class Model in {pkg}.models.{model_code}.model"
-                )
+                logger.error(f"Cannot find the class Model in {pkg}.models.{model_code}.model")
                 raise e
 
         return model_class

@@ -5,7 +5,11 @@ import pandas as pd
 
 from starling_sim.basemodel.topology.topology import Topology
 from starling_sim.utils.utils import json_load
-from starling_sim.basemodel.topology.network_speeds import ConstantSpeed, SpeedByHighwayType, SpeedByEdge
+from starling_sim.basemodel.topology.network_speeds import (
+    ConstantSpeed,
+    SpeedByHighwayType,
+    SpeedByEdge,
+)
 
 
 class OSMNetwork(Topology):
@@ -70,7 +74,9 @@ class OSMNetwork(Topology):
                     network_speed = SpeedByEdge(self.speed_file)
 
             if network_speed is None:
-                raise ValueError(f"Unsupported parameter type/format for network speed: {self.speed_file}")
+                raise ValueError(
+                    f"Unsupported parameter type/format for network speed: {self.speed_file}"
+                )
 
             self.network_speed = network_speed
 

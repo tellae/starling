@@ -324,9 +324,9 @@ class PalZhangGCH(Algorithm):
                 continue
 
             # compute travel time to other stations
-            travel_time[station.id] = self.sim.environment[
-                self.vehicle_mode
-            ].shortest_path_length(current_station.position, station.position, None)
+            travel_time[station.id] = self.sim.environment[self.vehicle_mode].shortest_path_length(
+                current_station.position, station.position, None
+            )
 
         # evaluate the next neighbor according to the neighbor parameter
         if self.neighbor == "nearest":
@@ -376,9 +376,9 @@ class PalZhangGCH(Algorithm):
                 destination, self.operator.stations.values(), 1
             )[0]
 
-            travel_time = self.sim.environment[
-                self.operator.mode["fleet"]
-            ].shortest_path_length(origin_station.position, destination_station.position, None)
+            travel_time = self.sim.environment[self.operator.mode["fleet"]].shortest_path_length(
+                origin_station.position, destination_station.position, None
+            )
 
             destination_station_time = origin_station_time + travel_time
             demand_dict[destination_station.id].append([destination_station_time, 1])

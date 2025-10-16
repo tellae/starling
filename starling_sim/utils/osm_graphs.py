@@ -23,7 +23,6 @@ The generation functions are accessible through the ``starling-sim`` command lin
 
 """
 
-
 import osmnx as ox
 import subprocess
 import json
@@ -208,6 +207,7 @@ def save_osm_graph(graph, filename, folder):
 
 # command line utils
 
+
 def generate_osm_graph_from_args(args):
     """
     Execute import_osm_graph with parser args.
@@ -226,6 +226,7 @@ def generate_osm_graph_from_args(args):
         outfile=args.outfile,
     )
 
+
 def add_osm_graph_action(subparsers):
     """
     Add a subparser for the osm-graph action.
@@ -238,15 +239,14 @@ def add_osm_graph_action(subparsers):
         description="Generate a NetworkX graph from OpenStreetMap",
         help="Generate OSM graphs used in Starling simulations",
         epilog="Examples:\n\n"
-               "starling-sim osm-graph -n walk place 'Nantes, France'\n"
-               "starling-sim osm-graph -n bike point --point -1.2 47.4 -dist 3000\n"
-               "starling-sim osm-graph -n drive -o triangle.graphml polygon "
-               "'[[-1.55, 47.20], [-1.55, 47.21], [-1.56, 47.20], [-1.55, 47.20]]'\n\n"
-               "For more details about the import functions, see the documentation "
-               "of the OSMnX library and its graph import functions.",
+        "starling-sim osm-graph -n walk place 'Nantes, France'\n"
+        "starling-sim osm-graph -n bike point --point -1.2 47.4 -dist 3000\n"
+        "starling-sim osm-graph -n drive -o triangle.graphml polygon "
+        "'[[-1.55, 47.20], [-1.55, 47.21], [-1.56, 47.20], [-1.55, 47.20]]'\n\n"
+        "For more details about the import functions, see the documentation "
+        "of the OSMnX library and its graph import functions.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-
 
     osm_graph_parser.add_argument(
         "-n", "--network", help="network type to be extracted", type=str, required=True
@@ -283,13 +283,13 @@ def add_osm_graph_action(subparsers):
     query_parser.add_argument(
         "query",
         help="string, dict or list describing a place (must be geocodable). You can test the results of a query at https://www.openstreetmap.org",
-        type=str_or_json_loads
+        type=str_or_json_loads,
     )
 
     query_parser.add_argument(
         "--which-result",
         help="integer (> 0) describing which geocoding result to use",
-        dest="which_result"
+        dest="which_result",
     )
 
     # import the graph from a point and distance
@@ -306,7 +306,7 @@ def add_osm_graph_action(subparsers):
         required=True,
         type=float,
         metavar=("lon", "lat"),
-        nargs=2
+        nargs=2,
     )
 
     point_parser.add_argument(
@@ -314,7 +314,7 @@ def add_osm_graph_action(subparsers):
         "--dist",
         help="distance (in meters) from the center point (dist_type='bbox')",
         required=True,
-        type=int
+        type=int,
     )
 
     # import the graph from a polygon
@@ -326,7 +326,8 @@ def add_osm_graph_action(subparsers):
 
     polygon_parser.add_argument(
         "polygon",
-        help="list of (lon, lat) points describing a polygon (without holes)." " Avoid whitespaces or use quotes",
+        help="list of (lon, lat) points describing a polygon (without holes)."
+        " Avoid whitespaces or use quotes",
         type=json.loads,
     )
 

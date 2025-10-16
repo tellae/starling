@@ -123,9 +123,7 @@ class KpiOutput:
             )
 
         except KeyError as e:
-            logger.warning(
-                f"Could not generate kpi output {path}, error occurred : {e}"
-            )
+            logger.warning(f"Could not generate kpi output {path}, error occurred : {e}")
 
     def build_kpi_table(self) -> pd.DataFrame:
         """

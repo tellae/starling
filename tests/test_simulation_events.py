@@ -35,4 +35,3 @@ class TestSimulationEvents:
 
         assert isinstance(agent, Element)
         assert agent.get("id") == "user-0.1"
-
