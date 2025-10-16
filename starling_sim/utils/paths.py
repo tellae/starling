@@ -7,13 +7,11 @@ You will find here the structure of different parts of the project.
 **Data folder generation**
 
 The :data:`~starling_sim.utils.paths.data_folder` and sub-folders are not included in the git repository,
-but they can be generated using the ``-D`` (or ``--data-tree``) option of main.py
+but they can be generated using the `data` action of the command line interface:
 
 .. code-block:: bash
 
-    python3 main.py -D
-
-It is also generated when :ref:`importing the example scenarios<examples>`.
+    starling-sim data --data-tree
 
 **********************************
 Global structure of the repository
@@ -29,7 +27,6 @@ Global structure of the repository
     |   ├── schemas             # json schemas
     │   └── utils               # programming utils
     |
-    ├── tools                   # tools for the simulation runs
     ├── data                    # data folder
     ├── tests                   # testing
     ├── docs                    # documentation files and scripts
@@ -66,11 +63,11 @@ Structure of the data folder
         |   └── scenario_2      # scenario_2 data
         └── ...
 
-The path to the data repository can be changed using the --data-folder option of main.py
+The path to the data repository can be changed using the --data-folder option of the command line interface
 
 .. code-block:: bash
 
-    python3 main.py path/to/scenario/ --data-folder path/to/data_folder/
+    starling-sim --data-folder path/to/data_folder/ ...
 
 However, the structure of the data repository must remain the same. This is ensured by the functions
 declared in starling_sim.utils.paths.py, that build the paths to the different folders by concatenating

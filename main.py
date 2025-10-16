@@ -1,5 +1,7 @@
 """
-Main module, it must be executed as a script with python3 in order to run the program.
+This module is deprecated, use the starling-sim command instead !
+
+---
 
 This script runs the function run_main from the Starling framework.
 

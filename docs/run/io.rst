@@ -34,10 +34,12 @@ OSM graphs
 ++++++++++
 
 OSM graphs files are stored in :data:`~starling_sim.utils.paths.osm_graphs_folder`.
+They are .graphml files that contain OSM extractions as NetworkX graphs.
 
-They are .graphml files that contain OSM graphs imported using :mod:`tools.generate_osm_graph`.
 These files represent the networks used by the agents to evolve in the simulation and are used to
 setup the :class:`~starling_sim.basemodel.topology.osm_network` using the *osmnx* library.
+
+OSM graphs can be generated using via the command line, run ``starling-sim osm-graph -h`` for more information.
 
 Graph speeds
 ++++++++++++
@@ -87,12 +89,11 @@ The dynamic input file is a .geojson file that contains a representation of the 
 Here, dynamic means that agents are introduced in the course of the simulation, according to their ``origin_time`` key.
 
 Agent inputs are described using `Geojson <https://geojson.org/>`_ Feature objects
-with specific properties. JSON schemas for the agents of a model can be generated using the ``-J``
-(or ``--json-schema``) option of main.py
+with specific properties. JSON schemas for the agents of a model can be generated using the ``schema`` action of ``starling-sim``
 
 .. code-block:: bash
 
-    python3 main.py -J SB_VS
+    starling-sim schema SB_VS
 
 The agent features are fetched by :class:`~starling_sim.basemodel.input.dynamic_input.DynamicInput` (or any class
 that inherits from it) in order to initialise simulation agents.

@@ -11,23 +11,21 @@ your own scenarios with specific parameters and data.
 
 Example scenarios are available only for the models provided with Starling.
 
-******
-Import
-******
+********************************
+Import (if repository is cloned)
+********************************
 
+If you have cloned the Starling repository, you have the possibility to copy
+the test scenarios in your own data folder. Otherwise, you can fetch them from
+`the github repository <https://github.com/tellae/starling>`_.
 
-The example scenarios are the same than those used for testing, so the import consists in copying the
-test scenarios in the :data:`~starling_sim.utils.paths.data_folder`.
-This also creates the data folder tree if it does not exist.
-
+Run ``starling-sim data`` with the ``-e`` (or ``--examples``) option to import the example scenarios.
 The operation overwrites all the existing files, so if you have modified example scenarios,
 be sure to rename them.
 
-Run main.py with the ``-e`` (or ``--examples``) option to import the example scenarios.
-
 .. code-block:: bash
 
-    python3 main.py -e
+    starling-sim data --examples
 
 You will find the scenarios in the folders of their
 respective models, in :data:`~starling_sim.utils.paths.data_folder`.
@@ -36,12 +34,12 @@ respective models, in :data:`~starling_sim.utils.paths.data_folder`.
 Run
 ***
 
-Example scenarios can be run like any other scenario by running main.py
+Example scenarios can be run like any other scenario by running ``starling-sim run``
 with the path to the scenario folder. For instance:
 
 .. code-block:: bash
 
-    python3 main.py data/models/SB_VS/example_nantes/
+    starling-sim run data/models/SB_VS/example_nantes/
 
 You will then see the simulation logs display in the console, until the run finishes.
 If you find the logs too verbose, you can set the logging level to a higher level
@@ -49,7 +47,7 @@ with the ``-l`` option (see simulation_logging.py for more information):
 
 .. code-block:: bash
 
-    python3 main.py -l INFO data/models/SB_VS/example_nantes/
+    starling-sim -l INFO run data/models/SB_VS/example_nantes/
 
 *******
 Outputs
