@@ -9,7 +9,7 @@ The available options allow filtering and sampling the Eqasim population.
 Among other utils, this module provides functions for generating a Starling population from
 an `Eqasim <https://github.com/eqasim-org/ile-de-france>`_ (open source synthetic population generation pipeline) output.
 
-The demand generation functions are accessible through the `starling-sim` command line. Run the following command for more information:
+The demand generation functions are accessible through the ``starling-sim`` command line. Run the following command for more information:
 
 .. code-block:: bash
 

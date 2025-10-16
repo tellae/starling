@@ -15,7 +15,7 @@ and graph_from_polygon.
 
 Graphs are saved directly in :data:`~starling_sim.utils.paths.osm_graphs_folder`.
 
-The generation functions are accessible through the `starling-sim` command line. Run the following command for more information:
+The generation functions are accessible through the ``starling-sim`` command line. Run the following command for more information:
 
 .. code-block:: bash
 

@@ -4,55 +4,76 @@
 Installation
 ############
 
-First, you must clone Starling locally from `the github project <https://github.com/tellae/starling>`_.
+Installing Starling as a package from PiPy
+==========================================
+
+The *starling-sim* package is available on PiPy and can be installed using pip:
 
 .. code-block::
 
+    pip install starling-sim
+
+You can check that the package was correctly installed by running the ``starling-sim`` command:
+
+.. code-block::
+
+    starling-sim --version
+
+
+Cloning the repository
+======================
+
+You can also clone Starling locally from `the github project <https://github.com/tellae/starling>`_.
+This is especially useful if you want to get example scenarios or make modifications to the source code.
+
+.. code-block:: bash
+
     git clone https://github.com/tellae/starling.git
 
-Then, you can either install dependencies directly on your Linux or
-use a Docker container (Linux or Windows).
 
-We recommend the Linux installation for development and the Docker installation for running simulations.
+Install in editable mode
+++++++++++++++++++++++++
 
-On-device (Ubuntu)
-==================
-
-This procedure is described for Ubuntu 18.04 or 20.04 with Python 3.6 or higher already installed.
-
-First, install the necessary Linux packages with
+If you want to run Starling as if it was installed as a package, you can install
+it from your disk using pip's `editable` option:
 
 .. code-block:: bash
 
-    sudo apt-get install -yy -q libcurl4-gnutls-dev \
-        libssl-dev libproj-dev libgdal-dev gdal-bin python3-gdal \
-        libgdal-dev libudunits2-dev pkg-config libnlopt-dev libxml2-dev \
-        libcairo2-dev libudunits2-dev \
-        libgdal-dev libgeos-dev libproj-dev python3-pip python3-dev \
-        build-essential libspatialindex-dev python3-rtree
+    # from the project's root
+    pip install -e .
 
-and then the Python dependencies using pip3
+This will:
+
+- Install the Starling dependencies
+- Provide you with the ``starling-sim`` command
+- Make your changes in the code directly effective without having to reload the package (see `setuptools' Development Mode <https://setuptools.pypa.io/en/latest/userguide/development_mode.html>`_).
+
+Install the dependencies manually
++++++++++++++++++++++++++++++++++
+
+You can also install the dependencies manually:
 
 .. code-block:: bash
 
-    # upgrade pip
-    python3 -m pip install --upgrade pip
-    # install the project requirements
-    pip3 install -r requirements.txt
+    # from the project's root
+    pip install -r requirements.txt
 
-Docker (Linux or Windows)
-=========================
+This will not add the ``starling-sim`` command to your environment.
+Instead, you can execute the package folder with Python for the same result:
 
-Docker installation
--------------------
+.. code-block:: bash
 
-For installing Docker on Linux or Windows, you should refer to the
-`official documentation <https://docs.docker.com/engine/install/>`_.
+    # from the project's root
+    python3 -m starling_sim --help
 
-Image creation
---------------
 
-Run the following command to create a Docker image named starling
+Run using docker (deprecated)
++++++++++++++++++++++++++++++
+
+You can also run Starling in a Docker environment using the Dockerfile at the root
+of the repository.
+
+Run the following command to create a Docker image named `starling`
 containing Python and all the project requirements. This image doesn't
 contain Starling source code but it contains all python dependencies
 for running Starling.
@@ -71,8 +92,9 @@ running the framework. Use the -v option to mount the Starling repository
 in the container. On Windows, replace *$(pwd)* by *%cd%* to get the absolute
 path to the current folder.
 
+
 Detached mode
-+++++++++++++
+-------------
 
 You can execute Docker in detached mode, which allows you to let one
 or more simulations run on their own.
@@ -92,7 +114,7 @@ or more simulations run on their own.
         bash -c "my_command -option"
 
 Interactive mode
-++++++++++++++++
+----------------
 
 You can also run Docker in interactive mode, which will place you inside the
 container and allow you to execute shell commands as in a terminal.
@@ -108,6 +130,7 @@ container and allow you to execute shell commands as in a terminal.
 .. code-block:: bash
 
     docker run -it -v "%cd%:/starling_dir/" --name container_name starling
+
 
 What's next
 ===========

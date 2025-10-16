@@ -39,7 +39,7 @@ They are .graphml files that contain OSM extractions as NetworkX graphs.
 These files represent the networks used by the agents to evolve in the simulation and are used to
 setup the :class:`~starling_sim.basemodel.topology.osm_network` using the *osmnx* library.
 
-OSM graphs can be generated using via the command line, run `starling-sim osm-graph -h` for more information.
+OSM graphs can be generated using via the command line, run ``starling-sim osm-graph -h`` for more information.
 
 Graph speeds
 ++++++++++++
@@ -89,7 +89,7 @@ The dynamic input file is a .geojson file that contains a representation of the 
 Here, dynamic means that agents are introduced in the course of the simulation, according to their ``origin_time`` key.
 
 Agent inputs are described using `Geojson <https://geojson.org/>`_ Feature objects
-with specific properties. JSON schemas for the agents of a model can be generated using the ``schema`` action of `starling-sim`
+with specific properties. JSON schemas for the agents of a model can be generated using the ``schema`` action of ``starling-sim``
 
 .. code-block:: bash
 

@@ -11,19 +11,17 @@ your own scenarios with specific parameters and data.
 
 Example scenarios are available only for the models provided with Starling.
 
-******
-Import
-******
+********************************
+Import (if repository is cloned)
+********************************
 
+If you have cloned the Starling repository, you have the possibility to copy
+the test scenarios in your own data folder. Otherwise, you can fetch them from
+`the github repository <https://github.com/tellae/starling>`_.
 
-The example scenarios are the same than those used for testing, so the import consists in copying the
-test scenarios in the :data:`~starling_sim.utils.paths.data_folder`.
-This also creates the data folder tree if it does not exist.
-
+Run ``starling-sim data`` with the ``-e`` (or ``--examples``) option to import the example scenarios.
 The operation overwrites all the existing files, so if you have modified example scenarios,
 be sure to rename them.
-
-Run `starling-sim data` with the ``-e`` (or ``--examples``) option to import the example scenarios.
 
 .. code-block:: bash
 
@@ -36,7 +34,7 @@ respective models, in :data:`~starling_sim.utils.paths.data_folder`.
 Run
 ***
 
-Example scenarios can be run like any other scenario by running `starling-sim run`
+Example scenarios can be run like any other scenario by running ``starling-sim run``
 with the path to the scenario folder. For instance:
 
 .. code-block:: bash

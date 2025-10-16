@@ -25,75 +25,23 @@ of the documentation.
 
 ### Installation
 
-Starling must be cloned locally in order to be run.
+The *starling-sim* package is available on PiPy and can be installed using pip:
 
 ```bash
-git clone https://github.com/tellae/starling.git
+pip install starling-sim
 ```
 
-Then, you can either install the dependencies directly on your linux or
-use a Docker container to run a simulation.
-
-We recommend the Linux installation for development and the Docker installation for running simulations.
-
-#### On-device (Ubuntu)
-
-This procedure is described for a Linux Ubuntu 18.04 or 20.04 with Python 3.6 or higher already installed.
-
-First, install the necessary Linux packages with
+You can check that the package was correctly installed by running the `starling-sim` command:
 
 ```bash
-sudo apt-get install -yy -q libcurl4-gnutls-dev \
-    libssl-dev libproj-dev libgdal-dev gdal-bin python3-gdal \
-    libgdal-dev libudunits2-dev pkg-config libnlopt-dev libxml2-dev \
-    libcairo2-dev libudunits2-dev \
-    libgdal-dev libgeos-dev libproj-dev python3-pip python3-dev \
-    build-essential libspatialindex-dev python3-rtree
+starling-sim --version
 ```
 
-Then, install the Python libraries using pip3
+### Examples
 
-```bash
-# upgrade pip
-python3 -m pip install --upgrade pip
-# install the project requirements
-pip3 install -r requirements.txt
-```
+If you need example scenarios, you can download the test scenarios from the repository.
 
-#### Docker (Linux and Windows)
-
-Run the following command
-to create a Docker image named starling
-containing python and all requirements.
-This image doesn’t contain Starling source code but it
-contains all python dependencies for running Starling.
-
-```bash
-docker build . --tag="starling"
-```
-
-You can run Docker in interactive mode (which will place you inside the container,
-as in a terminal) with the following command:
-
-**Linux**
-
-```bash
-docker run -it -v "$(pwd):/starling_dir/" --name container_name starling
-```
-
-**Windows**
-
-```bash
-docker run -it -v "%cd%:/starling_dir/" --name container_name starling
-```
-
-Docker can also be run in detached mode, which lets the simulations
-run on their own (see the [documentation](https://starling.readthedocs.io/en/latest/run/install.html#detached-mode)).
-
-### Download examples
-
-You can now build the data structure and download example scenarios by
-running the following command in your environment
+If you cloned the Starling repository, you can also run the following command:
 
 ```bash
 starling-sim data --examples
@@ -102,9 +50,8 @@ starling-sim data --examples
 ### Usage
 
 Once the data is prepared, a scenario can be run from the project
-root by running the `starling-sim` command with the path to the scenario folder.
-
-Run one of the example scenarios, for instance:
+root by running the `starling-sim` command with the path to the scenario folder. 
+For instance:
 
 ```bash
 starling-sim run data/models/SB_VS/example_nantes/
