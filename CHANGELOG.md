@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.1](https://github.com/tellae/starling/compare/v1.1.0...v1.1.1) (2025-10-16)
+
+
+### Bug Fixes
+
+* add missing requirement for the loguru library ([#129](https://github.com/tellae/starling/issues/129)) ([ba07c68](https://github.com/tellae/starling/commit/ba07c683d8576a49b5899737df1c0b5640c2acfb))
+* fixed evaluation of active gtfs stops ([#125](https://github.com/tellae/starling/issues/125)) ([254ec8b](https://github.com/tellae/starling/commit/254ec8bc266c1e747e95822afe44734f2513d585))
+* fixed PT path evaluation when using line shapes file ([#126](https://github.com/tellae/starling/issues/126)) ([dd73868](https://github.com/tellae/starling/commit/dd73868a75b2a1172e563d29bcf76ae772c6b596))
+
 ## [1.1.0](https://github.com/tellae/starling/compare/v1.0.1...v1.1.0) (2025-04-28)
 
 
