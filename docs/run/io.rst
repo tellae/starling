@@ -34,10 +34,12 @@ OSM graphs
 ++++++++++
 
 OSM graphs files are stored in :data:`~starling_sim.utils.paths.osm_graphs_folder`.
+They are .graphml files that contain OSM extractions as NetworkX graphs.
 
-They are .graphml files that contain OSM graphs imported using :mod:`tools.generate_osm_graph`.
 These files represent the networks used by the agents to evolve in the simulation and are used to
 setup the :class:`~starling_sim.basemodel.topology.osm_network` using the *osmnx* library.
+
+OSM graphs can be generated using via the command line, run `starling-sim osm-graph -h` for more information.
 
 Graph speeds
 ++++++++++++

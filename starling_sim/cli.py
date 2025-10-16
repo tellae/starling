@@ -17,6 +17,7 @@ from starling_sim.utils.simulation_logging import configure_logger
 from starling_sim.model_simulator import launch_simulation, ModelSimulator
 from starling_sim.utils import paths
 from starling_sim.utils.data_tree import create_data_tree, import_examples
+from starling_sim.utils.osm_graphs import add_osm_graph_action
 
 parser = argparse.ArgumentParser(
     description="Starling command line interface",
@@ -117,6 +118,10 @@ schema_parser.add_argument(
     default="starling_sim",
 )
 
+# parser for osm graph generation
+add_osm_graph_action(subparsers)
+
+
 def run_cli():
     input_args = parser.parse_args()
 
@@ -151,6 +156,8 @@ def run_cli():
     elif input_args.action == "doc":
         # documentation generation
         os.system("./docs/sphinx-doc.sh")
+    elif input_args.action == "osm-graph":
+        input_args.func(input_args)
     else:
         raise ValueError(f"Unknown action '{input_args.action}'")
 

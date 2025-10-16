@@ -3,14 +3,12 @@ This module contains utils for the Starling framework.
 """
 
 import os
-import subprocess
 from loguru import logger
 import json
 import geopandas
 import pandas as pd
 import numpy as np
 import gtfs_kit as gt
-import osmnx as ox
 import gzip
 import shutil
 import copy
@@ -20,7 +18,6 @@ from jsonschema import validate, ValidationError
 from starling_sim.utils.paths import (
     schemas_folder,
     gtfs_feeds_folder,
-    osm_graphs_folder,
     scenario_inputs_folder,
     PARAMETERS_FILENAME,
     INPUT_FOLDER_NAME,
@@ -114,6 +111,26 @@ def json_load(filepath):
 
     with open(filepath, "r") as param_file:
         return json.load(param_file)
+
+
+def str_or_json_loads(string):
+    """
+    Try to convert the string into a list or a dict if it contains [ or {.
+
+    :param string:
+
+    :raises ValueError:
+
+    :return: the list or dict from the string, or the original string
+    """
+
+    try:
+        if "[" in string or "{" in string:
+            return json.loads(string)
+        else:
+            return string
+    except json.decoder.JSONDecodeError as e:
+        raise ValueError(str(e))
 
 
 # compression utils
@@ -595,180 +612,6 @@ def stop_table_from_gtfs(
     result_table.drop_duplicates(inplace=True)
 
     return result_table
-
-
-def import_osm_graph(
-    method,
-    network_type,
-    simplify,
-    query=None,
-    which_result=None,
-    point=None,
-    dist=None,
-    polygon=None,
-    outfile=None,
-):
-    """
-    Generate an OSM graph from given parameters and store it in a file.
-
-    The osmnx function used to generate the OSM graph is specified by the method parameter.
-
-    The correct parameters must be provided according to the import method.
-
-    :param method: name of the osmnx import method. Among ['place', 'point', 'polygon'].
-    :param network_type: OSM network_type of the graph
-    :param simplify: boolean indicating if the graph should be simplified
-    :param query: string, dict or list describing the place (must be geocodable)
-    :param which_result: integer describing which geocoding result to use,
-        or None to auto-select the first (Multi)Polygon
-    :param point: [lon, lat] coordinates of the center point
-    :param dist: distance of the bbox from the center point
-    :param polygon: list of points describing a polygon
-    :param outfile: optional name for the output file
-    """
-
-    # import the OSM graph according to the given method
-    if method == "place":
-        graph = osm_graph_from_place(query, which_result, network_type, simplify)
-        default_outfile = "G{}_{}.graphml.bz2".format(network_type, query)
-
-    elif method == "point":
-        graph = osm_graph_from_point(point, dist, network_type, simplify)
-        default_outfile = "G{}_{}-{}_{}.graphml.bz2".format(network_type, point[0], point[1], dist)
-
-    elif method == "polygon":
-        default_outfile = None
-        if outfile is None:
-            print("Outfile name must be provided when importing from polygon.")
-            return
-        graph = osm_graph_from_polygon(polygon, network_type, simplify)
-
-    else:
-        print("Unknown import method {}. Choices are ['point', 'place', 'polygon'].")
-        return
-
-    # keep the largest strongly connected component of the graph
-    graph = ox.utils_graph.get_largest_component(graph, strongly=True)
-
-    # get the output filename
-    if outfile is None:
-        # add 'S' to simplified graphs
-        if simplify:
-            default_outfile = "S" + default_outfile
-
-        outfile = default_outfile
-
-    # save the graph at .graphml format
-    save_osm_graph(graph, filename=outfile, folder=osm_graphs_folder())
-
-    # return the graph
-    return graph
-
-
-def osm_graph_from_point(point, distance, network_type, simplify):
-    """
-    Import an OSM graph of an area around the location point.
-
-    The import is done with the distance_type parameter set to 'bbox'.
-
-    :param point: (lon, lat) point
-    :param distance: distance around point
-    :param network_type: osm network type
-    :param simplify: boolean indicating if the graph should be simplified
-
-    :return: a networkx graph
-    """
-
-    if point is None or distance is None:
-        print(
-            "The point and distance parameters must be specified when importing graph from point."
-        )
-        exit(1)
-
-    # reverse the point coordinates (osmnx takes (lat, lon) coordinates)
-    point = (point[1], point[0])
-
-    return ox.graph_from_point(
-        point, dist=distance, dist_type="bbox", network_type=network_type, simplify=simplify
-    )
-
-
-def osm_graph_from_polygon(polygon_points, network_type, simplify):
-    """
-    Import an OSM graph of the area within the polygon.
-
-    :param polygon_points: list of (lon, lat) points delimiting the network zone
-    :param network_type: osm network type
-    :param simplify: boolean indicating if the graph should be simplified
-
-    :return: a networkx graph
-    """
-
-    if polygon_points is None:
-        print("The polygon parameter must be specified when importing graph from polygon.")
-        exit(1)
-
-    # create a shapely polygon with (lat, lon) coordinates from the list of points
-    shapely_polygon = shapely_polygon_from_points(polygon_points)
-
-    return ox.graph_from_polygon(shapely_polygon, network_type=network_type, simplify=simplify)
-
-
-def osm_graph_from_place(query, which_result, network_type, simplify):
-    """
-    Import an OSM graph of the area described by the geocodable query.
-
-    :param query: string, dict or list describing the place (must be geocodable)
-    :param which_result: integer describing which geocoding result to use,
-        or None to auto-select the first (Multi)Polygon
-    :param network_type: osm network type
-    :param simplify: boolean indicating if the graph should be simplified
-
-    :return: a networkx graph
-    """
-
-    if query is None:
-        print("The query parameter must be specified when importing graph from place.")
-        exit(1)
-
-    return ox.graph_from_place(
-        query, network_type=network_type, simplify=simplify, which_result=which_result
-    )
-
-
-def save_osm_graph(graph, filename, folder):
-    """
-    Save the given graph in a .graphml file.
-
-    Detect if the filename ends with '.bz2', and realise
-    a bz2 compression accordingly.
-
-    :param graph: saved graph
-    :param filename: name of the save file
-    :param folder: name of the save folder
-    """
-
-    # check bz2 extension
-    if filename.endswith(".bz2"):
-        to_bz2 = True
-        filename = filename[:-4]
-    else:
-        to_bz2 = False
-
-    # check filename
-    if not filename.endswith(".graphml"):
-        raise ValueError("OSM graph filename must end with .graphml or .graphml.bz2")
-
-    # save the graph
-    filepath = folder + filename
-    ox.save_graphml(graph, filepath)
-
-    # compress to bz2 if necessary
-    if to_bz2:
-        subprocess.run(["bzip2", "-z", "-f", filepath])
-        print("Saved osm graph at " + filepath + ".bz2")
-    else:
-        print("Saved osm graph at " + filepath)
 
 
 # gtfs utils
