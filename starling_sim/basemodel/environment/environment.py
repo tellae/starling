@@ -195,7 +195,7 @@ class Environment:
         times = [0]
         time_remainder = 0
         max_sequence = max(shape_table["sequence"])
-        print(shape_table)
+
         # complete it with the shape data
         for index, row in shape_table.iterrows():
             # append localisation to route
