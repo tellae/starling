@@ -79,6 +79,12 @@ def configure_logger(level=ALGO_LEVEL):
     # add a simple sink
     logger.add(sys.stderr, format="<level>{level: <8} :: {message}</level>", level=level)
 
+
 def add_agent_file_sink(filepath):
     # add a file sink for agent logs
-    logger.add(filepath, format="[{timestamp}], {id} : {message}", filter="starling_sim.basemodel.agent.agent", level=AGENT_LEVEL)
+    logger.add(
+        filepath,
+        format="[{timestamp}], {id} : {message}",
+        filter="starling_sim.basemodel.agent.agent",
+        level=AGENT_LEVEL,
+    )

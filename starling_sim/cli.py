@@ -45,9 +45,7 @@ parser.add_argument(
 parser.add_argument("--data-folder", help="specify an alternative data folder", default=None)
 
 # create a subparser for each possible action
-subparsers = parser.add_subparsers(
-    required=True, help="Action to perform", dest="action"
-)
+subparsers = parser.add_subparsers(required=True, help="Action to perform", dest="action")
 
 
 # parser for running Starling simulations
@@ -125,7 +123,7 @@ schema_parser.add_argument(
 # parser for osm graph generation
 add_osm_graph_action(subparsers)
 
-#parser for generating demand from eqasim population
+# parser for generating demand from eqasim population
 add_eqasim_demand_action(subparsers)
 
 
@@ -170,4 +168,3 @@ def run_cli():
         input_args.func(input_args)
     else:
         raise ValueError(f"Unknown action '{input_args.action}'")
-

@@ -100,12 +100,16 @@ class Environment:
                 raise ValueError(f"Unsupported type for '{mode}' topology info: {type(info)}")
 
             # create the Topology instance
-            topology = self._create_topology_instance(mode, network_class, network_info, speeds_info, weight_class, store)
+            topology = self._create_topology_instance(
+                mode, network_class, network_info, speeds_info, weight_class, store
+            )
 
         # add the topology to the topologies dict
         self._topologies[mode] = topology
 
-    def _create_topology_instance(mode, network_class, network_info, speeds_info, weight_class, store_paths):
+    def _create_topology_instance(
+        mode, network_class, network_info, speeds_info, weight_class, store_paths
+    ):
         """
         Create a new topology instance from the given information.
 
@@ -124,7 +128,11 @@ class Environment:
             topology = OSMNetwork(
                 mode,
                 network_file=osm_graphs_folder() + network_info,
-                speed_file=graph_speeds_folder() + speeds_info if isinstance(speeds_info, str) else speeds_info,
+                speed_file=(
+                    graph_speeds_folder() + speeds_info
+                    if isinstance(speeds_info, str)
+                    else speeds_info
+                ),
                 store_paths=store_paths,
                 weight_class=weight_class,
             )
@@ -132,6 +140,7 @@ class Environment:
             raise ValueError("Unknown network type {}".format(network_class))
 
         return topology
+
     _create_topology_instance = staticmethod(_create_topology_instance)
 
     # def periodic_update_(self, period):

@@ -1,10 +1,7 @@
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import Element, ElementTree
 from collections.abc import Iterable
-from starling_sim.utils.utils import (
-    gz_compression,
-    gz_decompression
-)
+from starling_sim.utils.utils import gz_compression, gz_decompression
 
 VERSION = "0.0.1"
 
@@ -156,5 +153,3 @@ class SimulationEvents:
 
         if to_gz:
             gz_compression(filepath)
-
-

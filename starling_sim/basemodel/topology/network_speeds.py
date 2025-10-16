@@ -8,7 +8,7 @@ class NetworkEdgeSpeed(ABC):
     """
     Abstract class for speed evaluation on topologies.
     """
-    
+
     def __init__(self):
         # data structure containing the information used to evaluate speeds
         self._speeds_data = None
@@ -38,10 +38,11 @@ class ConstantSpeed(NetworkEdgeSpeed):
     """
     Evaluate a constant speed independently of the edge.
     """
+
     def __init__(self, speed: float):
         super().__init__()
         self._speeds_data = speed
-        
+
     def __call__(self, u, v, d) -> float:
         return self._speeds_data
 
@@ -58,13 +59,14 @@ class SpeedByHighwayType(NetworkEdgeSpeed):
     look for the tag value without the '_link' suffix.
     If the tag is still not found in the mapper, use the 'other' value of the mapper.
     """
+
     def __init__(self, speeds_json_file: str):
         """
         :param speeds_json_file: path to a json file containing the speed mapper
         """
         super().__init__()
         self._speeds_datas = json_load(speeds_json_file)
-    
+
     def __call__(self, u, v, d) -> float:
         # choose the first tag if several are provided
         if isinstance(d["highway"], list):
@@ -77,7 +79,7 @@ class SpeedByHighwayType(NetworkEdgeSpeed):
             speed = self._speeds_datas[d["highway"][:-5]]["speed"]
         else:
             speed = self._speeds_datas["other"]["speed"]
-            
+
         return speed
 
 
@@ -90,13 +92,15 @@ class SpeedByEdge(NetworkEdgeSpeed):
 
     The mapper must contain exactly one value for each (directed) edge of the graph.
     """
+
     def __init__(self, speeds_table_file: str):
         super().__init__()
 
         speeds_csv = pd.read_csv(speeds_table_file)
         assert set(speeds_csv.columns) >= {"origin", "destination", "speed"}, (
             f"Missing columns in speed file {speeds_table_file}. "
-            f"Expected columns are ['origin', 'destination', 'speed']")
+            f"Expected columns are ['origin', 'destination', 'speed']"
+        )
 
         speeds_dict = dict()
         for _, row in speeds_csv.iterrows():
@@ -104,13 +108,11 @@ class SpeedByEdge(NetworkEdgeSpeed):
             assert od not in speeds_dict, f"Several speed values found for edge: {od[0]} -> {od[1]}"
 
             speeds_dict[od] = row["speed"]
-            
+
         self._speeds_datas = speeds_dict
-            
+
     def __call__(self, u, v, d) -> float:
         od = (u, v)
         if od not in self._speeds_datas:
             raise ValueError(f"Missing speed value for edge: {u} -> {v}")
         return self._speeds_datas[od]
-        
-    

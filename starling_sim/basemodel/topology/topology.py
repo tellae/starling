@@ -42,9 +42,7 @@ class Topology(ABC):
 
         # paths storage
         self.store_paths = store_paths
-        self.paths = {
-            param_hash: {} for param_hash in self.parameters_hash.keys()
-        }
+        self.paths = {param_hash: {} for param_hash in self.parameters_hash.keys()}
         self.shortest_path_count = 0
 
     # graph initialisation and setup

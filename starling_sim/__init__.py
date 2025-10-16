@@ -1,6 +1,7 @@
 """
 This package contains the different modules of Starling.
 """
+
 from starling_sim.utils.simulation_logging import AGENT_LEVEL, ALGO_LEVEL
 from loguru import logger
 

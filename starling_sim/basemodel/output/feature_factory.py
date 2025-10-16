@@ -6,6 +6,7 @@ from starling_sim.utils.utils import (
 from starling_sim.basemodel.trace.events import InputEvent, RouteEvent, PositionChangeEvent
 from loguru import logger
 
+
 def create_point_feature(geojson_output, element, agent_id=None, icon_type=None, agent_type=None):
     point = get_element_point(geojson_output, element)
     feature = new_point_feature(point_localisation=point)
@@ -97,9 +98,9 @@ def get_element_line_string(geojson_output, element):
             mode = event.mode
 
             # get the list of route localisations and timestamps
-            route_positions, route_timestamps = geojson_output.sim.environment[mode].route_event_trace(
-                event, time_limit=geojson_output.sim.scenario["limit"]
-            )
+            route_positions, route_timestamps = geojson_output.sim.environment[
+                mode
+            ].route_event_trace(event, time_limit=geojson_output.sim.scenario["limit"])
 
             # add it to the agent's lists
             localisations = localisations + route_positions
@@ -111,7 +112,9 @@ def get_element_line_string(geojson_output, element):
             mode = event.mode
 
             # add it to the agent's lists
-            localisations.append(geojson_output.sim.environment[mode].position_localisation(event.origin))
+            localisations.append(
+                geojson_output.sim.environment[mode].position_localisation(event.origin)
+            )
             timestamps.append(event.timestamp)
 
             localisations.append(

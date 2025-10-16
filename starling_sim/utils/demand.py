@@ -112,7 +112,9 @@ def add_starling_demand_attributes(
 
     return population
 
+
 # command line utils
+
 
 def eqasim_demand_from_args(input_args):
     # evaluate export filepath
@@ -150,6 +152,7 @@ def eqasim_demand_from_args(input_args):
     print(f"Creating Starling demand file at: {filepath}")
     starling_population.to_file(filepath, drop_id=True, driver="GeoJSON")
 
+
 def add_eqasim_demand_action(subparsers):
     """
     Add a subparser for the eqasim-demand action.
@@ -162,10 +165,10 @@ def add_eqasim_demand_action(subparsers):
         description="Script for the generation of Starling demand from an Eqasim population",
         help="Generate a Starling population from Eqasim outputs",
         epilog="Examples:\n\n"
-               "starling-sim eqasim-demand data/eqasim/example_population.geoparquet\n"
-               "starling-sim eqasim-demand data/eqasim/example_population.geoparquet --sample 0.01 --seed 42\n"
-               "starling-sim eqasim-demand data/eqasim/example_population.geoparquet --spatial-filter data/eqasim/example_zone.geojson\n"
-               "starling-sim eqasim-demand data/eqasim/example_population.geoparquet -o ./starling_population.geojson\n",
+        "starling-sim eqasim-demand data/eqasim/example_population.geoparquet\n"
+        "starling-sim eqasim-demand data/eqasim/example_population.geoparquet --sample 0.01 --seed 42\n"
+        "starling-sim eqasim-demand data/eqasim/example_population.geoparquet --spatial-filter data/eqasim/example_zone.geojson\n"
+        "starling-sim eqasim-demand data/eqasim/example_population.geoparquet -o ./starling_population.geojson\n",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
@@ -195,7 +198,6 @@ def add_eqasim_demand_action(subparsers):
         "-o",
         "--outfile",
         help="name of the output file. Default is the input filename with '.geojson' extension. "
-             "If only a filename is provided, generate the new file in the same folder than the Eqasim population file",
+        "If only a filename is provided, generate the new file in the same folder than the Eqasim population file",
         type=str,
     )
-

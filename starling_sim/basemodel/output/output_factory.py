@@ -208,7 +208,9 @@ class OutputFactory:
             mimetype = "application/gzip"
         else:
             mimetype = "application/xml"
-        self.new_output_file(filepath, mimetype, compressed_mimetype="application/xml", content="events")
+        self.new_output_file(
+            filepath, mimetype, compressed_mimetype="application/xml", content="events"
+        )
 
     def generate_geojson_output(self, simulation_model):
         """

@@ -75,7 +75,9 @@ def run_main():
     # setup logging
     configure_logger(input_args.level)
 
-    logger.warning("Calling Starling using `python3 main.py ...` is deprecated ! Use the starling-sim command line instead")
+    logger.warning(
+        "Calling Starling using `python3 main.py ...` is deprecated ! Use the starling-sim command line instead"
+    )
 
     if input_args.json_schema is not None:
         model_class = ModelSimulator.get_model_class(input_args.json_schema, input_args.package)
