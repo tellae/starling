@@ -9,11 +9,6 @@ public transport or shared taxis.
 
 ![](./docs/images/starling-viz.gif)
 
-## License
-
-[CeCILL-B](LICENSE.txt)
-
-Feel free to use and contribute to **Starling** project as long as you comply with the licence terms.
 
 ## Quickstart
 
@@ -78,6 +73,16 @@ The project documentation is generated using Sphinx and hosted by *Read the Docs
 
 The documentation is still incomplete, but contributions and suggestions are very welcome.
 
+## License
+
+[CeCILL-B](LICENSE.txt)
+
+Feel free to use and contribute to **Starling** project as long as you comply with the licence terms.
+
+## Support
+
+You can email us at starling@tellae.fr for any support demand.
+
 ## Contributing
 
 Feedback and contributions on Starling, the code, the documentation or
@@ -85,10 +90,6 @@ even the github management are very welcome.
 
 We haven't established a contributing procedure yet, but we will do our
 best to guide you if you want to contribute to this project.
-
-## Support
-
-You can email us at starling@tellae.fr for any support demand.
 
 ## Project status
 
