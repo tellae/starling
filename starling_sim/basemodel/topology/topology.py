@@ -332,11 +332,7 @@ class Topology(ABC):
 
         :return: tuple of lists, localisations and timestamps
         """
-
-        print(route_event)
-
         route = route_event.data["route"]
-        print(route)
         durations = route_event.data["time"]
 
         current_time = route_event.timestamp

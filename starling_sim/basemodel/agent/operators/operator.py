@@ -811,8 +811,7 @@ class Operator(Agent):
 
         :param request: cancelled request
         """
-
-        print("hello")
+        self.log_message("Request canceled", "DEBUG")
 
     def build_trip_request(
         self,
