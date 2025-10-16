@@ -158,6 +158,9 @@ def run_cli():
             create_data_tree()
 
         if input_args.examples:
+            # create the data tree if it does not exist
+            create_data_tree()
+
             # import the example scenarios and environment
             import_examples()
     elif input_args.action == "doc":
