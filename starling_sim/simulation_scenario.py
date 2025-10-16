@@ -143,6 +143,42 @@ class SimulationScenario:
 
         return item in self.parameters
 
+    def get_dynamic_input_file(self):
+        """
+        Get the full path to the dynamic input file.
+
+        :return: path to the dynamic input file or None if the parameter is missing
+        """
+        dynamic_input_file = self.parameters.get("dynamic_input_file", None)
+        if dynamic_input_file is None:
+            return None
+        return paths.scenario_agent_input_filepath(self.scenario_folder, dynamic_input_file)
+
+    def get_init_input_files(self):
+        """
+        Get the full paths to the init input files.
+
+        :return: list of file paths or None if the parameter is absent
+        """
+        init_input_file = self.parameters.get("init_input_file", None)
+        if init_input_file is None:
+            return None
+        if isinstance(init_input_file, str):
+            init_input_file = [init_input_file]
+
+        return [paths.scenario_agent_input_filepath(self.scenario_folder, filename) for filename in init_input_file]
+
+    def get_gtfs_timetable_file(self):
+        """
+        Get the full path to the GTFS file.
+
+        :return: path to GTFS file or None if the parameter is absent
+        """
+        gtfs_timetable = self.parameters.get("gtfs_timetables", None)
+        if gtfs_timetable is None:
+            return None
+        return os.path.join(paths.gtfs_feeds_folder(), gtfs_timetable)
+
     def init_run_summary(self):
         """
         Initialise the run summary.
