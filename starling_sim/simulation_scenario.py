@@ -150,7 +150,10 @@ class SimulationScenario:
         :param filename: filename of the input, located in the inputs folder
         :return: path to the input file
         """
-        return os.path.join(self.inputs_folder, filename)
+        filepath = os.path.join(self.inputs_folder, filename)
+        if not os.path.exists(filepath):
+            raise FileNotFoundError(f"File was not found in the inputs folder: {filepath}")
+        return filepath
 
     def get_dynamic_input_filepath(self):
         """
