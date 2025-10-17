@@ -5,7 +5,6 @@ from starling_sim.basemodel.trace.events import InputEvent
 from starling_sim.basemodel.agent.operators.operator import Operator
 from starling_sim.utils.utils import json_load, validate_against_schema, add_defaults_and_validate
 from starling_sim.utils.constants import STOP_POINT_POPULATION
-from starling_sim.utils.paths import scenario_agent_input_filepath
 from jsonschema import ValidationError
 from json import JSONDecodeError
 
@@ -58,7 +57,7 @@ class DynamicInput(Traced):
         # set the attribute of dynamic features
 
         self.dynamic_feature_list = self.feature_list_from_file(
-            self.sim.scenario.get_dynamic_input_file()
+            self.sim.scenario.get_dynamic_input_filepath()
         )
 
         # sort list according to origin times
@@ -68,7 +67,7 @@ class DynamicInput(Traced):
 
         # get the list of static features (present at the start of the simulation)
         # if there are several files, concatenate their feature lists
-        init_files = self.sim.scenario.get_init_input_files()
+        init_files = self.sim.scenario.get_init_input_filepaths()
         init_feature_list = []
         if init_files is not None:
             for filepath in init_files:

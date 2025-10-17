@@ -143,7 +143,16 @@ class SimulationScenario:
 
         return item in self.parameters
 
-    def get_dynamic_input_file(self):
+    def get_input_filepath(self, filename):
+        """
+        Get the full path to the given input file.
+
+        :param filename: filename of the input, located in the inputs folder
+        :return: path to the input file
+        """
+        return os.path.join(self.inputs_folder, filename)
+
+    def get_dynamic_input_filepath(self):
         """
         Get the full path to the dynamic input file.
 
@@ -154,7 +163,7 @@ class SimulationScenario:
             return None
         return paths.scenario_agent_input_filepath(self.scenario_folder, dynamic_input_file)
 
-    def get_init_input_files(self):
+    def get_init_input_filepaths(self):
         """
         Get the full paths to the init input files.
 
@@ -168,7 +177,7 @@ class SimulationScenario:
 
         return [paths.scenario_agent_input_filepath(self.scenario_folder, filename) for filename in init_input_file]
 
-    def get_gtfs_timetable_file(self):
+    def get_gtfs_timetable_filepath(self):
         """
         Get the full path to the GTFS file.
 

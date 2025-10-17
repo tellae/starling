@@ -291,7 +291,7 @@ class SimulationModel:
         Set up a gtfs timetable for the simulation.
         """
 
-        gtfs_timetables_path = self.scenario.get_gtfs_timetable_file()
+        gtfs_timetables_path = self.scenario.get_gtfs_timetable_filepath()
 
         if gtfs_timetables_path is not None:
             logger.debug("GTFS tables setup")
