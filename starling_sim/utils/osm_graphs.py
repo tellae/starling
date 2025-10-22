@@ -27,76 +27,9 @@ import osmnx as ox
 import subprocess
 import json
 import argparse
+from loguru import logger
 from starling_sim.utils.paths import osm_graphs_folder
 from starling_sim.utils.utils import shapely_polygon_from_points, str_or_json_loads
-
-
-def import_osm_graph(
-    method,
-    network_type,
-    simplify,
-    query=None,
-    which_result=None,
-    point=None,
-    dist=None,
-    polygon=None,
-    outfile=None,
-):
-    """
-    Generate an OSM graph from given parameters and store it in a file.
-
-    The osmnx function used to generate the OSM graph is specified by the method parameter.
-
-    The correct parameters must be provided according to the import method.
-
-    :param method: name of the osmnx import method. Among ['place', 'point', 'polygon'].
-    :param network_type: OSM network_type of the graph
-    :param simplify: boolean indicating if the graph should be simplified
-    :param query: string, dict or list describing the place (must be geocodable)
-    :param which_result: integer describing which geocoding result to use,
-        or None to auto-select the first (Multi)Polygon
-    :param point: [lon, lat] coordinates of the center point
-    :param dist: distance of the bbox from the center point
-    :param polygon: list of points describing a polygon
-    :param outfile: optional name for the output file
-    """
-
-    # import the OSM graph according to the given method
-    if method == "place":
-        graph = osm_graph_from_place(query, which_result, network_type, simplify)
-        default_outfile = "G{}_{}.graphml.bz2".format(network_type, query)
-
-    elif method == "point":
-        graph = osm_graph_from_point(point, dist, network_type, simplify)
-        default_outfile = "G{}_{}-{}_{}.graphml.bz2".format(network_type, point[0], point[1], dist)
-
-    elif method == "polygon":
-        default_outfile = None
-        if outfile is None:
-            print("Outfile name must be provided when importing from polygon.")
-            return
-        graph = osm_graph_from_polygon(polygon, network_type, simplify)
-
-    else:
-        print("Unknown import method {}. Choices are ['point', 'place', 'polygon'].")
-        return
-
-    # keep the largest strongly connected component of the graph
-    graph = ox.utils_graph.get_largest_component(graph, strongly=True)
-
-    # get the output filename
-    if outfile is None:
-        # add 'S' to simplified graphs
-        if simplify:
-            default_outfile = "S" + default_outfile
-
-        outfile = default_outfile
-
-    # save the graph at .graphml format
-    save_osm_graph(graph, filename=outfile, folder=osm_graphs_folder())
-
-    # return the graph
-    return graph
 
 
 def osm_graph_from_point(point, distance, network_type, simplify):
@@ -113,18 +46,12 @@ def osm_graph_from_point(point, distance, network_type, simplify):
     :return: a networkx graph
     """
 
-    if point is None or distance is None:
-        print(
-            "The point and distance parameters must be specified when importing graph from point."
-        )
-        exit(1)
-
     # reverse the point coordinates (osmnx takes (lat, lon) coordinates)
     point = (point[1], point[0])
 
-    return ox.graph_from_point(
+    return get_largest_component(ox.graph_from_point(
         point, dist=distance, dist_type="bbox", network_type=network_type, simplify=simplify
-    )
+    ))
 
 
 def osm_graph_from_polygon(polygon_points, network_type, simplify):
@@ -137,15 +64,10 @@ def osm_graph_from_polygon(polygon_points, network_type, simplify):
 
     :return: a networkx graph
     """
-
-    if polygon_points is None:
-        print("The polygon parameter must be specified when importing graph from polygon.")
-        exit(1)
-
     # create a shapely polygon with (lat, lon) coordinates from the list of points
     shapely_polygon = shapely_polygon_from_points(polygon_points)
 
-    return ox.graph_from_polygon(shapely_polygon, network_type=network_type, simplify=simplify)
+    return get_largest_component(ox.graph_from_polygon(shapely_polygon, network_type=network_type, simplify=simplify))
 
 
 def osm_graph_from_place(query, which_result, network_type, simplify):
@@ -161,13 +83,19 @@ def osm_graph_from_place(query, which_result, network_type, simplify):
     :return: a networkx graph
     """
 
-    if query is None:
-        print("The query parameter must be specified when importing graph from place.")
-        exit(1)
-
-    return ox.graph_from_place(
+    return get_largest_component(ox.graph_from_place(
         query, network_type=network_type, simplify=simplify, which_result=which_result
-    )
+    ))
+
+def get_largest_component(graph):
+    """
+    Keep the largest strongly connected component of the graph
+
+    :param graph:
+    :return:
+    """
+    #
+    return ox.utils_graph.get_largest_component(graph, strongly=True)
 
 
 def save_osm_graph(graph, filename, folder):
@@ -180,6 +108,8 @@ def save_osm_graph(graph, filename, folder):
     :param graph: saved graph
     :param filename: name of the save file
     :param folder: name of the save folder
+
+    :return: path to generated file
     """
 
     # check bz2 extension
@@ -200,9 +130,9 @@ def save_osm_graph(graph, filename, folder):
     # compress to bz2 if necessary
     if to_bz2:
         subprocess.run(["bzip2", "-z", "-f", filepath])
-        print("Saved osm graph at " + filepath + ".bz2")
-    else:
-        print("Saved osm graph at " + filepath)
+        filepath = filepath + ".bz2"
+
+    return filepath
 
 
 # command line utils
@@ -210,21 +140,43 @@ def save_osm_graph(graph, filename, folder):
 
 def generate_osm_graph_from_args(args):
     """
-    Execute import_osm_graph with parser args.
+    Execute OSM graph import based on parser args.
 
     :param args: argparse input args
     """
-    import_osm_graph(
-        args.method,
-        args.network,
-        args.simplify,
-        query=args.query,
-        which_result=args.which_result,
-        point=args.point,
-        dist=args.dist,
-        polygon=args.polygon,
-        outfile=args.outfile,
-    )
+    method = args.method
+    network = args.network
+    simplify = args.simplify
+    outfile = args.outfile
+
+    if method == "place":
+        graph = osm_graph_from_place(args.query, args.which_result, network, simplify)
+        default_outfile = "G{}_{}.graphml.bz2".format(network, args.query)
+    elif method == "point":
+        point = args.point
+        graph = osm_graph_from_point(point, args.dist, network, simplify)
+        default_outfile = "G{}_{}-{}_{}.graphml.bz2".format(network, point[0], point[1], args.dist)
+    elif method == "polygon":
+        graph = osm_graph_from_polygon(args.polygon, network, simplify)
+        default_outfile = ""
+        if outfile is None:
+            raise ValueError("Outfile name must be provided when importing from polygon")
+    else:
+        raise ValueError(f"Unknown graph extraction method '{method}'")
+
+    # evaluate the output filename
+    if outfile is None:
+        # add 'S' to simplified graphs
+        if simplify:
+            default_outfile = "S" + default_outfile
+
+        outfile = default_outfile
+
+    # save the graph at .graphml format
+    filepath = save_osm_graph(graph, filename=outfile, folder=osm_graphs_folder())
+
+    # log successful graph generation
+    logger.success(f"Saved OSM graph for network type '{network}' at {filepath}")
 
 
 def add_osm_graph_action(subparsers):
