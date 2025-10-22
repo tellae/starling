@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.1](https://github.com/tellae/starling/compare/v1.2.0...v1.2.1) (2025-10-22)
+
+
+### Bug Fixes
+
+* add deprecation message to run.py ([23c8f96](https://github.com/tellae/starling/commit/23c8f96211a3017a3bbf9f32295021dbc50cfd97))
+
 ## [1.2.0](https://github.com/tellae/starling/compare/v1.1.0...v1.2.0) (2025-10-22)
 
 
