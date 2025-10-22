@@ -1,3 +1,9 @@
+"""
+This module is deprecated and will be remove in a future version.
+
+Take a look at cli.py and use the starling-sim command !
+"""
+
 import argparse
 import os
 import json
