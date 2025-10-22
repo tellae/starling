@@ -291,11 +291,13 @@ class SimulationModel:
         Set up a gtfs timetable for the simulation.
         """
 
-        if "gtfs_timetables" in self.scenario:
+        gtfs_timetables_path = self.scenario.get_gtfs_timetable_filepath()
+
+        if gtfs_timetables_path is not None:
             logger.debug("GTFS tables setup")
             # import the gtfs timetable from the zip given in the parameters
             restrict_transfers = config["transfer_restriction"]
-            self.gtfs = import_gtfs_feed(self.scenario["gtfs_timetables"], restrict_transfers)
+            self.gtfs = import_gtfs_feed(gtfs_timetables_path, restrict_transfers)
 
     @classmethod
     def get_agent_type_schemas(cls):

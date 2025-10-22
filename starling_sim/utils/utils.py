@@ -35,6 +35,14 @@ class StarlingException(Exception):
     """
 
 
+class DataFolderError(StarlingException):
+    """
+    Exception raised when the data folder tree is missing or incomplete.
+
+    See :mod:`starling_sim.utils.paths` for more information on the data folder tree.
+    """
+
+
 class LeavingSimulation(StarlingException):
     """
     Exception raised by agents for leaving the simulation.
@@ -617,25 +625,20 @@ def stop_table_from_gtfs(
 # gtfs utils
 
 
-def import_gtfs_feed(gtfs_filename, transfer_restriction=None, folder=None):
+def import_gtfs_feed(gtfs_filepath, transfer_restriction=None):
     """
     Import a gtfs feed from the given file.
 
     Also check that stop times are ordered and transfers are symmetrical.
 
-    :param gtfs_filename: name of a gtfs file
+    :param gtfs_filepath: name of a gtfs file
     :param transfer_restriction: duration restriction on the transfers
-    :param folder: folder where the gtfs is stored.
-        Default is the GTFS_FEEDS_FOLDER.
 
     :return: gtfs-kit Feed object
     """
 
     # read the gtfs feed using gtfs-kit
-    if folder is None:
-        folder = gtfs_feeds_folder()
-    path = folder + gtfs_filename
-    feed = gt.read_feed(path, dist_units="km")
+    feed = gt.read_feed(gtfs_filepath, dist_units="km")
 
     # additional operations and validations
 
@@ -658,7 +661,7 @@ def import_gtfs_feed(gtfs_filename, transfer_restriction=None, folder=None):
         counts_not_equal_to_2 = count[count["min_transfer_time"]["count"] != 2]
         if not counts_not_equal_to_2.empty:
             logger.warning(
-                f"Transfer table of {gtfs_filename} is not symmetrical (in term of arcs, not transfer times)"
+                f"Transfer table of {gtfs_filepath} is not symmetrical (in term of arcs, not transfer times)"
             )
         if not is_transitive(feed.transfers) and transfer_restriction is not None:
             feed.transfers = transitively_closed_transfers(feed.transfers, transfer_restriction)

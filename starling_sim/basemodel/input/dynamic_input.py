@@ -5,7 +5,6 @@ from starling_sim.basemodel.trace.events import InputEvent
 from starling_sim.basemodel.agent.operators.operator import Operator
 from starling_sim.utils.utils import json_load, validate_against_schema, add_defaults_and_validate
 from starling_sim.utils.constants import STOP_POINT_POPULATION
-from starling_sim.utils.paths import scenario_agent_input_filepath
 from jsonschema import ValidationError
 from json import JSONDecodeError
 
@@ -58,7 +57,7 @@ class DynamicInput(Traced):
         # set the attribute of dynamic features
 
         self.dynamic_feature_list = self.feature_list_from_file(
-            self.sim.scenario["dynamic_input_file"]
+            self.sim.scenario.get_dynamic_input_filepath()
         )
 
         # sort list according to origin times
@@ -67,15 +66,12 @@ class DynamicInput(Traced):
         )
 
         # get the list of static features (present at the start of the simulation)
-        init_files = self.sim.scenario["init_input_file"]
-
         # if there are several files, concatenate their feature lists
-        if isinstance(init_files, list):
-            init_feature_list = []
-            for filename in init_files:
-                init_feature_list += self.feature_list_from_file(filename)
-        else:
-            init_feature_list = self.feature_list_from_file(init_files)
+        init_files = self.sim.scenario.get_init_input_filepaths()
+        init_feature_list = []
+        if init_files is not None:
+            for filepath in init_files:
+                init_feature_list += self.feature_list_from_file(filepath)
 
         # resolve the modes of the agent types
         self.resolve_type_modes_from_inputs(init_feature_list + self.dynamic_feature_list)
@@ -293,22 +289,19 @@ class DynamicInput(Traced):
 
     # get and manage input dicts from the input files
 
-    def feature_list_from_file(self, filename):
+    def feature_list_from_file(self, filepath):
         """
         Get the list of input features from the given filename.
 
         The file must be a geojson, following the FeatureCollection schema,
         and be stored in the input folder.
 
-        :param filename: name of the input file, stored in the input folder
+        :param filepath: path to the input file
         :return: list of geojson Feature dicts
         """
 
-        if filename is None:
+        if filepath is None:
             return []
-
-        # get the path to the input file
-        filepath = scenario_agent_input_filepath(self.sim.scenario.scenario_folder, filename)
 
         # read the dict contained in input file
         try:
@@ -319,7 +312,7 @@ class DynamicInput(Traced):
         except JSONDecodeError as e:
             self.log_message(
                 "Error while decoding input file {} : {}\n "
-                "Are you sure the file is a JSON ?".format(filename, e),
+                "Are you sure the file is a JSON ?".format(filepath, e),
                 40,
             )
             raise e

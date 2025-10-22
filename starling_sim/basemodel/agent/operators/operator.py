@@ -11,7 +11,6 @@ from starling_sim.utils.utils import (
 )
 from starling_sim.utils.paths import (
     gtfs_feeds_folder,
-    scenario_agent_input_filepath,
 )
 from starling_sim.utils.constants import STOP_POINT_POPULATION, ADD_STOPS_COLUMNS
 
@@ -375,9 +374,7 @@ class Operator(Agent):
         """
 
         if isinstance(zone_polygon, str):
-            filepath = scenario_agent_input_filepath(
-                self.sim.scenario.scenario_folder, zone_polygon
-            )
+            filepath = self.sim.scenario.get_input_filepath(zone_polygon)
             geojson = json_load(filepath)
             service_zone = geopandas_polygon_from_points(
                 geojson["features"][0]["geometry"]["coordinates"][0]
@@ -450,10 +447,7 @@ class Operator(Agent):
 
         :return: stops table
         """
-        stops_filepath = scenario_agent_input_filepath(
-            self.sim.scenario.scenario_folder,
-            filename,
-        )
+        stops_filepath = self.sim.scenario.get_input_filepath(filename)
         stops_table = stops_table_from_geojson(stops_filepath)
         return stops_table
 

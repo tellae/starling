@@ -19,7 +19,7 @@ from starling_sim.utils import paths
 from starling_sim.utils.data_tree import create_data_tree, import_examples
 from starling_sim.utils.osm_graphs import add_osm_graph_action
 from starling_sim.utils.demand import add_eqasim_demand_action
-
+from starling_sim.utils.zip_scenario import add_zip_unzip_actions
 
 parser = argparse.ArgumentParser(
     description="Starling command line interface",
@@ -126,6 +126,9 @@ add_osm_graph_action(subparsers)
 # parser for generating demand from eqasim population
 add_eqasim_demand_action(subparsers)
 
+# parsers for zipping and unzipping scenarios
+add_zip_unzip_actions(subparsers)
+
 
 def run_cli():
     input_args = parser.parse_args()
@@ -166,5 +169,9 @@ def run_cli():
         os.system("./docs/sphinx-doc.sh")
     elif input_args.action == "osm-graph":
         input_args.func(input_args)
+    elif input_args.action == "zip":
+        input_args.zip(input_args)
+    elif input_args.action == "unzip":
+        input_args.unzip(input_args)
     else:
         raise ValueError(f"Unknown action '{input_args.action}'")

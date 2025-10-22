@@ -143,6 +143,108 @@ class SimulationScenario:
 
         return item in self.parameters
 
+    def get_input_filepath(self, filename):
+        """
+        Get the full path to the given input file.
+
+        :param filename: filename of the input, located in the inputs folder
+        :return: path to the input file
+        """
+        filepath = os.path.join(self.inputs_folder, filename)
+        if not os.path.exists(filepath):
+            raise FileNotFoundError(f"File was not found in the inputs folder: {filepath}")
+        return filepath
+
+    def get_dynamic_input_filepath(self):
+        """
+        Get the full path to the dynamic input file.
+
+        :return: path to the dynamic input file or None if the parameter is missing
+        """
+        dynamic_input_file = self["dynamic_input_file"]
+        if dynamic_input_file is None:
+            return None
+        return paths.scenario_agent_input_filepath(self.scenario_folder, dynamic_input_file)
+
+    def get_init_input_filepaths(self):
+        """
+        Get the full paths to the init input files.
+
+        :return: list of file paths or None if the parameter is absent
+        """
+        init_input_file = self["init_input_file"]
+        if init_input_file is None:
+            return None
+        if isinstance(init_input_file, str):
+            init_input_file = [init_input_file]
+
+        return [
+            paths.scenario_agent_input_filepath(self.scenario_folder, filename)
+            for filename in init_input_file
+        ]
+
+    def get_topology_info(self, mode):
+        """
+        Get the topology info as a dict, with filenames converted to filepaths.
+
+        This doesn't really work, cannot know which info is a filename.
+
+        :param mode:
+        :return:
+        """
+        topologies = self["topologies"]
+        if mode not in topologies:
+            raise KeyError(f"The topology '{mode}' was not found in the parameters")
+
+        topology_parameter = topologies[mode]
+        if topology_parameter is None:
+            return None
+        else:
+            if isinstance(topology_parameter, dict):
+                network_info = topology_parameter["graph"]
+                speeds_info = topology_parameter["speeds"]
+                weight_class = topology_parameter.get("weight", None)
+                network_class = topology_parameter.get("network_class", "OSMNetwork")
+
+            elif isinstance(topology_parameter, list):  # array specification is deprecated
+                network_info = topology_parameter[0]
+                speeds_info = topology_parameter[1]
+                if len(topology_parameter) == 3:
+                    weight_class = topology_parameter[2]
+                else:
+                    weight_class = None
+                network_class = "OSMNetwork"
+
+            else:
+                raise ValueError(
+                    f"Unsupported type for '{mode}' topology info: {type(topology_parameter)}"
+                )
+
+            if network_class != "OSMNetwork":
+                raise ValueError(f"Unknown network class {network_class}")
+
+            return {
+                "graph": os.path.join(paths.osm_graphs_folder(), network_info),
+                "speeds": (
+                    os.path.join(paths.graph_speeds_folder(), speeds_info)
+                    if isinstance(speeds_info, str)
+                    else speeds_info
+                ),
+                "weight": weight_class,
+                "network_class": network_class,
+            }
+
+    def get_gtfs_timetable_filepath(self):
+        """
+        Get the full path to the GTFS file.
+
+        :return: path to GTFS file or None if the parameter is absent
+        """
+        gtfs_timetable = self.parameters.get("gtfs_timetables", None)
+        if gtfs_timetable is None:
+            return None
+        return os.path.join(paths.gtfs_feeds_folder(), gtfs_timetable)
+
     def init_run_summary(self):
         """
         Initialise the run summary.
