@@ -48,6 +48,32 @@ class ModelSimulator:
 
         self.simulationModel.generate_output()
 
+    def call_preprocessing_function(self, pkg):
+        """
+        See if there is a function called preprocess_simulator at the package root.
+
+        If such function exists, call it with the ModelSimulator instance as argument.
+
+        :param pkg: name of the source package
+        """
+        # try to import the package
+        try:
+            package = importlib.import_module(pkg)
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "Cannot find the module '{}'.\n"
+                "    Maybe there is an error in the model code ? "
+                "Or maybe you forgot to use the -p option of the starling-sim command ?".format(pkg)
+            )
+
+        try:
+            # try to get the preprocess_simulator function from the package
+            preprocess_function = package.preprocess_simulator
+            # call the preprocessing function
+            preprocess_function(self)
+        except AttributeError:
+            pass
+
     def init_simulator_from_parameters(simulation_scenario, pkg):
         """
         Returns a simulator initialised according to the model code
@@ -140,6 +166,9 @@ def launch_simulation(scenario_path, pkg):
 
     # init the simulator
     simulator = ModelSimulator.init_simulator_from_parameters(simulation_scenario, pkg)
+
+    # call preprocessing function
+    simulator.call_preprocessing_function(pkg)
 
     # setup the simulator
     simulator.setup_simulation()
