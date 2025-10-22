@@ -35,6 +35,14 @@ class StarlingException(Exception):
     """
 
 
+class DataFolderError(StarlingException):
+    """
+    Exception raised when the data folder tree is missing or incomplete.
+
+    See :mod:`starling_sim.utils.paths` for more information on the data folder tree.
+    """
+
+
 class LeavingSimulation(StarlingException):
     """
     Exception raised by agents for leaving the simulation.

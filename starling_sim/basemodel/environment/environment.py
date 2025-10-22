@@ -34,7 +34,7 @@ class Environment:
         topologies_info = scenario["topologies"]
 
         for mode, info in topologies_info.items():
-            self._add_topology(mode, info)
+            self._add_topology(scenario, mode, info)
 
     def __getitem__(self, item):
         return self._topologies[item]
@@ -60,12 +60,13 @@ class Environment:
         for topology in self._topologies.values():
             topology.setup()
 
-    def _add_topology(self, mode, info):
+    def _add_topology(self, scenario, mode, info):
         """
         Add a new topology to the environment.
 
         This method adds an instance of a Topology subclass to the self._topologies dict.
 
+        :param scenario: SimulationScenario
         :param mode: name of the mode
         :param info: topology initialisation info
         """
@@ -79,7 +80,7 @@ class Environment:
         else:
             store = self._store_paths
 
-        topology_info = self.sim.scenario.get_topology_info(mode)
+        topology_info = scenario.get_topology_info(mode)
         # create the topology instance
         if info is None:
             topology = EmptyNetwork(mode, store_paths=store)

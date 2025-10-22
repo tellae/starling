@@ -178,7 +178,10 @@ class SimulationScenario:
         if isinstance(init_input_file, str):
             init_input_file = [init_input_file]
 
-        return [paths.scenario_agent_input_filepath(self.scenario_folder, filename) for filename in init_input_file]
+        return [
+            paths.scenario_agent_input_filepath(self.scenario_folder, filename)
+            for filename in init_input_file
+        ]
 
     def get_topology_info(self, mode):
         """
@@ -213,16 +216,22 @@ class SimulationScenario:
                 network_class = "OSMNetwork"
 
             else:
-                raise ValueError(f"Unsupported type for '{mode}' topology info: {type(topology_parameter)}")
+                raise ValueError(
+                    f"Unsupported type for '{mode}' topology info: {type(topology_parameter)}"
+                )
 
             if network_class != "OSMNetwork":
                 raise ValueError(f"Unknown network class {network_class}")
 
             return {
                 "graph": os.path.join(paths.osm_graphs_folder(), network_info),
-                "speeds": os.path.join(paths.graph_speeds_folder(), speeds_info) if isinstance(speeds_info, str) else speeds_info,
+                "speeds": (
+                    os.path.join(paths.graph_speeds_folder(), speeds_info)
+                    if isinstance(speeds_info, str)
+                    else speeds_info
+                ),
                 "weight": weight_class,
-                "network_class": network_class
+                "network_class": network_class,
             }
 
     def get_gtfs_timetable_filepath(self):
