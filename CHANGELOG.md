@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.3](https://github.com/tellae/starling/compare/v1.2.2...v1.2.3) (2025-10-23)
+
+
+### Bug Fixes
+
+* error in read of topology info ([#138](https://github.com/tellae/starling/issues/138)) ([aae3fb1](https://github.com/tellae/starling/commit/aae3fb1b244ad41514b6165a4a6e0db3f460281c))
+
+
+### Documentation
+
+* remove mention of Starling being unusable as a package ([26c8179](https://github.com/tellae/starling/commit/26c81792e3d10ff19f8587ef504b2ee8aba3743b))
+
 ## [1.2.2](https://github.com/tellae/starling/compare/v1.2.1...v1.2.2) (2025-10-23)
 
 
