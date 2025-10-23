@@ -81,11 +81,12 @@ class Environment:
             store = self._store_paths
 
         topology_info = scenario.get_topology_info(mode)
+
         # create the topology instance
-        if info is None:
+        if topology_info is None:
             topology = EmptyNetwork(mode, store_paths=store)
         else:
-            network_class = info.get("network_class", "OSMNetwork")
+            network_class = topology_info.get("network_class", "OSMNetwork")
 
             if network_class == "OSMNetwork":
                 topology = OSMNetwork(
