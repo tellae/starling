@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.2](https://github.com/tellae/starling/compare/v1.2.1...v1.2.2) (2025-10-23)
+
+
+### Bug Fixes
+
+* remove starling import in setup.py ([50fde8e](https://github.com/tellae/starling/commit/50fde8e0e385cdf377a873e2fe08370783489605))
+
 ## [1.2.1](https://github.com/tellae/starling/compare/v1.2.0...v1.2.1) (2025-10-22)
 
 
