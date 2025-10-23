@@ -31,9 +31,6 @@ accessible input and output formats (JSON, GeoJSON) with JSON schema specificati
  - A station-based vehicle-sharing service
  - A station-based vehicle-sharing service with repositioning
 
-**For now, Starling is not adapted to be used as a package : users should rather clone the project 
-locally to develop and run new simulations.**
-
 Read the `docs`_ or see the project on `Github`_.
 
 Citation info: Leblond, V, Desbureaux, L, Bielecki, V., 2020. `A new agent-based software for designing and 
