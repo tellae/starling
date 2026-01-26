@@ -532,7 +532,7 @@ def points_in_zone(localisations, zone):
     res = geopandas.sjoin(geopandas_points, zone, how="left", predicate="within")
 
     # set new column 'in_zone'
-    res["in_zone"] = res["index_right"].replace(to_replace={np.nan: False, 0: True})
+    res["in_zone"] = res["index_right"].replace(to_replace={np.nan: False, 0: True}).infer_objects(copy=False)
 
     # remove evaluation columns
     res.drop(labels=["geometry", "index_right"], axis=1, inplace=True)
