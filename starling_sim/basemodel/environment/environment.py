@@ -554,7 +554,7 @@ class Environment:
                 # TODO : test if properties are same
                 continue
 
-            logger.debug(f"Adding node {node_id} to topology {mode}")
+            # logger.debug(f"Adding node {node_id} to topology {mode}")
 
             topology.graph.add_node(node_id, **properties)
 
