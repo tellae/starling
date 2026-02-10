@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.1](https://github.com/tellae/starling/compare/v1.3.0...v1.3.1) (2026-02-10)
+
+
+### Bug Fixes
+
+* update minimum python version to 3.10 ([b1adc71](https://github.com/tellae/starling/commit/b1adc71234e17140cfb4d9fffb98cff1e88e45d5))
+
 ## [1.3.0](https://github.com/tellae/starling/compare/v1.2.3...v1.3.0) (2026-02-10)
 
 
