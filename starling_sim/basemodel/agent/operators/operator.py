@@ -672,6 +672,26 @@ class Operator(Agent):
     def dispatcher_parameters(self):
         return {"simulation_model": self.sim, "operator": self, "verb": True}
 
+    # service evaluation
+
+    def closest_stop_points(self, position, n: int, max_distance: float):
+        """
+        Get the n closest stops within max_distance of the given position.
+
+        :param position: Environment position
+        :param n: max number of stops
+        :param max_distance: max distance of stops
+
+        :return: list of StopPoint objects
+        """
+        # get the n closest (euclidean) stops to both positions (with a max distance)
+        return self.sim.environment.euclidean_n_closest(
+            position=position,
+            obj_list=self.stopPoints.values(),
+            n=n,
+            maximum_distance=max_distance,
+        )
+
     # new requests management
 
     def new_request(self, agent, number):
