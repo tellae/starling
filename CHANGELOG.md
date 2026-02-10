@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.2](https://github.com/tellae/starling/compare/v1.3.1...v1.3.2) (2026-02-10)
+
+
+### Bug Fixes
+
+* update actions/setup-python to v6 ([cac9ded](https://github.com/tellae/starling/commit/cac9ded9e5bdb71e48d411ebcf1986f33400a1be))
+
 ## [1.3.1](https://github.com/tellae/starling/compare/v1.3.0...v1.3.1) (2026-02-10)
 
 
