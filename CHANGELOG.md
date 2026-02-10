@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/tellae/starling/compare/v1.2.3...v1.3.0) (2026-02-10)
+
+
+### Features
+
+* new operator method closest_stop_points ([#141](https://github.com/tellae/starling/issues/141)) ([5245f5d](https://github.com/tellae/starling/commit/5245f5dccb7a14126391f34297f8a8a8d50bb1fe))
+
 ## [1.2.3](https://github.com/tellae/starling/compare/v1.2.2...v1.2.3) (2025-10-23)
 
 
