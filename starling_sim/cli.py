@@ -13,7 +13,7 @@ import json
 import os
 from loguru import logger
 from starling_sim.version import __version__
-from starling_sim.utils.simulation_logging import configure_logger
+from starling_sim.utils.simulation_logging import configure_logger, AGENT_LEVEL, ALGO_LEVEL
 from starling_sim.model_simulator import launch_simulation, ModelSimulator
 from starling_sim.utils import paths
 from starling_sim.utils.data_tree import create_data_tree, import_examples
@@ -37,9 +37,10 @@ parser.add_argument("-v", "--version", action="version", version=__version__)
 parser.add_argument(
     "-l",
     "--level",
-    help="specify the logger level. See simulation_logging.py for more information",
+    help=f"specify the logger level. Default is {ALGO_LEVEL}",
     type=str,
-    default="ALGO",
+    choices=["TRACE", "DEBUG", ALGO_LEVEL, AGENT_LEVEL, "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"],
+    default=ALGO_LEVEL,
 )
 
 parser.add_argument("--data-folder", help="specify an alternative data folder", default=None)

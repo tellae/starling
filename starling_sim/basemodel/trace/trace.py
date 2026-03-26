@@ -3,7 +3,7 @@ This module contains the classes dedicated to trace agent activities
 during the simulation. Events describes different kind of traced
 activities and are generated during the simulation.
 
-/!\\ It is should be mentioned that the event objects store in the trace
+Caution: It is should be mentioned that the event objects store in the trace
 point to objects that may be modified by the end of the simulation.
 For instance, given a GenerationEvent, display the 'position' attribute of the
 generated agent at the end of the simulation will output its final
