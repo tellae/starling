@@ -791,7 +791,7 @@ class Operator(Agent):
 
         # set a timeout event for pickup
         if pickup_max_time is not None:
-            duration_before_max_pickup_time = int(pickup_max_time - self.sim.scheduler.now())
+            duration_before_max_pickup_time = int(pickup_max_time - self.sim.scheduler.now()) + 1
             timeout_event = self.sim.scheduler.new_event_object() | self.sim.scheduler.timeout(
                 duration_before_max_pickup_time
             )
