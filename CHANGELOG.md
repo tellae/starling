@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.4](https://github.com/tellae/starling/compare/v1.3.3...v1.3.4) (2026-03-26)
+
+
+### Bug Fixes
+
+* fixed agents not waiting for their trip ([#148](https://github.com/tellae/starling/issues/148)) ([f528983](https://github.com/tellae/starling/commit/f528983058d2daa4807bed7d3c5d57cb61998e53))
+
+
+### Documentation
+
+* small improvements ([#146](https://github.com/tellae/starling/issues/146)) ([c4bf397](https://github.com/tellae/starling/commit/c4bf39700723101f9a9f486e9bb061f534d458f2))
+
 ## [1.3.3](https://github.com/tellae/starling/compare/v1.3.2...v1.3.3) (2026-02-10)
 
 
