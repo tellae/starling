@@ -22,7 +22,7 @@ def get_test_scenarios(models=None):
     If models is not provided, enumerate scenarios
     for all models available.
 
-    /!\ It is expected that the data folder variable
+    Caution: It is expected that the data folder variable
     paths._DATA_FOLDER has already been modified to
     designate the test data folder.
 
