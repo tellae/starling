@@ -14,12 +14,12 @@ class ScenarioZipping(ABC):
     Base for classes that manage scenario zipping.
     """
 
-    def __init__(self, zipfile_path):
+    def __init__(self):
         # SimulationScenario instance pointing to the target scenario
         self.scenario = None
 
         # path to the zip file
-        self.zipfile_path = zipfile_path
+        self.zipfile_path = None
 
         # ZipFile instance
         self._zipfile = None
@@ -39,6 +39,8 @@ class ScenarioZipper(ScenarioZipping):
     """
 
     def __init__(self, scenario_path: str, target_filename: str = None):
+        super().__init__()
+
         # set scenario folder
         self._set_scenario(scenario_path)
         # read simulation parameters
@@ -47,9 +49,7 @@ class ScenarioZipper(ScenarioZipping):
         # path to target zip file
         if target_filename is None:
             target_filename = self.scenario.name + ".zip"
-        zipfile_path = str(os.path.join(scenario_path, target_filename))
-
-        super().__init__(zipfile_path)
+        self.zipfile_path = str(os.path.join(scenario_path, target_filename))
 
     def run(self, force: bool = False, include_outputs: bool = False):
         """
@@ -176,7 +176,8 @@ class ScenarioZipper(ScenarioZipping):
 class ScenarioUnzipper(ScenarioZipping):
 
     def __init__(self, filepath):
-        super().__init__(filepath)
+        super().__init__()
+        self.zipfile_path = filepath
 
     def run(self, force: bool = False, force_common_files: bool = False):
         """
