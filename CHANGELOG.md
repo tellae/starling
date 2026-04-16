@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.5](https://github.com/tellae/starling/compare/v1.3.4...v1.3.5) (2026-04-16)
+
+
+### Bug Fixes
+
+* error in starling-sim zip command ([3075ec1](https://github.com/tellae/starling/commit/3075ec1e69631d19c2c6937edcc92719f44707ad))
+
 ## [1.3.4](https://github.com/tellae/starling/compare/v1.3.3...v1.3.4) (2026-03-26)
 
 
