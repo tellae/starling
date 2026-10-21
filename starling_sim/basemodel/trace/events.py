@@ -351,7 +351,7 @@ class RequestEvent(DurationEvent):
         self.structure = request.structure
         self.success = request.success
         self.result = request.result
-        self.waitSequence = request.waitSequence
+        self.waitSequence = [int(a) for a in request.waitSequence or []]
 
     def _total_duration(self):
         return sum(self.waitSequence)
