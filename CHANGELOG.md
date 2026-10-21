@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/tellae/starling/compare/v1.3.5...v1.4.0) (2026-10-21)
+
+
+### Features
+
+* update to numpy 2 ([#150](https://github.com/tellae/starling/issues/150)) ([748e28b](https://github.com/tellae/starling/commit/748e28bb656bcf12b84efdf6ad1d0316b91fcda1))
+
 ## [1.3.5](https://github.com/tellae/starling/compare/v1.3.4...v1.3.5) (2026-04-16)
 
 
