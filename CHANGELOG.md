@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.1](https://github.com/tellae/starling/compare/v1.4.0...v1.4.1) (2026-10-22)
+
+
+### Bug Fixes
+
+* revert change on RequestEvent.waitSequence ([b08d802](https://github.com/tellae/starling/commit/b08d80263df008e47e782a06880ad3c06a4dc1cb))
+
 ## [1.4.0](https://github.com/tellae/starling/compare/v1.3.5...v1.4.0) (2026-10-21)
 
 
